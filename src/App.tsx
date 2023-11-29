@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Page, Map, Valorant, CS2, Register, Login } from "./Compone
+import { Page, Map, Valorant, CS2, Register, Login } from "./Components";
 
 
 import './App.css'
