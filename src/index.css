@@ -1,4 +1,4 @@
-@import "~@fontsource/inter";
+@import 'typeface-inter';
 
 @tailwind base;
 @tailwind components;
@@ -35,6 +35,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 h1 {
