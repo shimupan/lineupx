@@ -3,14 +3,14 @@ import { Header } from "../Components";
 const Page = () => {
 
    return (
-      <div>
+      <>
          <Header />
-         <div className="flex">
-            <p className="text-2xl justify-center items-center">
+         <div className="h-screen flex justify-center items-center">
+            <p className="text-2xl">
                Welcome to LineupX
             </p>
          </div>
-      </div>
+      </>
    );
 };
  
