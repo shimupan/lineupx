@@ -16,7 +16,7 @@ const Register: React.FC = () => {
       }
 
       try {
-         const response = await axios.post('http://localhost:3000/register', { email, password });
+         const response = await axios.post('http://localhost:5173', { email, password });
          console.log(response.data);
          // Redirect to login or another page upon successful registration
       } catch (error) {

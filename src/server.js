@@ -1,10 +1,13 @@
-require('dotenv').config(); // Import and configure dotenv at the top
-const express = require('express');
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('./models/user');
+import dotenv from 'dotenv';
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from './models/user.js';
+import mongoose from 'mongoose';
 
+dotenv.config();
+
+// ... rest of your code ...
 // Use environment variables for sensitive information
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Database connected'))
