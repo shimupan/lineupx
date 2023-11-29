@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import './App.css'
 
 function App() {
-  const [selectedButton, setSelectedButton] = useState<number | null>(null);
-
   const handleClick = (buttonNumber: number) => {
     console.log(`Button ${buttonNumber} clicked`);
-    setSelectedButton(buttonNumber);
   }
 
   return (
