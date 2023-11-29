@@ -8,7 +8,7 @@ const Page = () => {
    return (
       <>
          <Header />
-         <div className="flex flex-col">
+         <div className="h-screen flex flex-row gap-4 justify-center items-center">
             <Game name={CS2}/>
             <Game name={VALORANT}/>
          </div>
