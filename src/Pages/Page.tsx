@@ -1,15 +1,16 @@
-import { Header } from "../Components";
-import { Game } from "../Components";
+import { Header, Game } from "../Components";
+
+import VALORANT from '../assets/valorant.jpg';
+import CS2 from '../assets/csgo2.webp';
 
 const Page = () => {
 
    return (
       <>
          <Header />
-         <div className="flex">
-            <p className="text-2xl justify-center items-center">
-               <Game />
-            </p>
+         <div className="flex flex-col">
+            <Game name={CS2}/>
+            <Game name={VALORANT}/>
          </div>
       </>
    );
