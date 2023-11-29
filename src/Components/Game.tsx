@@ -1,11 +1,17 @@
 // Game Cards
 import valorant from '../assets/valorant.jpg';
 import csgo2 from '../assets/csgo2.webp';
+import { useNavigate } from 'react-router-dom';
 
 const Game = () => {
+  const navigate = useNavigate();
+
   const handleClick = (id: number) => {
-    alert(`Image ${id} clicked!`);
-    // Add your logic here
+    if (id === 1) {
+      navigate('/csgo2');
+    } else if (id === 2) {
+      navigate('/valorant');
+    }
   }
 
   return (
