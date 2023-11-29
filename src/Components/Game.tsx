@@ -8,7 +8,7 @@ const Game = () => {
 
   const handleClick = (id: number) => {
     if (id === 1) {
-      navigate('/csgo2');
+      navigate('/cs2');
     } else if (id === 2) {
       navigate('/valorant');
     }

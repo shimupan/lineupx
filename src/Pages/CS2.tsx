@@ -1,7 +1,7 @@
 import { Header } from "../Components";
 
 
-const CSGO2 = () => {
+const CS2 = () => {
 
    return (
       <div>
@@ -15,4 +15,4 @@ const CSGO2 = () => {
    );
 };
  
- export default CSGO2;
+ export default CS2;
