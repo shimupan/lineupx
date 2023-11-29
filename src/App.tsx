@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Page, Map, Valorant, CS2 } from "./Components";
+import { Page, Map, Valorant, CS2, Register, Login } from "./Compone
+
 
 import './App.css'
 
@@ -9,6 +10,8 @@ function App() {
       <BrowserRouter>
         <Routes>
             <Route path="/" element={ <Page/> }></Route>
+            <Route path="/register" element={ <Register/> }></Route>
+            <Route path="/login" element={ <Login/> }></Route>
             <Route path="/map/:id" element={ <Map/> }></Route>
             <Route path="/valorant" element={ <Valorant/> }></Route>
             <Route path="/cs2" element={ <CS2/> }></Route>
