@@ -16,7 +16,7 @@ const Login: React.FC = () => {
   
       try {
           console.log(email, password);
-          const response = await axios.post('http://localhost:3000/login', { email, password });
+          const response = await axios.post('/login', { email, password });
           console.log(response.data);
           // Handle successful login, e.g., storing JWT token, redirecting user
       } catch (error) {
