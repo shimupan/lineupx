@@ -9,3 +9,4 @@ export {default as Register} from './Pages/Register';
 // Components
 export {default as Header} from './Components/Header';
 export {default as Game} from './Components/Game';
+export {default as Footer} from './Components/Footer';

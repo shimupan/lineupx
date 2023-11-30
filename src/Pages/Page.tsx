@@ -1,4 +1,4 @@
-import { Header, Game } from "../Components";
+import { Header, Game, Footer } from "../Components";
 
 import cs2 from '../assets/csgo2.webp';
 import valorant from '../assets/valorant.jpg';
@@ -12,6 +12,7 @@ const Page = () => {
             <Game game={"CS2"} name={cs2}/>
             <Game game={"Valorant"} name={valorant}/>
          </div>
+         <Footer />
       </>
    );
 };
