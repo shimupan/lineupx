@@ -2,9 +2,8 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/lineupx.png';
 
 const Header = () => {
-
   return (
-    <nav id="header" className="w-full z-30 bg-white shadow-lg border-b border-blue-400">
+    <nav id="header" className="w-full z-30 bg-black shadow-lg border-b border-blue-400">
       <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
         <input className="hidden" type="checkbox" id="menu-toggle" />
         
@@ -13,7 +12,8 @@ const Header = () => {
               <ul className="md:flex items-center justify-between text-base text-blue-600 pt-4 md:pt-0">
                   <li>
                     <Link to={"/"}>
-                      <img src={logo} alt="Logo" className="w-20 h-20" />
+                      {/* Updated logo line with transform scale */}
+                      <img src={logo} alt="Logo" className="w-100 h-20 transform scale-125" />
                     </Link>
                   </li>
                   <li><a className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">Home</a></li>
@@ -30,7 +30,7 @@ const Header = () => {
             </div>
         </div>
       </div>
-  </nav>
+    </nav>
   );
 };
 
