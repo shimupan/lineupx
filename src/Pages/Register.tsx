@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios'; // Ensure Axios is installed
 import { Link } from 'react-router-dom';
+import { Header } from '../Components';
 
 const Register: React.FC = () => {
    const [email, setEmail] = useState<string>('');
@@ -29,7 +30,9 @@ const Register: React.FC = () => {
    };
 
    return (
-      <div className="container flex flex-col mx-auto bg-white rounded-lg pt-12 my-5">
+   <>
+      <Header />
+      <div className="w-1/3 container flex flex-col mx-auto bg-white rounded-lg pt-12 my-5">
          <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
             <div className="flex items-center justify-center w-full lg:p-12">
                <div className="flex items-center xl:p-10">
@@ -88,6 +91,7 @@ const Register: React.FC = () => {
             </div>
          </div>
       </div>
+   </>
    );
 };
 
