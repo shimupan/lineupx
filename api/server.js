@@ -17,18 +17,13 @@ app.use(express.json());
 app.use(cors()); 
 app.post('/register', async (req, res) => {
   const { email, password } = req.body;
-  console.log(1);
-  // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).send({ message: 'Email already in use' });
   }
-  console.log(2);
-  // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
   try {
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ email, password });
     await user.save();
     res.status(201).send({ message: 'User registered successfully' });
   } catch (error) {
@@ -37,7 +32,6 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  console.log('This is a log message');
   const { email, password } = req.body;
 
   try {
@@ -45,11 +39,20 @@ app.post('/login', async (req, res) => {
     if (!user) {
       return res.status(400).send({ message: 'Invalid email or password' });
     }
+
+    // Debugging: Log the retrieved hashed password
+    console.log("Hashed password (from DB):", user.password);
+
     const isMatch = await bcrypt.compare(password, user.password);
+
+    // Debugging: Log the result of the password comparison
+    console.log("Password match result:", isMatch);
+
     if (!isMatch) {
       return res.status(400).send({ message: 'Invalid email or password' });
     }    
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET); // Use environment variable for JWT secret
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
     res.send({ token });
   } catch (error) {
     res.status(500).send({ message: 'Error logging in', error: error.message });

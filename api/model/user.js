@@ -26,9 +26,11 @@ UserSchema.pre('save', async function (next) {
       this.id = counter.seq;
     }
   
+    // Hash the password only if it's new or has been modified
     if (this.isModified('password')) {
       try {
-        this.password = await bcrypt.hash(this.password, 10);
+        const salt = bcrypt.genSaltSync(10);
+        this.password = bcrypt.hashSync(this.password, salt);
       } catch (error) {
         next(error);
       }
