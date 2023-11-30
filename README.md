@@ -9,7 +9,6 @@
 -->
 
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -17,7 +16,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/shimupan">
-    <img src="./src/assets/lineupx.png" alt="Logo" width="80" height="80">
+    <img src="./src/assets/lineupx.png" alt="Logo" width="60%" height="60%" />
   </a>
 
   <h3 align="center">LineupX</h3>
@@ -91,6 +90,10 @@ Make sure you have npm installed
     ```
     cd api
     ```
+    ```
+    npm start
+    ```
+    Create a .env if needed
 
 <!-- USAGE EXAMPLES -->
 ## Showcase
@@ -126,8 +129,6 @@ Project Link: [https://github.com/shimupan/lineupx](https://github.com/shimupan/
 [issues-url]: https://github.com/github_username/repo_name/issues
 [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/shimupan/
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
