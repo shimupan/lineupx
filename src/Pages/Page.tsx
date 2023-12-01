@@ -17,7 +17,7 @@ const Page: React.FC = () => {
             <SideNavItems icon={<MdOutlineGamepad size={25} />} text="Valorant" />
             <SideNavItems icon={<MdOutlineSettings size={25} />} text="Settings" alert />
          </SideNav>
-         <div className="h-screen flex flex-row gap-4 justify-center items-center">
+         <div className="h-screen flex flex-col md:flex-row gap-4 justify-center items-center pl-[60px] md:pl-0">
             <Game game={"CS2"} name={cs2}/>
             <Game game={"Valorant"} name={valorant}/>
          </div>
