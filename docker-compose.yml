@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+  backend:
+    build: ./api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/lineupx
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"

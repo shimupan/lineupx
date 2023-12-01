@@ -21,3 +21,9 @@ The backend server of LineupX. Expressed is used to communicate with frontend an
 2) Import the database schema
 
 3) Make sure your `.env` is configured with the correct database info
+
+Example:
+
+MONGO_URI=mongodb://127.0.0.1:27017/lineupx
+JWT_SECRET=your_jwt_secret
+PORT=3000
