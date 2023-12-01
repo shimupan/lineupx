@@ -2,8 +2,6 @@ import { useContext } from "react";
 
 import { SideNavContext } from "./SideNav";
 
-import { MdOutlineSettings,  MdOutlineGamepad } from "react-icons/md";
-
 type SideNavItemsProps = {
    icon: React.ReactElement;
    text: string;
