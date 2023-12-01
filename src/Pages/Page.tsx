@@ -18,7 +18,7 @@ const Page: React.FC = () => {
          </SideNav>
          <div className="h-screen flex">
             <div className="sidebar w-2 z-30 bg-[#181818] shadow-lg "></div>
-            <div className="main-content flex-col md:flex-1 flex justify-center items-center space-x-4 pl-[60px] md:pl-0">
+            <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4 pl-[60px] md:pl-0">
                 <Game game={"CS2"} name={cs2}/>
                 <Game game={"Valorant"} name={valorant}/>
             </div>

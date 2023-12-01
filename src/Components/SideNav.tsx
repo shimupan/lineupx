@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from "react";
+import { useState, createContext } from "react";
 
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { IoLogOut } from "react-icons/io5";
@@ -14,7 +14,7 @@ const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
 
    return (
       <aside className="h-screen absolute z-50">
-         <nav className={`${expanded ? "w-screen md:w-[400px]" : "w-[60px] md:w-[70px]"} h-full flex flex-col bg-white border-r shadow-sm`}>
+         <nav className={`${expanded ? "w-screen md:w-[400px]" : "w-[50px] md:w-[70px]"} h-full flex flex-col bg-white border-r shadow-sm`}>
             <div className="p-4 pb-2 flex justify-end items-center">
                <button className='p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-black text-2xl' onClick={ () => {
                   setExpanded(curr => !curr);
