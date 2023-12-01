@@ -4,10 +4,10 @@ import logo from '../assets/lineupx.png';
 const Header: React.FC = () => {
   return (
     <nav id="header" className="w-full z-30 bg-[#181818] shadow-lg">
-      <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
+      <div className="w-full flex items-center justify-end md:justify-between mt-0 px-6 py-2">
         <input className="hidden" type="checkbox" id="menu-toggle" />
         
-        <div className="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
+        <div className="absolute md:relative md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
             <nav>
               <ul className="md:flex items-center justify-between text-base text-indigo-800 pt-4 md:pt-0">
                   <li>
