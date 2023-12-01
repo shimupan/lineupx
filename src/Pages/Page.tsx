@@ -9,7 +9,7 @@ const Page = () => {
          <Header />
          <div className="h-screen flex">
             <div className="sidebar w-2 z-30 bg-[#181818] shadow-lg "></div>
-            <div className="main-content flex-1 flex justify-center items-center">
+            <div className="main-content flex-1 flex justify-center items-center space-x-4">
                 <Game game={"CS2"} name={cs2}/>
                 <Game game={"Valorant"} name={valorant}/>
             </div>

@@ -16,8 +16,10 @@ const Header = () => {
                       <img src={logo} alt="Logo" className="w-100 h-20 transform scale-125" />
                     </Link>
                   </li>
+                  {/*
                   <li><a className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">Products</a></li>
                   <li><a className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">About</a></li>
+                  */}
               </ul>
             </nav>
         </div>
