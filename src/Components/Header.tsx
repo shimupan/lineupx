@@ -3,7 +3,7 @@ import logo from '../assets/lineupx.png';
 
 const Header = () => {
   return (
-    <nav id="header" className="w-full z-30 bg-black shadow-lg border-b border-blue-400">
+    <nav id="header" className="w-full z-30 bg-[#181818] shadow-lg border-b [#181818]">
       <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
         <input className="hidden" type="checkbox" id="menu-toggle" />
         
