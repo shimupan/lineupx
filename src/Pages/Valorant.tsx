@@ -1,17 +1,25 @@
-import { Header } from "../Components";
+// Main page of the app
+import { Header, SideNav, SideNavItems, Footer } from "../Components";
 
-const Valorant = () => {
+import { MdOutlineSettings,  MdOutlineGamepad, MdHome } from "react-icons/md";
 
+const Valorant: React.FC = () => {
    return (
-      <div>
+      <>
          <Header />
-         <div className="flex">
-            <p className="text-2xl justify-center items-center">
-
-            </p>
+         <SideNav>
+            <SideNavItems icon={<MdHome size={25} />} text="Home" active />
+            <SideNavItems icon={<MdOutlineGamepad size={25} />} text=" CS 2" />
+            <SideNavItems icon={<MdOutlineGamepad size={25} />} text="Valorant" />
+            <SideNavItems icon={<MdOutlineSettings size={25} />} text="Settings" alert />
+         </SideNav>
+         <div className="h-screen flex">
+            <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
+            </div>
          </div>
-      </div>
+         <Footer />
+      </>
    );
 };
  
- export default Valorant;
+export default Valorant;
