@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Page, Map, Valorant, CS2, Register, Login } from "./Components";
 
-
 import './App.css'
+
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3000';
