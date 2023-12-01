@@ -1,7 +1,9 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios'; // Make sure Axios is installed
 import { Link } from 'react-router-dom';
-import { Header } from '../Components';
+import { Header, SideNav, SideNavItems } from '../Components';
+
+import { MdOutlineSettings,  MdOutlineGamepad, MdHome } from "react-icons/md";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -32,6 +34,12 @@ const Login: React.FC = () => {
     return (
     <>
         <Header />
+        <SideNav>
+            <SideNavItems icon={<MdHome size={25} />} text="Home" active />
+            <SideNavItems icon={<MdOutlineGamepad size={25} />} text=" CS 2" />
+            <SideNavItems icon={<MdOutlineGamepad size={25} />} text="Valorant" />
+            <SideNavItems icon={<MdOutlineSettings size={25} />} text="Settings" alert />
+         </SideNav>
         <div className="h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
                 <div className="flex items-center justify-center w-full lg:p-12">
