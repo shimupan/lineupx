@@ -2,9 +2,10 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 
 interface SearchBarProps {
     onSearch: (searchTerm: string) => void;
+    placeholder: string;
 }
 
-const SearchBar = ({ onSearch }: SearchBarProps) => {
+const SearchBar = ({ onSearch, placeholder  }: SearchBarProps) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSubmit = (event: FormEvent) => {
@@ -17,20 +18,19 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center">
-            <input 
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded-l-md focus:outline-none focus:border-blue-500"
-            />
+        <form onSubmit={handleSubmit} className="flex items-center border border-gray-300 rounded w-2/5">
             <button 
                 type="submit"
-                className="bg-blue-500 text-white p-2 rounded-r-md"
+               
             >
-                Search
             </button>
+            <input 
+                type="text"
+                placeholder={placeholder} 
+                value={searchTerm}
+                onChange={handleChange}
+                className="p-2 flex-1 focus:outline-none rounded-r w-full" // Adjusted for length and rounded corners
+            />
         </form>
     );
 };
