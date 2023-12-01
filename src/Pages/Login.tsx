@@ -8,31 +8,31 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+        e.preventDefault();
+    
+        if (!email || !password) {
+            console.error('Email and password are required');
+            return;
+        }
   
-      if (!email || !password) {
-          console.error('Email and password are required');
-          return;
-      }
-  
-      try {
+        try {
           console.log(email, password);
           const response = await axios.post('/login', { email, password });
           console.log(response.data);
           // Handle successful login, e.g., storing JWT token, redirecting user
-      } catch (error) {
-          if (axios.isAxiosError(error)) {
-              console.error('Login error:', error.response?.data);
-          } else {
-              console.error('Unexpected error:', error);
-          }
-      }
-  };
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error('Login error:', error.response?.data);
+            } else {
+                console.error('Unexpected error:', error);
+            }
+        }
+    };
 
     return (
-         <>
-         <Header />
-         <div className="w-1/3 container flex flex-col mx-auto bg-white rounded-lg pt-12 my-5">
+    <>
+        <Header />
+        <div className="h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
                 <div className="flex items-center justify-center w-full lg:p-12">
                     <div className="flex items-center xl:p-10">
