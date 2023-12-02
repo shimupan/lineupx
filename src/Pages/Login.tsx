@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import axios from 'axios'; // Make sure Axios is installed
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Header, SideNav, SideNavItems } from '../Components';
 
@@ -18,7 +18,6 @@ const Login: React.FC = () => {
         }
   
         try {
-          console.log(email, password);
           const response = await axios.post('/login', { email, password });
           console.log(response.data);
           // Handle successful login, e.g., storing JWT token, redirecting user

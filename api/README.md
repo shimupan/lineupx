@@ -21,3 +21,7 @@ The backend server of LineupX. Expressed is used to communicate with frontend an
 2) Import the database schema
 
 3) Make sure your `.env` is configured with the correct database info
+
+4) https://www.mongodb.com/docs/manual/tutorial/create-users/#configure-users-for-self-hosted-deployments
+
+5) Connection String: mongodb://"user":"password"@"ip":27017/LineupX?directConnection=true&appName=mongosh+2.1.0

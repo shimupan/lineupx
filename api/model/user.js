@@ -6,38 +6,48 @@ const UserSchema = new mongoose.Schema({
     type: String, 
     required: true, 
     unique: true,
-    match: [/.+\@.+\..+/, 'Please fill a valid email address'] // Email format validation
+    match: [/.+\@.+\..+/, 'Please fill a valid email address']
   },
   password: { 
     type: String, 
     required: true 
   },
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PostData',
+    required: false,
+  }],
+  dislikes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PostData',
+    required: false,
+  }],
+  saved: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PostData',
+    required: false,
+  }],
 });
 
-const CounterSchema = new mongoose.Schema({
-    _id: { type: String, required: true },
-    seq: { type: Number, default: 0 }
-});
-const Counter = mongoose.model('Counter', CounterSchema);
-
-UserSchema.pre('save', async function (next) {
-    if (this.isNew) {
-      const counter = await Counter.findByIdAndUpdate({ _id: 'userId' }, { $inc: { seq: 1 } }, { new: true, upsert: true });
-      this.id = counter.seq;
-    }
-  
-    // Hash the password only if it's new or has been modified
-    if (this.isModified('password')) {
-      try {
-        const salt = bcrypt.genSaltSync(10);
-        this.password = bcrypt.hashSync(this.password, salt);
-      } catch (error) {
-        next(error);
-      }
-    }
+UserSchema.pre('save', async function(next) {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
     next();
+  } catch (error) {
+    next(error);
+  }
 });
 
-const User = mongoose.model('User', UserSchema);
+UserSchema.methods.passwordCheck = async function(password) { 
+  try {
+    return await bcrypt.compare(password, this.password);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const User = mongoose.model('User', UserSchema, "Users");
 
 export default User;
