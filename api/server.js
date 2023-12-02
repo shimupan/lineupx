@@ -1,12 +1,11 @@
-import dotenv from 'dotenv';
 import express from 'express';
-import register from './routes/register.js';
-import login from './routes/login.js';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-dotenv.config();
+import { login, register, logout } from './routes/index.js';
 
+dotenv.config();
 // Use environment variables for sensitive information
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async (db) => {
@@ -26,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use(register);
 app.use(login);
+app.use(logout);
 
 const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
