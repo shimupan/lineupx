@@ -3,9 +3,10 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 interface SearchBarProps {
     onSearch: (searchTerm: string) => void;
     placeholder: string;
+    className?: string; // Add this line
 }
 
-const SearchBar = ({ onSearch, placeholder  }: SearchBarProps) => {
+const SearchBar = ({ onSearch, placeholder, className = '' }: SearchBarProps) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSubmit = (event: FormEvent) => {
@@ -18,10 +19,9 @@ const SearchBar = ({ onSearch, placeholder  }: SearchBarProps) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center border border-gray-300 rounded w-2/5">
+        <form onSubmit={handleSubmit} className={`flex items-center border border-gray-300 rounded w-2/5 ${className}`}>
             <button 
                 type="submit"
-               
             >
             </button>
             <input 

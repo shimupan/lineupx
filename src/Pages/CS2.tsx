@@ -2,6 +2,8 @@
 import { Header, SideNav, SideNavItems, Searchbar} from "../Components";
 
 import { MdOutlineSettings,  MdOutlineGamepad, MdHome } from "react-icons/md";
+import cs2banner from '../assets/cs2banner.png';
+
 
 const CS2: React.FC = () => {
    const handleSearch = (searchTerm: string) => {
@@ -18,9 +20,17 @@ const CS2: React.FC = () => {
             <SideNavItems icon={<MdOutlineGamepad size={25} />} text="Valorant" />
             <SideNavItems icon={<MdOutlineSettings size={25} />} text="Settings" alert />
          </SideNav>
-         <div className="flex flex-col items-center">
-            <h1 className="text-lg mb-4 pt-10 font-bold">Counter-Strike 2</h1>
-            <Searchbar onSearch={handleSearch} placeholder="Search for CS2 Lineups" />
+         <div className="flex flex-col items-center h-72 relative" style={{ backgroundImage: `url(${cs2banner})`, backgroundSize: '100%', backgroundPosition: '90% 10%' }}>
+            <div style={{ 
+               position: 'absolute',
+               top: 0,
+               left: 0,
+               width: '100%',
+               height: '100%',
+               background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))'
+            }}></div>
+            <h1 className="text-lg mb-4 pt-10 font-bold z-10">Counter-Strike 2</h1>
+            <Searchbar onSearch={handleSearch} placeholder="Search for CS2 Lineups" className="z-10" />
          </div>
       
       </>
