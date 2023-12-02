@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
     const newUser = await user.save();
 
     // Send email verification link
-    const verificationUrl = `http://<your-domain>/verify-email/${emailVerificationToken}`;
+    const verificationUrl = `http://localhost:3000/verify-email/${emailVerificationToken}`; // Use your actual domain or localhost
     await sendEmail(email, 'Verify Your Email', `Please click on the following link to verify your email: <a href="${verificationUrl}">${verificationUrl}</a>`);
 
     // Generate access and refresh tokens
