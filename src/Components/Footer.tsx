@@ -1,12 +1,16 @@
 import React from 'react';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+    className?: string;
+}
+
+const Footer: React.FC<FooterProps> = ({ className }) => {
     return (
-        <footer className="bg-gray-200 text-center lg:text-left">
+        <footer className={`bg-gray-200 text-center lg:text-left ${className}`}>
             <div className="container p-6">
                 <div className="flex justify-center items-center lg:justify-between">
                     <div className="text-gray-700">
-                        <span>© {new Date().getFullYear()} Your Company Name. All rights reserved.</span>
+                        <span>© {new Date().getFullYear()} LineupX. All rights reserved.</span>
                     </div>
                     <div className="flex justify-center">
                         <a href="#!" className="mr-6 text-gray-600">

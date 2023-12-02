@@ -18,12 +18,11 @@ const CS2: React.FC = () => {
             <SideNavItems icon={<MdOutlineGamepad size={25} />} text="Valorant" />
             <SideNavItems icon={<MdOutlineSettings size={25} />} text="Settings" alert />
          </SideNav>
-         <div className="h-screen flex">
-            <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-start space-x-4 pt-10">
-               <Searchbar onSearch={handleSearch} placeholder="Search for CS2 Lineups" />
-            </div>
+         <div className="flex flex-col items-center">
+            <h1 className="text-lg mb-4 pt-10">CS2</h1>
+            <Searchbar onSearch={handleSearch} placeholder="Search for CS2 Lineups" />
          </div>
-         <Footer />
+      
       </>
    );
 };
