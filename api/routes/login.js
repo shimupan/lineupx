@@ -1,35 +1,33 @@
 import express from 'express';
 import User from '../model/user.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import createError from 'http-errors';
+
+import { signInAccessToken } from '../helper/jwtHelper.js';
 
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
    const { email, password } = req.body;
 
    try {
       const user = await User.findOne({ email });
+      console.log(user);
       if (!user) {
-         return res.status(400).send({ message: 'Invalid email or password' });
+         throw createError.NotFound("Invalid email or password");
       }
 
-      // Debugging: Log the retrieved hashed password
-      console.log("Hashed password (from DB):", user.password);
-
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      // Debugging: Log the result of the password comparison
-      console.log("Password match result:", isMatch);
+      const isMatch = await user.passwordCheck(password);
 
       if (!isMatch) {
-         return res.status(400).send({ message: 'Invalid email or password' });
+         throw createError.Unauthorized("Invalid email or password");
       }    
 
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-      res.send({ token });
+      const accessToken = await signInAccessToken(user.id);
+
+      res.send({accessToken});
    } catch (error) {
-      res.status(500).send({ message: 'Error logging in', error: error.message });
+      if (error.isJoi === true) { return next(createError.badRequest("Invalid email or password")); }
+      res.status(200).send({ message: 'Error logging in', error: error.message });
    }
 });
 
