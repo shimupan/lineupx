@@ -7,13 +7,13 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ className }) => {
     return (
-        <footer className={`bg-white text-center lg:text-left static bottom-0 w-full ${className}`}>
+        <footer className={` text-center lg:text-left static bottom-0 w-full ${className}`}>
             <div className="container p-6 flex flex-col md:flex-row justify-center md:justify-end items-center">
-                <div className="text-gray-700 text-center md:text-left md:pr-80">
-                    <span>{new Date().getFullYear()} LineupX. All rights reserved.
-                    <a href="https://github.com/shimupan/lineupx" className="mr-6">
+                <div className="flex justify-center md:justify-start items-center text-white-700 md:pr-80">
+                    <span className="mr-4">{new Date().getFullYear()} LineupX. All rights reserved.</span>
+                    <a href="https://github.com/shimupan/lineupx" className="flex items-center">
                         <img src={github} alt="GitHub" width="24" height="24" />
-                    </a></span>
+                    </a>
                 </div>
                 <div className="flex flex-wrap justify-center">
                     <a href="#!" className="mr-6 text-gray-600">
