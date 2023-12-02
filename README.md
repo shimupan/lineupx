@@ -68,7 +68,7 @@ Make sure you have npm installed
 
 2. Clone the repo
    ```sh
-   git clone https://github.com/shimupan/Watchey.git
+   git clone https://github.com/shimupan/lineupx.git
    ```
 3. ***IMPORTANT*** `cd` into `api` first and follow the instructions in there first
    ```
@@ -95,6 +95,8 @@ Make sure you have npm installed
     ```
     Create a .env if needed
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- USAGE EXAMPLES -->
 ## Showcase
 
@@ -103,9 +105,9 @@ TODO
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the community such an amazing place to learn, inspire, and create. We are open sourced os any contributions you make are **greatly appreciated**. Please read the docs before opening or closing any issues
+Contributions are what make the community such an amazing place to learn, inspire, and create. We are open sourced so any contributions you make are **greatly appreciated**. Please read the docs before opening or closing any issues
 
-
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact
