@@ -1,7 +1,7 @@
 import express from 'express';
 
 import User from '../model/user.js';
-import { signInAccessToken } from '../helper/jwtHelper.js';
+import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
 
 const router = express.Router();
 
@@ -21,8 +21,9 @@ router.post('/register', async (req, res) => {
          saved: []
       });
       const newUser = await user.save();
-      const token = await signInAccessToken(newUser.id);
-      res.send({token});
+      const accessToken = await signInAccessToken(newUser.id);
+      const refreshToken = await refreshAccessToken(newUser.id);
+      res.send({accessToken, refreshToken});
    } catch (error) {
       res.status(400).send({ message: 'Error registering user', error: error.message });
    }

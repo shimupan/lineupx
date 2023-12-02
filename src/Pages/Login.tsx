@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import axios from 'axios'; // Make sure Axios is installed
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Header, SideNav, SideNavItems } from '../Components';
 
