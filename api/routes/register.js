@@ -11,12 +11,18 @@ router.post('/register', async (req, res) => {
    }
 
    try {
-      const user = new User({ email, password });
+      const user = new User({
+         email: email,
+         password: password,
+         likes: [],
+         dislikes: [],
+         saved: []
+      });
       await user.save();
       res.status(201).send({ message: 'User registered successfully' });
    } catch (error) {
-      res.status(500).send({ message: 'Error registering user', error: error.message });
+      res.status(400).send({ message: 'Error registering user', error: error.message });
    }
 });
  
- export default router;
+export default router;
