@@ -12,13 +12,22 @@ const UserSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PostData',
+    required: false,
+  }],
+  dislikes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PostData',
+    required: false,
+  }],
+  saved: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PostData',
+    required: false,
+  }],
 });
-
-const CounterSchema = new mongoose.Schema({
-    _id: { type: String, required: true },
-    seq: { type: Number, default: 0 }
-});
-const Counter = mongoose.model('Counter', CounterSchema);
 
 UserSchema.pre('save', async function (next) {
     if (this.isNew) {

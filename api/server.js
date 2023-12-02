@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import User from './model/user.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
+
 dotenv.config();
 
 // Use environment variables for sensitive information
