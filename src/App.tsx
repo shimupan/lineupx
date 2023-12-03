@@ -15,6 +15,8 @@ type AuthContextType = {
   setAccessToken: React.Dispatch<React.SetStateAction<string>>;
   refreshToken: string;
   setRefreshToken: React.Dispatch<React.SetStateAction<string>>;
+  email: string;
+  username: string;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,22 +24,43 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 function App() {
   const [accessToken, setAccessToken] = useState<string>('');
   const [refreshToken, setRefreshToken] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
   useEffect(() => {
     const accessTokenC = cookies.get('accessToken');
     const refreshTokenC = cookies.get('refreshToken');
-    if(accessTokenC) {
-      console.log(accessTokenC);
+    if(accessTokenC && !accessToken) {
       setAccessToken(accessTokenC);
     }
-    if(refreshTokenC) {
-      console.log(refreshTokenC);
+    if(refreshTokenC && !refreshToken) {
       setRefreshToken(refreshTokenC);
+    }
+    if(accessToken && refreshToken) {
+      (async () => {
+        try {
+          const response = await axios.get('/users', { 
+            headers: { 
+              'accessToken': accessToken,
+              'refreshToken': refreshToken,
+            } 
+          });
+          setUsername(response.data.username);
+          setEmail(response.data.email);
+        } catch (error) {
+          return error;
+        }
+      })();
     }
   }, [accessToken, refreshToken]);
 
   return (
-  <AuthContext.Provider value={{ accessToken, setAccessToken, refreshToken, setRefreshToken }}>
+  <AuthContext.Provider value={{ accessToken, 
+                                 setAccessToken, 
+                                 refreshToken, 
+                                 setRefreshToken,
+                                 email,
+                                 username }}>
     <BrowserRouter>
       <Routes>
           <Route path="/" element={ <Page/> }></Route>

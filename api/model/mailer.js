@@ -1,12 +1,14 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const transporter = nodemailer.createTransport({
   host: 'smtp.zoho.com',
   port: 465, // Use 587 if you want to connect using STARTTLS
   secure: true, // true for 465, false for other ports
   auth: {
-    user: 'username@example.com',
-    pass: 'password'
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
   },
 });
 

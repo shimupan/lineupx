@@ -22,7 +22,7 @@ const Header: React.FC = () => {
             </nav>
         </div>
         
-        {Auth?.accessToken ? <div>Welcome!</div> :
+        {Auth?.accessToken ? <div>Welcome back, {Auth.username}! </div> :
         <div className="flex items-center justify-end w-full md:w-auto" id="nav-content">
             <div className="auth flex items-center w-full md:w-auto">
               <Link to={"/login"} className="bg-white text-gray-800 p-2 rounded mr-4 hover:bg-gray-400 hover:text-gray-950">Sign in</Link>
