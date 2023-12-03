@@ -68,8 +68,8 @@ function App() {
           <Route path="/login" element={ <Login/> }></Route>
           <Route path="/valorant" element={ <Valorant/> }></Route>
           <Route path="/cs2" element={ <CS2/> }></Route>
+          <Route path="/user/:id" element={ <ProfilePage/> }></Route>
           <Route element={<RequireAuth/>}>
-            <Route path="/user/:id" element={ <ProfilePage/> }></Route>
             <Route path="/admin/:id" element={ <ProfilePage/> }></Route>
           </Route>
       </Routes>
