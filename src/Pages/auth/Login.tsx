@@ -1,6 +1,6 @@
 import React, { useState, useContext, FormEvent } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 
@@ -12,7 +12,14 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
     const Auth = useContext(AuthContext);
+
+    if(Auth?.accessToken) {
+        console.log(Auth?.username);
+        navigate(`/user/${Auth?.username}`);
+    }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,7 +38,7 @@ const Login: React.FC = () => {
             Auth?.setRefreshToken(response.data.refreshToken);
             cookies.set('accessToken', response.data.accessToken, { path: '/' , expires: expire});
             cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
-            navigate('/');
+            navigate(from, { replace: true });
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error('Login error:', error.response?.data);

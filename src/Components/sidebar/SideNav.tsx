@@ -1,4 +1,5 @@
 import { useState, useContext, createContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from '../../App';
 
 import { FaAngleLeft } from "react-icons/fa6";
@@ -28,7 +29,9 @@ const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
             </div>
 
             <div className={`${expanded ? "" : "hidden md:block"} border-t flex p-3`}>
-               <img src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${Auth?.username ? Auth?.username : "Guest"}`} className="ml-[2px] w-10 h-10 rounded-md"/>
+               <Link to={`/user/${Auth?.username ? Auth?.username : 1}`}>
+                  <img src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${Auth?.username ? Auth?.username : "Guest"}`} className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"/>
+               </Link>
                <div className={`flex justify-between items-center ${expanded ? "w-52 ml-3" : "w-0 ml-0"}`}>
                   <div className={`leading-4 ${expanded ? "w-52 ml-3" : "hidden"}`}>
                      <h4 className="font-semibold text-black">{Auth?.username ? Auth?.username : "Guest"}</h4>
