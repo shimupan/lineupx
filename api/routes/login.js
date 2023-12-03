@@ -59,15 +59,22 @@ router.get('/verify-email/:token', async (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
-router.delete('/logout', async (req, res) => {
+router.delete('/logout', async (req, res, next) => {
   try {
-  const { refreshToken } = req.body;
-  if(!refreshToken) throw createError.BadRequest();
-  //TODO AFTER VERIFY REFRESH TOKEN IS IMPLEMENTED
-  }catch (err){
-  next(err);
+    // Extract the refresh token from the request body
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      throw new Error('Refresh token is required for logout');
+    }
+    // Acknowledge the logout
+    res.send({ message: 'Successfully logged out' });
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
   }
 });
+
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -137,26 +144,28 @@ router.get("/user/:id", async (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
-// Define your route using router, not app
-router.get('/verify-email/:token', async (req, res) => {
-  const { token } = req.params;
-  const user = await User.findOne({ 
-    emailVerificationToken: token, 
-    emailVerificationTokenExpires: { $gt: Date.now() } 
-  });
+router.post('/refresh-token', async (req, res, next) => {
+  const { refreshToken } = req.body;
 
-  if (!user) {
-    return res.status(400).send('Token is invalid or has expired');
+  if (!refreshToken) {
+    return res.status(401).send('Refresh Token is required');
   }
 
-  user.Verified = true;
-  user.emailVerificationToken = undefined;
-  user.emailVerificationTokenExpires = undefined;
-  await user.save();
+  try {
+    // Verify the refresh token
+    const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-  res.send('Email verified successfully');
+    // Assuming payload contains user ID
+    const userId = payload.aud;
+
+    // Generate a new access token
+    const newAccessToken = await signInAccessToken(userId);
+
+    res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    return res.status(401).send('Invalid Refresh Token');
+  }
 });
-
 
 
 

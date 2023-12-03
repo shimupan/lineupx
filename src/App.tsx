@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Page, ProfilePage, Valorant, CS2, Register, Login, RequireAuth } from "./Components";
+import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
 import Cookies from "universal-cookie";
 import './App.css'
@@ -20,6 +21,8 @@ type AuthContextType = {
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+setupInterceptors();
 
 function App() {
   const [accessToken, setAccessToken] = useState<string>('');
