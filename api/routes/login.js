@@ -32,4 +32,24 @@ router.post('/login', async (req, res, next) => {
    }
 });
 
-export default router;
+// Define your route using router, not app
+router.get('/verify-email/:token', async (req, res) => {
+  const { token } = req.params;
+  const user = await User.findOne({ 
+    emailVerificationToken: token, 
+    emailVerificationTokenExpires: { $gt: Date.now() } 
+  });
+
+  if (!user) {
+    return res.status(400).send('Token is invalid or has expired');
+  }
+
+  user.isEmailVerified = true;
+  user.emailVerificationToken = undefined;
+  user.emailVerificationTokenExpires = undefined;
+  await user.save();
+
+  res.send('Email verified successfully');
+});
+
+export default router; // Export the router
