@@ -2,7 +2,6 @@ import express from 'express';
 import User from '../model/user.js';
 import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
 import { sendEmail } from '../model/mailer.js'; 
-import logo from '../../../src/assets/lineupx.png';
 
 const router = express.Router();
 
