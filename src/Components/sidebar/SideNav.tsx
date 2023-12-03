@@ -28,11 +28,11 @@ const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
             </div>
 
             <div className={`${expanded ? "" : "hidden md:block"} border-t flex p-3`}>
-               <img src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${Auth?.username}`} className="ml-[2px] w-10 h-10 rounded-md"/>
+               <img src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${Auth?.username ? Auth?.username : "Guest"}`} className="ml-[2px] w-10 h-10 rounded-md"/>
                <div className={`flex justify-between items-center ${expanded ? "w-52 ml-3" : "w-0 ml-0"}`}>
                   <div className={`leading-4 ${expanded ? "w-52 ml-3" : "hidden"}`}>
-                     <h4 className="font-semibold text-black">{Auth?.username}</h4>
-                     <span className="text-xs text-gray-600">{Auth?.email}</span>
+                     <h4 className="font-semibold text-black">{Auth?.username ? Auth?.username : "Guest"}</h4>
+                     <span className="text-xs text-gray-600">{Auth?.email ? Auth?.email : "Guest@Mail.com"}</span>
                   </div>
                   <IoLogOut size={25} className="text-black"/>
                </div>

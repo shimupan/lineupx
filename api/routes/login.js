@@ -28,7 +28,7 @@ router.post('/login', async (req, res, next) => {
       res.send({accessToken, refreshToken});
    } catch (error) {
       if (error.isJoi === true) { return next(createError.badRequest("Invalid email or password")); }
-      res.status(200).send({ message: 'Error logging in', error: error.message });
+      res.status(400).send({ message: 'Error logging in', error: error.message });
    }
 });
 
