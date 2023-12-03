@@ -49,8 +49,15 @@ const Header: React.FC = () => {
             </nav>
         </div>
         
-        {Auth?.accessToken ? <div>Welcome back, {Auth.username}! 
-        <button onClick={logout} className="ml-4 text-white">Logout</button></div> :
+        {Auth?.accessToken ? 
+        <div className='flex'>
+          <div>Welcome back, {Auth.username}! 
+            <button onClick={logout} className="bg-indigo-800 text-gray-200 ml-3 p-2 rounded hover:bg-blue-500 hover:text-gray-100">Logout</button>
+          </div>
+          <Link to={"/upload"}>
+            <button className="bg-indigo-800 text-gray-200 p-2 ml-3 rounded hover:bg-blue-500 hover:text-gray-100">Upload</button>
+          </Link>
+        </div> :
         <div className="flex items-center justify-end w-full md:w-auto" id="nav-content">
             <div className="auth flex items-center w-full md:w-auto">
               <Link to={"/login"} className="bg-white text-gray-800 p-2 rounded mr-4 hover:bg-gray-400 hover:text-gray-950">Sign in</Link>

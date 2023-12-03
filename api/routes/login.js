@@ -167,6 +167,10 @@ router.post('/refresh-token', async (req, res, next) => {
   }
 });
 
+/////////////////////////////////////////////////////////////////////////////
 
+router.post('/upload', async (req, res) => {
+  
+});
 
 export default router;
