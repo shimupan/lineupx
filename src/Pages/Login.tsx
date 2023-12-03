@@ -1,13 +1,20 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, useContext, FormEvent } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNav, SideNavItems } from '../Components';
+import { AuthContext } from '../App';
 
 import { MdOutlineSettings,  MdOutlineGamepad, MdHome } from "react-icons/md";
+
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const navigate = useNavigate();
+    const Auth = useContext(AuthContext);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -18,9 +25,16 @@ const Login: React.FC = () => {
         }
   
         try {
-          const response = await axios.post('/login', { email, password });
-          console.log(response.data);
-          // Handle successful login, e.g., storing JWT token, redirecting user
+            const response = await axios.post('/login', { email, password });
+            
+            
+            const expire = new Date();
+            expire.setTime(expire.getTime() + 1000 * 60 * 60 * 24 * 7);
+            Auth?.setAccessToken(response.data.accessToken);
+            Auth?.setRefreshToken(response.data.refreshToken);
+            cookies.set('accessToken', response.data.accessToken, { path: '/' , expires: expire});
+            cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+            navigate('/');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error('Login error:', error.response?.data);

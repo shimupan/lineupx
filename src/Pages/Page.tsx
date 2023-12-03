@@ -1,14 +1,20 @@
 // Main page of the app
+import { useContext } from "react";
+
 import { Header, Game, SideNav, SideNavItems, Footer } from "../Components";
 
 import { MdOutlineSettings,  MdOutlineGamepad, MdHome } from "react-icons/md";
+
+import { AuthContext } from '../App';
 
 import cs2 from '../assets/csgo2.webp';
 import valorant from '../assets/valorant.jpg';
 
 const Page: React.FC = () => {
+   const Auth = useContext(AuthContext);
    return (
       <>
+         {Auth?.accessToken ? <h1>Logged in</h1> : <h1>Not logged in</h1>}
          <Header />
          <SideNav>
             <SideNavItems icon={<MdHome size={25} />} text="Home" active />
