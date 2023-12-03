@@ -125,6 +125,18 @@ router.get("/users", async (req, res) => {
   }
 });
 
+router.get("/user/:id", async (req, res) => {
+  const username = req.params.id;
+  const user = await User.findOne({username: username});
+  if (!user) {
+    res.status(404).send('User not found');
+  } else {
+    res.send(user);
+  }
+});
+
+/////////////////////////////////////////////////////////////////////////////
+
 // Define your route using router, not app
 router.get('/verify-email/:token', async (req, res) => {
   const { token } = req.params;
