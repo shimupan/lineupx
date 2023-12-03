@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 
 const Register: React.FC = () => {
+   const [userName, setUserName] = useState<string>('');
    const [email, setEmail] = useState<string>('');
    const [password, setPassword] = useState<string>('');
    const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
@@ -17,7 +18,7 @@ const Register: React.FC = () => {
       }
 
       try {
-         const response = await axios.post('/register', { email, password });
+         const response = await axios.post('/register', { userName, email, password });
          console.log(response.data);
          navigate('/login');
       } catch (error) {
@@ -47,6 +48,17 @@ const Register: React.FC = () => {
                         Enter your email and password
                      </p>
                      <div className="flex items-center mb-3"></div>
+                     <label htmlFor="username" className="mb-2 text-sm text-start text-gray-900">
+                        Username*
+                     </label>
+                     <input
+                        id="username"
+                        type="username"
+                        placeholder="Enter an username"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                     />
                      <label htmlFor="email" className="mb-2 text-sm text-start text-gray-900">
                         Email*
                      </label>
