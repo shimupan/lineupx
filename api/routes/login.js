@@ -132,6 +132,18 @@ router.get("/users", async (req, res) => {
   }
 });
 
+router.get("/user/:id", async (req, res) => {
+  const username = req.params.id;
+  const user = await User.findOne({username: username});
+  if (!user) {
+    res.status(404).send('User not found');
+  } else {
+    res.send(user);
+  }
+});
+
+/////////////////////////////////////////////////////////////////////////////
+
 router.post('/refresh-token', async (req, res, next) => {
   const { refreshToken } = req.body;
 

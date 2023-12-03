@@ -31,13 +31,17 @@ const Login: React.FC = () => {
             Auth?.setRefreshToken(response.data.refreshToken);
             cookies.set('accessToken', response.data.accessToken, { path: '/' , expires: expire});
             cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
-            navigate('/');
+            navigate("/");
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error('Login error:', error.response?.data);
             } else {
                 console.error('Unexpected error:', error);
             }
+        }
+        if(Auth?.accessToken) {
+            console.log(Auth?.username);
+            navigate(`/user/${Auth?.username}`);
         }
     };
 

@@ -5,17 +5,18 @@ import { SideNavContext } from "./SideNav";
 type SideNavItemsProps = {
    icon: React.ReactElement;
    text: string;
+   onClick: () => void;
    active?: boolean;
    alert?: boolean;
 };
 
-const SideNavItems: React.FC<SideNavItemsProps> = ( { icon, text, active, alert }: any ) => {
+const SideNavItems: React.FC<SideNavItemsProps> = ( { icon, text, active, alert, onClick }: any ) => {
 
    const expanded  = useContext(SideNavContext);
    
    return (
       <li className={`text-black relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors ${ active ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}`}
-      >
+      onClick={onClick}>
 
          {icon}
          <span className={`overflow-hidden transition-all ${expanded ? "w-32 ml-3" : "w-0" }`}>{text}</span>
