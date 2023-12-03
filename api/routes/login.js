@@ -139,6 +139,28 @@ router.get("/users", async (req, res) => {
   }
 });
 
+router.post('/refresh-token', async (req, res, next) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).send('Refresh Token is required');
+  }
+
+  try {
+    // Verify the refresh token
+    const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    // Assuming payload contains user ID
+    const userId = payload.aud;
+
+    // Generate a new access token
+    const newAccessToken = await signInAccessToken(userId);
+
+    res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    return res.status(401).send('Invalid Refresh Token');
+  }
+});
 
 
 
