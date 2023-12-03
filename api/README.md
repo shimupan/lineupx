@@ -22,6 +22,8 @@ The backend server of LineupX. Expressed is used to communicate with frontend an
 
 3) Make sure your `.env` is configured with the correct database info
 
-4) https://www.mongodb.com/docs/manual/tutorial/create-users/#configure-users-for-self-hosted-deployments
+4) Go to mailer.js and create add your email and password with your preferred EMAIL service.
 
-5) Connection String: mongodb://"user":"password"@"ip":27017/LineupX?directConnection=true&appName=mongosh+2.1.0
+5) https://www.mongodb.com/docs/manual/tutorial/create-users/#configure-users-for-self-hosted-deployments
+
+6) Connection String: mongodb://"user":"password"@"ip":27017/LineupX?directConnection=true&appName=mongosh+2.1.0
