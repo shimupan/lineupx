@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { login } from './routes/index.js';
+import { login} from './routes/index.js';
+
 
 dotenv.config();
 // Use environment variables for sensitive information
