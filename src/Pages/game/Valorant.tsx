@@ -1,5 +1,4 @@
-import { Header, SideNav, SideNavItems, Searchbar, Footer } from "../../Components";
-import { MdOutlineSettings, MdOutlineGamepad, MdHome } from "react-icons/md";
+import { Header, SideNavWrapper, Searchbar, Footer } from "../../Components";
 import valorantbanner from '../../assets/valorantbanner.webp';
 
 const Valorant: React.FC = () => {
@@ -13,12 +12,7 @@ const Valorant: React.FC = () => {
          <Header />
 
          <main className="flex-1"> {/* Main content expands to fill available space */}
-            <SideNav>
-               <SideNavItems icon={<MdHome size={25} />} text="Home" active />
-               <SideNavItems icon={<MdOutlineGamepad size={25} />} text=" CS 2" />
-               <SideNavItems icon={<MdOutlineGamepad size={25} />} text="Valorant" />
-               <SideNavItems icon={<MdOutlineSettings size={25} />} text="Settings" alert />
-            </SideNav>
+            <SideNavWrapper />
             <div className="flex flex-col items-center h-72 relative" style={{ backgroundImage: `url(${valorantbanner})`, backgroundSize: '100%', backgroundPosition: '90% 10%' }}>
                <div style={{ 
                   position: 'absolute',

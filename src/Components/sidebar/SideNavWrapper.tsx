@@ -8,15 +8,11 @@ const SideNavWrapper: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     useEffect(() => {
-        console.log('location.pathname:', location.pathname);
         setActiveItem(location.pathname);
     }, [location.pathname]);
     const handleClick = (item: string) => {
-        console.log('clicked item:', item);
-        setActiveItem(item);
         navigate(item);
     };
-    console.log('activeItem:', activeItem); // Add this line
 
     return (
         <SideNav>
