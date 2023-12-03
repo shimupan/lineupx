@@ -108,7 +108,42 @@ router.post('/register', async (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
+router.get("/users", async (req, res) => {
+  const accessToken = req.headers.accesstoken;
+  const refreshToken = req.headers.refreshtoken;
+  if (!accessToken || !refreshToken) {
+    res.status(401).send("Access Denied");
+  }
 
+  const decoded = jwt.decode(accessToken);
+  const user = await User.findOne({ _id: decoded.aud });
+
+  if (!user) {
+    res.status(404).send('User not found');
+  } else {
+    res.send(user);
+  }
+});
+
+// Define your route using router, not app
+router.get('/verify-email/:token', async (req, res) => {
+  const { token } = req.params;
+  const user = await User.findOne({ 
+    emailVerificationToken: token, 
+    emailVerificationTokenExpires: { $gt: Date.now() } 
+  });
+
+  if (!user) {
+    return res.status(400).send('Token is invalid or has expired');
+  }
+
+  user.Verified = true;
+  user.emailVerificationToken = undefined;
+  user.emailVerificationTokenExpires = undefined;
+  await user.save();
+
+  res.send('Email verified successfully');
+});
 
 
 
