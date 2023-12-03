@@ -44,7 +44,7 @@ router.get('/verify-email/:token', async (req, res) => {
     return res.status(400).send('Token is invalid or has expired');
   }
 
-  user.isEmailVerified = true;
+  user.Verified = true;
   user.emailVerificationToken = undefined;
   user.emailVerificationTokenExpires = undefined;
   await user.save();
