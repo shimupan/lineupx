@@ -1,13 +1,13 @@
 import React, { useState, FormEvent } from 'react';
-import axios from 'axios'; // Ensure Axios is installed
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 
 const Register: React.FC = () => {
    const [email, setEmail] = useState<string>('');
    const [password, setPassword] = useState<string>('');
    const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
-
+   const navigate = useNavigate();
    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
@@ -19,7 +19,7 @@ const Register: React.FC = () => {
       try {
          const response = await axios.post('/register', { email, password });
          console.log(response.data);
-         // Redirect to login or another page upon successful registration
+         navigate('/login');
       } catch (error) {
          if (axios.isAxiosError(error)) {
             console.error('Registration error:', error.response?.data);

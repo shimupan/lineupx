@@ -1,4 +1,5 @@
-import { useState, createContext } from "react";
+import { useState, useContext, createContext } from "react";
+import { AuthContext } from '../../App';
 
 import { FaAngleLeft } from "react-icons/fa6";
 import { IoLogOut } from "react-icons/io5";
@@ -10,7 +11,7 @@ type SideNavProps = {
 
 export const SideNavContext = createContext<boolean>(true);
 const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
-
+   const Auth = useContext(AuthContext);
    const [expanded, setExpanded] = useState<boolean>(false);
 
    // TODO: Make closing transition smoother on mobile
@@ -27,11 +28,11 @@ const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
             </div>
 
             <div className={`${expanded ? "" : "hidden md:block"} border-t flex p-3`}>
-               <img src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=Shimu+Pan" className="ml-[2px] w-10 h-10 rounded-md"/>
+               <img src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${Auth?.username ? Auth?.username : "Guest"}`} className="ml-[2px] w-10 h-10 rounded-md"/>
                <div className={`flex justify-between items-center ${expanded ? "w-52 ml-3" : "w-0 ml-0"}`}>
                   <div className={`leading-4 ${expanded ? "w-52 ml-3" : "hidden"}`}>
-                     <h4 className="font-semibold text-black">Shimu Pan</h4>
-                     <span className="text-xs text-gray-600">pans@rpi.edu</span>
+                     <h4 className="font-semibold text-black">{Auth?.username ? Auth?.username : "Guest"}</h4>
+                     <span className="text-xs text-gray-600">{Auth?.email ? Auth?.email : "Guest@Mail.com"}</span>
                   </div>
                   <IoLogOut size={25} className="text-black"/>
                </div>
