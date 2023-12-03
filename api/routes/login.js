@@ -59,15 +59,29 @@ router.get('/verify-email/:token', async (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
-router.delete('/logout', async (req, res) => {
+router.delete('/logout', async (req, res, next) => {
   try {
-  const { refreshToken } = req.body;
-  if(!refreshToken) throw createError.BadRequest();
-  //TODO AFTER VERIFY REFRESH TOKEN IS IMPLEMENTED
-  }catch (err){
-  next(err);
+    // Extract the refresh token from the request body
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      throw new Error('Refresh token is required for logout');
+    }
+
+    // Optionally, add logic to handle the refresh token
+    // For example, you might want to add the token to a blacklist,
+    // or log the logout event, etc.
+    // This is dependent on how you want to manage tokens and sessions.
+    // ...
+
+    // Acknowledge the logout
+    res.send({ message: 'Successfully logged out' });
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
   }
 });
+
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -123,26 +137,6 @@ router.get("/users", async (req, res) => {
   } else {
     res.send(user);
   }
-});
-
-// Define your route using router, not app
-router.get('/verify-email/:token', async (req, res) => {
-  const { token } = req.params;
-  const user = await User.findOne({ 
-    emailVerificationToken: token, 
-    emailVerificationTokenExpires: { $gt: Date.now() } 
-  });
-
-  if (!user) {
-    return res.status(400).send('Token is invalid or has expired');
-  }
-
-  user.Verified = true;
-  user.emailVerificationToken = undefined;
-  user.emailVerificationTokenExpires = undefined;
-  await user.save();
-
-  res.send('Email verified successfully');
 });
 
 
