@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -17,6 +18,16 @@ const UserSchema = new mongoose.Schema({
   password: { 
     type: String, 
     required: true 
+  },
+  Verified: { 
+    type: Boolean, 
+    default: false 
+  },
+  emailVerificationToken: { 
+    type: String 
+  },
+  emailVerificationTokenExpires: { 
+    type: Date 
   },
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -36,6 +47,9 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre('save', async function(next) {
+  // Hash password only if it has been modified (or is new)
+  if (!this.isModified('password')) return next();
+
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(this.password, salt);
@@ -45,6 +59,15 @@ UserSchema.pre('save', async function(next) {
     next(error);
   }
 });
+
+// Adding method to generate email verification token
+UserSchema.methods.generateVerificationToken = function() {
+  const verificationToken = crypto.randomBytes(20).toString('hex');
+  this.emailVerificationToken = verificationToken;
+  this.emailVerificationTokenExpires = Date.now() + 3600000; // 1 hour from now
+
+  return verificationToken;
+};
 
 UserSchema.methods.passwordCheck = async function(password) { 
   try {
