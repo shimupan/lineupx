@@ -67,13 +67,6 @@ router.delete('/logout', async (req, res, next) => {
     if (!refreshToken) {
       throw new Error('Refresh token is required for logout');
     }
-
-    // Optionally, add logic to handle the refresh token
-    // For example, you might want to add the token to a blacklist,
-    // or log the logout event, etc.
-    // This is dependent on how you want to manage tokens and sessions.
-    // ...
-
     // Acknowledge the logout
     res.send({ message: 'Successfully logged out' });
   } catch (err) {
