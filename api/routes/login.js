@@ -52,4 +52,50 @@ router.get('/verify-email/:token', async (req, res) => {
   res.send('Email verified successfully');
 });
 
+router.post('/register', async (req, res) => {
+   const { email, password } = req.body;
+   const existingUser = await User.findOne({ email });
+   if (existingUser) {
+     return res.status(400).send({ message: 'Email already in use' });
+   }
+ 
+   try {
+     const user = new User({
+       email: email,
+       password: password,
+       likes: [],
+       dislikes: [],
+       saved: []
+     });
+ 
+     // Generate email verification token
+     const emailVerificationToken = user.generateVerificationToken();
+     
+     // Save the user with the verification token
+     const newUser = await user.save();
+ 
+     // Send email verification link
+     const verificationUrl = `http://lineupx.net/verify-email/${emailVerificationToken}`;
+     await sendEmail(email, 'Verify Your Email', `Please click on the following link to verify your email: <a href="${verificationUrl}">${verificationUrl}</a>`);
+ 
+     // Generate access and refresh tokens
+     const accessToken = await signInAccessToken(newUser.id);
+     const refreshToken = await refreshAccessToken(newUser.id);
+ 
+     res.send({ accessToken, refreshToken });
+   } catch (error) {
+     res.status(400).send({ message: 'Error registering user', error: error.message });
+   }
+});
+
+router.delete('/logout', async (req, res) => {
+   try {
+    const { refreshToken } = req.body;
+    if(!refreshToken) throw createError.BadRequest();
+    //TODO AFTER VERIFY REFRESH TOKEN IS IMPLEMENTED
+   }catch (err){
+    next(err);
+   }
+});
+
 export default router; // Export the router
