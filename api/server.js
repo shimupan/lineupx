@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { login, register, logout } from './routes/index.js';
+import { login} from './routes/index.js';
 
 dotenv.config();
 // Use environment variables for sensitive information
@@ -24,8 +24,6 @@ app.get('/', (req, res) => {
 });
 
 app.use(register);
-app.use(login);
-app.use(logout);
 
 const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
