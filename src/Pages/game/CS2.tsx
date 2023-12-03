@@ -1,6 +1,6 @@
-import { Header, SideNav, SideNavItems, Searchbar, Footer } from "../Components";
+import { Header, SideNav, SideNavItems, Searchbar, Footer } from "../../Components";
 import { MdOutlineSettings, MdOutlineGamepad, MdHome } from "react-icons/md";
-import cs2banner from '../assets/cs2banner.png';
+import cs2banner from '../../assets/cs2banner.png';
 
 const CS2: React.FC = () => {
    const handleSearch = (searchTerm: string) => {

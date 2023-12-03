@@ -1,20 +1,11 @@
-import React, { useState, useContext, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { Header, SideNav, SideNavItems } from '../Components';
-import { AuthContext } from '../App';
-
-import { MdOutlineSettings,  MdOutlineGamepad, MdHome } from "react-icons/md";
-
-import Cookies from "universal-cookie";
-
-const cookies = new Cookies();
+import { Link } from 'react-router-dom';
+import { Header, SideNavWrapper } from '../../Components';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const navigate = useNavigate();
-    const Auth = useContext(AuthContext);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,16 +16,9 @@ const Login: React.FC = () => {
         }
   
         try {
-            const response = await axios.post('/login', { email, password });
-            
-            
-            const expire = new Date();
-            expire.setTime(expire.getTime() + 1000 * 60 * 60 * 24 * 7);
-            Auth?.setAccessToken(response.data.accessToken);
-            Auth?.setRefreshToken(response.data.refreshToken);
-            cookies.set('accessToken', response.data.accessToken, { path: '/' , expires: expire});
-            cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
-            navigate('/');
+          const response = await axios.post('/login', { email, password });
+          console.log(response.data);
+          // Handle successful login, e.g., storing JWT token, redirecting user
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error('Login error:', error.response?.data);
@@ -47,12 +31,9 @@ const Login: React.FC = () => {
     return (
     <>
         <Header />
-        <SideNav>
-            <SideNavItems icon={<MdHome size={25} />} text="Home" active />
-            <SideNavItems icon={<MdOutlineGamepad size={25} />} text=" CS 2" />
-            <SideNavItems icon={<MdOutlineGamepad size={25} />} text="Valorant" />
-            <SideNavItems icon={<MdOutlineSettings size={25} />} text="Settings" alert />
-         </SideNav>
+
+        <SideNavWrapper />
+
         <div className="h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
                 <div className="flex items-center justify-center w-full lg:p-12">
