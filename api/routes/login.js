@@ -1,9 +1,12 @@
 import express from 'express';
 import User from '../model/user.js';
 import createError from 'http-errors';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import { sendEmail } from '../model/mailer.js';
 import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
 
+dotenv.config();
 const router = express.Router();
 
 /////////////////////////////////////////////////////////////////////////////
@@ -69,7 +72,7 @@ router.delete('/logout', async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////
 
 router.post('/register', async (req, res) => {
-  const { email, password } = req.body;
+  const { userName, email, password } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).send({ message: 'Email already in use' });
@@ -77,6 +80,7 @@ router.post('/register', async (req, res) => {
 
   try {
     const user = new User({
+      username: userName,
       email: email,
       password: password,
       likes: [],
@@ -89,7 +93,7 @@ router.post('/register', async (req, res) => {
 
     // Send email verification link
     //const verificationUrl = `http://localhost:3000/verify-email/${emailVerificationToken}`;
-    const verificationUrl = `http://<your-domain>/verify-email/${emailVerificationToken}`;
+    const verificationUrl = `http://${process.env.EMAIL_DOMAIN}/verify-email/${emailVerificationToken}`;
     await sendEmail(email, 'Verify Your Email', `Please click on the following link to verify your email: <a href="${verificationUrl}">${verificationUrl}</a>`);
 
     // Generate access and refresh tokens
