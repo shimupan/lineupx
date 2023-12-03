@@ -1,5 +1,5 @@
 // Pages
-export {default as Map} from './Pages/Map';
+export {default as UserPage} from './Pages/UserPage';
 export {default as Page} from './Pages/Page';
 export {default as Valorant} from './Pages/game/Valorant';
 export {default as CS2} from './Pages/game/CS2';
