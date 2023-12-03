@@ -2,6 +2,7 @@ import express from 'express';
 import User from '../model/user.js';
 import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
 import { sendEmail } from '../model/mailer.js'; 
+import logo from '../../../src/assets/lineupx.png';
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ router.post('/register', async (req, res) => {
     const newUser = await user.save();
 
     // Send email verification link
-    const verificationUrl = `http://localhost:3000/verify-email/${emailVerificationToken}`; // Use your actual domain or localhost
+    const verificationUrl = `http://lineupx.net/verify-email/${emailVerificationToken}`;
     await sendEmail(email, 'Verify Your Email', `Please click on the following link to verify your email: <a href="${verificationUrl}">${verificationUrl}</a>`);
 
     // Generate access and refresh tokens
