@@ -29,7 +29,7 @@ const SearchBar = ({ onSearch, placeholder, className = '' }: SearchBarProps) =>
                 placeholder={placeholder} 
                 value={searchTerm}
                 onChange={handleChange}
-                className="p-2 flex-1 focus:outline-none rounded-r w-full" // Adjusted for length and rounded corners
+                className="p-2 text-black flex-1 focus:outline-none rounded-r w-full" // Adjusted for length and rounded corners
             />
         </form>
     );
