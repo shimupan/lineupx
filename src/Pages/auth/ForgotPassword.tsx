@@ -11,7 +11,7 @@ const ForgotPassword: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/forgot-password', { email });
+      const response = await axios.post('/forgotpassword', { email });
       console.log(response.data);
       navigate('/login');
     } catch (error) {

@@ -1,6 +1,8 @@
 import { useState, useContext, createContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../App';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 import { FaAngleLeft } from "react-icons/fa6";
 import { IoLogOut } from "react-icons/io5";
@@ -13,8 +15,34 @@ type SideNavProps = {
 export const SideNavContext = createContext<boolean>(true);
 const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
    const Auth = useContext(AuthContext);
+   const navigate = useNavigate();
+   const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
 
+   const logout = async () => {
+      try {
+        // Send a request to the server to invalidate the refresh token
+        if (Auth?.refreshToken) {
+          await axios.delete('/logout', { data: { refreshToken: Auth.refreshToken } });
+        }
+  
+        // Clear the tokens from cookies and context
+        cookies.remove('accessToken');
+        cookies.remove('refreshToken');
+        if (Auth) {
+         Auth.setAccessToken('');
+         Auth.setRefreshToken('');
+         Auth.setUsername('');
+         Auth.setEmail('');
+         
+        }
+  
+        // Navigate to the login or home page after logout
+        navigate('/login');
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    };
    // TODO: Make closing transition smoother on mobile
    return (
       <aside className={`${expanded ? "h-full" : ""} md:h-screen absolute z-50`}>
@@ -37,7 +65,7 @@ const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
                      <h4 className="font-semibold text-black">{Auth?.username ? Auth?.username : "Guest"}</h4>
                      <span className="text-xs text-gray-600">{Auth?.email ? Auth?.email : "Guest@Mail.com"}</span>
                   </div>
-                  <IoLogOut size={25} className="text-black"/>
+                  <IoLogOut size={25} className="text-black" style={{ cursor: 'pointer' }} onClick={logout} />
                </div>
             </div>
             
