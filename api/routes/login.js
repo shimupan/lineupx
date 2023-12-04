@@ -3,6 +3,7 @@ import User from '../model/user.js';
 import createError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 import { sendEmail } from '../model/mailer.js';
 import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
 
@@ -177,7 +178,6 @@ router.post('/forgot-password', async (req, res) => {
     return res.status(400).send('User with this email does not exist');
   }
 
-  // Generate a password reset token
   const token = crypto.randomBytes(20).toString('hex');
 
   // Save the token in your database and associate it with the user
@@ -191,7 +191,7 @@ router.post('/forgot-password', async (req, res) => {
     subject: 'Password Reset',
     text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
       Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n
-      http://${req.headers.host}/reset-password?token=${token}\n\n
+      http://${process.env.EMAIL_DOMAIN}/resetpassword?token=${token}\n\n
       If you did not request this, please ignore this email and your password will remain unchanged.\n`,
   };
 
@@ -201,5 +201,25 @@ router.post('/forgot-password', async (req, res) => {
   res.status(200).send('Password reset email sent');
 });
 
+router.post('/resetpassword/:token', async (req, res) => {
+  // Extract the token from the URL parameters and the new password from the request body
+  const { token } = req.params;
+  const { password } = req.body;
+
+  // Find the user with this token
+  const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
+
+  if (!user) {
+    return res.status(400).send('Password reset token is invalid or has expired');
+  }
+
+  // Update the user's password and clear the reset token and expiration date
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+  await user.save();
+
+  res.status(200).send('Your password has been updated');
+});
 
 export default router;

@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Page, ProfilePage, Valorant, CS2, Register, Login, RequireAuth, ForgotPassword } from "./Components";
+import { Page, ProfilePage, Valorant, CS2, Register, Login, RequireAuth, ForgotPassword, ResetPassword } from "./Components";
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
 import Cookies from "universal-cookie";
@@ -73,6 +73,7 @@ function App() {
           <Route path="/cs2" element={ <CS2/> }></Route>
           <Route path="/user/:id" element={ <ProfilePage/> }></Route>
           <Route path="/forgotpassword" element={ <ForgotPassword/> }></Route>
+          <Route path="/resetpassword" element={ <ResetPassword/> }></Route>
           <Route element={<RequireAuth/>}>
             <Route path="/admin/:id" element={ <ProfilePage/> }></Route>
           </Route>
