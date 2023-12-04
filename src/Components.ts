@@ -6,6 +6,8 @@ export {default as CS2} from './Pages/game/CS2';
 export {default as Login} from './Pages/auth/Login';
 export {default as Register} from './Pages/auth/Register';
 export {default as Upload} from './Pages/Upload';
+export {default as ForgotPassword} from './Pages/auth/ForgotPassword';
+export {default as ResetPassword} from './Pages/auth/ResetPassword';
 
 // Components
 export {default as Header} from './Components/Header';
