@@ -9,23 +9,28 @@ const CommentSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'PostData',
    },
-   commentText: {
+   CommentText: {
       type: String,
       required: true,
    },
-   likes: {
+   Replies: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: 'Comment'
+   },
+   Likes: {
       type: Number,
       required: true,
    },
-   dislikes: {
+   Dislikes: {
       type: Number,
       required: true,
    },
-   views: {
+   Views: {
       type: Number,
       required: true,
    },
-   timeStamp: {
+   TimeStamp: {
       type: Date,
       required: true,
    },
