@@ -71,7 +71,7 @@ const Login: React.FC = () => {
                                 placeholder="name@gmail.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
                             />
                             <label htmlFor="password" className="mb-2 text-sm text-start text-gray-900">
                                 Password*
@@ -82,7 +82,7 @@ const Login: React.FC = () => {
                                 placeholder="Enter a password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="flex items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
                             />
                             <div className="flex flex-row justify-between mb-8">
                                 <div className="flex items-center">
