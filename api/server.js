@@ -1,35 +1,27 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
 import cors from 'cors';
-import {v2 as cloudinary} from 'cloudinary';
-import { login} from './routes/index.js';
-
+import { mongo, cloudinary } from './config/index.js';
+import { auth, user, post, comment, replies } from './routes/index.js';
 
 dotenv.config();
-// Use environment variables for sensitive information
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(async (db) => {
-    console.log('database connected');
-    const collections = await db.connection.db.listCollections().toArray();
-  })
-  .catch(err => console.log('Database connection error: ', err));
 
-cloudinary.config({ 
-  cloud_name: 'ddwqqjmyo', 
-  api_key: '729538293426867', 
-  api_secret: process.env.CLOUDINARY_SECRET
-});
+mongo();
+cloudinary();
 
 const app = express();
 app.use(express.json());
 app.use(cors()); 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('server is running');
 });
 
-app.use(login);
+app.use(auth);
+app.use(user);
+app.use(post);
+app.use(comment);
+app.use(replies);
 
 const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
