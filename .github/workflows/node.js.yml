@@ -17,5 +17,5 @@ jobs:
         run: npm ci
         working-directory: api
       - name: Build
-        run: npm run build
+        run: timeout 3s npm run build
         working-directory: api
