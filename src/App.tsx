@@ -17,7 +17,9 @@ type AuthContextType = {
   refreshToken: string;
   setRefreshToken: React.Dispatch<React.SetStateAction<string>>;
   email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -63,7 +65,9 @@ function App() {
                                  refreshToken, 
                                  setRefreshToken,
                                  email,
-                                 username }}>
+                                 setEmail,
+                                 username,
+                                 setUsername}}>
     <BrowserRouter>
       <Routes>
           <Route path="/" element={ <Page/> }></Route>

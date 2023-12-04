@@ -30,8 +30,11 @@ const SideNav: React.FC<SideNavProps> = ( { children }:any ) => {
         cookies.remove('accessToken');
         cookies.remove('refreshToken');
         if (Auth) {
-          Auth.setAccessToken('');
-          Auth.setRefreshToken('');
+         Auth.setAccessToken('');
+         Auth.setRefreshToken('');
+         Auth.setUsername('');
+         Auth.setEmail('');
+         
         }
   
         // Navigate to the login or home page after logout
