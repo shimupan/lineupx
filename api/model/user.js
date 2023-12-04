@@ -44,6 +44,12 @@ const UserSchema = new mongoose.Schema({
     ref: 'PostData',
     required: false,
   }],
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpires: {
+    type: Date,
+  },
 });
 
 UserSchema.pre('save', async function(next) {
