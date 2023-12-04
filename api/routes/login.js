@@ -168,7 +168,7 @@ router.post('/refresh-token', async (req, res, next) => {
   }
 });
 
-router.post('/forgot-password', async (req, res) => {
+router.post('/forgotpassword', async (req, res) => {
   const { email } = req.body;
 
   // Find the user by email
