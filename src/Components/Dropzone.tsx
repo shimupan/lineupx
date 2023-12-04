@@ -1,12 +1,14 @@
+/*
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
+*/
 
-/*
 type DropzoneProps = {
     setFile: React.Dispatch<React.SetStateAction<File[]>>;
 };
-*/
+
 const Dropzone: React.FC<DropzoneProps> = ({setFile}) => {
+  setFile([]);
   /*
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
