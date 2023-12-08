@@ -9,7 +9,7 @@ insert_final_newline = true
 indent_style = space
 charset = utf-8
 
-[*.{py,php,java,sh,css,html,js,twig}]
+[*.{py,php,java,sh,css,html,js,ts,twig}]
 indent_size = 3
 
 [*.{c,h,cpp,hpp,json,yml,txt,md}]
