@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { sendEmail } from '../config/mailer.js';
 import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
+import passport from 'passport';
+import GoogleStrategy from 'passport-google-oauth20';
 
 const router = express.Router();
 
@@ -139,6 +141,8 @@ router.post('/refresh-token', async (req, res, next) => {
   }
 });
 
+/////////////////////////////////////////////////////////////////////////////
+
 router.post('/forgotpassword', async (req, res) => {
   const { email } = req.body;
 
@@ -192,5 +196,50 @@ router.post('/resetpassword/:token', async (req, res) => {
 
   res.status(200).send('Your password has been updated');
 });
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "/auth/google/callback"
+},
+async (accessToken, refreshToken, profile, done) => {
+  // Check if a user with this Google ID already exists in your database
+  let user = await User.findOne({ googleId: profile.id });
+
+  if (!user) {
+    // If not, create a new user
+    user = new User({
+      googleId: profile.id,
+      username: profile.displayName,
+      email: profile.emails[0].value
+      // You can add more fields here if needed
+    });
+
+    await user.save();
+  }
+
+  done(null, user);
+}));
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 export default router;
