@@ -2,8 +2,8 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
-    types: [closed]
+    types:
+      - closed
 
 jobs:
   build:
