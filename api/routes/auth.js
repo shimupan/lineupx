@@ -203,12 +203,12 @@ router.post('/resetpassword/:token', async (req, res) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/auth/google/callback"
+  callbackURL: "/google/callback"
 },
 async (accessToken, refreshToken, profile, done) => {
   // Check if a user with this Google ID already exists in your database
   let user = await User.findOne({ googleId: profile.id });
-
+  
   if (!user) {
     // If not, create a new user
     user = new User({
@@ -236,10 +236,12 @@ passport.deserializeUser((id, done) => {
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+router.get('/google/callback', passport.authenticate('google', { 
+  failureRedirect: '/login' 
+}), (req, res) => {
+  // Successful authentication, redirect home or to another page
+  res.redirect('/');
+});
+
 
 export default router;
