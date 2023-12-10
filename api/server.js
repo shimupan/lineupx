@@ -13,10 +13,10 @@ cloudinary();
 
 const app = express();
 app.use(express.json());
-app.use(cors()); 
+app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send('server is running');
+   res.send('server is running');
 });
 
 app.use(session({
