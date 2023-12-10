@@ -9,7 +9,7 @@ const Upload: React.FC = () => {
    console.log(aimingPosition);
    console.log(landingPosition);
    return (
-      <div className=''>
+      <div className="">
          <Dropzone setFile={setStandingPosition} />
          <Dropzone setFile={setAimingPosition} />
          <Dropzone setFile={setLandingPosition} />
