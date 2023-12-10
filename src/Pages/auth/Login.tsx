@@ -1,29 +1,29 @@
-import React, { useState, useContext, FormEvent } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { Header, SideNavWrapper } from "../../Components";
-import { AuthContext } from "../../App";
+import React, { useState, useContext, FormEvent } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { Header, SideNavWrapper } from '../../Components';
+import { AuthContext } from '../../App';
 
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
-  const Auth = useContext(AuthContext);
+   const [email, setEmail] = useState<string>('');
+   const [password, setPassword] = useState<string>('');
+   const navigate = useNavigate();
+   const Auth = useContext(AuthContext);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    if (!email || !password) {
-      console.error("Email and password are required");
-      return;
-    }
+      if (!email || !password) {
+         console.error('Email and password are required');
+         return;
+      }
 
-    try {
-      const response = await axios.post("/login", { email, password });
+      try {
+         const response = await axios.post('/login', { email, password });
 
          const expire = new Date();
          expire.setTime(expire.getTime() + 1000 * 60 * 60 * 24 * 7);
@@ -55,7 +55,7 @@ const Login: React.FC = () => {
       <>
          <Header />
 
-      <SideNavWrapper />
+         <SideNavWrapper />
 
          <div className="h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
