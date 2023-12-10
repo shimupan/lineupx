@@ -220,18 +220,34 @@ async (accessToken, refreshToken, profile, done) => {
    try {
       // Check if a user with this Google ID already exists in your database
       let user = await User.findOne({ googleId: profile.id });
-      
-      if (!user) {
-         // If not, create a new user
-         user = new User({
-            googleId: profile.id,
-            username: profile.displayName,
-            email: profile.emails[0].value,
-            password: generateDefaultPassword(),
-            verified: 'true',
-         });
 
-         await user.save();
+      if (user) {
+         console.log('User found with googleId:', profile.id);
+      } else {
+         console.log('No user found with googleId:', profile.id);
+
+         // Check if a user with this email already exists
+         const existingUser = await User.findOne({ email: profile.emails[0].value });
+         if (existingUser) {
+            console.log('User found with email:', profile.emails[0].value);
+
+            // Update the existing user with the Google ID
+            existingUser.googleId = profile.id;
+            user = await existingUser.save();
+         } else {
+            console.log('No user found with email:', profile.emails[0].value);
+
+            // If not, create a new user
+            user = new User({
+               googleId: profile.id,
+               username: profile.displayName,
+               email: profile.emails[0].value,
+               password: generateDefaultPassword(),
+               verified: 'true',
+            });
+
+            await user.save();
+         }
       }
 
       done(null, user);
@@ -252,11 +268,19 @@ passport.deserializeUser((id, done) => {
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { 
-  failureRedirect: '/login' 
-}), (req, res) => {
-  // Successful authentication, redirect home or to another page
-  res.redirect('http://localhost:5173/login');
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), async (req, res, next) => {
+   
+   try {
+      // The user is stored in req.user after successful authentication
+      const user = req.user;
+
+      const accessToken = await signInAccessToken(user.id);
+      const refreshToken = await refreshAccessToken(user.id);
+
+      res.redirect(`http://${process.env.EMAIL_DOMAIN}/google-callback?accessToken=${accessToken}&refreshToken=${refreshToken}`);
+   } catch (error) {
+      res.status(400).send({ message: 'Error logging in', error: error.message });
+   }
 });
 
 

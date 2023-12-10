@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Page, ProfilePage, Valorant, CS2, Register, Login, RequireAuth, Upload, ForgotPassword, ResetPassword } from "./Components";
+import { Page, ProfilePage, Valorant, CS2, Register, Login, RequireAuth, Upload, ForgotPassword, ResetPassword, GoogleCallBack } from "./Components";
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
 import Cookies from "universal-cookie";
@@ -82,6 +82,8 @@ function App() {
             <Route path="/admin/:id" element={ <ProfilePage/> }></Route>
             <Route path="/upload" element={ <Upload/> }></Route>
           </Route>
+          <Route path="/google-callback" element={<GoogleCallBack />} />
+
       </Routes>
     </BrowserRouter>
   </AuthContext.Provider>

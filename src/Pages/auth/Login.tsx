@@ -46,7 +46,7 @@ const Login: React.FC = () => {
     };
     const handleGoogleSignIn = () => {
         // Redirect to your backend server
-        window.location.href = 'http://localhost:3000/google';
+        window.location.href = 'http://lineupx.net/google';
     };
     return (
     <>
