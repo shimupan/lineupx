@@ -37,18 +37,18 @@ const ProfilePage = () => {
       <>
          <Header />
          <SideNavWrapper />
-         <div className='h-screen'>
+         <div className="h-screen">
             <div>
-               <div className='bg-gradient-to-r from-purple-900 via-blue-700 to-cyan-400 h-[300px] flex justify-center relative'>
+               <div className="bg-gradient-to-r from-purple-900 via-blue-700 to-cyan-400 h-[300px] flex justify-center relative">
                   <img
                      src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
                         user?.username ? user.username : 'Guest'
                      }`}
-                     className='ml-[2px] rounded-md cursor-pointer absolute top-[275px] w-[100px]'
+                     className="ml-[2px] rounded-md cursor-pointer absolute top-[275px] w-[100px]"
                   />
                </div>
             </div>
-            <div className='w-screen h-[200px] flex flex-col justify-center items-center'>
+            <div className="w-screen h-[200px] flex flex-col justify-center items-center">
                <div>{user?.username}</div>
                <div>{user?.email}</div>
             </div>

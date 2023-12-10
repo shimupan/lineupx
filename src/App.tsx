@@ -11,6 +11,7 @@ import {
    Upload,
    ForgotPassword,
    ResetPassword,
+   GoogleCallBack
 } from './Components';
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
@@ -18,7 +19,7 @@ import Cookies from 'universal-cookie';
 import './App.css';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
-axios.defaults.baseURL = baseURL || 'http://localhost:3000';
+axios.defaults.baseURL = baseURL || "http://localhost:3000";
 
 const cookies = new Cookies();
 
@@ -102,6 +103,7 @@ function App() {
                   <Route path="/admin/:id" element={<ProfilePage />}></Route>
                   <Route path="/upload" element={<Upload />}></Route>
                </Route>
+              <Route path="/google-callback" element={<GoogleCallBack />} />
             </Routes>
          </BrowserRouter>
       </AuthContext.Provider>

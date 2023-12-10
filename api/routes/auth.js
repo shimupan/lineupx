@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { sendEmail } from '../config/mailer.js';
 import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
+import passport from 'passport';
+import GoogleStrategy from 'passport-google-oauth20';
 
 const router = express.Router();
 
@@ -153,6 +155,8 @@ router.post('/refresh-token', async (req, res, next) => {
    }
 });
 
+/////////////////////////////////////////////////////////////////////////////
+
 router.post('/forgotpassword', async (req, res) => {
    const { email } = req.body;
 
@@ -211,5 +215,115 @@ router.post('/resetpassword/:token', async (req, res) => {
 
    res.status(200).send('Your password has been updated');
 });
+
+/////////////////////////////////////////////////////////////////////////////
+
+function generateDefaultPassword(length = 10) {
+   const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   let result = '';
+   for (let i = 0; i < length; i++) {
+      result += characters.charAt(
+         Math.floor(Math.random() * characters.length),
+      );
+   }
+   return result;
+}
+
+passport.use(
+   new GoogleStrategy(
+      {
+         clientID: process.env.GOOGLE_CLIENT_ID,
+         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+         callbackURL: '/google/callback',
+      },
+
+      async (accessToken, refreshToken, profile, done) => {
+         try {
+            // Check if a user with this Google ID already exists in your database
+            let user = await User.findOne({ googleId: profile.id });
+
+            if (user) {
+               console.log('User found with googleId:', profile.id);
+            } else {
+               console.log('No user found with googleId:', profile.id);
+
+               // Check if a user with this email already exists
+               const existingUser = await User.findOne({
+                  email: profile.emails[0].value,
+               });
+               if (existingUser) {
+                  console.log(
+                     'User found with email:',
+                     profile.emails[0].value,
+                  );
+
+                  // Update the existing user with the Google ID
+                  existingUser.googleId = profile.id;
+                  user = await existingUser.save();
+               } else {
+                  console.log(
+                     'No user found with email:',
+                     profile.emails[0].value,
+                  );
+
+                  // If not, create a new user
+                  user = new User({
+                     googleId: profile.id,
+                     username: profile.displayName,
+                     email: profile.emails[0].value,
+                     password: generateDefaultPassword(),
+                     verified: 'true',
+                  });
+
+                  await user.save();
+               }
+            }
+
+            done(null, user);
+         } catch (err) {
+            done(err);
+         }
+      },
+   ),
+);
+
+passport.serializeUser((user, done) => {
+   done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+   User.findById(id, (err, user) => {
+      done(err, user);
+   });
+});
+
+router.get(
+   '/google',
+   passport.authenticate('google', { scope: ['profile', 'email'] }),
+);
+
+router.get(
+   '/google/callback',
+   passport.authenticate('google', { failureRedirect: '/login' }),
+   async (req, res, next) => {
+      try {
+         // The user is stored in req.user after successful authentication
+         const user = req.user;
+
+         const accessToken = await signInAccessToken(user.id);
+         const refreshToken = await refreshAccessToken(user.id);
+
+         res.redirect(
+            `http://${process.env.EMAIL_DOMAIN}/google-callback?accessToken=${accessToken}&refreshToken=${refreshToken}`,
+         );
+      } catch (error) {
+         res.status(400).send({
+            message: 'Error logging in',
+            error: error.message,
+         });
+      }
+   },
+);
 
 export default router;
