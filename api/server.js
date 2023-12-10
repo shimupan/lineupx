@@ -19,11 +19,13 @@ app.get('/', (req, res) => {
    res.send('server is running');
 });
 
-app.use(session({
-  secret: 'mrpopo',
-  resave: false,
-  saveUninitialized: false,
-}));
+app.use(
+   session({
+      secret: 'mrpopo',
+      resave: false,
+      saveUninitialized: false,
+   }),
+);
 app.use(auth);
 app.use(user);
 app.use(post);
