@@ -44,7 +44,10 @@ const Login: React.FC = () => {
             navigate(`/user/${Auth?.username}`);
         }
     };
-
+    const handleGoogleSignIn = () => {
+        // Redirect to your backend server
+        window.location.href = 'http://localhost:3000/google';
+    };
     return (
     <>
         <Header />
@@ -101,6 +104,13 @@ const Login: React.FC = () => {
                             </div>
                             <button type="submit" className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900">
                                 Sign In
+                            </button>
+                            <button
+                                type="button"
+                                className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-red-600"
+                                onClick={handleGoogleSignIn}
+                            >
+                                Sign In with Google
                             </button>
                             <p className="text-sm leading-relaxed text-gray-900">
                                 Not registered yet?{" "}

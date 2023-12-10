@@ -200,28 +200,44 @@ router.post('/resetpassword/:token', async (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
+function generateDefaultPassword(length = 10) {
+   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   let result = '';
+   for (let i = 0; i < length; i++) {
+     result += characters.charAt(Math.floor(Math.random() * characters.length));
+   }
+   return result;
+}
+
 passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/google/callback"
+   clientID: process.env.GOOGLE_CLIENT_ID,
+   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+   callbackURL: "/google/callback"
 },
+
+
 async (accessToken, refreshToken, profile, done) => {
-  // Check if a user with this Google ID already exists in your database
-  let user = await User.findOne({ googleId: profile.id });
-  
-  if (!user) {
-    // If not, create a new user
-    user = new User({
-      googleId: profile.id,
-      username: profile.displayName,
-      email: profile.emails[0].value
-      // You can add more fields here if needed
-    });
+   try {
+      // Check if a user with this Google ID already exists in your database
+      let user = await User.findOne({ googleId: profile.id });
+      
+      if (!user) {
+         // If not, create a new user
+         user = new User({
+            googleId: profile.id,
+            username: profile.displayName,
+            email: profile.emails[0].value,
+            password: generateDefaultPassword(),
+            verified: 'true',
+         });
 
-    await user.save();
-  }
+         await user.save();
+      }
 
-  done(null, user);
+      done(null, user);
+   } catch (err) {
+      done(err);
+   }
 }));
 
 passport.serializeUser((user, done) => {
@@ -240,7 +256,7 @@ router.get('/google/callback', passport.authenticate('google', {
   failureRedirect: '/login' 
 }), (req, res) => {
   // Successful authentication, redirect home or to another page
-  res.redirect('/');
+  res.redirect('http://localhost:5173/login');
 });
 
 
