@@ -40,90 +40,90 @@ const Register: React.FC = () => {
 
          <SideNavWrapper />
 
-         <div className='h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5'>
-            <div className='flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable'>
-               <div className='flex items-center justify-center w-full lg:p-12'>
-                  <div className='flex items-center xl:p-10'>
+         <div className="h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
+            <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
+               <div className="flex items-center justify-center w-full lg:p-12">
+                  <div className="flex items-center xl:p-10">
                      <form
-                        className='flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl'
+                        className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl"
                         onSubmit={handleSubmit}
                      >
-                        <h3 className='mb-3 text-4xl font-extrabold text-blue-900'>
+                        <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Sign Up
                         </h3>
-                        <p className='mb-4 text-gray-500'>
+                        <p className="mb-4 text-gray-500">
                            Enter your email and password
                         </p>
-                        <div className='flex items-center mb-3'></div>
+                        <div className="flex items-center mb-3"></div>
                         <label
-                           htmlFor='username'
-                           className='mb-2 text-sm text-start text-gray-900'
+                           htmlFor="username"
+                           className="mb-2 text-sm text-start text-gray-900"
                         >
                            Username*
                         </label>
                         <input
-                           id='username'
-                           type='username'
-                           placeholder='Enter an username'
+                           id="username"
+                           type="username"
+                           placeholder="Enter an username"
                            value={userName}
                            onChange={(e) => setUserName(e.target.value)}
-                           className='flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl'
+                           className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
                         />
                         <label
-                           htmlFor='email'
-                           className='mb-2 text-sm text-start text-gray-900'
+                           htmlFor="email"
+                           className="mb-2 text-sm text-start text-gray-900"
                         >
                            Email*
                         </label>
                         <input
-                           id='email'
-                           type='email'
-                           placeholder='name@gmail.com'
+                           id="email"
+                           type="email"
+                           placeholder="name@gmail.com"
                            value={email}
                            onChange={(e) => setEmail(e.target.value)}
-                           className='flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl'
+                           className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
                         />
                         <label
-                           htmlFor='password'
-                           className='mb-2 text-sm text-start text-gray-900'
+                           htmlFor="password"
+                           className="mb-2 text-sm text-start text-gray-900"
                         >
                            Password*
                         </label>
                         <input
-                           id='password'
-                           type='password'
-                           placeholder='Enter a password'
+                           id="password"
+                           type="password"
+                           placeholder="Enter a password"
                            value={password}
                            onChange={(e) => setPassword(e.target.value)}
-                           className='flex items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl'
+                           className="flex items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
                         />
                         <label
-                           htmlFor='passwordConfirmation'
-                           className='mb-2 text-sm text-start text-gray-900'
+                           htmlFor="passwordConfirmation"
+                           className="mb-2 text-sm text-start text-gray-900"
                         >
                            Confirm your Password*
                         </label>
                         <input
-                           id='passwordConfirmation'
-                           type='password'
-                           placeholder='Confirm password'
+                           id="passwordConfirmation"
+                           type="password"
+                           placeholder="Confirm password"
                            value={passwordConfirmation}
                            onChange={(e) =>
                               setPasswordConfirmation(e.target.value)
                            }
-                           className='flex items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl'
+                           className="flex items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
                         />
                         <button
-                           type='submit'
-                           className='w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900'
+                           type="submit"
+                           className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900"
                         >
                            Sign Up
                         </button>
-                        <p className='text-sm leading-relaxed text-gray-900'>
+                        <p className="text-sm leading-relaxed text-gray-900">
                            Have an account?{' '}
                            <Link
                               to={'../login'}
-                              className='font-bold text-blue-900'
+                              className="font-bold text-blue-900"
                            >
                               Login In
                            </Link>

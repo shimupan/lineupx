@@ -4,22 +4,22 @@ import { useDropzone } from 'react-dropzone'
 */
 
 type DropzoneProps = {
-    setFile: React.Dispatch<React.SetStateAction<File[]>>;
+   setFile: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
-const Dropzone: React.FC<DropzoneProps> = ({setFile}) => {
-  setFile([]);
-  /*
+const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
+   setFile([]);
+   /*
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
   */
-  return (
-    <div>
-      <h1>Dropzone</h1>
-    </div>
-    /*
+   return (
+      <div>
+         <h1>Dropzone</h1>
+      </div>
+      /*
     <div {...getRootProps()}>
       <input {...getInputProps()} />
       {
@@ -29,7 +29,7 @@ const Dropzone: React.FC<DropzoneProps> = ({setFile}) => {
       }
     </div>
     */
-  )
-}
+   );
+};
 
 export default Dropzone;
