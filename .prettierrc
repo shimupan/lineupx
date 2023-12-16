@@ -1,0 +1,15 @@
+{
+   "endOfLine": "lf",
+   "semi": true,
+   "singleQuote": true,
+   "trailingComma": "all",
+   "tabWidth": 2,
+   "overrides": [
+      {
+         "files": ["*.{py,php,java,sh,css,html,js,jsx,tsx,ts,twig}"],
+         "options": {
+            "tabWidth": 3
+         }
+      }
+   ]
+}
