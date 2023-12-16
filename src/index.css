@@ -50,3 +50,6 @@
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)); /* Adjust color and intensity as needed */
 }
 
+input {
+  background: #edf2f7; /* This is the color for bg-gray-200 in Tailwind CSS */
+}
