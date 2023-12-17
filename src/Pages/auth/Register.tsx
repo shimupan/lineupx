@@ -8,14 +8,26 @@ const Register: React.FC = () => {
    const [email, setEmail] = useState<string>('');
    const [password, setPassword] = useState<string>('');
    const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
+   const [registerError, setRegisterError] = useState<string>('');
    const navigate = useNavigate();
+
+   const isValidEmail = (email: string) => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+   };
    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      setRegisterError('');
 
-      if (password !== passwordConfirmation) {
-         alert('Passwords do not match');
+      if (!isValidEmail(email)) {
+         setRegisterError('Please enter a valid email address');
          return;
       }
+
+      if (password !== passwordConfirmation) {
+         setRegisterError('Passwords do not match');
+         return;
+      }
+
 
       try {
          const response = await axios.post('/register', {
@@ -28,8 +40,10 @@ const Register: React.FC = () => {
       } catch (error) {
          if (axios.isAxiosError(error)) {
             console.error('Registration error:', error.response?.data);
+            setRegisterError(error.response?.data.message || 'Registration failed');
          } else {
             console.error('Unexpected error:', error);
+            setRegisterError('Unexpected error occurred');
          }
       }
    };
@@ -52,9 +66,7 @@ const Register: React.FC = () => {
                         <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Sign Up
                         </h3>
-                        <p className="mb-4 text-gray-500">
-                           Enter your email and password
-                        </p>
+                        {registerError && <div className="text-red-500">{registerError}</div>}
                         <div className="flex items-center mb-3"></div>
                         <label
                            htmlFor="username"

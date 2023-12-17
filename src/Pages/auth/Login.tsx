@@ -83,9 +83,6 @@ const Login: React.FC = () => {
                         <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Sign In
                         </h3>
-                        <p className="mb-4 text-gray-500">
-                           Enter your email and password
-                        </p>
                         <label
                            htmlFor="email"
                            className="mb-2 text-sm text-start text-gray-900"
