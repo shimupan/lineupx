@@ -11,14 +11,21 @@ const cookies = new Cookies();
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loginError, setLoginError] = useState<string | null>(null);
   const navigate = useNavigate();
   const Auth = useContext(AuthContext);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoginError('');
 
     if (!email || !password) {
-      console.error("Email and password are required");
+      setLoginError('Email and password are required');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setLoginError('Please enter a valid email address');
       return;
     }
 
@@ -37,8 +44,10 @@ const Login: React.FC = () => {
          navigate('/');
       } catch (error) {
          if (axios.isAxiosError(error)) {
+            setLoginError(error.response?.data.message || 'Login failed');
             console.error('Login error:', error.response?.data);
          } else {
+            setLoginError('Unexpected error occurred');
             console.error('Unexpected error:', error);
          }
       }
@@ -50,6 +59,10 @@ const Login: React.FC = () => {
    const handleGoogleSignIn = () => {
       // Redirect to your backend server
       window.location.href = axios.defaults.baseURL + '/google';
+   };
+   const isValidEmail = (email: string) => {
+      // Add your email validation logic here
+      return email.includes('@');
    };
    return (
       <>
@@ -65,7 +78,8 @@ const Login: React.FC = () => {
                      <form
                         className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl"
                         onSubmit={handleSubmit}
-                     >
+                     >  
+                        {loginError && <div className="text-red-500">{loginError}</div>}
                         <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Sign In
                         </h3>
