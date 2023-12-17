@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+
+  lineupx_web:
+    container_name: lineupx_web
+    image: web
+    ports:
+      - 5171:5173
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      context: .
+      dockerfile: ./src/web/Dockerfile
+    volumes:
+      - ./src/web:/home/app
+
+  
