@@ -2,17 +2,27 @@ version: '3.9'
 
 services:
 
-  lineupx_web:
-    container_name: lineupx_web
-    image: web
+  lineupx_db:
+    container_name: lineupx_db
+    image: mongo:latest
     ports:
-      - 5171:5173
+      - 27017:27017
+    restart: always
+    volumes:
+      - lineupx_db:/data/db
+
+  lineupx_api:
+    container_name: lineupx_api
+    image: api
+    ports:
+      - 1337:1337
     environment:
       - CHOKIDAR_USEPOLLING=true
     build:
-      context: .
-      dockerfile: ./src/web/Dockerfile
+      context: ./src/api
+      dockerfile: Dockerfile
     volumes:
-      - ./src/web:/home/app
+      - ./src/api:/home/app
 
-  
+volumes:
+  lineupx_db:
