@@ -43,7 +43,8 @@ const SearchBar = ({
             value={searchTerm}
             onChange={handleChange}
             aria-label='Search'
-            className="flex-grow text-black rounded-full focus:outline-none text-lg pl-2 w-full bg-white" // Make the search bar full width relative to the form and entirely white
+            className="flex-grow text-black rounded-full focus:outline-none text-lg pl-2 pr-10 w-full bg-white" 
+            autoComplete="on" 
          />
          {searchTerm && (
             <button type='button' onClick={handleClear} aria-label='Clear search' className="absolute right-5 top-1/2 transform -translate-y-1/2 focus:outline-none">
