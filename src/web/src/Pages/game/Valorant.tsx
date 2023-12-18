@@ -42,7 +42,7 @@ const Valorant: React.FC = () => {
                   className='z-10'
                />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '20px', paddingBottom: '20px', backgroundColor: '#1d1920' }}>
                <div style={{ width: '50%' }}>
                   <ValorantCarousel />
                </div>
