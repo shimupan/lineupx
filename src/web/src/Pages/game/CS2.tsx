@@ -1,4 +1,4 @@
-import { Header, SideNavWrapper, Searchbar, Footer, Carousel } from '../../Components';
+import { Header, SideNavWrapper, Searchbar, Footer, CS2Carousel } from '../../Components';
 import cs2banner from '../../assets/cs2banner.png';
 
 const CS2: React.FC = () => {
@@ -46,7 +46,7 @@ const CS2: React.FC = () => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                <div style={{ width: '50%' }}>
-                  <Carousel />
+                  <CS2Carousel />
                </div>
             </div>
          </main>

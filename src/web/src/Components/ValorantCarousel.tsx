@@ -6,20 +6,20 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+import slide_image_1 from '../assets/valorantmaps/ascent.webp';
+import slide_image_2 from '../assets/valorantmaps/bind.webp';
+import slide_image_3 from '../assets/valorantmaps/breeze.webp';
+import slide_image_4 from '../assets/valorantmaps/fracture.webp';
+import slide_image_5 from '../assets/valorantmaps/haven.webp';
+import slide_image_6 from '../assets/valorantmaps/icebox.webp';
+import slide_image_7 from '../assets/valorantmaps/lotus.webp';
+import slide_image_8 from '../assets/valorantmaps/pearl.webp';
+import slide_image_9 from '../assets/valorantmaps/split.webp';
+import slide_image_10 from '../assets/valorantmaps/sunset.webp';
 
-import slide_image_1 from '../assets/cs2maps/ancient.webp';
-import slide_image_2 from '../assets/cs2maps/anubis.webp';
-import slide_image_3 from '../assets/cs2maps/dust2.webp';
-import slide_image_4 from '../assets/cs2maps/inferno.webp';
-import slide_image_5 from '../assets/cs2maps/mirage.webp';
-import slide_image_6 from '../assets/cs2maps/nuke.webp';
-import slide_image_7 from '../assets/cs2maps/overpass.webp';
-import slide_image_8 from '../assets/cs2maps/vertigo.webp';
-
-const Carousel: React.FC = () => {
+const CS2Carousel: React.FC = () => {
   return (
-    <div className="container">
-      <h1 className="heading">Flower Gallery</h1>
+    <div className="mx-auto relative">
       <Swiper
         effect={'coverflow'}
         grabCursor={true}
@@ -39,6 +39,10 @@ const Carousel: React.FC = () => {
         }}
         modules={[EffectCoverflow, Pagination, Navigation]}
         className="swiper_container"
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
       >
         <SwiperSlide>
           <img src={slide_image_1} alt="slide_image" />
@@ -64,6 +68,12 @@ const Carousel: React.FC = () => {
         <SwiperSlide>
           <img src={slide_image_8} alt="slide_image" />
         </SwiperSlide>
+        <SwiperSlide>
+          <img src={slide_image_9} alt="slide_image" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src={slide_image_10} alt="slide_image" />
+        </SwiperSlide>
 
         <div className="slider-controler">
           <div className="swiper-pagination"></div>
@@ -73,4 +83,4 @@ const Carousel: React.FC = () => {
   );
 }
 
-export default Carousel;
+export default CS2Carousel;

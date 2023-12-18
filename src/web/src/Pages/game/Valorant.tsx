@@ -1,4 +1,4 @@
-import { Header, SideNavWrapper, Searchbar, Footer } from '../../Components';
+import { Header, SideNavWrapper, Searchbar, Footer, ValorantCarousel } from '../../Components';
 import valorantbanner from '../../assets/valorantbanner.webp';
 
 const Valorant: React.FC = () => {
@@ -41,6 +41,11 @@ const Valorant: React.FC = () => {
                   placeholder='Search for Valorant Lineups'
                   className='z-10'
                />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+               <div style={{ width: '50%' }}>
+                  <ValorantCarousel />
+               </div>
             </div>
          </main>
          <Footer className='mt-auto' />
