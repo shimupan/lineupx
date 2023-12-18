@@ -3,7 +3,7 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 interface SearchBarProps {
    onSearch: (searchTerm: string) => void;
    placeholder: string;
-   className?: string; // Add this line
+   className?: string;
 }
 
 const SearchBar = ({
@@ -22,19 +22,36 @@ const SearchBar = ({
       setSearchTerm(event.target.value);
    };
 
+   const handleClear = () => {
+      setSearchTerm('');
+      onSearch('');
+   };
+
    return (
       <form
          onSubmit={handleSubmit}
-         className={`flex items-center rounded w-2/5 ${className}`}
+         className={`flex items-center justify-start rounded-full bg-white text-lg ${className} p-4 w-1/2 relative`} // Make the search bar 50% of the full width
       >
-         <button type='submit'></button>
+         <button type='submit' aria-label='Search' className="focus:outline-none">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-black">
+               <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+         </button>
          <input
             type='text'
             placeholder={placeholder}
             value={searchTerm}
             onChange={handleChange}
-            className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+            aria-label='Search'
+            className="flex-grow text-black rounded-full focus:outline-none text-lg pl-2 w-full bg-white" // Make the search bar full width relative to the form and entirely white
          />
+         {searchTerm && (
+            <button type='button' onClick={handleClear} aria-label='Clear search' className="absolute right-5 top-1/2 transform -translate-y-1/2 focus:outline-none">
+               <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-black">
+                  <path d="M20.7457 3.32851C20.3552 2.93798 19.722 2.93798 19.3315 3.32851L12.0371 10.6229L4.74275 3.32851C4.35223 2.93798 3.71906 2.93798 3.32854 3.32851C2.93801 3.71903 2.93801 4.3522 3.32854 4.74272L10.6229 12.0371L3.32856 19.3314C2.93803 19.722 2.93803 20.3551 3.32856 20.7457C3.71908 21.1362 4.35225 21.1362 4.74277 20.7457L12.0371 13.4513L19.3315 20.7457C19.722 21.1362 20.3552 21.1362 20.7457 20.7457C21.1362 20.3551 21.1362 19.722 20.7457 19.3315L13.4513 12.0371L20.7457 4.74272C21.1362 4.3522 21.1362 3.71903 20.7457 3.32851Z" fill="currentColor"/>
+               </svg>
+            </button>
+         )}
       </form>
    );
 };
