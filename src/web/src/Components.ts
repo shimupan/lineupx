@@ -19,3 +19,4 @@ export { default as SideNavWrapper } from "./Components/sidebar/SideNavWrapper";
 export { default as Searchbar } from "./Components/Searchbar";
 export { default as RequireAuth } from "./Components/auth/RequireAuth";
 export { default as Dropzone } from "./Components/Dropzone";
+export { default as Carousel } from "./Components/Carousel";

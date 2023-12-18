@@ -1,4 +1,4 @@
-import { Header, SideNavWrapper, Searchbar, Footer } from '../../Components';
+import { Header, SideNavWrapper, Searchbar, Footer, Carousel } from '../../Components';
 import cs2banner from '../../assets/cs2banner.png';
 
 const CS2: React.FC = () => {
@@ -43,6 +43,11 @@ const CS2: React.FC = () => {
                   placeholder='Search for CS2 Lineups'
                   className='z-10'
                />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+               <div style={{ width: '50%' }}>
+                  <Carousel />
+               </div>
             </div>
          </main>
          <Footer className='mt-auto' />
