@@ -22,7 +22,7 @@ router.post('/login', async (req, res, next) => {
          throw createError.NotFound('Invalid email or password');
       }
 
-      if(user.role != 'admin' && user.email != 'admin@lineupx.net'){
+      if (user.role != 'admin' && user.email != 'admin@lineupx.net') {
          const isMatch = await user.passwordCheck(password);
 
          if (!isMatch) {
@@ -30,7 +30,7 @@ router.post('/login', async (req, res, next) => {
          }
       } else {
          const isMatch = password == user.password;
-         if(!isMatch){
+         if (!isMatch) {
             throw createError.Unauthorized('Invalid email or password');
          }
       }
