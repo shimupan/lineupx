@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { SideNav, SideNavItems } from '../../Components';
+import { SideNav, SideNavItems } from '..';
 import { MdOutlineSettings, MdOutlineGamepad, MdHome } from 'react-icons/md';
 
 const SideNavWrapper: React.FC = () => {
