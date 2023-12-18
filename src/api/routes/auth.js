@@ -94,9 +94,15 @@ router.delete('/logout', async (req, res, next) => {
 
 router.post('/register', async (req, res) => {
    const { userName, email, password } = req.body;
-   const existingUser = await User.findOne({ email });
-   if (existingUser) {
+
+   const existingEmailUser = await User.findOne({ email });
+   if (existingEmailUser) {
       return res.status(400).send({ message: 'Email already in use' });
+   }
+
+   const existingUsernameUser = await User.findOne({ username: userName });
+   if (existingUsernameUser) {
+      return res.status(400).send({ message: 'Username already in use' });
    }
 
    try {
@@ -114,7 +120,6 @@ router.post('/register', async (req, res) => {
       const newUser = await user.save();
       const emailVerificationToken = user.generateVerificationToken();
       // Send email verification link
-      //const verificationUrl = `http://localhost:3000/verify-email/${emailVerificationToken}`;
       const verificationUrl = `http://${process.env.EMAIL_DOMAIN}/verify-email/${emailVerificationToken}`;
       await sendEmail(
          email,
