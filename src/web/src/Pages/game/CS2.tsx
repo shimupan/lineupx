@@ -44,7 +44,17 @@ const CS2: React.FC = () => {
                   className='z-10'
                />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '20px', paddingBottom: '20px',  backgroundColor: '#1d1920' }}>
+            <div style={{ 
+               display: 'flex', 
+               flexDirection: 'column', 
+               alignItems: 'center', 
+               paddingTop: '20px', 
+               paddingBottom: '20px', 
+               backgroundColor: '#1d1920',
+               backdropFilter: 'blur(10px)',
+               background:
+               'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))',
+            }}>
                <div style={{ width: '50%' }}>
                   <CS2Carousel />
                </div>
