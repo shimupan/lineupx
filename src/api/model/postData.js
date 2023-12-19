@@ -15,24 +15,30 @@ const PostDataSchema = new mongoose.Schema({
    },
    lineupLocation: {
       type: String,
-      required: true,
+      required: false,
    },
    lineupDescription: {
       type: String,
-      required: true,
+      required: false,
    },
    teamSide: {
       type: String,
-      required: true,
+      required: false,
    },
-   likes: {
-      type: Number,
-      required: true,
-   },
-   dislikes: {
-      type: Number,
-      required: true,
-   },
+   likes: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'PostData',
+         required: false,
+      },
+   ],
+   dislikes: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'PostData',
+         required: false,
+      },
+   ],
    views: {
       type: Number,
       required: true,
@@ -77,6 +83,6 @@ const PostDataSchema = new mongoose.Schema({
    },
 });
 
-const postData = mongoose.model('PostData', PostDataSchema);
+const postData = mongoose.model('PostData', PostDataSchema, 'PostData');
 
 export default postData;

@@ -15,9 +15,13 @@ router.post('/post', async (req, res) => {
       standingPosition,
       aimingPosition,
       landingPosition,
+      grenadeType,
+      jumpThrow,
       user,
    } = req.body;
-   console.log(user);
+
+   const JumpThrow = jumpThrow == 'true' ? true : false;
+
    try {
       // Add valo support later
       const uploadStandingPostion = await cloudinaryObject.uploader.upload(
@@ -38,19 +42,17 @@ router.post('/post', async (req, res) => {
             folder: 'CS',
          },
       );
-      console.log(
-         uploadStandingPostion.secure_url,
-         uploadAimingPostion.secure_url,
-         uploadLandingPostion.secure_url,
-      );
 
       const newPost = new postData({
          UserID: user._id,
-         postName: postName,
+         postTitle: postName,
          mapName: mapName,
+         /*
+         TODO: Forgot to add the following to the form
          lineupLocation: lineupLocation,
          lineupDescription: lineupDescription,
          teamSide: teamSide,
+         */
          likes: [],
          dislikes: [],
          views: 0,
@@ -67,13 +69,18 @@ router.post('/post', async (req, res) => {
             url: uploadLandingPostion.secure_url,
          },
          grenadeType: grenadeType,
-         jumpThrow: jumpThrow,
+         jumpThrow: JumpThrow,
       });
       const savedPost = await newPost.save();
-      res.json({
-         message: 'Upload successful',
-      });
+
+      if (!savedPost) {
+         res.status(404).send('Post not saved');
+      } else {
+         console.log(savedPost);
+         res.status(200).send({ message: 'Post Saved', data: savedPost });
+      }
    } catch (error) {
+      console.log(error);
       res.send(error);
    }
 });
