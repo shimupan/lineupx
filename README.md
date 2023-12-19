@@ -16,7 +16,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/shimupan">
-    <img src="./src/assets/lineupx.png" alt="Logo" width="60%" height="60%" />
+    <img src="src/web/src/assets/lineupx.png" alt="Logo" width="60%" height="60%" />
   </a>
 
   <h3 align="center">LineupX</h3>
