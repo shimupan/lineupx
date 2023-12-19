@@ -38,16 +38,34 @@ const PostDataSchema = new mongoose.Schema({
       required: true,
    },
    standingPosition: {
-      type: String,
-      required: true,
+      public_id: {
+         type: String,
+         required: true,
+      },
+      url: {
+         type: String,
+         required: true,
+      },
    },
    aimingPosition: {
-      type: String,
-      required: true,
+      public_id: {
+         type: String,
+         required: true,
+      },
+      url: {
+         type: String,
+         required: true,
+      },
    },
    landingPosition: {
-      type: String,
-      required: true,
+      public_id: {
+         type: String,
+         required: true,
+      },
+      url: {
+         type: String,
+         required: true,
+      },
    },
    grenadeType: {
       type: String,

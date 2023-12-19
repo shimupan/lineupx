@@ -1,26 +1,44 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper } from '../Components';
+import { AuthContext } from '../App';
+
+import axios from 'axios';
 
 const Upload: React.FC = () => {
    const [postName, setPostName] = useState<string>('');
    const [mapName, setMapName] = useState<string>('');
    const [grenadeType, setGrenadeType] = useState<string>('');
    const [jumpThrow, setJumpThrow] = useState<string>('');
-   const [standingPositing, setStandingPosition] = useState<File[]>([]);
-   const [aimingPosition, setAimingPosition] = useState<File[]>([]);
-   const [landingPosition, setLandingPosition] = useState<File[]>([]);
+   const [standingPosition, setStandingPosition] = useState<string>('');
+   const [aimingPosition, setAimingPosition] = useState<string>('');
+   const [landingPosition, setLandingPosition] = useState<string>('');
 
-   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+   const Auth = useContext(AuthContext);
+   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {   
       e.preventDefault();
 
-      console.log(
-         postName,
-         mapName,
-         standingPositing,
-         aimingPosition,
-         landingPosition,
-      );
+      try {
+         const user = await (async () => {
+            try {
+               const response = await axios.get(`/user/${Auth?.username}`);
+               return response.data;
+            } catch (error) {
+               return error;
+            }
+         })();
+         const response = await axios.post('/post', {
+            postName,
+            mapName,
+            standingPosition,
+            aimingPosition,
+            landingPosition,
+            user,
+         });
+         console.log(response);
+      } catch (error) {
+         console.error(error);
+      }
    }
 
    return (
