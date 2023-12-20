@@ -1,0 +1,55 @@
+@import 'typeface-inter';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background: linear-gradient(to right, #6441A5 0%, #2a0845 100%);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.glow-on-hover {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.glow-on-hover:hover {
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6); /* Adjust color and size as needed */
+}
+
+.image-glow-on-hover:hover {
+  transition: filter 0.3s ease-in-out;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)); /* Adjust color and intensity as needed */
+}
+
+input {
+  background: #edf2f7; /* This is the color for bg-gray-200 in Tailwind CSS */
+}
