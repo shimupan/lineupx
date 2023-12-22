@@ -87,6 +87,4 @@ const PostDataSchema = new mongoose.Schema({
    },
 });
 
-const postData = mongoose.model('PostData', PostDataSchema, 'PostData');
-
-export default postData;
+export default PostDataSchema;

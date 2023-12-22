@@ -1,12 +1,26 @@
 import express from 'express';
-import postData from '../model/postData.js';
+import mongoose from 'mongoose';
+import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 
 const router = express.Router();
 
 const cloudinaryObject = cloudinary();
 
-router.get('/post', (req, res) => {});
+router.get('/post/:game/:id', (req, res) => {
+   const { game, id } = req.params;
+
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find({
+      UserID: new mongoose.Types.ObjectId(id),
+   })
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
 
 router.post('/post', async (req, res) => {
    const {
@@ -20,6 +34,10 @@ router.post('/post', async (req, res) => {
       game,
       user,
    } = req.body;
+
+   const createModel = (collectionName) =>
+      mongoose.model('PostData', PostDataSchema, collectionName);
+   const postData = createModel(game);
 
    const JumpThrow = jumpThrow == 'true' ? true : false;
 
