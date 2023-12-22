@@ -2,6 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register: React.FC = () => {
    const [userName, setUserName] = useState<string>('');
@@ -28,22 +30,45 @@ const Register: React.FC = () => {
          return;
       }
 
+      const id = toast.loading('Registering User...');
 
       try {
-         const response = await axios.post('/register', {
+         await axios.post('/register', {
             userName,
             email,
             password,
          });
-         console.log(response.data);
+
+         toast.update(id, {
+            render: 'Successfully Registered!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
+         });
+
          navigate('/login');
       } catch (error) {
          if (axios.isAxiosError(error)) {
-            console.error('Registration error:', error.response?.data);
-            setRegisterError(error.response?.data.message || 'Registration failed');
+            setRegisterError(
+               error.response?.data.message || 'Registration failed',
+            );
+            toast.update(id, {
+               render: error.response?.data.message || 'Registration failed',
+               type: 'error',
+               isLoading: false,
+               autoClose: 1000,
+               hideProgressBar: false,
+            });
          } else {
-            console.error('Unexpected error:', error);
             setRegisterError('Unexpected error occurred');
+            toast.update(id, {
+               render: 'Unexpected error occurred',
+               type: 'error',
+               isLoading: false,
+               autoClose: 1000,
+               hideProgressBar: false,
+            });
          }
       }
    };
@@ -51,7 +76,6 @@ const Register: React.FC = () => {
    return (
       <>
          <Header />
-
 
          <SideNavWrapper />
 
@@ -66,7 +90,9 @@ const Register: React.FC = () => {
                         <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Sign Up
                         </h3>
-                        {registerError && <div className="text-red-500">{registerError}</div>}
+                        {registerError && (
+                           <div className="text-red-500">{registerError}</div>
+                        )}
                         <div className="flex items-center mb-3"></div>
                         <label
                            htmlFor="username"
@@ -146,6 +172,7 @@ const Register: React.FC = () => {
                </div>
             </div>
          </div>
+         <ToastContainer position="top-center" />
       </>
    );
 };

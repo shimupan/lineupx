@@ -19,7 +19,7 @@ const Upload: React.FC = () => {
    const Auth = useContext(AuthContext);
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-
+      const id = toast.loading('Uploading Post...');
       try {
          const user = await (async () => {
             try {
@@ -29,24 +29,31 @@ const Upload: React.FC = () => {
                return error;
             }
          })();
-         const response = axios
-            .post('/post', {
-               postName,
-               mapName,
-               standingPosition,
-               aimingPosition,
-               landingPosition,
-               grenadeType,
-               jumpThrow,
-               user,
-            })
-            .then(() => console.log('Post uploaded successfully'));
-         toast.promise(response, {
-            pending: 'Uploading Post...',
-            success: 'Post uploaded successfully',
-            error: 'Post upload failed',
+         await axios.post('/post', {
+            postName,
+            mapName,
+            standingPosition,
+            aimingPosition,
+            landingPosition,
+            grenadeType,
+            jumpThrow,
+            user,
+         });
+         toast.update(id, {
+            render: 'Post Uploaded Successfully!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
          });
       } catch (error) {
+         toast.update(id, {
+            render: 'Post Failed to Upload...',
+            type: 'error',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
+         });
          console.log(error);
       }
    };
