@@ -2,6 +2,8 @@ import { useState, useContext } from 'react';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper } from '../Components';
 import { AuthContext } from '../App';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import axios from 'axios';
 
@@ -15,7 +17,7 @@ const Upload: React.FC = () => {
    const [landingPosition, setLandingPosition] = useState<string>('');
 
    const Auth = useContext(AuthContext);
-   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {   
+   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       try {
@@ -27,21 +29,27 @@ const Upload: React.FC = () => {
                return error;
             }
          })();
-         const response = await axios.post('/post', {
-            postName,
-            mapName,
-            standingPosition,
-            aimingPosition,
-            landingPosition,
-            grenadeType,
-            jumpThrow,
-            user,
+         const response = axios
+            .post('/post', {
+               postName,
+               mapName,
+               standingPosition,
+               aimingPosition,
+               landingPosition,
+               grenadeType,
+               jumpThrow,
+               user,
+            })
+            .then(() => console.log('Post uploaded successfully'));
+         toast.promise(response, {
+            pending: 'Uploading Post...',
+            success: 'Post uploaded successfully',
+            error: 'Post upload failed',
          });
-         console.log(response.data);
       } catch (error) {
-         console.error(error);
+         console.log(error);
       }
-   }
+   };
 
    return (
       <>
@@ -162,6 +170,7 @@ const Upload: React.FC = () => {
                </div>
             </div>
          </div>
+         <ToastContainer position="top-center" />
       </>
    );
 };

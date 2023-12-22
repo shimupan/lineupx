@@ -58,15 +58,15 @@ router.post('/post', async (req, res) => {
          views: 0,
          standingPosition: {
             public_id: uploadStandingPostion.public_id,
-            url: uploadStandingPostion.secure_url,
+            asset_id: uploadStandingPostion.asset_id,
          },
          aimingPosition: {
             public_id: uploadAimingPostion.public_id,
-            url: uploadAimingPostion.secure_url,
+            asset_id: uploadAimingPostion.asset_id,
          },
          landingPosition: {
             public_id: uploadLandingPostion.public_id,
-            url: uploadLandingPostion.secure_url,
+            asset_id: uploadLandingPostion.asset_id,
          },
          grenadeType: grenadeType,
          jumpThrow: JumpThrow,

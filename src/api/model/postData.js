@@ -48,7 +48,7 @@ const PostDataSchema = new mongoose.Schema({
          type: String,
          required: true,
       },
-      url: {
+      asset_id: {
          type: String,
          required: true,
       },
@@ -58,7 +58,7 @@ const PostDataSchema = new mongoose.Schema({
          type: String,
          required: true,
       },
-      url: {
+      asset_id: {
          type: String,
          required: true,
       },
@@ -68,7 +68,7 @@ const PostDataSchema = new mongoose.Schema({
          type: String,
          required: true,
       },
-      url: {
+      asset_id: {
          type: String,
          required: true,
       },
