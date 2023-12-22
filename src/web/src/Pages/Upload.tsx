@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper } from '../Components';
 import { AuthContext } from '../App';
@@ -8,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const Upload: React.FC = () => {
+   // TODO: ADD Agents and Agent specific stuff if the game is valorant
    const [postName, setPostName] = useState<string>('');
    const [mapName, setMapName] = useState<string>('');
    const [grenadeType, setGrenadeType] = useState<string>('');
@@ -16,6 +18,11 @@ const Upload: React.FC = () => {
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
 
+   // This part checks for the game that was passed in from the previous page
+   // Dont change this part
+   const { state } = useLocation();
+   const game = state.game.substring(1);
+   
    const Auth = useContext(AuthContext);
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -37,6 +44,7 @@ const Upload: React.FC = () => {
             landingPosition,
             grenadeType,
             jumpThrow,
+            game,
             user,
          });
          toast.update(id, {

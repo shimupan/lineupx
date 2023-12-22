@@ -17,6 +17,7 @@ router.post('/post', async (req, res) => {
       landingPosition,
       grenadeType,
       jumpThrow,
+      game,
       user,
    } = req.body;
 
@@ -27,19 +28,19 @@ router.post('/post', async (req, res) => {
       const uploadStandingPostion = await cloudinaryObject.uploader.upload(
          standingPosition,
          {
-            folder: 'CS',
+            folder: game,
          },
       );
       const uploadAimingPostion = await cloudinaryObject.uploader.upload(
          aimingPosition,
          {
-            folder: 'CS',
+            folder: game,
          },
       );
       const uploadLandingPostion = await cloudinaryObject.uploader.upload(
          landingPosition,
          {
-            folder: 'CS',
+            folder: game,
          },
       );
 
@@ -70,6 +71,7 @@ router.post('/post', async (req, res) => {
          },
          grenadeType: grenadeType,
          jumpThrow: JumpThrow,
+         game: game,
       });
       const savedPost = await newPost.save();
 

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { AuthContext } from '../App';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import logo from '../assets/lineupx.png';
@@ -9,7 +9,7 @@ const Header: React.FC = () => {
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
    const cookies = new Cookies();
-
+   const location = useLocation();
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -71,11 +71,13 @@ const Header: React.FC = () => {
                            Logout
                         </button>
                      </div>
-                     <Link to={'/upload'}>
-                        <button className="bg-indigo-800 text-gray-200 p-2 ml-3 rounded hover:bg-blue-500 hover:text-gray-100">
-                           Upload
-                        </button>
-                     </Link>
+                     {(location.pathname === '/CS2' || location.pathname === '/Valorant') ? (
+                        <Link to={'/upload'} state={ {game: location.pathname} }>
+                           <button className="bg-indigo-800 text-gray-200 p-2 ml-3 rounded hover:bg-blue-500 hover:text-gray-100">
+                              Upload
+                           </button>
+                        </Link>
+                     ) : <></>}
                   </div>
                ) : (
                   <div
