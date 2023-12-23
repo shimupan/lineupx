@@ -91,6 +91,7 @@ const ProfilePage = () => {
             })}
          </div>
 
+
          <Footer />
 
          <ToastContainer position="top-center" />
