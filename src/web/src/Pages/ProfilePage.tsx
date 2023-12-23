@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Header, SideNavWrapper, Footer, Loading, GAMES } from '../Components';
+import { Header, SideNavWrapper, Footer, Loading } from '../Components';
+import { GAMES } from '../Constants';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
