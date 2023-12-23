@@ -50,7 +50,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
          className={`${expanded ? 'h-full' : ''} md:h-screen fixed top-[90px] bottom-0 z-10 transition-all duration-300`}
       >
          <nav
-            className={`h-full flex flex-col overflow-hidden mt-5 ${
+            className={`h-full flex flex-col overflow-hidden mt-5 sm:mt-0 ${
                expanded
                   ? 'transition-all w-screen md:w-[400px]'
                   : 'transition-all w-[50px] md:w-[70px]'
