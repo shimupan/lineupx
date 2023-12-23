@@ -44,19 +44,19 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
          console.error('Error during logout:', error);
       }
    };
-   // TODO: Make closing transition smoother on mobile
+
    return (
       <aside
-         className={`${expanded ? 'h-full' : ''} md:h-screen absolute z-50`}
+         className={`${expanded ? 'h-full' : ''} md:h-screen fixed top-[90px] bottom-0 z-10 transition-all duration-300`}
       >
          <nav
-            className={`${
+            className={`h-full flex flex-col overflow-hidden mt-5 sm:mt-0 ${
                expanded
                   ? 'transition-all w-screen md:w-[400px]'
                   : 'transition-all w-[50px] md:w-[70px]'
             } h-full flex flex-col ${
                expanded ? 'bg-white' : 'bg-transparent'
-            } md:bg-white md:border-r shadow-sm`}
+            } md:bg-white md:border-r shadow-sm transition-width duration-500`}
          >
             <div
                className={`md:p-4 pb-2 flex ${

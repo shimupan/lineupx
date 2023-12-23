@@ -38,7 +38,7 @@ const Header: React.FC = () => {
 
    return (
       <>
-         <nav id="header" className="w-full z-30 bg-[#181818] shadow-lg">
+         <nav id="header" className="sticky top-0 w-full relative z-50 fixed top-0 w-full bg-[#181818] shadow-lg relative">
             <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
                <input className="hidden" type="checkbox" id="menu-toggle" />
 
