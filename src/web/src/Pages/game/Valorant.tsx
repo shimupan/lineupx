@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+import Posts from '../../Components/Posts';
+import { PostType } from '../../db.types';
+import axios from 'axios';
+
 import {
    Header,
    SideNavWrapper,
@@ -8,6 +13,20 @@ import {
 import valorantbanner from '../../assets/valorantbanner.webp';
 
 const Valorant: React.FC = () => {
+   const [posts, setPosts] = useState<PostType[]>([]);
+
+   useEffect(() => {
+      document.title = 'Counter-Strike 2';
+      axios
+         .get('/post/Valorant')
+         .then((res) => {
+            setPosts(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   }, []);
+
    const handleSearch = (searchTerm: string) => {
       console.log('Searching for:', searchTerm);
       // TODO: Implement search functionality and logic
@@ -39,6 +58,16 @@ const Valorant: React.FC = () => {
                   <ValorantCarousel />
                </div>
             </div>
+            {/* TODO: STYLING BELOW */}
+            {posts &&
+               posts.map((post) => {
+                  return (
+                     <Posts
+                        postData={post}
+                        key={post.aimingPosition.public_id}
+                     />
+                  );
+               })}
          </main>
          <Footer className="mt-auto" />
       </div>

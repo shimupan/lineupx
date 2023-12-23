@@ -22,6 +22,19 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
+router.get('/post/:game', (req, res) => {
+   const { game } = req.params;
+
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find()
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
+
 router.post('/post', async (req, res) => {
    const {
       postName,

@@ -5,12 +5,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
-import { User, Post } from '../db.types';
+import { UserType, PostType } from '../db.types';
 import Posts from '../Components/Posts';
 
 const ProfilePage = () => {
    const { id } = useParams<{ id: string }>();
-   const [user, setUser] = useState<User>({
+   const [user, setUser] = useState<UserType>({
       _id: '',
       username: '',
       email: '',
@@ -18,7 +18,7 @@ const ProfilePage = () => {
       Verified: false,
    });
    const [loading, setLoading] = useState(true);
-   const [posts, setPosts] = useState<Post[][]>([[]]);
+   const [posts, setPosts] = useState<PostType[][]>([[]]);
 
    // Gets called twice during dev mode
    // So there should be 2 error messages
@@ -80,7 +80,7 @@ const ProfilePage = () => {
                            return (
                               <Posts
                                  postData={post}
-                                 key={post.landingPosition.asset_id}
+                                 key={post.landingPosition.public_id}
                               />
                            );
                         })}

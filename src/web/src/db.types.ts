@@ -1,4 +1,4 @@
-export type User = {
+export type UserType = {
    _id: string;
    username: string;
    email: string;
@@ -6,7 +6,7 @@ export type User = {
    Verified: boolean;
 };
 
-export type Post = {
+export type PostType = {
    UserID: string;
    postTitle: string;
    mapName: string;

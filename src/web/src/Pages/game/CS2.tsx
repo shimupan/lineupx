@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+import Posts from '../../Components/Posts';
+import { PostType } from '../../db.types';
+import axios from 'axios';
+
 import {
    Header,
    SideNavWrapper,
@@ -8,6 +13,20 @@ import {
 import cs2banner from '../../assets/cs2banner.png';
 
 const CS2: React.FC = () => {
+   const [posts, setPosts] = useState<PostType[]>([]);
+
+   useEffect(() => {
+      document.title = 'Counter-Strike 2';
+      axios
+         .get('/post/CS2')
+         .then((res) => {
+            setPosts(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   }, []);
+
    const handleSearch = (searchTerm: string) => {
       console.log('Searching for:', searchTerm);
       // TODO: Implement search functionality and logic
@@ -41,6 +60,17 @@ const CS2: React.FC = () => {
                   <CS2Carousel />
                </div>
             </div>
+            {/* TODO: STYLING BELOW */}
+            {posts && (
+               posts.map((post) => {
+                  return (
+                     <Posts
+                        postData={post}
+                        key={post.aimingPosition.public_id}
+                     />
+                  );
+               })
+            )}
          </main>
          <Footer className="mt-auto" />
       </div>
