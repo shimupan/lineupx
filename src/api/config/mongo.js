@@ -5,10 +5,6 @@ const mongo = () => {
       .connect(
          process.env.MONGO_URI ||
             'mongodb://admin:admin@lineupx_db:27017/LineupX',
-         {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-         },
       )
       .then(async (db) => {
          console.log('database connected');

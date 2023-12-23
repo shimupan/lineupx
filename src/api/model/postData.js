@@ -15,39 +15,63 @@ const PostDataSchema = new mongoose.Schema({
    },
    lineupLocation: {
       type: String,
-      required: true,
+      required: false,
    },
    lineupDescription: {
       type: String,
-      required: true,
+      required: false,
    },
    teamSide: {
       type: String,
-      required: true,
+      required: false,
    },
-   likes: {
-      type: Number,
-      required: true,
-   },
-   dislikes: {
-      type: Number,
-      required: true,
-   },
+   likes: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'PostData',
+         required: false,
+      },
+   ],
+   dislikes: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'PostData',
+         required: false,
+      },
+   ],
    views: {
       type: Number,
       required: true,
    },
    standingPosition: {
-      type: String,
-      required: true,
+      public_id: {
+         type: String,
+         required: true,
+      },
+      asset_id: {
+         type: String,
+         required: true,
+      },
    },
    aimingPosition: {
-      type: String,
-      required: true,
+      public_id: {
+         type: String,
+         required: true,
+      },
+      asset_id: {
+         type: String,
+         required: true,
+      },
    },
    landingPosition: {
-      type: String,
-      required: true,
+      public_id: {
+         type: String,
+         required: true,
+      },
+      asset_id: {
+         type: String,
+         required: true,
+      },
    },
    grenadeType: {
       type: String,
@@ -57,8 +81,10 @@ const PostDataSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
    },
+   game: {
+      type: String,
+      required: true,
+   },
 });
 
-const postData = mongoose.model('PostData', PostDataSchema);
-
-export default postData;
+export default PostDataSchema;

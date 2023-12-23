@@ -1,27 +1,70 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper } from '../Components';
+import { AuthContext } from '../App';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import axios from 'axios';
 
 const Upload: React.FC = () => {
+   // TODO: ADD Agents and Agent specific stuff if the game is valorant
    const [postName, setPostName] = useState<string>('');
    const [mapName, setMapName] = useState<string>('');
    const [grenadeType, setGrenadeType] = useState<string>('');
    const [jumpThrow, setJumpThrow] = useState<string>('');
-   const [standingPositing, setStandingPosition] = useState<File[]>([]);
-   const [aimingPosition, setAimingPosition] = useState<File[]>([]);
-   const [landingPosition, setLandingPosition] = useState<File[]>([]);
+   const [standingPosition, setStandingPosition] = useState<string>('');
+   const [aimingPosition, setAimingPosition] = useState<string>('');
+   const [landingPosition, setLandingPosition] = useState<string>('');
 
-   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+   // This part checks for the game that was passed in from the previous page
+   // Dont change this part
+   const { state } = useLocation();
+   const game = state.game.substring(1);
+   
+   const Auth = useContext(AuthContext);
+   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-
-      console.log(
-         postName,
-         mapName,
-         standingPositing,
-         aimingPosition,
-         landingPosition,
-      );
-   }
+      const id = toast.loading('Uploading Post...');
+      try {
+         const user = await (async () => {
+            try {
+               const response = await axios.get(`/user/${Auth?.username}`);
+               return response.data;
+            } catch (error) {
+               return error;
+            }
+         })();
+         await axios.post('/post', {
+            postName,
+            mapName,
+            standingPosition,
+            aimingPosition,
+            landingPosition,
+            grenadeType,
+            jumpThrow,
+            game,
+            user,
+         });
+         toast.update(id, {
+            render: 'Post Uploaded Successfully!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
+         });
+      } catch (error) {
+         toast.update(id, {
+            render: 'Post Failed to Upload...',
+            type: 'error',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
+         });
+         console.log(error);
+      }
+   };
 
    return (
       <>
@@ -142,6 +185,7 @@ const Upload: React.FC = () => {
                </div>
             </div>
          </div>
+         <ToastContainer position="top-center" />
       </>
    );
 };
