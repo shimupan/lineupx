@@ -1,5 +1,5 @@
 import { PostType } from '../db.types';
-import { CDN_URL } from '../Components';
+import { CDN_URL } from '../Constants';
 
 interface PostsProps {
    postData: PostType;
