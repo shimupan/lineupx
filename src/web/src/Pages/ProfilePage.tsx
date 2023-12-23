@@ -21,7 +21,7 @@ const ProfilePage = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
 
    // Gets called twice during dev mode
-   // So there should be 2 error messages
+   // So there should be 2 error message
    // If you search for an non exisitant user
    useEffect(() => {
       // Fetch Users
