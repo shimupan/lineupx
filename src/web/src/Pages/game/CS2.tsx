@@ -8,9 +8,9 @@ import {
    SideNavWrapper,
    Searchbar,
    Footer,
-   CS2Carousel,
+   Carousel,
 } from '../../Components';
-import cs2banner from '../../assets/cs2banner.png';
+import { CS2_MAPS, CS2_BANNER } from '../../Constants';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
@@ -40,7 +40,7 @@ const CS2: React.FC = () => {
             <div
                className="flex flex-col items-center h-72 relative bg-center bg-no-repeat"
                style={{
-                  backgroundImage: `url(${cs2banner})`,
+                  backgroundImage: `url(${CS2_BANNER})`,
                   backgroundSize: '100%',
                   backgroundPosition: '90% 10%',
                }}
@@ -57,11 +57,11 @@ const CS2: React.FC = () => {
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
                <div className="w-1/2">
-                  <CS2Carousel />
+                  <Carousel images={CS2_MAPS} />
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
-            {posts && (
+            {posts &&
                posts.map((post) => {
                   return (
                      <Posts
@@ -69,8 +69,7 @@ const CS2: React.FC = () => {
                         key={post.aimingPosition.public_id}
                      />
                   );
-               })
-            )}
+               })}
          </main>
          <Footer className="mt-auto" />
       </div>
