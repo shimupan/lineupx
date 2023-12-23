@@ -1,5 +1,10 @@
-All information about contributing will be avaliable within the docs folder!
+### All information about contributing will be avaliable within the docs folder!
 
-1) Clone or Fork the repo
-2) Open or work on an issue
-3) Make a pull request when done
+### Getting Started
+
+1) Make sure npm is installed
+
+    ```npm install -g npm```
+2) Clone or Fork the Repository
+
+
