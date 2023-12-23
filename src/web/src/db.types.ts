@@ -29,6 +29,6 @@ export type PostType = {
       asset_id: string;
    };
    grenadeType: string;
-   jumpThrow: boolean;
+   jumpThrow: string;
    game: string;
 };
