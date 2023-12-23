@@ -8,9 +8,9 @@ import {
    SideNavWrapper,
    Searchbar,
    Footer,
-   ValorantCarousel,
+   Carousel,
 } from '../../Components';
-import valorantbanner from '../../assets/valorantbanner.webp';
+import { VALORANT_MAPS, VALORANT_BANNER } from '../../Constants';
 
 const Valorant: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
@@ -40,7 +40,7 @@ const Valorant: React.FC = () => {
             <div
                className="flex flex-col items-center h-72 relative bg-center bg-no-repeat"
                style={{
-                  backgroundImage: `url(${valorantbanner})`,
+                  backgroundImage: `url(${VALORANT_BANNER})`,
                   backgroundSize: '100%',
                   backgroundPosition: '90% 10%',
                }}
@@ -55,7 +55,7 @@ const Valorant: React.FC = () => {
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
                <div className="w-1/2">
-                  <ValorantCarousel />
+                  <Carousel images={VALORANT_MAPS} />
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
