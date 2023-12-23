@@ -1,8 +1,8 @@
-import { Post } from '../db.types';
+import { PostType } from '../db.types';
 import { CDN_URL } from '../Components';
 
 interface PostsProps {
-   postData: Post;
+   postData: PostType;
 }
 
 const Posts: React.FC<PostsProps> = ({ postData }) => {
