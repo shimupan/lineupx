@@ -52,4 +52,6 @@ export const CS2_BANNER = cs2banner;
 
 export const GAMES = ['CS2', 'Valorant'];
 
-export const CDN_URL = 'https://res.cloudinary.com/dyqbymb8v/image/upload';
+export const CDN_URL = `https://res.cloudinary.com/${
+   import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+}/image/upload`;
