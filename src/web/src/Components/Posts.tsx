@@ -10,7 +10,6 @@ import views from '../assets/svg/views.svg';
 import like from '../assets/svg/like.svg';
 import dislike from '../assets/svg/dislike.svg';
 
-
 interface PostsProps {
    postData: PostType;
 }
@@ -18,6 +17,9 @@ interface PostsProps {
 const Posts: React.FC<PostsProps> = ({ postData }) => {
    return (
       <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
+         <div className="text-center text-sm text-gray-600">
+            User ID: {postData.UserID}
+         </div>
 
          <div className="svg-container relative text-sm text-gray-600">
             {postData.grenadeType === 'flash' ? <img className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]" src={flash} alt="Flash" title="Flash" /> :
