@@ -4,7 +4,7 @@ import { SideNav, SideNavItems } from '../../Components';
 import { MdOutlineSettings, MdOutlineGamepad, MdHome } from 'react-icons/md';
 
 type SideNavWrapperProps = {
-   className?: string; 
+   className?: string;
 };
 
 const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
@@ -23,25 +23,25 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
          <SideNav>
             <SideNavItems
                icon={<MdHome size={25} />}
-               text='Home'
+               text="Home"
                active={activeItem === '/'}
                onClick={() => handleClick('/')}
             />
             <SideNavItems
                icon={<MdOutlineGamepad size={25} />}
-               text='CS 2'
+               text="CS 2"
                active={activeItem === '/cs2'}
                onClick={() => handleClick('/cs2')}
             />
             <SideNavItems
                icon={<MdOutlineGamepad size={25} />}
-               text='Valorant'
+               text="Valorant"
                active={activeItem === '/valorant'}
                onClick={() => handleClick('/valorant')}
             />
             <SideNavItems
                icon={<MdOutlineSettings size={25} />}
-               text='Profile'
+               text="Profile"
                active={activeItem === '/user/ooccupate'}
                onClick={() => handleClick('/user/ooccupate')}
                alert

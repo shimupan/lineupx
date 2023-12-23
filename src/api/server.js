@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { mongo, cloudinary } from './config/index.js';
+import { mongo } from './config/index.js';
 import { auth, user, post, comment, replies } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
@@ -9,7 +9,6 @@ import passport from 'passport';
 dotenv.config();
 
 mongo();
-cloudinary();
 
 const app = express();
 app.use(express.json());

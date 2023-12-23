@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Cookies from 'universal-cookie';
 
@@ -28,9 +30,19 @@ const Login: React.FC = () => {
       setLoginError('Please enter a valid email address');
       return;
     }
+      const id = toast.loading('Logging in...');
 
       try {
+         
          const response = await axios.post('/login', { email, password });
+
+         toast.update(id, {
+            render: 'Successfully Logged in!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
+         });
 
          const expire = new Date();
          expire.setTime(expire.getTime() + 1000 * 60 * 60 * 24 * 7);
@@ -43,6 +55,13 @@ const Login: React.FC = () => {
          cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
          navigate('/');
       } catch (error) {
+         toast.update(id, {
+            render: 'Failed to Login...',
+            type: 'error',
+            isLoading: false,
+            autoClose: 2000,
+            hideProgressBar: false,
+         });
          if (axios.isAxiosError(error)) {
             setLoginError(error.response?.data.message || 'Login failed');
             console.error('Login error:', error.response?.data);
@@ -158,6 +177,7 @@ const Login: React.FC = () => {
                </div>
             </div>
          </div>
+         <ToastContainer position="top-center" />
       </>
    );
 };

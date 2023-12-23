@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 type DropzoneProps = {
-   setFile: React.Dispatch<React.SetStateAction<File[]>>;
+   setFile: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const baseStyle: React.CSSProperties = {
@@ -38,12 +38,14 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
 
    const onDrop = useCallback((acceptedFiles: File[]) => {
       const file = new FileReader();
-      file.onload = function () {
-         setPreview(file.result);
-      };
-
       file.readAsDataURL(acceptedFiles[0]);
-      setFile(acceptedFiles);
+      file.onloadend = () => {
+         const result = file.result;
+         setPreview(result);
+         if (typeof result === 'string') {
+            setFile(result);
+         }
+      };
    }, []);
    const {
       getRootProps,
@@ -86,12 +88,12 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
             )}
          </div>
          {preview && (
-            <p className="text-black mb-5">
+            <div className="text-black mb-5">
                <div>
                   <h4>Accepted files</h4>
                   <img src={preview as string} alt="Upload preview" />
                </div>
-            </p>
+            </div>
          )}
       </div>
    );
