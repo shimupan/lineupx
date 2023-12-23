@@ -76,13 +76,15 @@ const ProfilePage = () => {
                return (
                   <React.Fragment key={index}>
                      <div className="text-center text-4xl">{game}</div>
-                     <div>
+                     <div className="grid grid-cols-5 gap-4 pl-20">
                         {posts[index].map((post) => {
                            return (
-                              <Posts
-                                 postData={post}
-                                 key={post.landingPosition.public_id}
-                              />
+                              <div className="w-80 h-64">
+                                 <Posts
+                                    postData={post}
+                                    key={post.landingPosition.public_id}
+                                 />
+                              </div>
                            );
                         })}
                      </div>
