@@ -81,8 +81,10 @@ const PostDataSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
    },
+   game: {
+      type: String,
+      required: true,
+   },
 });
 
-const postData = mongoose.model('PostData', PostDataSchema, 'PostData');
-
-export default postData;
+export default PostDataSchema;

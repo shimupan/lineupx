@@ -1,66 +1,78 @@
-import { Header, SideNavWrapper, Searchbar, Footer, CS2Carousel } from '../../Components';
+import { useEffect, useState } from 'react';
+import Posts from '../../Components/Posts';
+import { PostType } from '../../db.types';
+import axios from 'axios';
+
+import {
+   Header,
+   SideNavWrapper,
+   Searchbar,
+   Footer,
+   CS2Carousel,
+} from '../../Components';
 import cs2banner from '../../assets/cs2banner.png';
 
 const CS2: React.FC = () => {
+   const [posts, setPosts] = useState<PostType[]>([]);
+
+   useEffect(() => {
+      document.title = 'Counter-Strike 2';
+      axios
+         .get('/post/CS2')
+         .then((res) => {
+            setPosts(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   }, []);
+
    const handleSearch = (searchTerm: string) => {
       console.log('Searching for:', searchTerm);
       // TODO: Implement search functionality and logic
    };
 
    return (
-      <div className='flex flex-col min-h-screen'>
-         {' '}
-         {/* Flex container with minimum height of the screen */}
+      <div className="flex flex-col min-h-screen">
          <Header />
-         <main className='flex-1'>
-            {' '}
-            {/* Main content expands to fill available space */}
+         <main className="flex-1">
             <SideNavWrapper />
             <div
-               className='flex flex-col items-center h-72 relative'
+               className="flex flex-col items-center h-72 relative bg-center bg-no-repeat"
                style={{
                   backgroundImage: `url(${cs2banner})`,
                   backgroundSize: '100%',
                   backgroundPosition: '90% 10%',
                }}
             >
-               <div
-                  style={{
-                     position: 'absolute',
-                     top: 0,
-                     left: 0,
-                     width: '100%',
-                     height: '100%',
-                     background:
-                        'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))',
-                  }}
-               ></div>
-               <h1 className='text-lg mb-4 pt-10 font-bold z-10'>
+               <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+               <h1 className="text-lg mb-4 pt-10 font-bold z-10">
                   Counter-Strike 2
                </h1>
                <Searchbar
                   onSearch={handleSearch}
-                  placeholder='Search for CS2 Lineups'
-                  className='z-10'
+                  placeholder="Search for CS2 Lineups"
+                  className="z-10"
                />
             </div>
-            <div style={{ 
-               display: 'flex', 
-               flexDirection: 'column', 
-               alignItems: 'center', 
-               paddingTop: '20px', 
-               paddingBottom: '20px', 
-               backgroundColor: '#1d1920',
-               backdropFilter: 'blur(10px)',
-               background:
-               'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))',
-            }}>
-               <div style={{ width: '50%' }}>
+            <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
+               <div className="w-1/2">
                   <CS2Carousel />
                </div>
             </div>
+            {/* TODO: STYLING BELOW */}
+            {posts && (
+               posts.map((post) => {
+                  return (
+                     <Posts
+                        postData={post}
+                        key={post.aimingPosition.public_id}
+                     />
+                  );
+               })
+            )}
          </main>
-         <Footer className='mt-auto' />
+         <Footer className="mt-auto" />
       </div>
    );
 };

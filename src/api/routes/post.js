@@ -1,12 +1,39 @@
 import express from 'express';
-import postData from '../model/postData.js';
+import mongoose from 'mongoose';
+import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 
 const router = express.Router();
 
 const cloudinaryObject = cloudinary();
 
-router.get('/post', (req, res) => {});
+router.get('/post/:game/:id', (req, res) => {
+   const { game, id } = req.params;
+
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find({
+      UserID: new mongoose.Types.ObjectId(id),
+   })
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
+
+router.get('/post/:game', (req, res) => {
+   const { game } = req.params;
+
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find()
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
 
 router.post('/post', async (req, res) => {
    const {
@@ -17,8 +44,13 @@ router.post('/post', async (req, res) => {
       landingPosition,
       grenadeType,
       jumpThrow,
+      game,
       user,
    } = req.body;
+
+   const createModel = (collectionName) =>
+      mongoose.model('PostData', PostDataSchema, collectionName);
+   const postData = createModel(game);
 
    const JumpThrow = jumpThrow == 'true' ? true : false;
 
@@ -27,19 +59,19 @@ router.post('/post', async (req, res) => {
       const uploadStandingPostion = await cloudinaryObject.uploader.upload(
          standingPosition,
          {
-            folder: 'CS',
+            folder: game,
          },
       );
       const uploadAimingPostion = await cloudinaryObject.uploader.upload(
          aimingPosition,
          {
-            folder: 'CS',
+            folder: game,
          },
       );
       const uploadLandingPostion = await cloudinaryObject.uploader.upload(
          landingPosition,
          {
-            folder: 'CS',
+            folder: game,
          },
       );
 
@@ -70,6 +102,7 @@ router.post('/post', async (req, res) => {
          },
          grenadeType: grenadeType,
          jumpThrow: JumpThrow,
+         game: game,
       });
       const savedPost = await newPost.save();
 
