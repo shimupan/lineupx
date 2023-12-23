@@ -47,7 +47,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    // TODO: Make closing transition smoother on mobile
    return (
       <aside
-         className={`${expanded ? 'h-full' : ''} md:h-screen absolute z-50`}
+         className={`${expanded ? 'h-full' : ''} md:h-screen fixed top-[90px] bottom-0 z-10`}
       >
          <nav
             className={`${
