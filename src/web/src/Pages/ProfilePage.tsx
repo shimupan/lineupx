@@ -57,7 +57,7 @@ const ProfilePage = () => {
       <>
          <Header />
          <SideNavWrapper />
-         <div className="h-screen">
+         <div className="min-h-screen pb-40">
             <div>
                <div className="bg-gradient-to-r from-purple-900 via-blue-700 to-cyan-400 h-[300px] flex justify-center relative">
                   <img
@@ -68,26 +68,26 @@ const ProfilePage = () => {
                   />
                </div>
             </div>
-            <div className="w-screen h-[200px] flex flex-col justify-center items-center">
+            <div className="w-full h-[200px] flex flex-col justify-center items-center">
                <div>{user?.username}</div>
                <div>{user?.email}</div>
             </div>
             {GAMES.map((game, index) => {
                return (
                   <React.Fragment key={index}>
-                     <div className="text-center text-4xl">{game}</div>
-                     <div className="grid grid-cols-5 gap-4 pl-20">
-                        {posts[index].map((post) => {
-                           return (
-                              <div className="w-80 h-64">
-                                 <Posts
-                                    postData={post}
-                                    key={post.landingPosition.public_id}
-                                 />
-                              </div>
-                           );
-                        })}
-                     </div>
+                        <div className="text-center text-4xl">{game}
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pl-20">
+                           {posts[index].map((post) => {
+                              return (
+                                    <div key={post.landingPosition.public_id} className="max-w-md mx-auto">
+                                       <Posts
+                                          postData={post} 
+                                       />
+                                    </div>
+                              );
+                           })}
+                        </div>
                   </React.Fragment>
                );
             })}

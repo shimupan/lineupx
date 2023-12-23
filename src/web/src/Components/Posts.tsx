@@ -7,17 +7,30 @@ interface PostsProps {
 
 const Posts: React.FC<PostsProps> = ({ postData }) => {
    return (
-      <div className="max-w-full my-5 p-5 border-t border-b border-gray-300 rounded-lg shadow-sm custom-bg">
-         <div className="text-center text-lg font-bold text-white-800 mb-4">
-            User ID: {postData.UserID}
-            <br />
-            {postData.postTitle}
-         </div>
+      <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
          <img
-            className="w-full h-auto rounded mb-3"
+            className="w-full h-60 object-cover" 
             src={`${CDN_URL}/${postData.landingPosition.public_id}`}
-            alt="Landing Position"
+            alt={postData.postTitle} 
          />
+         <div className="text-center mt-3">
+            <div className="text-lg font-bold text-gray-800">
+               {postData.postTitle}
+            </div>
+            <div className="text-sm text-gray-600">
+               User ID: {postData.UserID}
+            </div>
+            <div className="text-sm text-gray-600">
+               Grenade Type: 
+
+               {postData.grenadeType === 'flash' ? 'Flashbang' :
+               postData.grenadeType === 'smoke' ? 'Smoke' :
+               postData.grenadeType === 'molotov' ? 'Molotov' :
+               postData.grenadeType === 'shock' ? 'Decoy' :
+               postData.grenadeType === 'he' ? 'HE' :
+               'Unknown'}
+            </div>
+         </div>
       </div>
    );
 };

@@ -61,18 +61,17 @@ const CS2: React.FC = () => {
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
-            <div className="grid grid-cols-5 gap-4 pl-20">
-               {posts &&
-                  posts.map((post) => {
-                     return (
-                        <div className="w-80 h-64"> {/* Adjust these values as needed */}
-                           <Posts
-                              postData={post}
-                              key={post.aimingPosition.public_id}
-                           />
-                        </div>
-                     );
-                  })}
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pl-20">
+               {posts.map((post) => {
+                  return (
+                     <div key={post.landingPosition.public_id} className="max-w-md mx-auto">
+                        <Posts
+                           postData={post}
+                        />
+                     </div>
+                  );
+               })}
             </div>
          </main>
          <Footer className="mt-auto" />
