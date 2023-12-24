@@ -55,21 +55,21 @@ router.post('/login', async (req, res, next) => {
 router.post('/verifyemail/:userId', async (req, res) => {
    const { userId } = req.params;
    const { verificationCode } = req.body;
- 
+
    try {
       const user = await User.findById(userId);
       if (!user) {
          return res.status(404).send({ message: 'User not found' });
       }
- 
+
       if (user.verificationCode !== verificationCode) {
          return res.status(400).send({ message: 'Invalid verification code' });
       }
- 
+
       user.Verified = true;
       user.verificationCode = undefined;
       await user.save();
- 
+
       res.status(200).send({ message: 'Email verified successfully' });
    } catch (error) {
       console.error(error);
