@@ -2,6 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ForgotPassword: React.FC = () => {
    const [email, setEmail] = useState<string>('');
@@ -10,15 +12,42 @@ const ForgotPassword: React.FC = () => {
    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
+      const id = toast.loading('Sending forgot password email...');
+
       try {
          const response = await axios.post('/forgotpassword', { email });
          console.log(response.data);
+
+         toast.update(id, {
+            render: 'Forgot password email sent!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
+         });
+
          navigate('/login');
       } catch (error) {
          if (axios.isAxiosError(error)) {
             console.error('Forgot password error:', error.response?.data);
+
+            toast.update(id, {
+               render: error.response?.data || 'Forgot password email failed to send.',
+               type: 'error',
+               isLoading: false,
+               autoClose: 1000,
+               hideProgressBar: false,
+            });
          } else {
             console.error('Unexpected error:', error);
+
+            toast.update(id, {
+               render: 'Unexpected error occurred',
+               type: 'error',
+               isLoading: false,
+               autoClose: 1000,
+               hideProgressBar: false,
+            });
          }
       }
    };
@@ -78,6 +107,7 @@ const ForgotPassword: React.FC = () => {
                </div>
             </div>
          </div>
+         <ToastContainer position="top-center" />
       </>
    );
 };
