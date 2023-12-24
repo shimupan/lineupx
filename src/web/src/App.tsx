@@ -12,6 +12,7 @@ import {
    ForgotPassword,
    ResetPassword,
    GoogleCallBack,
+   VerifyEmail,
 } from './Components';
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
@@ -104,6 +105,7 @@ function App() {
                   <Route path="/upload" element={<Upload />}></Route>
                </Route>
                <Route path="/google-callback" element={<GoogleCallBack />} />
+               <Route path="/verifyemail" element={<VerifyEmail />} />
             </Routes>
          </BrowserRouter>
       </AuthContext.Provider>

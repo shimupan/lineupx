@@ -52,24 +52,29 @@ router.post('/login', async (req, res, next) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
-// Define your route using router, not app
-router.get('/verify-email/:token', async (req, res) => {
-   const { token } = req.params;
-   const user = await User.findOne({
-      emailVerificationToken: token,
-      emailVerificationTokenExpires: { $gt: Date.now() },
-   });
+router.post('/verifyemail/:userId', async (req, res) => {
+   const { userId } = req.params;
+   const { verificationCode } = req.body;
 
-   if (!user) {
-      return res.status(400).send('Token is invalid or has expired');
+   try {
+      const user = await User.findById(userId);
+      if (!user) {
+         return res.status(404).send({ message: 'User not found' });
+      }
+
+      if (user.verificationCode !== verificationCode) {
+         return res.status(400).send({ message: 'Invalid verification code' });
+      }
+
+      user.Verified = true;
+      user.verificationCode = undefined;
+      await user.save();
+
+      res.status(200).send({ message: 'Email verified successfully' });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'Server error' });
    }
-
-   user.Verified = true;
-   user.emailVerificationToken = undefined;
-   user.emailVerificationTokenExpires = undefined;
-   await user.save();
-
-   res.send('Email verified successfully');
 });
 
 /////////////////////////////////////////////////////////////////////////////
@@ -106,6 +111,9 @@ router.post('/register', async (req, res) => {
    }
 
    try {
+      // Generate a verification code
+      const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
       const user = new User({
          role: 'user',
          username: userName,
@@ -114,17 +122,18 @@ router.post('/register', async (req, res) => {
          likes: [],
          dislikes: [],
          saved: [],
+         verificationCode: verificationCode, // Save the verification code in the user's document
       });
 
-      // Save the user with the verification token
+      // Save the user with the verification code
       const newUser = await user.save();
-      const emailVerificationToken = user.generateVerificationToken();
-      // Send email verification link
-      const verificationUrl = `http://${process.env.EMAIL_DOMAIN}/verify-email/${emailVerificationToken}`;
+      const verificationUrl = `http://${process.env.EMAIL_DOMAIN}/verifyemail?userId=${newUser.id}`;
+
+      // Send email verification code
       await sendEmail(
          email,
          'Verify Your Email',
-         `Please click on the following link to verify your email: <a href="${verificationUrl}">${verificationUrl}</a>`,
+         `Your verification code is: <b><h2>${verificationCode}</h2></b>. You can also verify your email by clicking on the following link: ${verificationUrl}`,
       );
 
       // Generate access and refresh tokens
@@ -202,6 +211,8 @@ router.post('/forgotpassword', async (req, res) => {
 
    res.status(200).send('Password reset email sent');
 });
+
+/////////////////////////////////////////////////////////////////////////////
 
 router.post('/resetpassword/:token', async (req, res) => {
    // Extract the token from the URL parameters and the new password from the request body
@@ -311,10 +322,14 @@ passport.deserializeUser((id, done) => {
    });
 });
 
+/////////////////////////////////////////////////////////////////////////////
+
 router.get(
    '/google',
    passport.authenticate('google', { scope: ['profile', 'email'] }),
 );
+
+/////////////////////////////////////////////////////////////////////////////
 
 router.get(
    '/google/callback',

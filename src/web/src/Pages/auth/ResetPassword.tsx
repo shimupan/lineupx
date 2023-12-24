@@ -2,6 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword: React.FC = () => {
    const [password, setPassword] = useState<string>('');
@@ -18,17 +20,44 @@ const ResetPassword: React.FC = () => {
          return;
       }
 
+      const id = toast.loading('Resetting Password...');
+
       try {
          const response = await axios.post(`/resetpassword/${token}`, {
             password,
          });
          console.log(response.data);
+
+         toast.update(id, {
+            render: 'Password reset successful!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 1000,
+            hideProgressBar: false,
+         });
+
          navigate('/login');
       } catch (error) {
          if (axios.isAxiosError(error)) {
             console.error('Reset password error:', error.response?.data);
+
+            toast.update(id, {
+               render: 'Reset password failed. Please try again.',
+               type: 'error',
+               isLoading: false,
+               autoClose: 1000,
+               hideProgressBar: false,
+            });
          } else {
             console.error('Unexpected error:', error);
+
+            toast.update(id, {
+               render: 'Unexpected error occurred',
+               type: 'error',
+               isLoading: false,
+               autoClose: 1000,
+               hideProgressBar: false,
+            });
          }
       }
    };
@@ -102,6 +131,7 @@ const ResetPassword: React.FC = () => {
                </div>
             </div>
          </div>
+         <ToastContainer position="top-center" />
       </>
    );
 };
