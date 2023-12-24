@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SideNav, SideNavItems } from '../../Components';
-import { MdOutlineSettings, MdOutlineGamepad, MdHome } from 'react-icons/md';
+import { MdOutlineSettings, MdHome } from 'react-icons/md';
+import cs2Logo from '../../assets/cs2logo.webp';
+import valorantLogo from '../../assets/valorantlogo.webp';
 
 type SideNavWrapperProps = {
    className?: string;
@@ -28,16 +30,16 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                onClick={() => handleClick('/')}
             />
             <SideNavItems
-               icon={<MdOutlineGamepad size={25} />}
+               icon={<img src={cs2Logo} alt="CS2" width={25} />}
                text="CS 2"
-               active={activeItem === '/CS2'}
-               onClick={() => handleClick('/CS2')}
+               active={activeItem === '/game/CS2'}
+               onClick={() => handleClick('/game/CS2')}
             />
             <SideNavItems
-               icon={<MdOutlineGamepad size={25} />}
+               icon={<img src={valorantLogo} alt="Valorant" width={25} />}
                text="Valorant"
-               active={activeItem === '/Valorant'}
-               onClick={() => handleClick('/Valorant')}
+               active={activeItem === '/game/Valorant'}
+               onClick={() => handleClick('/game/Valorant')}
             />
             <SideNavItems
                icon={<MdOutlineSettings size={25} />}
