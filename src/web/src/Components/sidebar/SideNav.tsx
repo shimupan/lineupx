@@ -1,5 +1,5 @@
 import { useState, useContext, createContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../App';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -18,7 +18,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const navigate = useNavigate();
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
-
+   const location = useLocation();
+   const isSpecialRoute = location.pathname === '/Valorant' || location.pathname === '/CS2';
+   const topPosition = isSpecialRoute ? 'top-[120px]' : 'top-[90px]';
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -47,7 +49,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
 
    return (
       <aside
-         className={`${expanded ? 'h-full' : ''} md:h-screen fixed top-[90px] bottom-0 z-10 transition-all duration-300`}
+         className={`${expanded ? 'h-full' : ''} md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-300`}
       >
          <nav
             className={`h-full flex flex-col overflow-hidden mt-5 sm:mt-0 ${

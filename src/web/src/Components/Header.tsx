@@ -38,7 +38,10 @@ const Header: React.FC = () => {
 
    return (
       <>
-         <nav id="header" className="sticky top-0 w-full relative z-50 fixed top-0 w-full bg-[#181818] shadow-lg relative">
+         <nav
+            id="header"
+            className="sticky top-0 w-full relative z-50 fixed top-0 w-full bg-[#181818] shadow-lg relative"
+         >
             <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
                <input className="hidden" type="checkbox" id="menu-toggle" />
 
@@ -71,13 +74,19 @@ const Header: React.FC = () => {
                            Logout
                         </button>
                      </div>
-                     {(location.pathname === '/CS2' || location.pathname === '/Valorant') ? (
-                        <Link to={'/upload'} state={ {game: location.pathname} }>
+                     {location.pathname === '/CS2' ||
+                     location.pathname === '/Valorant' ? (
+                        <Link
+                           to={'/upload'}
+                           state={{ game: location.pathname }}
+                        >
                            <button className="bg-indigo-800 text-gray-200 p-2 ml-3 rounded hover:bg-blue-500 hover:text-gray-100">
                               Upload
                            </button>
                         </Link>
-                     ) : <></>}
+                     ) : (
+                        <></>
+                     )}
                   </div>
                ) : (
                   <div
@@ -101,6 +110,41 @@ const Header: React.FC = () => {
                   </div>
                )}
             </div>
+            {Auth?.accessToken && location.pathname === '/CS2' && (
+               <div className="w-full flex justify-center items-center mt-0 px-6 py-1 space-x-6 bg-[#181818] shadow-lg">
+                  <Link to="/CS2" className="text-white hover:text-gray-400">
+                     Home
+                  </Link>
+                  <Link
+                     to="/CS2Lineups"
+                     className="text-white hover:text-gray-400"
+                  >
+                     Lineups
+                  </Link>
+               </div>
+            )}
+            {Auth?.accessToken && location.pathname === '/Valorant' && (
+               <div className="w-full flex justify-center items-center mt-0 px-6 py-1 space-x-6 bg-[#181818] shadow-lg">
+                  <Link
+                     to="/Valorant"
+                     className="text-white hover:text-gray-400"
+                  >
+                     Home
+                  </Link>
+                  <Link
+                     to="/ValorantLineups"
+                     className="text-white hover:text-gray-400"
+                  >
+                     Lineups
+                  </Link>
+                  <Link
+                     to="/ValorantAgents"
+                     className="text-white hover:text-gray-400"
+                  >
+                     Agents
+                  </Link>
+               </div>
+            )}
          </nav>
       </>
    );
