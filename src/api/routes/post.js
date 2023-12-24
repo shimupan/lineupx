@@ -2,6 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
+import rateLimit from 'express-rate-limit';
+
+const postLimit = rateLimit({
+   windowMs: 24 * 60 * 60 * 1000,
+   max: 10,
+   message: 'Too many uploads, try again in 1 Day',
+});
 
 const router = express.Router();
 
@@ -39,7 +46,7 @@ router.get('/post/:game', (req, res) => {
 });
 
 // Upload a post
-router.post('/post', async (req, res) => {
+router.post('/post', postLimit, async (req, res) => {
    const {
       postName,
       mapName,

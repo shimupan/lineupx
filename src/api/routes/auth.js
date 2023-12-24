@@ -7,12 +7,20 @@ import { sendEmail } from '../config/mailer.js';
 import { signInAccessToken, refreshAccessToken } from '../helper/jwtHelper.js';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
+import rateLimit from 'express-rate-limit';
+
+const authLimit = rateLimit({
+   windowMs: 15 * 60 * 1000,
+   max: 10,
+   message:
+      'Too many posts created from this IP, please try again after 15 minutes',
+});
 
 const router = express.Router();
 
 /////////////////////////////////////////////////////////////////////////////
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', authLimit, async (req, res, next) => {
    const { email, password } = req.body;
 
    try {
@@ -97,7 +105,7 @@ router.delete('/logout', async (req, res, next) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
-router.post('/register', async (req, res) => {
+router.post('/register', authLimit, async (req, res) => {
    const { userName, email, password } = req.body;
 
    const existingEmailUser = await User.findOne({ email });
