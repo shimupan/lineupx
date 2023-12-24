@@ -1,12 +1,12 @@
 // Main page of the app
 import { useContext, useEffect, useRef } from 'react';
-import { Header, Game, Footer, SideNavWrapper } from '../Components';
-import { AuthContext } from '../App';
+import { Header, Game, Footer, SideNavWrapper } from '../../../Components';
+import { AuthContext } from '../../../App';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import cs2 from '../assets/csgo2.webp';
-import valorant from '../assets/valorant.jpg';
+import cs2 from '../../../assets/csgo2.webp';
+import valorant from '../../../assets/valorant.jpg';
 
 const GREETINGS = [
    'Welcome ',
@@ -21,7 +21,7 @@ const GREETINGS = [
    'Hola ',
 ];
 
-const Page: React.FC = () => {
+const ValorantLineups: React.FC = () => {
    const Auth = useContext(AuthContext);
    const initialRender = useRef(true);
    useEffect(() => {
@@ -45,8 +45,8 @@ const Page: React.FC = () => {
 
          <div className="h-screen flex">
             <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
-               <Game game={'game/CS2'} name={cs2} />
-               <Game game={'game/Valorant'} name={valorant} />
+               <Game game={'CS2'} name={cs2} />
+               <Game game={'Valorant'} name={valorant} />
             </div>
          </div>
 
@@ -68,4 +68,4 @@ const Page: React.FC = () => {
    );
 };
 
-export default Page;
+export default ValorantLineups;

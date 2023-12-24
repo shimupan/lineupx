@@ -103,7 +103,7 @@ const Upload: React.FC = () => {
                         >
                            Map Name*
                         </label>
-                        {game === 'CS2' && (
+                        {game === 'game/CS2' && (
                            <select
                               id="mapName"
                               value={mapName}
@@ -121,7 +121,7 @@ const Upload: React.FC = () => {
                               <option value="ancient">Ancient</option>
                            </select>
                         )}
-                        {game === 'Valorant' && (
+                        {game === 'game/Valorant' && (
                            <select
                               id="mapName"
                               value={mapName}

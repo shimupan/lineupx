@@ -32,14 +32,14 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
             <SideNavItems
                icon={<img src={cs2Logo} alt="CS2" width={25} />}
                text="CS 2"
-               active={activeItem === '/CS2'}
-               onClick={() => handleClick('/CS2')}
+               active={activeItem === '/game/CS2'}
+               onClick={() => handleClick('/game/CS2')}
             />
             <SideNavItems
                icon={<img src={valorantLogo} alt="Valorant" width={25} />}
                text="Valorant"
-               active={activeItem === '/Valorant'}
-               onClick={() => handleClick('/Valorant')}
+               active={activeItem === '/game/Valorant'}
+               onClick={() => handleClick('/game/Valorant')}
             />
             <SideNavItems
                icon={<MdOutlineSettings size={25} />}

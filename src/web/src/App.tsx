@@ -14,6 +14,9 @@ import {
    GoogleCallBack,
    VerifyEmail,
    PostPage,
+   CS2Lineups,
+   ValorantLineups,
+   ValorantAgents,
 } from './Components';
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
@@ -91,8 +94,11 @@ function App() {
          <BrowserRouter>
             <Routes>
                <Route path="/" element={<Page />}></Route>
-               <Route path="/valorant" element={<Valorant />}></Route>
-               <Route path="/cs2" element={<CS2 />}></Route>
+               <Route path="/game/valorant" element={<Valorant />}></Route>
+               <Route path="/game/valorant/lineups" element={<ValorantLineups />}></Route>
+               <Route path="/game/valorant/agents" element={<ValorantAgents />}></Route>
+               <Route path="/game/cs2" element={<CS2 />}></Route>
+               <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
                <Route path='/game/:game/:id' element={<PostPage />}></Route>
                {/* Auth Routes */}

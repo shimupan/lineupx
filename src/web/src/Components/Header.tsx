@@ -74,8 +74,8 @@ const Header: React.FC = () => {
                            Logout
                         </button>
                      </div>
-                     {location.pathname === '/CS2' ||
-                     location.pathname === '/Valorant' ? (
+                     {location.pathname === '/game/CS2' ||
+                     location.pathname === '/game/Valorant' ? (
                         <Link
                            to={'/upload'}
                            state={{ game: location.pathname }}
@@ -110,35 +110,35 @@ const Header: React.FC = () => {
                   </div>
                )}
             </div>
-            {Auth?.accessToken && location.pathname === '/CS2' && (
+            {location.pathname.startsWith('/game/CS2') && (
                <div className="w-full flex justify-center items-center mt-0 px-6 py-1 space-x-6 bg-[#181818] shadow-lg">
-                  <Link to="/CS2" className="text-white hover:text-gray-400">
+                  <Link to="/game/CS2" className="text-white hover:text-gray-400">
                      Home
                   </Link>
                   <Link
-                     to="/CS2Lineups"
+                     to="/game/CS2/Lineups"
                      className="text-white hover:text-gray-400"
                   >
                      Lineups
                   </Link>
                </div>
             )}
-            {Auth?.accessToken && location.pathname === '/Valorant' && (
+            {location.pathname.startsWith('/game/Valorant') && (
                <div className="w-full flex justify-center items-center mt-0 px-6 py-1 space-x-6 bg-[#181818] shadow-lg">
                   <Link
-                     to="/Valorant"
+                     to="/game/Valorant"
                      className="text-white hover:text-gray-400"
                   >
                      Home
                   </Link>
                   <Link
-                     to="/ValorantLineups"
+                     to="/game/Valorant/Lineups"
                      className="text-white hover:text-gray-400"
                   >
                      Lineups
                   </Link>
                   <Link
-                     to="/ValorantAgents"
+                     to="/game/Valorant/Agents"
                      className="text-white hover:text-gray-400"
                   >
                      Agents

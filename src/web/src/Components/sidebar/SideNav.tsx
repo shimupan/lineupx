@@ -19,7 +19,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
    const location = useLocation();
-   const isSpecialRoute = location.pathname === '/Valorant' || location.pathname === '/CS2';
+   const isSpecialRoute = location.pathname.startsWith('/game/Valorant') || location.pathname.startsWith('/game/CS2');
    const topPosition = isSpecialRoute ? 'top-[120px]' : 'top-[90px]';
    const logout = async () => {
       try {
