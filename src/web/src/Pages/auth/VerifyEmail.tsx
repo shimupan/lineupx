@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -98,15 +98,6 @@ const VerifyEmail: React.FC = () => {
                                 >
                                     Submit
                                 </button>
-                                <p className="text-sm leading-relaxed text-gray-900">
-                                    Remember your password?{' '}
-                                    <Link
-                                        to={'../login'}
-                                        className="font-bold text-blue-900"
-                                    >
-                                        Log In
-                                    </Link>
-                                </p>
                             </form>
                         </div>
                     </div>
