@@ -42,8 +42,8 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
             }}
             speed={750}
          >
-            {images.map((image) => (
-               <SwiperSlide>
+            {images.map((image, index) => (
+               <SwiperSlide key={index}>
                   <img src={image} alt="slide_image" />
                </SwiperSlide>
             ))}

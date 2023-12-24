@@ -7,6 +7,7 @@ export type UserType = {
 };
 
 export type PostType = {
+   _id: string;
    UserID: string;
    postTitle: string;
    mapName: string;

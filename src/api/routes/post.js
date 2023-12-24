@@ -7,6 +7,7 @@ const router = express.Router();
 
 const cloudinaryObject = cloudinary();
 
+// Find all post for a specific user
 router.get('/post/:game/:id', (req, res) => {
    const { game, id } = req.params;
 
@@ -22,6 +23,7 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
+// Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
 
@@ -29,12 +31,14 @@ router.get('/post/:game', (req, res) => {
    PostData.find()
       .then((data) => {
          res.send(data);
+         console.log(data);
       })
       .catch((err) => {
          res.send(err);
       });
 });
 
+// Upload a post
 router.post('/post', async (req, res) => {
    const {
       postName,

@@ -1,4 +1,3 @@
-import React from 'react';
 import github from '../assets/github.png';
 
 interface FooterProps {
@@ -8,10 +7,10 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ className }) => {
    return (
       <footer
-         className={` text-center lg:text-left static bottom-0 w-full ${className}`}
+         className={` text-center lg:text-left static bottom-0 w-screen ${className}`}
       >
-         <div className='container p-6 flex flex-col md:flex-row justify-center md:justify-end items-center'>
-            <div className='flex justify-center md:justify-start items-center text-white-700 md:pr-80'>
+         <div className='flex justify-center items-center'>
+            <div className='flex ml-4'>
                <span className='mr-4'>
                   {new Date().getFullYear()} LineupX. All rights reserved.
                </span>

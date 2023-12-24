@@ -10,6 +10,7 @@ export { default as ForgotPassword } from './Pages/auth/ForgotPassword';
 export { default as ResetPassword } from './Pages/auth/ResetPassword';
 export { default as GoogleCallBack } from './Pages/auth/Google';
 export { default as VerifyEmail} from './Pages/auth/VerifyEmail'
+export { default as PostPage } from './Pages/PostPage';
 // Components
 export { default as Header } from './Components/Header';
 export { default as Game } from './Components/Game';
