@@ -68,11 +68,55 @@ input {
   flex-grow: 1; /* allow the main content to grow */
 }
 
-
 select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: #f2f2f2;
   color: #333;
+}
+
+/* ValorantLineups.css */
+
+.main-content {
+  color: #ffffff;
+  padding: 20px;
+}
+
+.agent-card {
+  background-color: #1b2838;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  margin-left: 50px; 
+  width: 80%; 
+}
+
+.agent-card:hover {
+  transform: scale(1.05);
+}
+
+.agent-image {
+  width: 100%;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.agent-card:hover .agent-image {
+  opacity: 0.9;
+}
+
+.agent-name {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* Responsive grid layout */
+.grid-container {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  padding: 20px;
 }
