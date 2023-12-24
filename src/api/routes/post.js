@@ -2,11 +2,19 @@ import express from 'express';
 import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
+import rateLimit from 'express-rate-limit';
+
+const postLimit = rateLimit({
+   windowMs: 24 * 60 * 60 * 1000,
+   max: 10,
+   message: 'Too many uploads, try again in 1 Day',
+});
 
 const router = express.Router();
 
 const cloudinaryObject = cloudinary();
 
+// Find all post for a specific user
 router.get('/post/:game/:id', (req, res) => {
    const { game, id } = req.params;
 
@@ -22,6 +30,7 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
+// Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
 
@@ -29,13 +38,15 @@ router.get('/post/:game', (req, res) => {
    PostData.find()
       .then((data) => {
          res.send(data);
+         console.log(data);
       })
       .catch((err) => {
          res.send(err);
       });
 });
 
-router.post('/post', async (req, res) => {
+// Upload a post
+router.post('/post', postLimit, async (req, res) => {
    const {
       postName,
       mapName,
