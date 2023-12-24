@@ -68,3 +68,11 @@ input {
   flex-grow: 1; /* allow the main content to grow */
 }
 
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #f2f2f2;
+  color: #333;
+}
