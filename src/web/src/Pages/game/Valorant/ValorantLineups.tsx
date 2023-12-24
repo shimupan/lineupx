@@ -1,69 +1,46 @@
-// Main page of the app
 import { useContext, useEffect, useRef } from 'react';
 import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import 'react-toastify/dist/ReactToastify.css';
 
-import astra from '../../../assets/valorantagents/astra.webp';
-import brimstone from '../../../assets/valorantagents/brimstone.webp';
-import cypher from '../../../assets/valorantagents/cypher.webp';
-import jett from '../../../assets/valorantagents/jett.webp';
-import killjoy from '../../../assets/valorantagents/killjoy.webp';
-import omen from '../../../assets/valorantagents/omen.webp';
-import phoenix from '../../../assets/valorantagents/phoenix.webp';
-import raze from '../../../assets/valorantagents/raze.webp';
-import reyna from '../../../assets/valorantagents/reyna.webp';
-import sage from '../../../assets/valorantagents/sage.webp';
-import skye from '../../../assets/valorantagents/skye.webp';
-import sova from '../../../assets/valorantagents/sova.webp';
-import viper from '../../../assets/valorantagents/viper.webp';
-import yoru from '../../../assets/valorantagents/yoru.webp';
-import breach from '../../../assets/valorantagents/breach.webp';
-import kayo from '../../../assets/valorantagents/kayo.webp';
-import chamber from '../../../assets/valorantagents/chamber.webp';
-import deadlock from '../../../assets/valorantagents/deadlock.webp';
-import gecko from '../../../assets/valorantagents/gecko.webp';
-import iso from '../../../assets/valorantagents/iso.webp';
-import fade from '../../../assets/valorantagents/fade.webp';
-import neon from '../../../assets/valorantagents/neon.webp';
-import harbor from '../../../assets/valorantagents/harbor.webp';
+import breeze from '../../../assets/valorantmaps/breeze.webp';
+import ascent from '../../../assets/valorantmaps/ascent.webp';
+import bind from '../../../assets/valorantmaps/bind.webp';
+import haven from '../../../assets/valorantmaps/haven.webp';
+import icebox from '../../../assets/valorantmaps/icebox.webp';
+import split from '../../../assets/valorantmaps/split.webp';
+import fracture from '../../../assets/valorantmaps/fracture.webp';
+import sunset from '../../../assets/valorantmaps/sunset.webp';
+import lotus from '../../../assets/valorantmaps/lotus.webp';
+import pearl from '../../../assets/valorantmaps/pearl.webp';
 
 const ValorantLineups: React.FC = () => {
    const Auth = useContext(AuthContext);
    const initialRender = useRef(true);
+   const navigate = useNavigate();
 
+   const handleClick = (mapName: string) => {
+      navigate(`/lineups/${mapName}`);
+   };
    useEffect(() => {
       if (initialRender.current) {
          initialRender.current = false;
       } else if (Auth?.accessToken && Auth.username) {
-         // Logic after initial render and when user is authenticated
       }
    }, [Auth?.username]);
 
-   const agents = [
-      { name: 'Astra', image: astra },
-      { name: 'Brimstone', image: brimstone },
-      { name: 'Cypher', image: cypher },
-      { name: 'Jett', image: jett },
-      { name: 'Killjoy', image: killjoy },
-      { name: 'Omen', image: omen },
-      { name: 'Phoenix', image: phoenix },
-      { name: 'Raze', image: raze },
-      { name: 'Reyna', image: reyna },
-      { name: 'Sage', image: sage },
-      { name: 'Skye', image: skye },
-      { name: 'Sova', image: sova },
-      { name: 'Viper', image: viper },
-      { name: 'Yoru', image: yoru },
-      { name: 'Breach', image: breach },
-      { name: 'Kayo', image: kayo },
-      { name: 'Chamber', image: chamber },
-      { name: 'Deadlock', image: deadlock },
-      { name: 'Gecko', image: gecko },
-      { name: 'Iso', image: iso },
-      { name: 'Fade', image: fade },
-      { name: 'Neon', image: neon },
-      { name: 'Harbor', image: harbor},
+   const maps = [
+      { name: 'Breeze', image: breeze },
+      { name: 'Ascent', image: ascent },
+      { name: 'Bind', image: bind },
+      { name: 'Haven', image: haven },
+      { name: 'Icebox', image: icebox },
+      { name: 'Split', image: split },
+      { name: 'Fracture', image: fracture },
+      { name: 'Sunset', image: sunset },
+      { name: 'Lotus', image: lotus },
+      { name: 'Pearl', image: pearl },
    ];
 
    return (
@@ -71,19 +48,25 @@ const ValorantLineups: React.FC = () => {
          <Header />
          <SideNavWrapper />
 
-         <div className="h-screen flex">
-            <div className="main-content flex-col md:flex-row flex-1">
-               <div className="grid-container">
-                  {agents.map((agent) => (
-                     <div className="agent-card" key={agent.name}>
+         <div className="flex flex-1 h-screen">
+            <div className="flex-1 flex justify-center items-center">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 ml-10">
+                {maps.map((map) => (
+                    <div
+                        key={map.name}
+                        className="bg-gray-800 rounded overflow-hidden shadow-lg hover:shadow-2xl transition ease-in-out duration-300 cursor-pointer" // Add cursor-pointer here
+                        onClick={() => handleClick(map.name)}
+                    >
                         <img
-                           src={agent.image}
-                           alt={agent.name}
-                           className="agent-image"
+                            src={map.image}
+                            alt={map.name}
+                            className="w-full h-60 object-cover"
                         />
-                        <div className="agent-name">{agent.name}</div>
-                     </div>
-                  ))}
+                        <div className="text-center text-white py-2">
+                            {map.name}
+                        </div>
+                    </div>
+                ))}
                </div>
             </div>
          </div>

@@ -7,7 +7,7 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ className }) => {
    return (
       <footer
-         className={` text-center lg:text-left static bottom-0 w-screen ${className}`}
+         className={`text-center lg:text-left ${className}`}
       >
          <div className='flex justify-center items-center'>
             <div className='flex ml-4'>
