@@ -89,16 +89,18 @@ function App() {
          <BrowserRouter>
             <Routes>
                <Route path="/" element={<Page />}></Route>
-               <Route path="/register" element={<Register />}></Route>
-               <Route path="/login" element={<Login />}></Route>
                <Route path="/valorant" element={<Valorant />}></Route>
                <Route path="/cs2" element={<CS2 />}></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
+               {/* Auth Routes */}
+               <Route path="/register" element={<Register />}></Route>
+               <Route path="/login" element={<Login />}></Route>
                <Route
                   path="/forgotpassword"
                   element={<ForgotPassword />}
                ></Route>
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
+               {/* Protected Routes */}
                <Route element={<RequireAuth />}>
                   <Route path="/admin/:id" element={<ProfilePage />}></Route>
                   <Route path="/upload" element={<Upload />}></Route>
