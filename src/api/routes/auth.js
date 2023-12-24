@@ -212,6 +212,8 @@ router.post('/forgotpassword', async (req, res) => {
    res.status(200).send('Password reset email sent');
 });
 
+/////////////////////////////////////////////////////////////////////////////
+
 router.post('/resetpassword/:token', async (req, res) => {
    // Extract the token from the URL parameters and the new password from the request body
    const { token } = req.params;
@@ -320,10 +322,14 @@ passport.deserializeUser((id, done) => {
    });
 });
 
+/////////////////////////////////////////////////////////////////////////////
+
 router.get(
    '/google',
    passport.authenticate('google', { scope: ['profile', 'email'] }),
 );
+
+/////////////////////////////////////////////////////////////////////////////
 
 router.get(
    '/google/callback',

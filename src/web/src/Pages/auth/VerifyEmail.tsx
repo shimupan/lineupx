@@ -2,6 +2,9 @@ import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const VerifyEmail: React.FC = () => {
     const [verificationCode, setVerificationCode] = useState<string>('');
@@ -13,17 +16,44 @@ const VerifyEmail: React.FC = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const id = toast.loading('Verifying Email...');
+
         try {
             const response = await axios.post(`/verifyemail/${userId}`, {
                 verificationCode,
             });
             console.log(response.data);
+
+            toast.update(id, {
+                render: 'Email verification successful!',
+                type: 'success',
+                isLoading: false,
+                autoClose: 1000,
+                hideProgressBar: false,
+            });
+
             navigate('/login');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error('Email verification error:', error.response?.data);
+
+                toast.update(id, {
+                    render: 'Email verification failed. Please try again.',
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                });
             } else {
                 console.error('Unexpected error:', error);
+
+                toast.update(id, {
+                    render: 'Unexpected error occurred',
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                });
             }
         }
     };
@@ -82,6 +112,7 @@ const VerifyEmail: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer position="top-center" />
         </>
     );
 };
