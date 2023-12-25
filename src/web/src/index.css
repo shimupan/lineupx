@@ -88,8 +88,7 @@ select {
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease;
-  margin-left: 50px; 
-  width: 80%; 
+  width: 100%; 
 }
 
 .agent-card:hover {
@@ -121,3 +120,27 @@ select {
   padding: 20px;
 }
 
+
+.ability-description::-webkit-scrollbar {
+  width: 6px;  
+}
+
+.ability-description::-webkit-scrollbar-track {
+  background: #f1f1f1;  
+  border-radius: 10px;
+}
+
+.ability-description::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px;
+}
+
+.ability-description::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+button:active {
+  transform: scale(0.95); 
+  background-color: #3d8b40; 
+}
