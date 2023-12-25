@@ -40,6 +40,8 @@ type AuthContextType = {
    setEmail: React.Dispatch<React.SetStateAction<string>>;
    username: string;
    setUsername: React.Dispatch<React.SetStateAction<string>>;
+   Verified: boolean;
+   setVerified: React.Dispatch<React.SetStateAction<boolean>>;
    role: string;
 };
 
@@ -54,6 +56,7 @@ function App() {
    const [refreshToken, setRefreshToken] = useState<string>('');
    const [username, setUsername] = useState<string>('');
    const [email, setEmail] = useState<string>('');
+   const [Verified, setVerified] = useState<boolean>(false);
    const [role, setRole] = useState<string>('');
 
    useEffect(() => {
@@ -77,6 +80,7 @@ function App() {
                setRole(response.data?.role || 'user');
                setUsername(response.data.username);
                setEmail(response.data.email);
+               setVerified(response.data.Verified);
             } catch (error) {
                return error;
             }
@@ -96,6 +100,8 @@ function App() {
             setEmail,
             username,
             setUsername,
+            Verified,
+            setVerified,
          }}
       >
          <BrowserRouter>
