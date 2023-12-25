@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { useNavigate } from 'react-router-dom';
 import { ValorantAgent } from '../../../db.types';
 import axios from 'axios';
 
 const ValorantAgents: React.FC = () => {
    const [agents, setAgents] = useState<ValorantAgent>();
+   const navigate = useNavigate();
    const [currentAgent, setCurrentAgent] = useState<string>(
       'https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/fullportrait.png',
    );
    const [currentBackground, setCurrentBackground] = useState<string>(
       'https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/background.png',
    );
+   const handleClick = (agentName: string) => {
+      navigate(`/game/Valorant/agents/${agentName}/lineups`);
+   };
    useEffect(() => {
       axios
          .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
@@ -47,6 +52,7 @@ const ValorantAgents: React.FC = () => {
                               onClick={() => {
                                  setCurrentAgent(agent.fullPortrait);
                                  setCurrentBackground(agent.background);
+                                 handleClick(agent.displayName);
                               }}
                            />
                            <div className="agent-name">{agent.displayName}</div>

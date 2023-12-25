@@ -96,9 +96,9 @@ function App() {
             <Routes>
                <Route path="/" element={<Page />}></Route>
                <Route path="/game/valorant" element={<Valorant />}></Route>
-               <Route path="/game/valorant/lineups" element={<ValorantLineups />}></Route>
+               <Route path="/game/valorant/agents/:agentName/lineups" element={<ValorantLineups />}></Route>
                <Route path="/game/valorant/agents" element={<ValorantAgents />}></Route>
-               <Route path="/game/valorant/lineups/:mapName" element={<ValorantMaps />} />
+               <Route path="/game/valorant/agents/:agentName/lineups/:mapName" element={<ValorantMaps />} />
                <Route path="/" element={<ValorantLineups />} />
                <Route path="/game/cs2" element={<CS2 />}></Route>
                <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>

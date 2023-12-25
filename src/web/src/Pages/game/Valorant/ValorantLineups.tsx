@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import { Header, Footer, SideNavWrapper } from '../../../Components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,9 +19,10 @@ const ValorantLineups: React.FC = () => {
    const Auth = useContext(AuthContext);
    const initialRender = useRef(true);
    const navigate = useNavigate();
+   const { agentName } = useParams<{ agentName: string }>();
 
    const handleClick = (mapName: string) => {
-      navigate(`/game/valorant/lineups/${mapName}`);
+      navigate(`/game/valorant/agents/${agentName}/lineups/${mapName}`);
    };
    useEffect(() => {
       if (initialRender.current) {
