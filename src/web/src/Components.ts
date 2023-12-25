@@ -15,6 +15,7 @@ export { default as CS2Lineups } from './Pages/game/CS2/CS2Lineups';
 export { default as ValorantLineups } from './Pages/game/Valorant/ValorantLineups';
 export { default as ValorantAgents } from './Pages/game/Valorant/ValorantAgents';
 export { default as ValorantMaps } from './Pages/game/Valorant/ValorantMapLineups';
+export { default as AdminHome } from './Pages/admin/AdminHome';
 // Components
 export { default as Header } from './Components/Header';
 export { default as Game } from './Components/Game';
