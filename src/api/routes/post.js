@@ -21,6 +21,7 @@ router.get('/post/:game/:id', (req, res) => {
    const PostData = mongoose.model('PostData', PostDataSchema, game);
    PostData.find({
       UserID: new mongoose.Types.ObjectId(id),
+      approved: true,
    })
       .then((data) => {
          res.send(data);
@@ -35,10 +36,9 @@ router.get('/post/:game', (req, res) => {
    const { game } = req.params;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
-   PostData.find()
+   PostData.find({ approved: true })
       .then((data) => {
          res.send(data);
-         console.log(data);
       })
       .catch((err) => {
          res.send(err);
@@ -114,6 +114,7 @@ router.post('/post', postLimit, async (req, res) => {
          grenadeType: grenadeType,
          jumpThrow: JumpThrow,
          game: game,
+         approved: false,
       });
       const savedPost = await newPost.save();
 

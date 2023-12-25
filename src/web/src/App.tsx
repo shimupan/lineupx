@@ -127,10 +127,12 @@ function App() {
                ></Route>
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
                {/* Protected Routes */}
-               <Route element={<RequireAuth allowedRoles={["admin"]}/>}>
-                  <Route path="/admin" element={<AdminHome />}></Route>
+               <Route element={<RequireAuth allowedRoles={['admin']} />}>
                </Route>
-               <Route element={<RequireAuth allowedRoles={["user", "admin"]}/>}>
+                  <Route path="/admin" element={<AdminHome />}></Route>
+               <Route
+                  element={<RequireAuth allowedRoles={['user', 'admin']} />}
+               >
                   <Route path="/upload" element={<Upload />}></Route>
                </Route>
                <Route path="/google-callback" element={<GoogleCallBack />} />

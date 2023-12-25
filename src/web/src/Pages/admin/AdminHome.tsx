@@ -1,9 +1,19 @@
+import { Header, SideNavWrapper } from '../../Components';
+import PanelCard from '../../Components/admin/PanelCard';
+
 const AdminHome: React.FC = () => {
-    return (
-        <div>
-            <h1>Admin Home</h1>
-        </div>
-    )
+   return (
+      <>
+         <Header />
+
+         <div>
+            <PanelCard />
+            <PanelCard />
+         </div>
+
+         <SideNavWrapper />
+      </>
+   );
 };
 
 export default AdminHome;
