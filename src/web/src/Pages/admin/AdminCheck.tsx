@@ -3,17 +3,10 @@ import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL } from '../../Constants';
 import { PostType } from '../../db.types';
+import { approveRejectPosts } from '../../util/updatePost';
 import axios from 'axios';
 
 import { MdCancel, MdCheckCircle } from 'react-icons/md';
-
-function acceptPost(id: string) {
-   console.log('accept', id);
-}
-
-function rejectPost(id: string) {
-   console.log('reject', id);
-}
 
 function expandPost(id: string) {
    const element = document.getElementById(id);
@@ -39,7 +32,6 @@ const AdminCheck: React.FC = () => {
                role: Auth?.role,
             })
             .then((response) => {
-               console.log(response);
                setPosts(response.data);
             })
             .catch((error) => {
@@ -47,6 +39,25 @@ const AdminCheck: React.FC = () => {
             });
       }
    }, [Auth?.role]);
+
+   function acceptPost(id: string, game: string) {
+      try {
+         approveRejectPosts(id, 'approve', game, Auth?.role!);
+         window.location.reload();
+      } catch (error) {
+         console.log(error);
+      }
+   }
+
+   function rejectPost(id: string, game: string) {
+      try {
+         approveRejectPosts(id, 'reject', game, Auth?.role!);
+         window.location.reload();
+      } catch (error) {
+         console.log(error);
+      }
+   }
+
    return (
       <>
          <Header />
@@ -174,14 +185,14 @@ const AdminCheck: React.FC = () => {
                                                          <MdCheckCircle
                                                             className="text-green-500 text-4xl cursor-pointer"
                                                             onClick={() =>
-                                                               acceptPost(p._id)
+                                                               acceptPost(p._id, p.game)
                                                             }
                                                             size={100}
                                                          />
                                                          <MdCancel
                                                             className="text-red-500 text-4xl cursor-pointer"
                                                             onClick={() =>
-                                                               rejectPost(p._id)
+                                                               rejectPost(p._id, p.game)
                                                             }
                                                             size={100}
                                                          />
