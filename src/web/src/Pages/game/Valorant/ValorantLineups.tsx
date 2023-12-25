@@ -21,7 +21,7 @@ const ValorantLineups: React.FC = () => {
    const navigate = useNavigate();
 
    const handleClick = (mapName: string) => {
-      navigate(`/lineups/${mapName}`);
+      navigate(`/game/valorant/lineups/${mapName}`);
    };
    useEffect(() => {
       if (initialRender.current) {
