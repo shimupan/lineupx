@@ -1,91 +1,67 @@
-// Main page of the app
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Header, Footer, SideNavWrapper } from '../../../Components';
-import { AuthContext } from '../../../App';
-import 'react-toastify/dist/ReactToastify.css';
-
-import astra from '../../../assets/valorantagents/astra.webp';
-import brimstone from '../../../assets/valorantagents/brimstone.webp';
-import cypher from '../../../assets/valorantagents/cypher.webp';
-import jett from '../../../assets/valorantagents/jett.webp';
-import killjoy from '../../../assets/valorantagents/killjoy.webp';
-import omen from '../../../assets/valorantagents/omen.webp';
-import phoenix from '../../../assets/valorantagents/phoenix.webp';
-import raze from '../../../assets/valorantagents/raze.webp';
-import reyna from '../../../assets/valorantagents/reyna.webp';
-import sage from '../../../assets/valorantagents/sage.webp';
-import skye from '../../../assets/valorantagents/skye.webp';
-import sova from '../../../assets/valorantagents/sova.webp';
-import viper from '../../../assets/valorantagents/viper.webp';
-import yoru from '../../../assets/valorantagents/yoru.webp';
-import breach from '../../../assets/valorantagents/breach.webp';
-import kayo from '../../../assets/valorantagents/kayo.webp';
-import chamber from '../../../assets/valorantagents/chamber.webp';
-import deadlock from '../../../assets/valorantagents/deadlock.webp';
-import gecko from '../../../assets/valorantagents/gecko.webp';
-import iso from '../../../assets/valorantagents/iso.webp';
-import fade from '../../../assets/valorantagents/fade.webp';
-import neon from '../../../assets/valorantagents/neon.webp';
-import harbor from '../../../assets/valorantagents/harbor.webp';
+import { ValorantAgent } from '../../../db.types';
+import axios from 'axios';
 
 const ValorantAgents: React.FC = () => {
-   const Auth = useContext(AuthContext);
-   const initialRender = useRef(true);
+   const [agents, setAgents] = useState<ValorantAgent>();
+   const [currentAgent, setCurrentAgent] = useState<string>(
+      'https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/fullportrait.png',
+   );
+   const [currentBackground, setCurrentBackground] = useState<string>(
+      'https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/background.png',
+   );
+   useEffect(() => {
+      axios
+         .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
+         .then((response) => {
+            setAgents(response.data);
+         });
+   }, []);
 
    useEffect(() => {
-      if (initialRender.current) {
-         initialRender.current = false;
-      } else if (Auth?.accessToken && Auth.username) {
-         // Logic after initial render and when user is authenticated
-      }
-   }, [Auth?.username]);
-
-   const agents = [
-      { name: 'Astra', image: astra },
-      { name: 'Brimstone', image: brimstone },
-      { name: 'Cypher', image: cypher },
-      { name: 'Jett', image: jett },
-      { name: 'Killjoy', image: killjoy },
-      { name: 'Omen', image: omen },
-      { name: 'Phoenix', image: phoenix },
-      { name: 'Raze', image: raze },
-      { name: 'Reyna', image: reyna },
-      { name: 'Sage', image: sage },
-      { name: 'Skye', image: skye },
-      { name: 'Sova', image: sova },
-      { name: 'Viper', image: viper },
-      { name: 'Yoru', image: yoru },
-      { name: 'Breach', image: breach },
-      { name: 'Kayo', image: kayo },
-      { name: 'Chamber', image: chamber },
-      { name: 'Deadlock', image: deadlock },
-      { name: 'Gecko', image: gecko },
-      { name: 'Iso', image: iso },
-      { name: 'Fade', image: fade },
-      { name: 'Neon', image: neon },
-      { name: 'Harbor', image: harbor},
-   ];
+      console.log(agents);
+   }, [agents]);
 
    return (
       <>
          <Header />
          <SideNavWrapper />
+         <div className="flex">
+            <div
+               style={{ backgroundImage: `url(${currentBackground})` }}
+               className="bg-cover"
+            >
+               <img src={currentAgent} />
+            </div>
 
-         <div className="h-screen flex">
-            <div className="main-content flex-col md:flex-row flex-1">
-               <div className="grid-container">
-                  {agents.map((agent) => (
-                     <div className="agent-card" key={agent.name}>
-                        <img
-                           src={agent.image}
-                           alt={agent.name}
-                           className="agent-image"
-                        />
-                        <div className="agent-name">{agent.name}</div>
-                     </div>
-                  ))}
+            <div className="flex">
+               <div className="main-content flex-col md:flex-row flex-1">
+                  <div className="grid grid-cols-4 mr-8 lg:m-0 lg:grid-cols-8 gap-4">
+                     {agents?.data.map((agent) => (
+                        <div className="agent-card" key={agent.displayName}>
+                           <img
+                              src={agent.displayIcon}
+                              alt={agent.displayName}
+                              className="agent-image"
+                              onClick={() => {
+                                 setCurrentAgent(agent.fullPortrait);
+                                 setCurrentBackground(agent.background);
+                              }}
+                           />
+                           <div className="agent-name">{agent.displayName}</div>
+                        </div>
+                     ))}
+                  </div>
                </div>
             </div>
+         </div>
+
+         <div className="w-screen flex justify-center mt-4 mb-4">
+            <button className="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
+               Lock In!
+               <div className="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
+            </button>
          </div>
 
          <Footer />
