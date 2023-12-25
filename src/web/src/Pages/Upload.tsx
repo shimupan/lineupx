@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper } from '../Components';
 import { AuthContext } from '../App';
+import { getUserByUsername } from '../util/getUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,21 +22,15 @@ const Upload: React.FC = () => {
    // This part checks for the game that was passed in from the previous page
    // Dont change this part
    const { state } = useLocation();
-   const game = state.game.substring(1);
-   
+   const game = state.game.substring(6);
+
    const Auth = useContext(AuthContext);
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const id = toast.loading('Uploading Post...');
       try {
-         const user = await (async () => {
-            try {
-               const response = await axios.get(`/user/${Auth?.username}`);
-               return response.data;
-            } catch (error) {
-               return error;
-            }
-         })();
+         const user = await getUserByUsername(Auth?.username!);
+
          await axios.post('/post', {
             postName,
             mapName,
@@ -103,6 +98,14 @@ const Upload: React.FC = () => {
                         >
                            Map Name*
                         </label>
+                        <input
+                           id="mapName"
+                           type="mapName"
+                           placeholder="Enter a map name"
+                           value={mapName}
+                           onChange={(e) => setMapName(e.target.value)}
+                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                        />
                         {game === 'game/CS2' && (
                            <select
                               id="mapName"
