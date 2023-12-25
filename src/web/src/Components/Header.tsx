@@ -65,8 +65,14 @@ const Header: React.FC = () => {
                </div>
 
                {Auth?.accessToken ? (
-                  <div className="flex">
+                  <div className="flex flex-row">
                      <div>
+                        <button
+                           onClick={() => navigate('/admin')}
+                           className="bg-indigo-800 text-gray-200 ml-3 p-2 rounded hover:bg-blue-500 hover:text-gray-100"
+                        >
+                           Admin Panel
+                        </button>
                         <button
                            onClick={logout}
                            className="bg-indigo-800 text-gray-200 ml-3 p-2 rounded hover:bg-blue-500 hover:text-gray-100"
@@ -112,7 +118,10 @@ const Header: React.FC = () => {
             </div>
             {location.pathname.startsWith('/game/CS2') && (
                <div className="w-full flex justify-center items-center mt-0 px-6 py-1 space-x-6 bg-[#181818] shadow-lg">
-                  <Link to="/game/CS2" className="text-white hover:text-gray-400">
+                  <Link
+                     to="/game/CS2"
+                     className="text-white hover:text-gray-400"
+                  >
                      Home
                   </Link>
                   <Link
