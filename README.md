@@ -16,7 +16,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/shimupan">
-    <img src="./src/assets/lineupx.png" alt="Logo" width="60%" height="60%" />
+    <img src="src/web/src/assets/lineupx.png" alt="Logo" width="60%" height="60%" />
   </a>
 
   <h3 align="center">LineupX</h3>
@@ -52,60 +52,32 @@ Backend
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
+## About Us
 
-To get a local copy up and running follow these simple example steps.
+We are an community driven, open-sourced project built to help new and experienced players alike to understand games better by providing an easy way to view and upload lineups. We will support multiple games in the future and provide our community with more game knowledge.
 
-### Prerequisites
-
-Make sure you have npm installed
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-2. Clone the repo
-   ```sh
-   git clone https://github.com/shimupan/lineupx.git
-   ```
-3. ***IMPORTANT*** `cd` into `api` first and follow the instructions in there first
-   ```
-    cd api
-   ```
-4. After it finishes, `cd ..` into the root directory and
-   ```
-    npm i
-   ```
+For Developers, please read <a href="./docs/contributing/CONTRIBUTING.md">CONTRIBUTING</a> to learn how to setup a local copy and start contributing!
     
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Starting The Frontend 
-1) Simple as
-    ```
-    npm run dev
-    ```
-2) To start the backend server visit the api folder
-    ```
-    cd api
-    ```
-    ```
-    npm start
-    ```
-    Create a .env if needed
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 ## Showcase
+Home Page
+<img src="./public/HomeScreen.png" />
 
-TODO
+CS 2
+<img src="./public/CS2.png" />
+
+Valorant
+<img src="./public/VALORANT.png" />
+
+Profile Page
+<img src="./public/PROFILE.png" />
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the community such an amazing place to learn, inspire, and create. We are open sourced so any contributions you make are **greatly appreciated**. Please read the docs before opening or closing any issues
+Contributions are what make the community such an amazing place to learn, inspire, and create. We are open sourced so any contributions you make are **greatly appreciated**. Please read the docs before opening or closing any issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

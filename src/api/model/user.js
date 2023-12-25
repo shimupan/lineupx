@@ -24,11 +24,8 @@ const UserSchema = new mongoose.Schema({
       type: Boolean,
       default: false,
    },
-   emailVerificationToken: {
+   verificationCode: {
       type: String,
-   },
-   emailVerificationTokenExpires: {
-      type: Date,
    },
    likes: [
       {
@@ -72,15 +69,6 @@ UserSchema.pre('save', async function (next) {
       next(error);
    }
 });
-
-// Adding method to generate email verification token
-UserSchema.methods.generateVerificationToken = function () {
-   const verificationToken = crypto.randomBytes(20).toString('hex');
-   this.emailVerificationToken = verificationToken;
-   this.emailVerificationTokenExpires = Date.now() + 3600000; // 1 hour from now
-
-   return verificationToken;
-};
 
 UserSchema.methods.passwordCheck = async function (password) {
    try {

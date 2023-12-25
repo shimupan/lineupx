@@ -12,6 +12,12 @@ import {
    ForgotPassword,
    ResetPassword,
    GoogleCallBack,
+   VerifyEmail,
+   PostPage,
+   CS2Lineups,
+   ValorantLineups,
+   ValorantAgents,
+   ValorantMaps,
 } from './Components';
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
@@ -89,21 +95,30 @@ function App() {
          <BrowserRouter>
             <Routes>
                <Route path="/" element={<Page />}></Route>
+               <Route path="/game/valorant" element={<Valorant />}></Route>
+               <Route path="/game/valorant/lineups" element={<ValorantLineups />}></Route>
+               <Route path="/game/valorant/agents" element={<ValorantAgents />}></Route>
+               <Route path="/game/valorant/lineups/:mapName" element={<ValorantMaps />} />
+               <Route path="/" element={<ValorantLineups />} />
+               <Route path="/game/cs2" element={<CS2 />}></Route>
+               <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
+               <Route path="/user/:id" element={<ProfilePage />}></Route>
+               <Route path='/game/:game/:id' element={<PostPage />}></Route>
+               {/* Auth Routes */}
                <Route path="/register" element={<Register />}></Route>
                <Route path="/login" element={<Login />}></Route>
-               <Route path="/valorant" element={<Valorant />}></Route>
-               <Route path="/cs2" element={<CS2 />}></Route>
-               <Route path="/user/:id" element={<ProfilePage />}></Route>
                <Route
                   path="/forgotpassword"
                   element={<ForgotPassword />}
                ></Route>
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
+               {/* Protected Routes */}
                <Route element={<RequireAuth />}>
                   <Route path="/admin/:id" element={<ProfilePage />}></Route>
                   <Route path="/upload" element={<Upload />}></Route>
                </Route>
                <Route path="/google-callback" element={<GoogleCallBack />} />
+               <Route path="/verifyemail" element={<VerifyEmail />} />
             </Routes>
          </BrowserRouter>
       </AuthContext.Provider>

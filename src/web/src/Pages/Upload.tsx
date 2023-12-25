@@ -72,7 +72,7 @@ const Upload: React.FC = () => {
 
          <SideNavWrapper />
 
-         <div className="h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5 md:p-10 lg:p-0">
+         <div className="min-h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5 md:p-10 lg:p-0">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
                <div className="flex items-center justify-center w-full lg:p-12">
                   <div className="flex items-center xl:p-10">
@@ -103,14 +103,44 @@ const Upload: React.FC = () => {
                         >
                            Map Name*
                         </label>
-                        <input
-                           id="mapName"
-                           type="mapName"
-                           placeholder="Enter a map name"
-                           value={mapName}
-                           onChange={(e) => setMapName(e.target.value)}
-                           className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                        />
+                        {game === 'game/CS2' && (
+                           <select
+                              id="mapName"
+                              value={mapName}
+                              onChange={(e) => setMapName(e.target.value)}
+                              className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                           >
+                              <option value="">--</option>
+                              <option value="mirage">Mirage</option>
+                              <option value="dust2">Dust 2</option>
+                              <option value="vertigo">Vertigo</option>
+                              <option value="nuke">Nuke</option>
+                              <option value="inferno">Inferno</option>
+                              <option value="overpass">Overpass</option>
+                              <option value="anubis">Anubis</option>
+                              <option value="ancient">Ancient</option>
+                           </select>
+                        )}
+                        {game === 'game/Valorant' && (
+                           <select
+                              id="mapName"
+                              value={mapName}
+                              onChange={(e) => setMapName(e.target.value)}
+                              className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                           >
+                              <option value="">--</option>
+                              <option value="bind">Bind</option>
+                              <option value="haven">Haven</option>
+                              <option value="split">Split</option>
+                              <option value="icebox">Icebox</option>
+                              <option value="ascent">Ascent</option>
+                              <option value="breeze">Breeze</option>
+                              <option value="fracture">Fracture</option>
+                              <option value="pearl">Pearl</option>
+                              <option value="lotus">Lotus</option>
+                              <option value="sunset">Sunset</option>
+                           </select>
+                        )}
                         <label
                            htmlFor="grenadeType"
                            className="mb-2 text-sm text-start text-gray-900"

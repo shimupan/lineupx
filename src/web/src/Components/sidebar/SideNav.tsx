@@ -1,5 +1,5 @@
 import { useState, useContext, createContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../App';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -18,7 +18,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const navigate = useNavigate();
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
-
+   const location = useLocation();
+   const isSpecialRoute = location.pathname.startsWith('/game/Valorant') || location.pathname.startsWith('/game/CS2');
+   const topPosition = isSpecialRoute ? 'top-[120px]' : 'top-[90px]';
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -44,19 +46,19 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
          console.error('Error during logout:', error);
       }
    };
-   // TODO: Make closing transition smoother on mobile
+
    return (
       <aside
-         className={`${expanded ? 'h-full' : ''} md:h-screen absolute z-50`}
+         className={`${expanded ? 'h-full' : ''} md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-300`}
       >
          <nav
-            className={`${
+            className={`h-full flex flex-col overflow-hidden mt-5 sm:mt-0 ${
                expanded
                   ? 'transition-all w-screen md:w-[400px]'
                   : 'transition-all w-[50px] md:w-[70px]'
             } h-full flex flex-col ${
                expanded ? 'bg-white' : 'bg-transparent'
-            } md:bg-white md:border-r shadow-sm`}
+            } md:bg-white md:border-r shadow-sm transition-width duration-500`}
          >
             <div
                className={`md:p-4 pb-2 flex ${

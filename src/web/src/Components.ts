@@ -9,6 +9,12 @@ export { default as Upload } from './Pages/Upload';
 export { default as ForgotPassword } from './Pages/auth/ForgotPassword';
 export { default as ResetPassword } from './Pages/auth/ResetPassword';
 export { default as GoogleCallBack } from './Pages/auth/Google';
+export { default as VerifyEmail} from './Pages/auth/VerifyEmail'
+export { default as PostPage } from './Pages/PostPage';
+export { default as CS2Lineups } from './Pages/game/CS2/CS2Lineups';
+export { default as ValorantLineups } from './Pages/game/Valorant/ValorantLineups';
+export { default as ValorantAgents } from './Pages/game/Valorant/ValorantAgents';
+export { default as ValorantMaps } from './Pages/game/Valorant/ValorantMapLineups';
 // Components
 export { default as Header } from './Components/Header';
 export { default as Game } from './Components/Game';

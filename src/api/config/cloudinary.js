@@ -3,8 +3,8 @@ import { v2 as Cloudinary } from 'cloudinary';
 const cloudinary = () => {
    try {
       Cloudinary.config({
-         cloud_name: 'ddwqqjmyo',
-         api_key: '729538293426867',
+         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+         api_key: process.env.CLOUDINARY_API_KEY,
          api_secret: process.env.CLOUDINARY_SECRET,
       });
       console.log('Cloudinary config loaded');

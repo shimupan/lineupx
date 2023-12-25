@@ -45,8 +45,8 @@ const Page: React.FC = () => {
 
          <div className="h-screen flex">
             <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
-               <Game game={'CS2'} name={cs2} />
-               <Game game={'Valorant'} name={valorant} />
+               <Game game={'game/CS2'} name={cs2} />
+               <Game game={'game/Valorant'} name={valorant} />
             </div>
          </div>
 
