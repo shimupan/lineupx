@@ -58,6 +58,10 @@ router.post('/post/check', async (req, res) => {
    res.status(200).send([CS2Posts, VALPosts]);
 });
 
+router.post('/post/:status', async (req, res) => {
+   
+});
+
 // Upload a post
 router.post('/post', postLimit, async (req, res) => {
    const {
