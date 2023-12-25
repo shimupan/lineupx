@@ -18,6 +18,7 @@ import {
    ValorantLineups,
    ValorantAgents,
    ValorantMaps,
+   CS2Maps,
    AdminHome,
 } from './Components';
 import { setupInterceptors } from './axiosConfig';
@@ -119,6 +120,7 @@ function App() {
                <Route path="/" element={<ValorantLineups />} />
                <Route path="/game/cs2" element={<CS2 />}></Route>
                <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
+               <Route path="/game/cs2/lineups/:mapName" element={<CS2Maps />}></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
                <Route path="/game/:game/:id" element={<PostPage />}></Route>
                {/* Auth Routes */}
