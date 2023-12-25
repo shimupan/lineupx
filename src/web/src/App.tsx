@@ -131,11 +131,11 @@ function App() {
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
                {/* Protected Routes */}
                <Route element={<RequireAuth allowedRoles={['admin']} />}>
+               </Route>
                   <Route path="/admin" element={<AdminHome />}></Route>
                   <Route path="/admin/users" element={<AdminUsers />}></Route>
                   <Route path="/admin/posts" element={<AdminPosts />}></Route>
                   <Route path="/admin/check" element={<AdminCheck />}></Route>
-               </Route>
                <Route
                   element={<RequireAuth allowedRoles={['user', 'admin']} />}
                >

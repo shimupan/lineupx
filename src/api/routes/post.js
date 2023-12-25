@@ -45,6 +45,19 @@ router.get('/post/:game', (req, res) => {
       });
 });
 
+// Allow authorized users to get unapproved posts
+router.post('/post/check', async (req, res) => {
+   const { role } = req.body;
+   if (role != "admin"){
+      return res.status(401).send("Unauthorized");
+   }
+   const CS2Data = mongoose.model('PostData', PostDataSchema, "CS2");
+   const VALData = mongoose.model('PostData', PostDataSchema, "Valorant");
+   const CS2Posts = await CS2Data.find({ approved: false });
+   const VALPosts = await VALData.find({ approved: false });
+   res.status(200).send([CS2Posts, VALPosts]);
+});
+
 // Upload a post
 router.post('/post', postLimit, async (req, res) => {
    const {
