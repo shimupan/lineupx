@@ -18,6 +18,7 @@ import {
    ValorantLineups,
    ValorantAgents,
    ValorantMaps,
+   CS2Maps,
    AdminHome,
 } from './Components';
 import { setupInterceptors } from './axiosConfig';
@@ -39,6 +40,8 @@ type AuthContextType = {
    setEmail: React.Dispatch<React.SetStateAction<string>>;
    username: string;
    setUsername: React.Dispatch<React.SetStateAction<string>>;
+   Verified: boolean;
+   setVerified: React.Dispatch<React.SetStateAction<boolean>>;
    role: string;
 };
 
@@ -53,6 +56,7 @@ function App() {
    const [refreshToken, setRefreshToken] = useState<string>('');
    const [username, setUsername] = useState<string>('');
    const [email, setEmail] = useState<string>('');
+   const [Verified, setVerified] = useState<boolean>(false);
    const [role, setRole] = useState<string>('');
 
    useEffect(() => {
@@ -76,6 +80,7 @@ function App() {
                setRole(response.data?.role || 'user');
                setUsername(response.data.username);
                setEmail(response.data.email);
+               setVerified(response.data.Verified);
             } catch (error) {
                return error;
             }
@@ -95,12 +100,17 @@ function App() {
             setEmail,
             username,
             setUsername,
+            Verified,
+            setVerified,
          }}
       >
          <BrowserRouter>
             <Routes>
                <Route path="/" element={<Page />}></Route>
                <Route path="/game/valorant" element={<Valorant />}></Route>
+               <Route path="/game/valorant/agents/:agentName/lineups" element={<ValorantLineups />}></Route>
+               <Route path="/game/valorant/agents" element={<ValorantAgents />}></Route>
+               <Route path="/game/valorant/agents/:agentName/lineups/:mapName" element={<ValorantMaps />} />
                <Route
                   path="/game/valorant/lineups"
                   element={<ValorantLineups />}
@@ -116,6 +126,7 @@ function App() {
                <Route path="/" element={<ValorantLineups />} />
                <Route path="/game/cs2" element={<CS2 />}></Route>
                <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
+               <Route path="/game/cs2/lineups/:mapName" element={<CS2Maps />}></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
                <Route path="/game/:game/:id" element={<PostPage />}></Route>
                {/* Auth Routes */}

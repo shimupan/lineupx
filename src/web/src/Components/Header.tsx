@@ -141,16 +141,10 @@ const Header: React.FC = () => {
                      Home
                   </Link>
                   <Link
-                     to="/game/Valorant/Lineups"
-                     className="text-white hover:text-gray-400"
-                  >
-                     Lineups
-                  </Link>
-                  <Link
                      to="/game/Valorant/Agents"
                      className="text-white hover:text-gray-400"
                   >
-                     Agents
+                     Lineups
                   </Link>
                </div>
             )}
