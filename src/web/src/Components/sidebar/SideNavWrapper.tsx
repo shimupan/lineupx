@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SideNav, SideNavItems } from '../../Components';
+import { AuthContext } from '../../App';
 import { MdOutlineSettings, MdHome } from 'react-icons/md';
+import { RiAdminFill } from 'react-icons/ri';
 import cs2Logo from '../../assets/cs2logo.webp';
 import valorantLogo from '../../assets/valorantlogo.webp';
 
@@ -10,6 +12,7 @@ type SideNavWrapperProps = {
 };
 
 const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
+   const Auth = useContext(AuthContext);
    const [activeItem, setActiveItem] = useState<string>('/');
    const navigate = useNavigate();
    const location = useLocation();
@@ -41,6 +44,14 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                active={activeItem === '/game/Valorant'}
                onClick={() => handleClick('/game/Valorant')}
             />
+            {Auth?.role === 'admin' && (
+               <SideNavItems
+                  icon={<RiAdminFill size={25} />}
+                  text="Admin"
+                  active={activeItem === '/admin'}
+                  onClick={() => handleClick('/admin')}
+               />
+            )}
             <SideNavItems
                icon={<MdOutlineSettings size={25} />}
                text="Profile"

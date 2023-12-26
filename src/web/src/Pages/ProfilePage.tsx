@@ -13,6 +13,7 @@ import Posts from '../Components/Posts';
 const ProfilePage = () => {
    const { id } = useParams<{ id: string }>();
    const [user, setUser] = useState<UserType>({
+      role: '',
       _id: '',
       username: '',
       email: '',

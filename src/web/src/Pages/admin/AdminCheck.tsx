@@ -124,7 +124,7 @@ const AdminCheck: React.FC = () => {
                                        return (
                                           <React.Fragment key={p._id}>
                                              <tr
-                                                className="border-b dark:border-neutral-500 hover:bg-slate-500 cursor-pointer"
+                                                className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 cursor-pointer"
                                                 onClick={() =>
                                                    expandPost(p._id)
                                                 }
@@ -185,17 +185,25 @@ const AdminCheck: React.FC = () => {
                                                          <MdCheckCircle
                                                             className="text-green-500 text-4xl cursor-pointer"
                                                             onClick={() =>
-                                                               acceptPost(p._id, p.game)
+                                                               acceptPost(
+                                                                  p._id,
+                                                                  p.game,
+                                                               )
                                                             }
                                                             size={100}
                                                          />
+                                                         approve
                                                          <MdCancel
                                                             className="text-red-500 text-4xl cursor-pointer"
                                                             onClick={() =>
-                                                               rejectPost(p._id, p.game)
+                                                               rejectPost(
+                                                                  p._id,
+                                                                  p.game,
+                                                               )
                                                             }
                                                             size={100}
                                                          />
+                                                         reject
                                                       </div>
                                                    </div>
                                                 </td>

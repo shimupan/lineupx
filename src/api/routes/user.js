@@ -44,4 +44,18 @@ router.get('/user/id/:id', async (req, res) => {
    }
 });
 
+// getting all users
+router.post('/user', async (req, res) => {
+   const { role } = req.body;
+   if (role != 'admin') {
+      return res.status(401).send('Unauthorized');
+   }
+   try {
+      const users = await User.find();
+      return res.send(users);
+   } catch (error) {
+      return res.status(404).send('Users not found');
+   }
+});
+
 export default router;
