@@ -45,7 +45,7 @@ router.get('/post/:game', (req, res) => {
       });
 });
 
-// Allow authorized users to get unapproved posts
+// Allow authorized users to get all unapproved posts
 router.post('/post/check', async (req, res) => {
    const { role } = req.body;
    if (role != 'admin') {

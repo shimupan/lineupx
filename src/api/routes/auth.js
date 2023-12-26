@@ -20,7 +20,7 @@ const router = express.Router();
 
 /////////////////////////////////////////////////////////////////////////////
 
-router.post('/login', authLimit, async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
    const { email, password } = req.body;
 
    try {
@@ -30,7 +30,7 @@ router.post('/login', authLimit, async (req, res, next) => {
          throw createError.NotFound('Invalid email or password');
       }
 
-      if (user.role != 'admin' && user.email != 'admin@lineupx.net') {
+      if (user.role === 'user' || (user.role === 'admin' && user.email != 'admin@lineupx.net')) {
          const isMatch = await user.passwordCheck(password);
 
          if (!isMatch) {
