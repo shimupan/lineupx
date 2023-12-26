@@ -3,7 +3,7 @@ import { Header, Footer, SideNavWrapper } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
 import { ValorantAgent } from '../../../db.types';
 import axios from 'axios';
-
+import './Valorant.css';
 const ValorantAgents: React.FC = () => {
    const [agents, setAgents] = useState<ValorantAgent>();
    const [selectedAgentName, setSelectedAgentName] = useState<string | null>(
@@ -95,17 +95,24 @@ const ValorantAgents: React.FC = () => {
 
          <div className="w-screen flex justify-center mt-4 mb-4">
          <button
-            className="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white focus:outline-none"
+            className="playButton"
             onClick={() => {
-                if (selectedAgentName) {
-                    handleClick(selectedAgentName);
-                }
+               if (selectedAgentName) {
+                  handleClick(selectedAgentName);
+               }
             }}
-            >
-            Lock In!
-            <div className="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
-            </button>
-
+         >
+            <span className="mr-4">L O C K</span> 
+            <span>I N</span>
+            <div id="clip">
+               <div id="leftTop" className="corner"></div>
+               <div id="rightBottom" className="corner"></div>
+               <div id="rightTop" className="corner"></div>
+               <div id="leftBottom" className="corner"></div>
+            </div>
+            <span id="rightArrow" className="arrow"></span>
+            <span id="leftArrow" className="arrow"></span>
+         </button>
          </div>
 
          <Footer />

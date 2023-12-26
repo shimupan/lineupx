@@ -139,8 +139,3 @@ select {
   background: #555; 
 }
 
-
-button:active {
-  transform: scale(0.95); 
-  background-color: #3d8b40; 
-}
