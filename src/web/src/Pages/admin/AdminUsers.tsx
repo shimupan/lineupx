@@ -8,13 +8,8 @@ import { useNavigate } from 'react-router-dom';
 const AdminUsers: React.FC = () => {
    const [users, setUsers] = useState<UserType[]>([]);
    const Auth = useContext(AuthContext);
-   const isMounted = useRef(true);
    const navigate = useNavigate();
    useEffect(() => {
-      if (isMounted.current) {
-         isMounted.current = false;
-         return;
-      }
       if (Auth?.role) {
          getAllUsers(Auth?.role)
             .then((response) => {
