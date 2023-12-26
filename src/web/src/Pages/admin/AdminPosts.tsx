@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
@@ -9,13 +9,8 @@ import axios from 'axios';
 const AdminPosts: React.FC = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const Auth = useContext(AuthContext);
-   const isMounted = useRef(true);
    const navigate = useNavigate();
    useEffect(() => {
-      if (isMounted.current) {
-         isMounted.current = false;
-         return;
-      }
       if (Auth?.role) {
          const requests = GAMES.map((game) =>
             axios.get(`/post/${game}`).then((response) => response.data),
@@ -99,7 +94,10 @@ const AdminPosts: React.FC = () => {
                                              <tr
                                                 className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 cursor-pointer"
                                                 onClick={() =>
-                                                   navigate(`/admin/post/${p.postTitle}`, { state: p })
+                                                   navigate(
+                                                      `/admin/post/${p.postTitle}`,
+                                                      { state: p },
+                                                   )
                                                 }
                                              >
                                                 <td className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
