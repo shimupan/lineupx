@@ -20,6 +20,7 @@ export { default as AdminUsers } from './Pages/admin/AdminUsers';
 export { default as AdminPosts } from './Pages/admin/AdminPosts';
 export { default as AdminCheck } from './Pages/admin/AdminCheck';
 export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
+export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
 // Components
 export { default as Header } from './Components/Header';
 export { default as Game } from './Components/Game';

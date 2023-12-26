@@ -23,6 +23,7 @@ import {
    AdminPosts,
    AdminCheck,
    AdminModifyUser,
+   AdminModifyPost,
 } from './Components';
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
@@ -131,14 +132,20 @@ function App() {
                ></Route>
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
                {/* Protected Routes */}
-               <Route
-                  element={<RequireAuth allowedRoles={['admin']} />}
-               ></Route>
-               <Route path="/admin" element={<AdminHome />}></Route>
-               <Route path="/admin/users" element={<AdminUsers />}></Route>
-               <Route path="/admin/posts" element={<AdminPosts />}></Route>
-               <Route path="/admin/check" element={<AdminCheck />}></Route>
-               <Route path="/admin/user/:id" element={<AdminModifyUser />}></Route>
+               <Route element={<RequireAuth allowedRoles={['admin']} />}>
+                  <Route path="/admin" element={<AdminHome />}></Route>
+                  <Route path="/admin/users" element={<AdminUsers />}></Route>
+                  <Route path="/admin/posts" element={<AdminPosts />}></Route>
+                  <Route path="/admin/check" element={<AdminCheck />}></Route>
+                  <Route
+                     path="/admin/user/:id"
+                     element={<AdminModifyUser />}
+                  ></Route>
+                  <Route
+                     path="/admin/post/:id"
+                     element={<AdminModifyPost />}
+                  ></Route>
+               </Route>
                <Route
                   element={<RequireAuth allowedRoles={['user', 'admin']} />}
                >

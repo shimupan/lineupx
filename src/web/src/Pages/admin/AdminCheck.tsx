@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import { MdCancel, MdCheckCircle } from 'react-icons/md';
 
-function expandPost(id: string) {
+export function expandPost(id: string) {
    const element = document.getElementById(id);
    if (element?.classList.contains('hidden')) {
       element?.classList.remove('hidden');

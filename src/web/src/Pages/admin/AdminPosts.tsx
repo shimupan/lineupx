@@ -1,23 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL, GAMES } from '../../Constants';
 import { PostType } from '../../db.types';
 import { approveRejectPosts } from '../../util/updatePost';
+import { expandPost } from './AdminCheck';
 import axios from 'axios';
 
-import { MdCancel, MdCheckCircle } from 'react-icons/md';
+import { MdCancel } from 'react-icons/md';
 
-function expandPost(id: string) {
-   const element = document.getElementById(id);
-   if (element?.classList.contains('hidden')) {
-      element?.classList.remove('hidden');
-   } else {
-      element?.classList.add('hidden');
-   }
-}
-
-const AdminCheck: React.FC = () => {
+const AdminPosts: React.FC = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const Auth = useContext(AuthContext);
    const isMounted = useRef(true);
@@ -27,33 +20,19 @@ const AdminCheck: React.FC = () => {
          return;
       }
       if (Auth?.role) {
-         let postsArr: PostType[][] = [];
-         for (let i = 0; i < GAMES.length; i++) {
-            axios
-               .get(`/post/${GAMES[i]}`)
-               .then((response) => {
-                  postsArr.push(response.data);
-               })
-               .catch((error) => {
-                  console.log(error);
-               });
-         }
-         setPosts(postsArr);
+         const requests = GAMES.map((game) =>
+            axios.get(`/post/${game}`).then((response) => response.data),
+         );
+
+         Promise.all(requests)
+            .then((postsArr) => {
+               setPosts(postsArr);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
       }
    }, [Auth?.role]);
-
-   useEffect(() => {
-      console.log(posts);
-   }, [posts]);
-
-   function acceptPost(id: string, game: string) {
-      try {
-         approveRejectPosts(id, 'approve', game, Auth?.role!);
-         window.location.reload();
-      } catch (error) {
-         console.log(error);
-      }
-   }
 
    function rejectPost(id: string, game: string) {
       try {
@@ -69,7 +48,7 @@ const AdminCheck: React.FC = () => {
          <Header />
          <SideNavWrapper />
          <div className="ml-20 font-extrabold text-4xl">
-            Click on a Post to Expand and View the Images.
+            Click on a Post to View More Information.
          </div>
          <div className="flex flex-col overflow-x-auto ml-20">
             <div className="sm:-mx-6 lg:-mx-8">
@@ -187,18 +166,7 @@ const AdminCheck: React.FC = () => {
                                                          src={`${CDN_URL}/${p.standingPosition.public_id}`}
                                                          className="w-128 h-64 object-contain"
                                                       />
-                                                      <div className="flex flex-col m-4 items-center">
-                                                         <MdCheckCircle
-                                                            className="text-green-500 text-4xl cursor-pointer"
-                                                            onClick={() =>
-                                                               acceptPost(
-                                                                  p._id,
-                                                                  p.game,
-                                                               )
-                                                            }
-                                                            size={100}
-                                                         />
-                                                         approve
+                                                      <div className="flex flex-col m-4 items-center justify-center">
                                                          <MdCancel
                                                             className="text-red-500 text-4xl cursor-pointer"
                                                             onClick={() =>
@@ -209,7 +177,7 @@ const AdminCheck: React.FC = () => {
                                                             }
                                                             size={100}
                                                          />
-                                                         reject
+                                                         delete
                                                       </div>
                                                    </div>
                                                 </td>
@@ -232,4 +200,4 @@ const AdminCheck: React.FC = () => {
    );
 };
 
-export default AdminCheck;
+export default AdminPosts;
