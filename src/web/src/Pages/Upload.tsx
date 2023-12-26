@@ -19,8 +19,8 @@ const Upload: React.FC = () => {
    const [standingPosition, setStandingPosition] = useState<string>('');
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
-   const [valorantagent, setValorantAgent] = useState<string>('');
-   const [agentAbility, setAgentAbility] = useState<string>('');
+   const [valorantAgent, setValorantAgent] = useState<string>('');
+   const [ability, setAgentAbility] = useState<string>('');
    const [lineupLocation, setLineupLocation] = useState<string>('');
    const [lineupDescription, setLineupDescription] = useState<string>('');
    const [teamSide, setTeamSide] = useState<string>('');
@@ -54,7 +54,8 @@ const Upload: React.FC = () => {
             lineupDescription,
             lineupLocation,
             teamSide,
-            ...(game === 'game/Valorant' && { valorantagent, agentAbility }),
+            valorantAgent,
+            ability,
          });
          toast.update(id, {
             render: 'Post Uploaded Successfully!',
@@ -274,8 +275,8 @@ const Upload: React.FC = () => {
                                  Agent Ability*
                               </label>
                               <select
-                                 id="agentAbility"
-                                 value={agentAbility}
+                                 id="ability"
+                                 value={ability}
                                  onChange={(e) =>
                                     setAgentAbility(e.target.value)
                                  }

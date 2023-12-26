@@ -121,8 +121,8 @@ router.post('/post', postLimit, async (req, res) => {
       lineupLocation, 
       lineupDescription, 
       teamSide, 
-      valorantagent,
-      agentAbility,
+      valorantAgent,
+      ability
    } = req.body;
 
    const createModel = (collectionName) =>
@@ -178,12 +178,10 @@ router.post('/post', postLimit, async (req, res) => {
          jumpThrow: JumpThrow,
          game: game,
          approved: false,
+         valorantAgent: valorantAgent,
+         ability: ability,
       });
-      if (game === 'Valorant') {
-         newPost.valorantagent = valorantagent;
-         newPost.agentAbility = agentAbility;
-      }
-      
+
       const savedPost = await newPost.save();
 
       if (!savedPost) {
