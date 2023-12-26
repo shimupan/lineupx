@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../../App';
 import { getAllUsers } from '../../util/getUser';
 import { Footer, Header, SideNavWrapper } from '../../Components';
