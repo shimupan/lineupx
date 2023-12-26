@@ -17,6 +17,11 @@ export { default as ValorantAgents } from './Pages/game/Valorant/ValorantAgents'
 export { default as ValorantMaps } from './Pages/game/Valorant/ValorantMapLineups';
 export { default as CS2Maps } from './Pages/game/CS2/CS2MapLineups';
 export { default as AdminHome } from './Pages/admin/AdminHome';
+export { default as AdminUsers } from './Pages/admin/AdminUsers';
+export { default as AdminPosts } from './Pages/admin/AdminPosts';
+export { default as AdminCheck } from './Pages/admin/AdminCheck';
+export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
+export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
 // Components
 export { default as Header } from './Components/Header';
 export { default as Game } from './Components/Game';

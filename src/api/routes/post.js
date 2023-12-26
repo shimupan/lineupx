@@ -21,6 +21,7 @@ router.get('/post/:game/:id', (req, res) => {
    const PostData = mongoose.model('PostData', PostDataSchema, game);
    PostData.find({
       UserID: new mongoose.Types.ObjectId(id),
+      approved: true,
    })
       .then((data) => {
          res.send(data);
@@ -35,14 +36,74 @@ router.get('/post/:game', (req, res) => {
    const { game } = req.params;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
-   PostData.find()
+   PostData.find({ approved: true })
       .then((data) => {
          res.send(data);
-         console.log(data);
       })
       .catch((err) => {
          res.send(err);
       });
+});
+
+// Allow authorized users to get all unapproved posts
+router.post('/post/check', async (req, res) => {
+   const { role } = req.body;
+   if (role != 'admin') {
+      return res.status(401).send('Unauthorized');
+   }
+   const CS2Data = mongoose.model('PostData', PostDataSchema, 'CS2');
+   const VALData = mongoose.model('PostData', PostDataSchema, 'Valorant');
+   const CS2Posts = await CS2Data.find({ approved: false });
+   const VALPosts = await VALData.find({ approved: false });
+   res.status(200).send([CS2Posts, VALPosts]);
+});
+
+// Delete or approve a post
+router.post('/post/:status', async (req, res) => {
+   const { id, status, game, role } = req.body;
+
+   if (role != 'admin') {
+      return res.status(401).send('Unauthorized');
+   }
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   if (status === 'approve') {
+      PostData.findByIdAndUpdate(id, { approved: true }, { new: true })
+         .then((data) => {
+            res.status(200).send(data);
+         })
+         .catch((err) => {
+            res.status(404).send(err);
+         });
+   }
+
+   if (status === 'reject') {
+      try {
+         const post = await PostData.findById(id);
+         if (post) {
+            const deletePosts = await cloudinaryObject.api.delete_resources(
+               [
+                  post.aimingPosition.public_id,
+                  post.standingPosition.public_id,
+                  post.landingPosition.public_id,
+               ],
+               { type: 'upload', resource_type: 'image' },
+            );
+            console.log(deletePosts);
+
+            PostData.findByIdAndDelete(id)
+               .then((data) => {
+                  return res.status(200).send(data);
+               })
+               .catch((err) => {
+                  return res.status(404).send(err);
+               });
+         } else {
+            return res.status(404).send('Post not found');
+         }
+      } catch (error) {
+         console.log(error);
+      }
+   }
 });
 
 // Upload a post
@@ -114,6 +175,7 @@ router.post('/post', postLimit, async (req, res) => {
          grenadeType: grenadeType,
          jumpThrow: JumpThrow,
          game: game,
+         approved: false,
       });
       const savedPost = await newPost.save();
 

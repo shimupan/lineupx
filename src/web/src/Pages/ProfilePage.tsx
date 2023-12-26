@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Header, SideNavWrapper, Footer, Loading } from '../Components';
+import { getUserByUsername } from '../util/getUser';
 import { GAMES } from '../Constants';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +13,7 @@ import Posts from '../Components/Posts';
 const ProfilePage = () => {
    const { id } = useParams<{ id: string }>();
    const [user, setUser] = useState<UserType>({
+      role: '',
       _id: '',
       username: '',
       email: '',
@@ -77,14 +79,13 @@ const ProfilePage = () => {
    // If you search for an non exisitant user
    useEffect(() => {
       // Fetch Users
-      axios
-         .get(`/user/${id}`)
+      getUserByUsername(id!)
          .then((response) => {
-            setUser(response.data);
+            setUser(response);
             // Fetch User Posts
             // For each game that we currently support
             const postsPromises = GAMES.map((game) =>
-               axios.get(`/post/${game}/${response.data._id}`),
+               axios.get(`/post/${game}/${response._id}`),
             );
 
             return Promise.all(postsPromises);
