@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
@@ -9,13 +9,8 @@ import axios from 'axios';
 const AdminPosts: React.FC = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const Auth = useContext(AuthContext);
-   const isMounted = useRef(true);
    const navigate = useNavigate();
    useEffect(() => {
-      if (isMounted.current) {
-         isMounted.current = false;
-         return;
-      }
       if (Auth?.role) {
          const requests = GAMES.map((game) =>
             axios.get(`/post/${game}`).then((response) => response.data),
@@ -24,7 +19,6 @@ const AdminPosts: React.FC = () => {
          Promise.all(requests)
             .then((postsArr) => {
                setPosts(postsArr);
-               console.log(postsArr);
             })
             .catch((error) => {
                console.log(error);

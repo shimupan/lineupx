@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL } from '../../Constants';
@@ -20,12 +20,7 @@ export function expandPost(id: string) {
 const AdminCheck: React.FC = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const Auth = useContext(AuthContext);
-   const isMounted = useRef(true);
    useEffect(() => {
-      if (isMounted.current) {
-         isMounted.current = false;
-         return;
-      }
       if (Auth?.role) {
          axios
             .post('/post/check', {
@@ -33,7 +28,6 @@ const AdminCheck: React.FC = () => {
             })
             .then((response) => {
                setPosts(response.data);
-               console.log(response.data);
             })
             .catch((error) => {
                console.log(error);
