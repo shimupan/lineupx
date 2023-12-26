@@ -20,7 +20,7 @@ const CS2: React.FC = () => {
       axios
          .get('/post/CS2')
          .then((res) => {
-            setPosts(res.data);
+            setPosts(res.data.slice(0, 10));
          })
          .catch((err) => {
             console.log(err);

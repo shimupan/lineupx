@@ -159,6 +159,42 @@ router.post('/register', authLimit, async (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
+router.post('/send-verification-email', async (req, res) => {
+   const { userId } = req.body;
+
+   try {
+      const user = await User.findById(userId);
+      if (!user) {
+         return res.status(404).send({ message: 'User not found' });
+      }
+
+      if (user.Verified) {
+         return res.status(400).send({ message: 'User already verified' });
+      }
+
+      // Generate a new verification code
+      const verificationCode = Math.floor(100000 + Math.random() * 900000);
+      user.verificationCode = verificationCode;
+      await user.save();
+
+      const verificationUrl = `http://${process.env.EMAIL_DOMAIN}/verifyemail?userId=${user.id}`;
+
+      // Send email verification code
+      await sendEmail(
+         user.email,
+         'Verify Your Email',
+         `Your verification code is: <b><h2>${verificationCode}</h2></b>. You can also verify your email by clicking on the following link: ${verificationUrl}`,
+      );
+
+      res.status(200).send({ message: 'Verification email sent' });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'Server error' });
+   }
+});
+
+/////////////////////////////////////////////////////////////////////////////
+
 router.post('/refresh-token', async (req, res, next) => {
    const { refreshToken } = req.body;
 
