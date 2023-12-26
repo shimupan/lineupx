@@ -3,7 +3,7 @@ import { Header, Footer, SideNavWrapper } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
 import { ValorantAgent } from '../../../db.types';
 import axios from 'axios';
-import './Valorant.css';
+
 const ValorantAgents: React.FC = () => {
    const [agents, setAgents] = useState<ValorantAgent>();
    const [selectedAgentName, setSelectedAgentName] = useState<string | null>(
@@ -35,7 +35,8 @@ const ValorantAgents: React.FC = () => {
       <>
          <Header />
          <SideNavWrapper />
-         <div className="flex">
+
+         <div className="flex flex-col md:flex-row">
             <div
                style={{ backgroundImage: `url(${currentBackground})` }}
                className="bg-cover"
@@ -43,22 +44,27 @@ const ValorantAgents: React.FC = () => {
                <img src={currentAgent} />
             </div>
 
-            <div className="flex">
-               <div className="main-content flex-col md:flex-row flex-1">
-                  <div className="grid grid-cols-4 md:grid-cols-8 gap-4 ml-4 md:ml-8">
+            <div className="flex flex-col md:flex-row">
+               <div className="text-white p-5 flex flex-col">
+                  <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 ml-4 md:ml-8">
                      {agents?.data.map((agent) => (
-                        <div className="agent-card" key={agent.displayName}>
+                        <div
+                           className="agent-card bg-gray-800 rounded-lg overflow-hidden w-full hover:scale-105 transition-transform duration-300"
+                           key={agent.displayName}
+                        >
                            <img
                               src={agent.displayIcon}
                               alt={agent.displayName}
-                              className="agent-image cursor-pointer"
+                              className="w-full block transition-opacity duration-300 hover:opacity-90 cursor-pointer"
                               onClick={() => {
                                  setCurrentAgent(agent.fullPortrait);
                                  setCurrentBackground(agent.background);
                                  setSelectedAgentName(agent.displayName);
                               }}
                            />
-                           <div className="agent-name">{agent.displayName}</div>
+                           <div className="text-center py-2 text-base font-bold text-white overflow-hidden whitespace-nowrap overflow-ellipsis">
+                              {agent.displayName}
+                           </div>
                         </div>
                      ))}
                   </div>
@@ -94,27 +100,22 @@ const ValorantAgents: React.FC = () => {
          </div>
 
          <div className="w-screen flex justify-center mt-4 mb-4">
-         <button
-            className="playButton"
-            onClick={() => {
-               if (selectedAgentName) {
-                  handleClick(selectedAgentName);
-               }
-            }}
-         >
-            <span className="mr-4">L O C K</span> 
-            <span>I N</span>
-            <div id="clip">
-               <div id="leftTop" className="corner"></div>
-               <div id="rightBottom" className="corner"></div>
-               <div id="rightTop" className="corner"></div>
-               <div id="leftBottom" className="corner"></div>
-            </div>
-            <span id="rightArrow" className="arrow"></span>
-            <span id="leftArrow" className="arrow"></span>
-         </button>
+            <button
+               className="relative w-60 h-16 outline-none transition-all duration-100 bg-transparent border-none text-sm font-bold text-[#ddebf0] rounded-none hover:bg-[#27c39f] focus:outline-none"
+               onClick={() => {
+                  if (selectedAgentName) {
+                     handleClick(selectedAgentName);
+                  }
+               }}
+            >
+               <span className="mr-4">L O C K</span>
+               <span>I N</span>
+               <div
+                  id="clip"
+                  className="absolute top-0 overflow-hidden w-full h-full border-[5px] border-double border-[#2761c3] shadow-inner shadow-[#195480]"
+               ></div>
+            </button>
          </div>
-
          <Footer />
       </>
    );
