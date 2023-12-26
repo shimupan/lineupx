@@ -80,17 +80,16 @@ router.post('/post/:status', async (req, res) => {
       try {
          const post = await PostData.findById(id);
          if (post) {
-            const deletePosts =
-               await cloudinaryObject.api.delete_resources(
-                  [
-                     post.aimingPosition.public_id,
-                     post.standingPosition.public_id,
-                     post.landingPosition.public_id,
-                  ],
-                  { type: 'upload', resource_type: 'image' },
-               );
+            const deletePosts = await cloudinaryObject.api.delete_resources(
+               [
+                  post.aimingPosition.public_id,
+                  post.standingPosition.public_id,
+                  post.landingPosition.public_id,
+               ],
+               { type: 'upload', resource_type: 'image' },
+            );
             console.log(deletePosts);
-            
+
             PostData.findByIdAndDelete(id)
                .then((data) => {
                   return res.status(200).send(data);
