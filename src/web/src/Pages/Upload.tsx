@@ -1,12 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper } from '../Components';
 import { AuthContext } from '../App';
 import { getUserByUsername } from '../util/getUser';
 import { ToastContainer, toast } from 'react-toastify';
+import { ValorantAgent } from '../db.types';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+
 
 const Upload: React.FC = () => {
    // TODO: ADD Agents and Agent specific stuff if the game is valorant
@@ -17,11 +19,14 @@ const Upload: React.FC = () => {
    const [standingPosition, setStandingPosition] = useState<string>('');
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
-   const [agent, setAgent] = useState<string>('');
+   const [valorantagent, setValorantAgent] = useState<string>('');
    const [agentAbility, setAgentAbility] = useState<string>('');
    const [lineupLocation, setLineupLocation] = useState<string>('');
    const [lineupDescription, setLineupDescription] = useState<string>('');
    const [teamSide, setTeamSide] = useState<string>('');
+   const [agents, setAgents] = useState<ValorantAgent>();
+   const [selectedAgent, setSelectedAgent] = useState<string>('');
+   const [selectedAgentAbilities, setSelectedAgentAbilities] = useState<string[]>([]);
    // This part checks for the game that was passed in from the previous page
    // Dont change this part
    const { state } = useLocation();
@@ -49,7 +54,7 @@ const Upload: React.FC = () => {
             lineupDescription,
             lineupLocation,
             teamSide,
-            ...(game === 'game/Valorant' && { agent, agentAbility }),
+            ...(game === 'game/Valorant' && { valorantagent, agentAbility }),
          });
          toast.update(id, {
             render: 'Post Uploaded Successfully!',
@@ -69,6 +74,14 @@ const Upload: React.FC = () => {
          console.log(error);
       }
    };
+
+   useEffect(() => {
+      axios
+         .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
+         .then((response) => {
+            setAgents(response.data);
+         });
+   }, []);
 
    if (!verified) {
       return (
@@ -228,36 +241,55 @@ const Upload: React.FC = () => {
                               </select>
 
                               <label
-                                 htmlFor="agent"
+                                 htmlFor="grenadeType"
                                  className="mb-2 text-sm text-start text-gray-900"
                               >
                                  Agent*
                               </label>
-                              <input
+                              <select
                                  id="agent"
-                                 type="text"
-                                 placeholder="Enter agent name"
-                                 value={agent}
-                                 onChange={(e) => setAgent(e.target.value)}
+                                 value={selectedAgent}
+                                 onChange={(e) => {
+                                    const selectedAgentUuid = e.target.value;
+                                    const selectedAgentData = agents?.data.find(agent => agent.uuid === selectedAgentUuid);
+                                    setSelectedAgent(selectedAgentUuid);
+                                    if (selectedAgentData) {
+                                       setValorantAgent(selectedAgentData.displayName);
+                                       setSelectedAgentAbilities(selectedAgentData.abilities.map(ability => ability.displayName));
+                                    }
+                                 }}
                                  className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                              />
+                              >
+                                 {agents?.data.map((agent) => (
+                                    <option key={agent.uuid} value={agent.uuid}>
+                                       {agent.displayName}
+                                    </option>
+                                 ))}
+                              </select>
+
                               <label
                                  htmlFor="agentAbility"
                                  className="mb-2 text-sm text-start text-gray-900"
                               >
                                  Agent Ability*
                               </label>
-                              <input
+                              <select
                                  id="agentAbility"
-                                 type="text"
-                                 placeholder="Enter agent ability"
                                  value={agentAbility}
                                  onChange={(e) =>
                                     setAgentAbility(e.target.value)
                                  }
                                  className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                              />
-                                                            <label
+                              >
+                                 {
+                                    selectedAgentAbilities.map((ability, index) => (
+                                       <option key={index} value={ability}>
+                                          {ability}
+                                       </option>
+                                    ))
+                                 }
+                              </select>
+                              <label
                                  htmlFor="grenadeType"
                                  className="mb-2 text-sm text-start text-gray-900"
                               >

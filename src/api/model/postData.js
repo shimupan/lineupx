@@ -89,7 +89,7 @@ const PostDataSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
    },
-   agent: {
+   valorantagent: {
       type: String,
       required: false, 
    },

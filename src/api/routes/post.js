@@ -121,7 +121,7 @@ router.post('/post', postLimit, async (req, res) => {
       lineupLocation, 
       lineupDescription, 
       teamSide, 
-      agent,
+      valorantagent,
       agentAbility,
    } = req.body;
 
@@ -180,7 +180,7 @@ router.post('/post', postLimit, async (req, res) => {
          approved: false,
       });
       if (game === 'Valorant') {
-         newPost.agent = agent;
+         newPost.valorantagent = valorantagent;
          newPost.agentAbility = agentAbility;
       }
       
