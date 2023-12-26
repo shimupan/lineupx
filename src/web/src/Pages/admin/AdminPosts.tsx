@@ -4,16 +4,13 @@ import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL, GAMES } from '../../Constants';
 import { PostType } from '../../db.types';
-import { approveRejectPosts } from '../../util/updatePost';
-import { expandPost } from './AdminCheck';
 import axios from 'axios';
-
-import { MdCancel } from 'react-icons/md';
 
 const AdminPosts: React.FC = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const Auth = useContext(AuthContext);
    const isMounted = useRef(true);
+   const navigate = useNavigate();
    useEffect(() => {
       if (isMounted.current) {
          isMounted.current = false;
@@ -33,15 +30,6 @@ const AdminPosts: React.FC = () => {
             });
       }
    }, [Auth?.role]);
-
-   function rejectPost(id: string, game: string) {
-      try {
-         approveRejectPosts(id, 'reject', game, Auth?.role!);
-         window.location.reload();
-      } catch (error) {
-         console.log(error);
-      }
-   }
 
    return (
       <>
@@ -111,7 +99,7 @@ const AdminPosts: React.FC = () => {
                                              <tr
                                                 className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 cursor-pointer"
                                                 onClick={() =>
-                                                   expandPost(p._id)
+                                                   navigate(`/admin/post/${p.postTitle}`, { state: p })
                                                 }
                                              >
                                                 <td className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
@@ -149,37 +137,6 @@ const AdminPosts: React.FC = () => {
                                                       width={25}
                                                       className="w-10"
                                                    />
-                                                </td>
-                                             </tr>
-                                             <tr id={p._id} className="hidden">
-                                                <td>
-                                                   <div className="flex mb-4 mt-4">
-                                                      <img
-                                                         src={`${CDN_URL}/${p.landingPosition.public_id}`}
-                                                         className="w-128 h-64 object-contain"
-                                                      />
-                                                      <img
-                                                         src={`${CDN_URL}/${p.aimingPosition.public_id}`}
-                                                         className="ml-4 mr-4 w-128 h-64 object-contain"
-                                                      />
-                                                      <img
-                                                         src={`${CDN_URL}/${p.standingPosition.public_id}`}
-                                                         className="w-128 h-64 object-contain"
-                                                      />
-                                                      <div className="flex flex-col m-4 items-center justify-center">
-                                                         <MdCancel
-                                                            className="text-red-500 text-4xl cursor-pointer"
-                                                            onClick={() =>
-                                                               rejectPost(
-                                                                  p._id,
-                                                                  p.game,
-                                                               )
-                                                            }
-                                                            size={100}
-                                                         />
-                                                         delete
-                                                      </div>
-                                                   </div>
                                                 </td>
                                              </tr>
                                           </React.Fragment>
