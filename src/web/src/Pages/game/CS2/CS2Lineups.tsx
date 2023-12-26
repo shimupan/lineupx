@@ -44,28 +44,30 @@ const CS2Lineups: React.FC = () => {
          <Header />
          <SideNavWrapper />
 
-         <div className="flex flex-1 h-screen">
-            <div className="flex-1 flex justify-center items-center">
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 ml-10">
+         <main className="bg-gradient-to-br from-purple-800 to-blue-600 min-h-screen p-4">
+            <div className="container mx-auto py-6">
+               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                   {maps.map((map) => (
                      <div
                         key={map.name}
-                        className="bg-gray-800 rounded overflow-hidden shadow-lg hover:shadow-2xl transition ease-in-out duration-300 cursor-pointer" // Add cursor-pointer here
+                        className="bg-gray-900 rounded-lg overflow-hidden shadow-xl hover:scale-105 transform transition duration-500 cursor-pointer"
                         onClick={() => handleClick(map.name)}
                      >
                         <img
                            src={map.image}
                            alt={map.name}
-                           className="w-full h-60 object-cover"
+                           className="w-full h-48 object-cover hover:opacity-75"
                         />
-                        <div className="text-center text-white py-2">
-                           {map.name}
+                        <div className="px-6 py-4">
+                           <div className="font-bold text-xl mb-2 text-white text-center">
+                              {map.name}
+                           </div>
                         </div>
                      </div>
                   ))}
                </div>
             </div>
-         </div>
+         </main>
 
          <Footer />
       </>
