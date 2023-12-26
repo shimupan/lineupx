@@ -1,4 +1,5 @@
 export type UserType = {
+   role: string;
    _id: string;
    username: string;
    email: string;

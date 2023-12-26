@@ -1,11 +1,11 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper } from '../Components';
 import { AuthContext } from '../App';
+import { getUserByUsername } from '../util/getUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import axios from 'axios';
 
 const Upload: React.FC = () => {
@@ -17,25 +17,20 @@ const Upload: React.FC = () => {
    const [standingPosition, setStandingPosition] = useState<string>('');
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
-
    // This part checks for the game that was passed in from the previous page
    // Dont change this part
    const { state } = useLocation();
-   const game = state.game.substring(1);
-   
+   const game = state.game.substring(6);
+
    const Auth = useContext(AuthContext);
+   const verified = Auth?.Verified;
+
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const id = toast.loading('Uploading Post...');
       try {
-         const user = await (async () => {
-            try {
-               const response = await axios.get(`/user/${Auth?.username}`);
-               return response.data;
-            } catch (error) {
-               return error;
-            }
-         })();
+         const user = await getUserByUsername(Auth?.username!);
+
          await axios.post('/post', {
             postName,
             mapName,
@@ -65,6 +60,41 @@ const Upload: React.FC = () => {
          console.log(error);
       }
    };
+
+   if (!verified) {
+      return (
+         <>
+            <Header />
+            <SideNavWrapper />
+
+            <div className="flex items-center justify-center h-screen">
+               <div className="px-4 py-6 text-center border border-gray-300 rounded-lg shadow-lg bg-white">
+                  <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     className="w-16 h-16 mx-auto mb-4 text-blue-600"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 16h-1v-4h1m0 0h-1m1 0a1 1 0 011 1v3m-4-7h4m-4 0H9m4 0V9"
+                     />
+                  </svg>
+                  <h3 className="mb-2 text-xl font-semibold text-gray-800">
+                     Email Verification Required
+                  </h3>
+                  <p className="text-gray-600">
+                     You need to verify your email before you can upload. Check
+                     your spam folder if you cannot find it.
+                  </p>
+               </div>
+            </div>
+         </>
+      );
+   }
 
    return (
       <>
@@ -103,6 +133,14 @@ const Upload: React.FC = () => {
                         >
                            Map Name*
                         </label>
+                        <input
+                           id="mapName"
+                           type="mapName"
+                           placeholder="Enter a map name"
+                           value={mapName}
+                           onChange={(e) => setMapName(e.target.value)}
+                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                        />
                         {game === 'game/CS2' && (
                            <select
                               id="mapName"

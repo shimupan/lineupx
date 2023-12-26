@@ -16,11 +16,11 @@ const Valorant: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
 
    useEffect(() => {
-      document.title = 'Counter-Strike 2';
+      document.title = 'Valorant';
       axios
          .get('/post/Valorant')
          .then((res) => {
-            setPosts(res.data);
+            setPosts(res.data.slice(0, 10));
          })
          .catch((err) => {
             console.log(err);
