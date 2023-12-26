@@ -28,7 +28,7 @@ const ValorantLineups: React.FC = () => {
    }, [Auth?.username]);
 
    const handleClick = (mapName: string) => {
-      navigate(`/game/valorant/agents/${agentName}/lineups/${mapName}`);
+      navigate(`/game/Valorant/agents/${agentName}/lineups/${mapName}`);
    };
 
    return (

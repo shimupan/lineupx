@@ -118,6 +118,11 @@ router.post('/post', postLimit, async (req, res) => {
       jumpThrow,
       game,
       user,
+      lineupLocation, 
+      lineupDescription, 
+      teamSide, 
+      agent,
+      agentAbility,
    } = req.body;
 
    const createModel = (collectionName) =>
@@ -151,12 +156,9 @@ router.post('/post', postLimit, async (req, res) => {
          UserID: user._id,
          postTitle: postName,
          mapName: mapName,
-         /*
-         TODO: Forgot to add the following to the form
-         lineupLocation: lineupLocation,
-         lineupDescription: lineupDescription,
-         teamSide: teamSide,
-         */
+         lineupLocation: lineupLocation, 
+         lineupDescription: lineupDescription, 
+         teamSide: teamSide, 
          likes: [],
          dislikes: [],
          views: 0,
@@ -177,6 +179,11 @@ router.post('/post', postLimit, async (req, res) => {
          game: game,
          approved: false,
       });
+      if (game === 'Valorant') {
+         newPost.agent = agent;
+         newPost.agentAbility = agentAbility;
+      }
+      
       const savedPost = await newPost.save();
 
       if (!savedPost) {

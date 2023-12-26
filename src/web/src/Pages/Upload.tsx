@@ -17,6 +17,11 @@ const Upload: React.FC = () => {
    const [standingPosition, setStandingPosition] = useState<string>('');
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
+   const [agent, setAgent] = useState<string>('');
+   const [agentAbility, setAgentAbility] = useState<string>('');
+   const [lineupLocation, setLineupLocation] = useState<string>('');
+   const [lineupDescription, setLineupDescription] = useState<string>('');
+   const [teamSide, setTeamSide] = useState<string>('');
    // This part checks for the game that was passed in from the previous page
    // Dont change this part
    const { state } = useLocation();
@@ -41,6 +46,10 @@ const Upload: React.FC = () => {
             jumpThrow,
             game,
             user,
+            lineupDescription,
+            lineupLocation,
+            teamSide,
+            ...(game === 'game/Valorant' && { agent, agentAbility }),
          });
          toast.update(id, {
             render: 'Post Uploaded Successfully!',
@@ -133,74 +142,142 @@ const Upload: React.FC = () => {
                         >
                            Map Name*
                         </label>
-                        <input
-                           id="mapName"
-                           type="mapName"
-                           placeholder="Enter a map name"
-                           value={mapName}
-                           onChange={(e) => setMapName(e.target.value)}
-                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                        />
-                        {game === 'game/CS2' && (
-                           <select
-                              id="mapName"
-                              value={mapName}
-                              onChange={(e) => setMapName(e.target.value)}
-                              className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                           >
-                              <option value="">--</option>
-                              <option value="mirage">Mirage</option>
-                              <option value="dust2">Dust 2</option>
-                              <option value="vertigo">Vertigo</option>
-                              <option value="nuke">Nuke</option>
-                              <option value="inferno">Inferno</option>
-                              <option value="overpass">Overpass</option>
-                              <option value="anubis">Anubis</option>
-                              <option value="ancient">Ancient</option>
-                           </select>
+                        {game === 'CS2' && (
+                           <>
+                              <select
+                                 id="mapName"
+                                 value={mapName}
+                                 onChange={(e) => setMapName(e.target.value)}
+                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                              >
+                                 <option value="">--</option>
+                                 <option value="mirage">Mirage</option>
+                                 <option value="dust2">Dust 2</option>
+                                 <option value="vertigo">Vertigo</option>
+                                 <option value="nuke">Nuke</option>
+                                 <option value="inferno">Inferno</option>
+                                 <option value="overpass">Overpass</option>
+                                 <option value="anubis">Anubis</option>
+                                 <option value="ancient">Ancient</option>
+                              </select>
+
+                              <label
+                                 htmlFor="grenadeType"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Grenade Type*
+                              </label>
+                              <select
+                                 id="grenadeType"
+                                 value={grenadeType}
+                                 onChange={(e) =>
+                                    setGrenadeType(e.target.value)
+                                 }
+                                 className="flex text-black items-center w-full px-5
+                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
+                                    focus:bg-grey-400 placeholder:text-grey-700
+                                    bg-grey-200 text-dark-grey-900 rounded-2xl"
+                              >
+                                 <option value="">--</option>
+                                 <option value="smoke">Smoke</option>
+                                 <option value="flash">Flash</option>
+                                 <option value="molotov">Molotov</option>
+                                 <option value="shock">Decoy</option>
+                                 <option value="he">HE</option>
+                              </select>
+                              <label
+                                 htmlFor="grenadeType"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Team Side*
+                              </label>
+                              <select
+                                 id="teamSide"
+                                 value={teamSide}
+                                 onChange={(e) => setTeamSide(e.target.value)}
+                                 className="flex text-black items-center w-full px-5
+                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
+                                    focus:bg-grey-400 placeholder:text-grey-700
+                                    bg-grey-200 text-dark-grey-900 rounded-2xl"
+                              >
+                                 <option value="">--</option>
+                                 <option value="CT">Counter Terrorist</option>
+                                 <option value="T">Terrorist</option>
+                              </select>
+                           </>
                         )}
-                        {game === 'game/Valorant' && (
-                           <select
-                              id="mapName"
-                              value={mapName}
-                              onChange={(e) => setMapName(e.target.value)}
-                              className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                           >
-                              <option value="">--</option>
-                              <option value="bind">Bind</option>
-                              <option value="haven">Haven</option>
-                              <option value="split">Split</option>
-                              <option value="icebox">Icebox</option>
-                              <option value="ascent">Ascent</option>
-                              <option value="breeze">Breeze</option>
-                              <option value="fracture">Fracture</option>
-                              <option value="pearl">Pearl</option>
-                              <option value="lotus">Lotus</option>
-                              <option value="sunset">Sunset</option>
-                           </select>
+                        {game === 'Valorant' && (
+                           <>
+                              <select
+                                 id="mapName"
+                                 value={mapName}
+                                 onChange={(e) => setMapName(e.target.value)}
+                                 className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                              >
+                                 <option value="">--</option>
+                                 <option value="bind">Bind</option>
+                                 <option value="haven">Haven</option>
+                                 <option value="split">Split</option>
+                                 <option value="icebox">Icebox</option>
+                                 <option value="ascent">Ascent</option>
+                                 <option value="breeze">Breeze</option>
+                                 <option value="fracture">Fracture</option>
+                                 <option value="pearl">Pearl</option>
+                                 <option value="lotus">Lotus</option>
+                                 <option value="sunset">Sunset</option>
+                              </select>
+
+                              <label
+                                 htmlFor="agent"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Agent*
+                              </label>
+                              <input
+                                 id="agent"
+                                 type="text"
+                                 placeholder="Enter agent name"
+                                 value={agent}
+                                 onChange={(e) => setAgent(e.target.value)}
+                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                              />
+                              <label
+                                 htmlFor="agentAbility"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Agent Ability*
+                              </label>
+                              <input
+                                 id="agentAbility"
+                                 type="text"
+                                 placeholder="Enter agent ability"
+                                 value={agentAbility}
+                                 onChange={(e) =>
+                                    setAgentAbility(e.target.value)
+                                 }
+                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                              />
+                                                            <label
+                                 htmlFor="grenadeType"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Team Side*
+                              </label>
+                              <select
+                                 id="teamSide"
+                                 value={teamSide}
+                                 onChange={(e) => setTeamSide(e.target.value)}
+                                 className="flex text-black items-center w-full px-5
+                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
+                                    focus:bg-grey-400 placeholder:text-grey-700
+                                    bg-grey-200 text-dark-grey-900 rounded-2xl"
+                              >
+                                 <option value="">--</option>
+                                 <option value="Defender">Defender</option>
+                                 <option value="Attacker">Attacker</option>
+                              </select>
+                           </>
                         )}
-                        <label
-                           htmlFor="grenadeType"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Grenade Type*
-                        </label>
-                        <select
-                           id="grenadeType"
-                           value={grenadeType}
-                           onChange={(e) => setGrenadeType(e.target.value)}
-                           className="flex text-black items-center w-full px-5
-                           py-4 mb-5 mr-2 text-sm font-medium outline-none
-                           focus:bg-grey-400 placeholder:text-grey-700
-                           bg-grey-200 text-dark-grey-900 rounded-2xl"
-                        >
-                           <option value="">--</option>
-                           <option value="smoke">Smoke</option>
-                           <option value="flash">Flash</option>
-                           <option value="molotov">Molotov</option>
-                           <option value="shock">Decoy</option>
-                           <option value="he">HE</option>
-                        </select>
                         <label
                            htmlFor="jumpThrow"
                            className="mb-2 text-sm text-start text-gray-900"
@@ -242,6 +319,36 @@ const Upload: React.FC = () => {
                            Upload the Grenade Aiming Position
                         </label>
                         <Dropzone setFile={setAimingPosition} />
+                        <label
+                           htmlFor="lineupDescription"
+                           className="mb-2 text-sm text-start text-gray-900"
+                        >
+                           Lineup Description*
+                        </label>
+                        <input
+                           id="lineupDescription"
+                           type="lineupDescription"
+                           placeholder="Enter the description of the lineup"
+                           value={lineupDescription}
+                           onChange={(e) =>
+                              setLineupDescription(e.target.value)
+                           }
+                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                        />
+                        <label
+                           htmlFor="lineupLocation"
+                           className="mb-2 text-sm text-start text-gray-900"
+                        >
+                           Lineup Location*
+                        </label>
+                        <input
+                           id="lineupLocation"
+                           type="lineupLocation"
+                           placeholder="Enter a post name (please be descriptive)"
+                           value={lineupLocation}
+                           onChange={(e) => setLineupLocation(e.target.value)}
+                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                        />
                         <button
                            type="submit"
                            className="w-full px-6 py-5 mb-5 mt-5 text-sm font-bold leading-none text-white transition duration-300 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900"

@@ -89,6 +89,26 @@ const PostDataSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
    },
+   agent: {
+      type: String,
+      required: false, 
+   },
+   ability: {
+      type: String,
+      required: false, 
+   },
+   lineupLocation: {
+      type: String,
+      required: true,
+   },
+   lineupDescription: {
+      type: String,
+      required: true,
+   },
+   teamSide: {
+      type: String,
+      required: true,
+   },
 });
 
 export default PostDataSchema;
