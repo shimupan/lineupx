@@ -28,7 +28,6 @@ const AdminCheck: React.FC = () => {
             })
             .then((response) => {
                setPosts(response.data);
-               console.log(response.data);
             })
             .catch((error) => {
                console.log(error);

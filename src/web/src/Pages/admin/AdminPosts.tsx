@@ -19,7 +19,6 @@ const AdminPosts: React.FC = () => {
          Promise.all(requests)
             .then((postsArr) => {
                setPosts(postsArr);
-               console.log(postsArr);
             })
             .catch((error) => {
                console.log(error);

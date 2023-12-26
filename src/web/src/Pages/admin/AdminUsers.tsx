@@ -14,7 +14,6 @@ const AdminUsers: React.FC = () => {
          getAllUsers(Auth?.role)
             .then((response) => {
                setUsers(response);
-               console.log(response);
             })
             .catch((error) => {
                console.log(error);
