@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { PostType } from '../db.types';
+import { PostType, ValorantAgent } from '../db.types';
 import { CDN_URL } from '../Constants';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 import decoy from '../assets/svg/decoy.svg';
 import smoke from '../assets/svg/smoke.svg';
@@ -15,50 +17,133 @@ interface PostsProps {
    postData: PostType;
 }
 
+interface TooltipProps {
+   text: string;
+   children: React.ReactNode;
+}
+
 const Posts: React.FC<PostsProps> = ({ postData }) => {
+   const [valorantAgents, setValorantAgents] = useState<ValorantAgent['data']>(
+      [],
+   );
    const navigate = useNavigate();
+
+   useEffect(() => {
+      axios
+         .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
+         .then((response) => {
+            setValorantAgents(response.data.data);
+         });
+   }, []);
+
+   const valorantAgentIcon = valorantAgents.find(
+      (agent) => agent.displayName === postData.valorantAgent,
+   )?.displayIcon;
+
+   const findAbilityIcon = (agentName: string, abilityName: string) => {
+      const agent = valorantAgents.find(
+         (agent) => agent.displayName === agentName,
+      );
+      const ability = agent?.abilities.find(
+         (ability) => ability.displayName === abilityName,
+      );
+      return ability?.displayIcon;
+   };
+
+   const Tooltip = ({ text, children }: TooltipProps) => {
+      const [showTooltip, setShowTooltip] = useState(false);
+
+      return (
+         <div className="relative flex items-center">
+            <div
+               onMouseEnter={() => setShowTooltip(true)}
+               onMouseLeave={() => setShowTooltip(false)}
+            >
+               {children}
+            </div>
+            {showTooltip && (
+               <div className="absolute top-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded-md z-10">
+                  {text}
+               </div>
+            )}
+         </div>
+      );
+   };
+
+   const abilityIcon = findAbilityIcon(
+      postData.valorantAgent,
+      postData.ability,
+   );
+
    return (
       <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
          <div className="text-center text-sm text-gray-600">
-            User ID: {postData.UserID}
+            {postData.Username}
          </div>
 
          <div className="svg-container relative text-sm text-gray-600">
-            {postData.grenadeType === 'flash' ? (
-               <img
-                  className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                  src={flash}
-                  alt="Flash"
-                  title="Flash"
-               />
+            {postData.game === 'Valorant' ? (
+               <>
+                  <Tooltip text={postData.ability}>
+                     <img
+                        className="svg-icon absolute top-0 w-4 h-4 mt-[-25px]"
+                        style={{ right: '20px', filter: 'brightness(0)' }}
+                        src={abilityIcon}
+                        alt={postData.ability}
+                     />
+                  </Tooltip>
+                  <Tooltip text={postData.valorantAgent}>
+                     <img
+                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                        src={valorantAgentIcon}
+                        alt={postData.valorantAgent}
+                     />
+                  </Tooltip>
+               </>
+            ) : postData.grenadeType === 'flash' ? (
+               <Tooltip text="Flash">
+                  <img
+                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                     src={flash}
+                     alt="Flash"
+                  />
+               </Tooltip>
             ) : postData.grenadeType === 'smoke' ? (
-               <img
-                  className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                  src={smoke}
-                  alt="Smoke"
-                  title="Smoke"
-               />
+               <Tooltip text="Smoke">
+                  <img
+                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                     src={smoke}
+                     alt="Smoke"
+                     title="Smoke"
+                  />
+               </Tooltip>
             ) : postData.grenadeType === 'molotov' ? (
-               <img
-                  className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                  src={molotov}
-                  alt="Molotov"
-                  title="Molotov"
-               />
+               <Tooltip text="Molotov">
+                  <img
+                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                     src={molotov}
+                     alt="Molotov"
+                     title="Molotov"
+                  />
+               </Tooltip>
             ) : postData.grenadeType === 'shock' ? (
-               <img
-                  className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                  src={decoy}
-                  alt="Decoy"
-                  title="Decoy"
-               />
+               <Tooltip text="Decoy">
+                  <img
+                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                     src={decoy}
+                     alt="Decoy"
+                     title="Decoy"
+                  />
+               </Tooltip>
             ) : postData.grenadeType === 'he' ? (
-               <img
-                  className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                  src={he}
-                  alt="HE"
-                  title="HE"
-               />
+               <Tooltip text="HE">
+                  <img
+                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                     src={he}
+                     alt="HE"
+                     title="HE"
+                  />
+               </Tooltip>
             ) : (
                'Unknown'
             )}
@@ -79,27 +164,33 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             </div>
             <div className="mt-2 text-sm text-gray-600 flex justify-between">
                <div className="flex items-center">
-                  <img
-                     className="svg-icon w-4 h-4 mr-2"
-                     src={views}
-                     alt="Views"
-                  />
+                  <Tooltip text={postData.views.toString()}>
+                     <img
+                        className="svg-icon w-4 h-4 mr-2"
+                        src={views}
+                        alt="Views"
+                     />
+                  </Tooltip>
                   : {postData.views}
                </div>
                <div className="flex items-center">
-                  <img
-                     className="svg-icon w-4 h-4 mr-2"
-                     src={like}
-                     alt="Likes"
-                  />
+                  <Tooltip text={postData.views.toString()}>
+                     <img
+                        className="svg-icon w-4 h-4 mr-2"
+                        src={like}
+                        alt="Likes"
+                     />
+                  </Tooltip>
                   : {postData.likes}
                </div>
                <div className="flex items-center">
-                  <img
-                     className="svg-icon w-4 h-4 mr-2"
-                     src={dislike}
-                     alt="Dislikes"
-                  />
+                  <Tooltip text={postData.dislikes.toString()}>
+                     <img
+                        className="svg-icon w-4 h-4 mr-2"
+                        src={dislike}
+                        alt="Dislikes"
+                     />
+                  </Tooltip>
                   : {postData.dislikes}
                </div>
             </div>

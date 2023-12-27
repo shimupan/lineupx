@@ -153,6 +153,7 @@ router.post('/post', postLimit, async (req, res) => {
       );
 
       const newPost = new postData({
+         Username: user.username,
          UserID: user._id,
          postTitle: postName,
          mapName: mapName,
