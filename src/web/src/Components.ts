@@ -34,3 +34,4 @@ export { default as RequireAuth } from './Components/auth/RequireAuth';
 export { default as Dropzone } from './Components/Dropzone';
 export { default as Carousel } from './Components/Carousel';
 export { default as Loading } from './Components/Loading';
+export { default as AgentSelector } from './Components/AgentSelector';

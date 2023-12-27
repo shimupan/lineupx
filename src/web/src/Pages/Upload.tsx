@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Dropzone } from '../Components';
-import { Header, SideNavWrapper } from '../Components';
+import { Header, SideNavWrapper, AgentSelector } from '../Components';
 import { AuthContext } from '../App';
 import { getUserByUsername } from '../util/getUser';
 import { ToastContainer, toast } from 'react-toastify';
 import { ValorantAgent } from '../db.types';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-
 
 const Upload: React.FC = () => {
    // TODO: ADD Agents and Agent specific stuff if the game is valorant
@@ -25,8 +24,9 @@ const Upload: React.FC = () => {
    const [lineupDescription, setLineupDescription] = useState<string>('');
    const [teamSide, setTeamSide] = useState<string>('');
    const [agents, setAgents] = useState<ValorantAgent>();
-   const [selectedAgent, setSelectedAgent] = useState<string>('');
-   const [selectedAgentAbilities, setSelectedAgentAbilities] = useState<string[]>([]);
+   const [selectedAgentAbilities, setSelectedAgentAbilities] = useState<
+      string[]
+   >([]);
    // This part checks for the game that was passed in from the previous page
    // Dont change this part
    const { state } = useLocation();
@@ -148,7 +148,7 @@ const Upload: React.FC = () => {
                            placeholder="Enter a post name (please be descriptive)"
                            value={postName}
                            onChange={(e) => setPostName(e.target.value)}
-                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                           className="bg-[#edf2f7] flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                         />
                         <label
                            htmlFor="mapName"
@@ -162,7 +162,7 @@ const Upload: React.FC = () => {
                                  id="mapName"
                                  value={mapName}
                                  onChange={(e) => setMapName(e.target.value)}
-                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
                                  <option value="">--</option>
                                  <option value="mirage">Mirage</option>
@@ -190,7 +190,7 @@ const Upload: React.FC = () => {
                                  className="flex text-black items-center w-full px-5
                                     py-4 mb-5 mr-2 text-sm font-medium outline-none
                                     focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
                                  <option value="">--</option>
                                  <option value="smoke">Smoke</option>
@@ -212,7 +212,7 @@ const Upload: React.FC = () => {
                                  className="flex text-black items-center w-full px-5
                                     py-4 mb-5 mr-2 text-sm font-medium outline-none
                                     focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
                                  <option value="">--</option>
                                  <option value="CT">Counter Terrorist</option>
@@ -226,7 +226,7 @@ const Upload: React.FC = () => {
                                  id="mapName"
                                  value={mapName}
                                  onChange={(e) => setMapName(e.target.value)}
-                                 className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                 className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
                                  <option value="">--</option>
                                  <option value="bind">Bind</option>
@@ -247,26 +247,17 @@ const Upload: React.FC = () => {
                               >
                                  Agent*
                               </label>
-                              <select
-                                 id="agent"
-                                 value={selectedAgent}
-                                 onChange={(e) => {
-                                    const selectedAgentUuid = e.target.value;
-                                    const selectedAgentData = agents?.data.find(agent => agent.uuid === selectedAgentUuid);
-                                    setSelectedAgent(selectedAgentUuid);
-                                    if (selectedAgentData) {
-                                       setValorantAgent(selectedAgentData.displayName);
-                                       setSelectedAgentAbilities(selectedAgentData.abilities.map(ability => ability.displayName));
-                                    }
+                              <AgentSelector
+                                 agents={agents?.data}
+                                 onSelectAgent={(selectedAgent) => {
+                                    setValorantAgent(selectedAgent.displayName);
+                                    setSelectedAgentAbilities(
+                                       selectedAgent.abilities.map(
+                                          (ability) => ability.displayName,
+                                       ),
+                                    );
                                  }}
-                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                              >
-                                 {agents?.data.map((agent) => (
-                                    <option key={agent.uuid} value={agent.uuid}>
-                                       {agent.displayName}
-                                    </option>
-                                 ))}
-                              </select>
+                              />
 
                               <label
                                  htmlFor="agentAbility"
@@ -280,15 +271,15 @@ const Upload: React.FC = () => {
                                  onChange={(e) =>
                                     setAgentAbility(e.target.value)
                                  }
-                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
-                                 {
-                                    selectedAgentAbilities.map((ability, index) => (
+                                 {selectedAgentAbilities.map(
+                                    (ability, index) => (
                                        <option key={index} value={ability}>
                                           {ability}
                                        </option>
-                                    ))
-                                 }
+                                    ),
+                                 )}
                               </select>
                               <label
                                  htmlFor="grenadeType"
@@ -303,7 +294,7 @@ const Upload: React.FC = () => {
                                  className="flex text-black items-center w-full px-5
                                     py-4 mb-5 mr-2 text-sm font-medium outline-none
                                     focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-grey-200 text-dark-grey-900 rounded-2xl"
+                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
                                  <option value="">--</option>
                                  <option value="Defender">Defender</option>
@@ -325,12 +316,41 @@ const Upload: React.FC = () => {
                            className="flex text-black items-center w-full px-5
                            py-4 mb-5 mr-2 text-sm font-medium outline-none
                            focus:bg-grey-400 placeholder:text-grey-700
-                           bg-grey-200 text-dark-grey-900 rounded-2xl"
+                           bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                         >
                            <option value="">--</option>
                            <option value="yes">Yes</option>
                            <option value="no">No</option>
                         </select>
+                        <label
+                           htmlFor="lineupDescription"
+                           className="mb-2 text-sm text-start text-gray-900"
+                        >
+                           Lineup Description*
+                        </label>
+                        <textarea
+                           id="lineupDescription"
+                           placeholder="Enter the description of the lineup"
+                           value={lineupDescription}
+                           onChange={(e) =>
+                              setLineupDescription(e.target.value)
+                           }
+                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
+                        />
+                        <label
+                           htmlFor="lineupLocation"
+                           className="mb-2 text-sm text-start text-gray-900"
+                        >
+                           Lineup Location*
+                        </label>
+                        <input
+                           id="lineupLocation"
+                           type="lineupLocation"
+                           placeholder="Enter the location of the lineup"
+                           value={lineupLocation}
+                           onChange={(e) => setLineupLocation(e.target.value)}
+                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
+                        />
                         <label
                            htmlFor="jumpThrow"
                            className="mb-2 text-sm text-start text-gray-900"
@@ -352,36 +372,6 @@ const Upload: React.FC = () => {
                            Upload the Grenade Aiming Position
                         </label>
                         <Dropzone setFile={setAimingPosition} />
-                        <label
-                           htmlFor="lineupDescription"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Lineup Description*
-                        </label>
-                        <input
-                           id="lineupDescription"
-                           type="lineupDescription"
-                           placeholder="Enter the description of the lineup"
-                           value={lineupDescription}
-                           onChange={(e) =>
-                              setLineupDescription(e.target.value)
-                           }
-                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                        />
-                        <label
-                           htmlFor="lineupLocation"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Lineup Location*
-                        </label>
-                        <input
-                           id="lineupLocation"
-                           type="lineupLocation"
-                           placeholder="Enter a post name (please be descriptive)"
-                           value={lineupLocation}
-                           onChange={(e) => setLineupLocation(e.target.value)}
-                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                        />
                         <button
                            type="submit"
                            className="w-full px-6 py-5 mb-5 mt-5 text-sm font-bold leading-none text-white transition duration-300 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900"
