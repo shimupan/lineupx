@@ -197,4 +197,26 @@ router.post('/post', postLimit, async (req, res) => {
    }
 });
 
+// Increment view count for a specific post
+router.post('/post/:id/increment-view-count', async (req, res) => {
+   const PostData = mongoose.model('PostData', PostDataSchema);
+   const { id } = req.params;
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      post.views += 1;
+      await post.save();
+
+      res.send(post);
+   } catch (error) {
+      console.error('Failed to increment view count:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+
 export default router;

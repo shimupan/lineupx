@@ -75,6 +75,17 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       postData.ability,
    );
 
+   const incrementViewCount = async () => {
+      axios.post(`/post/${postData._id}/increment-view-count`)
+         .then(response => {
+            console.error('Successfully incremented view count:', response);
+         })
+         .catch(error => {
+            console.error('Failed to increment view count:', error);
+            // Handle error
+         });
+   };
+
    return (
       <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
          <div className="text-center text-sm text-gray-600">
@@ -152,11 +163,12 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             className="w-full h-60 object-cover cursor-pointer"
             src={`${CDN_URL}/${postData.landingPosition.public_id}`}
             alt={postData.postTitle}
-            onClick={() =>
+            onClick={async () => {
+               await incrementViewCount();
                navigate(`/game/${postData.game}/${postData.postTitle}`, {
                   state: { postData },
-               })
-            }
+               });
+            }}
          />
          <div className="text-center mt-3">
             <div className="text-lg font-bold text-gray-800">
