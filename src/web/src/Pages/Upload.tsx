@@ -37,6 +37,19 @@ const Upload: React.FC = () => {
 
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+
+      if (!postName) toast.error('Post name is required.');
+      else if (game === 'CS2' && !mapName) toast.error('Map name is required.');
+      else if (game === 'CS2' && !grenadeType) toast.error('Grenade Type is required.');
+      else if (game === 'Valorant' && !valorantAgent) toast.error('Valorant Agent is required.');
+      else if (game === 'CS2' && !ability) toast.error('Ability is required.');
+      else if (!lineupDescription) toast.error('Line up description is required.');
+      else if (!lineupLocation) toast.error('Line up location is required.');
+      else if (!teamSide) toast.error('Team Side is required.');
+      else if (!standingPosition) toast.error('Standing Position image is required.');
+      else if (!aimingPosition) toast.error('Aiming Position image is required.');
+      else if (!landingPosition) toast.error('Landing Position image is required.');
+
       const id = toast.loading('Uploading Post...');
       try {
          const user = await getUserByUsername(Auth?.username!);
@@ -271,8 +284,14 @@ const Upload: React.FC = () => {
                                  onChange={(e) =>
                                     setAgentAbility(e.target.value)
                                  }
-                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
+                                 className={`flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl ${
+                                    selectedAgentAbilities.length === 0
+                                       ? 'opacity-50 cursor-not-allowed'
+                                       : ''
+                                 }`}
+                                 disabled={selectedAgentAbilities.length === 0}
                               >
+                                 <option value="">--</option>
                                  {selectedAgentAbilities.map(
                                     (ability, index) => (
                                        <option key={index} value={ability}>
@@ -281,6 +300,7 @@ const Upload: React.FC = () => {
                                     ),
                                  )}
                               </select>
+
                               <label
                                  htmlFor="grenadeType"
                                  className="mb-2 text-sm text-start text-gray-900"
