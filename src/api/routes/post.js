@@ -218,5 +218,4 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
    }
 });
 
-
 export default router;
