@@ -89,7 +89,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    return (
       <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
          <div className="text-center text-sm text-gray-600">
-            {postData.Username}
+            By: {postData.Username}
          </div>
 
          <div className="svg-container relative text-sm text-gray-600">
@@ -186,7 +186,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   : {postData.views}
                </div>
                <div className="flex items-center">
-                  <Tooltip text={postData.views.toString()}>
+                  <Tooltip text={postData.likes.toString()}>
                      <img
                         className="svg-icon w-4 h-4 mr-2"
                         src={like}
