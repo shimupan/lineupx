@@ -75,9 +75,9 @@ const PostDataSchema = new mongoose.Schema({
    },
    grenadeType: {
       type: String,
-      required: function() {
+      required: function () {
          return this.game !== 'Valorant';
-      }
+      },
    },
    jumpThrow: {
       type: Boolean,
@@ -93,15 +93,15 @@ const PostDataSchema = new mongoose.Schema({
    },
    valorantAgent: {
       type: String,
-      required: function() {
+      required: function () {
          return this.game !== 'CS2';
-      }
+      },
    },
    ability: {
       type: String,
-      required: function() {
+      required: function () {
          return this.game !== 'CS2';
-      } 
+      },
    },
    lineupLocation: {
       type: String,

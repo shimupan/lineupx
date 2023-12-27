@@ -118,11 +118,11 @@ router.post('/post', postLimit, async (req, res) => {
       jumpThrow,
       game,
       user,
-      lineupLocation, 
-      lineupDescription, 
-      teamSide, 
+      lineupLocation,
+      lineupDescription,
+      teamSide,
       valorantAgent,
-      ability
+      ability,
    } = req.body;
 
    const createModel = (collectionName) =>
@@ -156,9 +156,9 @@ router.post('/post', postLimit, async (req, res) => {
          UserID: user._id,
          postTitle: postName,
          mapName: mapName,
-         lineupLocation: lineupLocation, 
-         lineupDescription: lineupDescription, 
-         teamSide: teamSide, 
+         lineupLocation: lineupLocation,
+         lineupDescription: lineupDescription,
+         teamSide: teamSide,
          likes: [],
          dislikes: [],
          views: 0,
