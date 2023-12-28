@@ -59,7 +59,6 @@ const PostPage = () => {
       try {
          const postId = location.pathname.split('/')[2];
          const commentsUrl = `/post/${postId}`;
-         console.log(`Fetching data from: ${commentsUrl}`);
 
          const response = await axios.get(commentsUrl);
 
@@ -165,16 +164,16 @@ const PostPage = () => {
                      alt={postData.postTitle}
                      className="w-3/5 h-auto"
                   />
-                  <div className="flex justify-between w-32"> 
-                     <button 
+                  <div className="flex justify-between w-32">
+                     <button
                         onClick={() => handleArrowClick('prev')}
-                        className="text-2xl" 
+                        className="text-2xl"
                      >
                         ←
                      </button>
-                     <button 
+                     <button
                         onClick={() => handleArrowClick('next')}
-                        className="text-2xl" 
+                        className="text-2xl"
                      >
                         →
                      </button>
@@ -199,7 +198,11 @@ const PostPage = () => {
                   />
                </>
             )}
-            <p className="text-base">{postData.description}</p>
+            <div className="flex justify-center">
+               <p className="text-base md:text-lg leading-normal md:leading-relaxed text-black-700 mb-4 mx-4 md:mx-20 w-3/4 shadow-2xl pt-4">
+                  {postData.lineupDescription}
+               </p>
+            </div>
 
             <div className="comments-section mt-6 bg-white shadow-sm p-4 rounded-lg">
                <h2 className="text-xl font-semibold mb-4 text-gray-800">
