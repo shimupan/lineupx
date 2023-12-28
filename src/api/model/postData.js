@@ -119,6 +119,23 @@ const PostDataSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
+   comments: [
+      {
+         user: {
+            type: String,
+            ref: 'User',
+            required: true
+         },
+         text: {
+            type: String,
+            required: true
+         },
+         createdAt: {
+            type: Date,
+            default: Date.now
+         }
+      }
+   ],
 });
 
 export default PostDataSchema;

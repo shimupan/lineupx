@@ -1,12 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header, Footer, SideNavWrapper } from '../Components';
 import { CDN_URL } from '../Constants';
+import { AuthContext } from '../App';
+import axios from 'axios';
 import gear from '../assets/svg/gear.svg';
 
+interface Comment {
+   text: string;
+   userId: string;
+   // other properties...
+}
 const PostPage = () => {
    const location = useLocation();
    const postData = location.state.postData;
+   const Auth = useContext(AuthContext);
+   const user_Id = Auth?._id;
+   const verified = Auth?.Verified;
    const imagePositions = [
       postData.landingPosition.public_id,
       postData.standingPosition.public_id,
@@ -38,7 +48,41 @@ const PostPage = () => {
    };
    const popupRef = useRef<HTMLDivElement>(null);
 
+   const [comments, setComments] = useState<Comment[]>([]);
+   const [userComments, setUserComments] = useState<Comment[]>([]);
+   const [newComment, setNewComment] = useState('');
+
+   // Handle the submission of a new comment
+   const fetchComments = async () => {
+
+   };
+
+   // Handle the submission of a new comment
+   const handleCommentSubmit = async () => {
+      if (newComment.trim() && verified) {
+         try {
+            const response = await axios.post(`/post/${postData._id}/comment`, {
+               text: newComment,
+               userId: user_Id,
+            });
+            const userResponse = await axios.post(`/user/${user_Id}/comment`, {
+               text: newComment,
+               user: user_Id,
+               post: postData._id,
+               
+            });
+            setComments([...comments, response.data]); 
+            setUserComments([...userComments, userResponse.data]);
+            setNewComment('');
+         } catch (error) {
+            console.error('Error posting comment:', error);
+         }
+      }
+   };
+
    useEffect(() => {
+      fetchComments();
+
       function handleClickOutside(event: MouseEvent) {
          if (
             popupRef.current &&
@@ -48,10 +92,8 @@ const PostPage = () => {
          }
       }
 
-
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
-
          document.removeEventListener('mousedown', handleClickOutside);
       };
    }, []);
@@ -123,6 +165,32 @@ const PostPage = () => {
                </>
             )}
             <p className="text-base">{postData.description}</p>
+
+            <div className="comments-section mt-6">
+               <h2 className="text-xl font-bold mb-4">Comments</h2>
+               <div className="add-comment flex mb-4">
+                  <input
+                     type="text"
+                     value={newComment}
+                     onChange={(e) => setNewComment(e.target.value)}
+                     placeholder="Add a comment..."
+                     className="text-black flex-1 border border-gray-300 p-2 rounded mr-2"
+                  />
+                  <button
+                     onClick={handleCommentSubmit}
+                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                  >
+                     Submit
+                  </button>
+               </div>
+               <div className="comments-list">
+                  {comments.map((comment, index) => (
+                     <div key={index} className="border-b border-gray-300 py-2">
+                        <p className="text-gray-700">{comment.text}</p>
+                     </div>
+                  ))}
+               </div>
+            </div>
          </div>
 
          <Footer />
