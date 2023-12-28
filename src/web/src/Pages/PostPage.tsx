@@ -106,7 +106,7 @@ const PostPage = () => {
 
    useEffect(() => {
       fetchComments();
-      const intervalId = setInterval(fetchComments, 1000);
+      const intervalId = setInterval(fetchComments, 1);
       function handleClickOutside(event: MouseEvent) {
          if (
             popupRef.current &&
@@ -163,11 +163,21 @@ const PostPage = () => {
                   <img
                      src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
                      alt={postData.postTitle}
-                     className="w-3/5 h-auto mb-4"
+                     className="w-3/5 h-auto"
                   />
-                  <div>
-                     <button onClick={() => handleArrowClick('prev')}>←</button>
-                     <button onClick={() => handleArrowClick('next')}>→</button>
+                  <div className="flex justify-between w-32"> 
+                     <button 
+                        onClick={() => handleArrowClick('prev')}
+                        className="text-2xl" 
+                     >
+                        ←
+                     </button>
+                     <button 
+                        onClick={() => handleArrowClick('next')}
+                        className="text-2xl" 
+                     >
+                        →
+                     </button>
                   </div>
                </>
             ) : (
@@ -196,15 +206,18 @@ const PostPage = () => {
                   Comments
                </h2>
                {Auth?.Verified && (
-                  <div className="comment-input">
-                     <input
-                        type="text"
+                  <div className="comment-input flex">
+                     <textarea
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Add a comment..."
-                        className="text-black flex-1 border border-gray-300 p-3 rounded-l-lg"
-                        style={{ height: '100px', width: '300px' }}
-                     />
+                        className="text-black flex-1 border border-gray-300 bg-white p-3 rounded-l-lg resize-none"
+                        style={{
+                           minHeight: '100px',
+                           maxHeight: '200px',
+                           width: '300px',
+                        }}
+                     ></textarea>
                      <button
                         onClick={handleCommentSubmit}
                         className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-r-lg transition duration-300 ease-in-out"
@@ -215,7 +228,16 @@ const PostPage = () => {
                      </button>
                   </div>
                )}
-               <div className="comments-list" style={{ maxHeight: '500px', maxWidth: '800px', overflowY: 'auto', overflowX: 'hidden' }}>
+
+               <div
+                  className="comments-list"
+                  style={{
+                     maxHeight: '500px',
+                     maxWidth: '800px',
+                     overflowY: 'auto',
+                     overflowX: 'hidden',
+                  }}
+               >
                   {comments.map((comment, index) => (
                      <div
                         key={index}

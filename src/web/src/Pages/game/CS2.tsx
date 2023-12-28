@@ -17,14 +17,26 @@ const CS2: React.FC = () => {
 
    useEffect(() => {
       document.title = 'Counter-Strike 2';
-      axios
-         .get('/post/CS2')
-         .then((res) => {
-            setPosts(res.data.slice(0, 10));
-         })
-         .catch((err) => {
-            console.log(err);
-         });
+
+      // Function to fetch data
+      const fetchData = () => {
+         axios
+            .get('/post/CS2')
+            .then((res) => {
+               setPosts(res.data.slice(0, 10));
+            })
+            .catch((err) => {
+               console.log(err);
+            });
+      };
+
+      fetchData();
+
+      const intervalId = setInterval(fetchData, 1000);
+
+      return () => {
+         clearInterval(intervalId);
+      };
    }, []);
 
    const handleSearch = (searchTerm: string) => {
