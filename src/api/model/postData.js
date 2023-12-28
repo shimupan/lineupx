@@ -121,20 +121,25 @@ const PostDataSchema = new mongoose.Schema({
    },
    comments: [
       {
+         username: {
+            type: String,
+            ref: 'User',
+            required: true,
+         },
          user: {
             type: String,
             ref: 'User',
-            required: true
+            required: true,
          },
          text: {
             type: String,
-            required: true
+            required: true,
          },
          createdAt: {
             type: Date,
-            default: Date.now
-         }
-      }
+            default: Date.now,
+         },
+      },
    ],
 });
 

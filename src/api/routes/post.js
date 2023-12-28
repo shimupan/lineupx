@@ -223,7 +223,7 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
 // Endpoint to add a comment to a post
 router.post('/post/:id/comment', async (req, res) => {
    const { id } = req.params;
-   const { userId, text } = req.body;
+   const { username, userId, text } = req.body;
 
    if (!text) {
       return res.status(400).send('Comment text is required');
@@ -238,6 +238,7 @@ router.post('/post/:id/comment', async (req, res) => {
       }
 
       const comment = {
+         username: username,
          user: userId,
          text: text,
       };
@@ -249,25 +250,6 @@ router.post('/post/:id/comment', async (req, res) => {
    } catch (error) {
       console.error('Failed to add comment:', error);
       res.status(500).send('Server error');
-   }
-});
-
-// Endpoint to get comments for a post
-router.get('/post/:id/comments', async (req, res) => {
-   const { id } = req.params;
-
-   try {
-       const PostData = mongoose.model('PostData', PostDataSchema);
-       const post = await PostData.findById(id).populate('comments.user', 'username');
-
-       if (!post) {
-           return res.status(404).send('Post not found');
-       }
-
-       res.status(200).send(post.comments);
-   } catch (error) {
-       console.error('Failed to get comments:', error);
-       res.status(500).send('Server error');
    }
 });
 

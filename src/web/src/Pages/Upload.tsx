@@ -40,15 +40,22 @@ const Upload: React.FC = () => {
 
       if (!postName) toast.error('Post name is required.');
       else if (game === 'CS2' && !mapName) toast.error('Map name is required.');
-      else if (game === 'CS2' && !grenadeType) toast.error('Grenade Type is required.');
-      else if (game === 'Valorant' && !valorantAgent) toast.error('Valorant Agent is required.');
-      else if (game === 'CS2' && !ability) toast.error('Ability is required.');
-      else if (!lineupDescription) toast.error('Line up description is required.');
-      else if (!lineupLocation) toast.error('Line up location is required.');
+      else if (game === 'CS2' && !grenadeType)
+         toast.error('Grenade Type is required.');
+      else if (game === 'Valorant' && !valorantAgent)
+         toast.error('Valorant Agent is required.');
+      else if (game === 'Valorant' && !ability)
+         toast.error('Ability is required.');
       else if (!teamSide) toast.error('Team Side is required.');
-      else if (!standingPosition) toast.error('Standing Position image is required.');
-      else if (!aimingPosition) toast.error('Aiming Position image is required.');
-      else if (!landingPosition) toast.error('Landing Position image is required.');
+      else if (!lineupDescription)
+         toast.error('Line up description is required.');
+      else if (!lineupLocation) toast.error('Line up location is required.');
+      else if (!standingPosition)
+         toast.error('Standing Position image is required.');
+      else if (!aimingPosition)
+         toast.error('Aiming Position image is required.');
+      else if (!landingPosition)
+         toast.error('Landing Position image is required.');
 
       const id = toast.loading('Uploading Post...');
       try {
