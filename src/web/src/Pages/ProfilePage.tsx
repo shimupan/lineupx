@@ -10,12 +10,12 @@ import {
 } from '../Components';
 import { getUserByUsername } from '../util/getUser';
 import { GAMES } from '../Constants';
-import { ToastContainer, toast } from 'react-toastify';
 import { AuthContext } from '../App';
 import { UserType, PostType } from '../db.types';
 import { sendVerificationEmail } from '../util/sendVerificationEmail';
 import { CiEdit } from 'react-icons/ci';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ProfilePage = () => {
