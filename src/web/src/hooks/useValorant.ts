@@ -28,6 +28,7 @@ export default function useValorant() {
          .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
          .then((response) => {
             setAllAgents(response.data);
+            console.log(response.data);
          });
       // GET MAPS
       axios.get('https://valorant-api.com/v1/maps').then((response) => {

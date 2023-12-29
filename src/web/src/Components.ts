@@ -38,3 +38,4 @@ export { default as Loading } from './Components/Loading';
 export { default as Posts } from './Components/Posts';
 export { default as ProfileEdit } from './Components/ProfileEdit';
 export { default as AgentSelector } from './Components/AgentSelector';
+export { default as ValorantPopup } from './Components/ValorantPopup';

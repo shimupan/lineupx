@@ -30,7 +30,7 @@ const ProfilePage = () => {
    });
    const [loading, setLoading] = useState(true);
    const [posts, setPosts] = useState<PostType[][]>([[]]);
-   const [open, setOpen] = useState(true);
+   const [open, setOpen] = useState(false);
    const Auth = useContext(AuthContext);
    const verified = Auth?.Verified;
 

@@ -143,7 +143,6 @@ function App() {
                      path="/game/valorant/lineups/:mapName"
                      element={<ValorantMaps />}
                   />
-                  <Route path="/" element={<ValorantLineups />} />
                   <Route path="/game/cs2" element={<CS2 />}></Route>
                   <Route
                      path="/game/cs2/lineups"
