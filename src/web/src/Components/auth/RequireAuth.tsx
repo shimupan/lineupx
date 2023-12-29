@@ -12,12 +12,13 @@ const RequireAuth: React.FC<RequireAuthProps> = ({ allowedRoles }) => {
    console.log(Auth?.role, allowedRoles);
    return (
       <>
-         Auth?.role && allowedRoles?.includes(Auth?.role) ? (
-         <Outlet />
+         {Auth?.role && allowedRoles?.includes(Auth?.role) ? (
+            <Outlet />
          ) : Auth?.role ? (
-         <Navigate to="/" state={{ from: location }} replace />
+            <Navigate to="/" state={{ from: location }} replace />
          ) : (
-         <Navigate to="/login" state={{ from: location }} replace />)
+            <Navigate to="/login" state={{ from: location }} replace />
+         )}
       </>
    );
 };

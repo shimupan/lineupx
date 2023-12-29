@@ -17,20 +17,14 @@ const CS2: React.FC = () => {
 
    useEffect(() => {
       document.title = 'Counter-Strike 2';
-
-      // Function to fetch data
-      const fetchData = () => {
-         axios
-            .get('/post/CS2')
-            .then((res) => {
-               setPosts(res.data.slice(0, 10));
-            })
-            .catch((err) => {
-               console.log(err);
-            });
-      };
-
-      fetchData();
+      axios
+         .get('/post/CS2')
+         .then((res) => {
+            setPosts(res.data.slice(0, 10));
+         })
+         .catch((err) => {
+            console.log(err);
+         });
    }, []);
 
    const handleSearch = (searchTerm: string) => {
@@ -67,14 +61,15 @@ const CS2: React.FC = () => {
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pl-20">
                {posts.map((post) => {
                   return (
-                     <div key={post.landingPosition.public_id} className="max-w-md mx-auto">
-                        <Posts
-                           postData={post}
-                        />
+                     <div
+                        key={post.landingPosition.public_id}
+                        className="max-w-md mx-auto"
+                     >
+                        <Posts postData={post} />
                      </div>
                   );
                })}
