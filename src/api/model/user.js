@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
+   ProfilePicture: {
+      type: String,
+      required: false,
+      default: "",
+   },
    role: {
       type: String,
       required: true,

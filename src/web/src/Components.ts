@@ -22,6 +22,7 @@ export { default as AdminPosts } from './Pages/admin/AdminPosts';
 export { default as AdminCheck } from './Pages/admin/AdminCheck';
 export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
 export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
+export { default as PageNotFound } from './Pages/auth/PageNotFound';
 // Components
 export { default as Header } from './Components/Header';
 export { default as Game } from './Components/Game';
@@ -34,3 +35,5 @@ export { default as RequireAuth } from './Components/auth/RequireAuth';
 export { default as Dropzone } from './Components/Dropzone';
 export { default as Carousel } from './Components/Carousel';
 export { default as Loading } from './Components/Loading';
+export { default as Posts } from './Components/Posts';
+export { default as ProfileEdit } from './Components/ProfileEdit';
