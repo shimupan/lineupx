@@ -7,7 +7,7 @@ const ValorantAgents: React.FC = () => {
       allAgents,
       agentDetails,
       setAgentDetails
-   } = useValorant("AGENT");
+   } = useValorant();
    const navigate = useNavigate();
 
    const handleClick = (agentName: string) => {

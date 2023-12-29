@@ -8,7 +8,7 @@ type Agent = {
    selectedAgentName: string;
 };
 
-export default function useValorant(mode: string) {
+export default function useValorant() {
    // AGENTS
    const [allAgents, setAllAgents] = useState<ValorantAgent>();
    const [agentDetails, setAgentDetails] = useState<Agent>({
@@ -23,24 +23,16 @@ export default function useValorant(mode: string) {
    const [allMaps, setAllMaps] = useState<ValorantMaps>();
 
    useEffect(() => {
-      switch (mode) {
-         case 'AGENT': {
-            axios
-               .get(
-                  'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
-               )
-               .then((response) => {
-                  setAllAgents(response.data);
-               });
-            break;
-         }
-         case 'MAP': {
-            axios.get('https://valorant-api.com/v1/maps').then((response) => {
-               setAllMaps(response.data);
-            });
-            break;
-         }
-      }
+      // GET AGENTS
+      axios
+         .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
+         .then((response) => {
+            setAllAgents(response.data);
+         });
+      // GET MAPS
+      axios.get('https://valorant-api.com/v1/maps').then((response) => {
+         setAllMaps(response.data);
+      });
    }, []);
 
    return {

@@ -102,6 +102,23 @@ const PostPage = () => {
       }
    };
 
+   useEffect(() => {
+      fetchComments();
+      function handleClickOutside(event: MouseEvent) {
+         if (
+            popupRef.current &&
+            !popupRef.current.contains(event.target as Node)
+         ) {
+            setPopupVisible(false);
+         }
+      }
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+         document.removeEventListener('mousedown', handleClickOutside);
+      };
+   }, []);
+
    return (
       <>
          <Header />

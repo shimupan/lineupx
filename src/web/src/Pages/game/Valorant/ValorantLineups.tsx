@@ -4,7 +4,7 @@ import { useValorant } from '../../../hooks/index';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ValorantLineups: React.FC = () => {
-   const { allMaps } = useValorant('MAP');
+   const { allMaps } = useValorant();
    const navigate = useNavigate();
    const { agentName } = useParams<{ agentName: string }>();
 

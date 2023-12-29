@@ -78,21 +78,21 @@ function App() {
          setRefreshToken(refreshTokenC);
       }
       if (accessToken && refreshToken) {
-         (async () => {
-            try {
-               const response = await axios.post('/users', {
-                  accessToken: accessToken,
-                  refreshToken: refreshToken,
-               });
+         axios
+            .post('/users', {
+               accessToken: accessToken,
+               refreshToken: refreshToken,
+            })
+            .then((response) => {
                setRole(response.data?.role || 'user');
                setUsername(response.data.username);
                setEmail(response.data.email);
                setVerified(response.data.Verified);
                setid(response.data._id);
-            } catch (error) {
+            })
+            .catch((error) => {
                return error;
-            }
-         })();
+            });
       }
    }, [accessToken, refreshToken]);
 
