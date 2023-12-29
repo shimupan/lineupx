@@ -99,105 +99,113 @@ function App() {
    }, [accessToken, refreshToken]);
 
    return (
-      <AuthContext.Provider
-         value={{
-            _id,
-            accessToken,
-            refreshToken,
-            email,
-            role,
-            username,
-            Verified,
-            setAccessToken,
-            setRefreshToken,
-            setEmail,
-            setUsername,
-            setVerified,
-            setid,
-         }}
-      >
-         <BrowserRouter>
-            <Routes>
-               <Route path="/" element={<Page />}></Route>
-               <Route path="/game/valorant" element={<Valorant />}></Route>
-               <Route
-                  path="/game/valorant/agents/:agentName/lineups"
-                  element={<ValorantLineups />}
-               ></Route>
-               <Route
-                  path="/game/valorant/agents"
-                  element={<ValorantAgents />}
-               ></Route>
-               <Route
-                  path="/game/valorant/agents/:agentName/lineups/:mapName"
-                  element={<ValorantMaps />}
-               />
-               <Route
-                  path="/game/valorant/lineups"
-                  element={<ValorantLineups />}
-               ></Route>
-               <Route
-                  path="/game/valorant/agents"
-                  element={<ValorantAgents />}
-               ></Route>
-               <Route
-                  path="/game/valorant/lineups/:mapName"
-                  element={<ValorantMaps />}
-               />
-               <Route path="/" element={<ValorantLineups />} />
-               <Route path="/game/cs2" element={<CS2 />}></Route>
-               <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
-               <Route
-                  path="/game/cs2/lineups/:mapName"
-                  element={<CS2Maps />}
-               ></Route>
-               <Route path="/user/:id" element={<ProfilePage />}></Route>
-               <Route path="/game/:game/:id" element={<PostPage />}></Route>
-               {/* Auth Routes */}
-               <Route path="/register" element={<Register />}></Route>
-               <Route path="/login" element={<Login />}></Route>
-               <Route
-                  path="/forgotpassword"
-                  element={<ForgotPassword />}
-               ></Route>
-               <Route path="/resetpassword" element={<ResetPassword />}></Route>
-               {/* Protected Routes */}
-               {role === 'admin' && Verified && (
-                  <Route element={<RequireAuth allowedRoles={['admin']} />}>
-                     <Route path="/admin" element={<AdminHome />}></Route>
-                     <Route
-                        path="/admin/users"
-                        element={<AdminUsers />}
-                     ></Route>
-                     <Route
-                        path="/admin/posts"
-                        element={<AdminPosts />}
-                     ></Route>
-                     <Route
-                        path="/admin/check"
-                        element={<AdminCheck />}
-                     ></Route>
-                     <Route
-                        path="/admin/user/:id"
-                        element={<AdminModifyUser />}
-                     ></Route>
-                     <Route
-                        path="/admin/post/:id"
-                        element={<AdminModifyPost />}
-                     ></Route>
+      <>
+         <AuthContext.Provider
+            value={{
+               _id,
+               accessToken,
+               refreshToken,
+               email,
+               role,
+               username,
+               Verified,
+               setAccessToken,
+               setRefreshToken,
+               setEmail,
+               setUsername,
+               setVerified,
+               setid,
+            }}
+         >
+            <BrowserRouter>
+               <Routes>
+                  <Route path="/" element={<Page />}></Route>
+                  <Route path="/game/valorant" element={<Valorant />}></Route>
+                  <Route
+                     path="/game/valorant/agents/:agentName/lineups"
+                     element={<ValorantLineups />}
+                  ></Route>
+                  <Route
+                     path="/game/valorant/agents"
+                     element={<ValorantAgents />}
+                  ></Route>
+                  <Route
+                     path="/game/valorant/agents/:agentName/lineups/:mapName"
+                     element={<ValorantMaps />}
+                  />
+                  <Route
+                     path="/game/valorant/lineups"
+                     element={<ValorantLineups />}
+                  ></Route>
+                  <Route
+                     path="/game/valorant/agents"
+                     element={<ValorantAgents />}
+                  ></Route>
+                  <Route
+                     path="/game/valorant/lineups/:mapName"
+                     element={<ValorantMaps />}
+                  />
+                  <Route path="/" element={<ValorantLineups />} />
+                  <Route path="/game/cs2" element={<CS2 />}></Route>
+                  <Route
+                     path="/game/cs2/lineups"
+                     element={<CS2Lineups />}
+                  ></Route>
+                  <Route
+                     path="/game/cs2/lineups/:mapName"
+                     element={<CS2Maps />}
+                  ></Route>
+                  <Route path="/user/:id" element={<ProfilePage />}></Route>
+                  <Route path="/game/:game/:id" element={<PostPage />}></Route>
+                  {/* Auth Routes */}
+                  <Route path="/register" element={<Register />}></Route>
+                  <Route path="/login" element={<Login />}></Route>
+                  <Route
+                     path="/forgotpassword"
+                     element={<ForgotPassword />}
+                  ></Route>
+                  <Route
+                     path="/resetpassword"
+                     element={<ResetPassword />}
+                  ></Route>
+                  {/* Protected Routes */}
+                  {role === 'admin' && Verified && (
+                     <Route element={<RequireAuth allowedRoles={['admin']} />}>
+                        <Route path="/admin" element={<AdminHome />}></Route>
+                        <Route
+                           path="/admin/users"
+                           element={<AdminUsers />}
+                        ></Route>
+                        <Route
+                           path="/admin/posts"
+                           element={<AdminPosts />}
+                        ></Route>
+                        <Route
+                           path="/admin/check"
+                           element={<AdminCheck />}
+                        ></Route>
+                        <Route
+                           path="/admin/user/:id"
+                           element={<AdminModifyUser />}
+                        ></Route>
+                        <Route
+                           path="/admin/post/:id"
+                           element={<AdminModifyPost />}
+                        ></Route>
+                     </Route>
+                  )}
+                  <Route
+                     element={<RequireAuth allowedRoles={['user', 'admin']} />}
+                  >
+                     <Route path="/upload" element={<Upload />}></Route>
                   </Route>
-               )}
-               <Route
-                  element={<RequireAuth allowedRoles={['user', 'admin']} />}
-               >
-                  <Route path="/upload" element={<Upload />}></Route>
-               </Route>
-               <Route path="/google-callback" element={<GoogleCallBack />} />
-               <Route path="/verifyemail" element={<VerifyEmail />} />
-               <Route path="*" element={<PageNotFound />}></Route>
-            </Routes>
-         </BrowserRouter>
-      </AuthContext.Provider>
+                  <Route path="/google-callback" element={<GoogleCallBack />} />
+                  <Route path="/verifyemail" element={<VerifyEmail />} />
+                  <Route path="*" element={<PageNotFound />}></Route>
+               </Routes>
+            </BrowserRouter>
+         </AuthContext.Provider>
+      </>
    );
 }
 

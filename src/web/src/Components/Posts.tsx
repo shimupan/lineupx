@@ -76,138 +76,141 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    );
 
    const incrementViewCount = async () => {
-      axios.post(`/post/${postData._id}/increment-view-count`)
-         .then(response => {
+      axios
+         .post(`/post/${postData._id}/increment-view-count`)
+         .then((response) => {
             console.error('Successfully incremented view count:', response);
          })
-         .catch(error => {
+         .catch((error) => {
             console.error('Failed to increment view count:', error);
             // Handle error
          });
    };
 
    return (
-      <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
-         <div className="text-center text-sm text-gray-600">
-            By: {postData.Username}
-         </div>
+      <>
+         <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
+            <div className="text-center text-sm text-gray-600">
+               By: {postData.Username}
+            </div>
 
-         <div className="svg-container relative text-sm text-gray-600">
-            {postData.game === 'Valorant' ? (
-               <>
-                  <Tooltip text={postData.ability}>
-                     <img
-                        className="svg-icon absolute top-0 w-4 h-4 mt-[-25px]"
-                        style={{ right: '20px', filter: 'brightness(0)' }}
-                        src={abilityIcon}
-                        alt={postData.ability}
-                     />
-                  </Tooltip>
-                  <Tooltip text={postData.valorantAgent}>
+            <div className="svg-container relative text-sm text-gray-600">
+               {postData.game === 'Valorant' ? (
+                  <>
+                     <Tooltip text={postData.ability}>
+                        <img
+                           className="svg-icon absolute top-0 w-4 h-4 mt-[-25px]"
+                           style={{ right: '20px', filter: 'brightness(0)' }}
+                           src={abilityIcon}
+                           alt={postData.ability}
+                        />
+                     </Tooltip>
+                     <Tooltip text={postData.valorantAgent}>
+                        <img
+                           className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                           src={valorantAgentIcon}
+                           alt={postData.valorantAgent}
+                        />
+                     </Tooltip>
+                  </>
+               ) : postData.grenadeType === 'flash' ? (
+                  <Tooltip text="Flash">
                      <img
                         className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                        src={valorantAgentIcon}
-                        alt={postData.valorantAgent}
+                        src={flash}
+                        alt="Flash"
                      />
                   </Tooltip>
-               </>
-            ) : postData.grenadeType === 'flash' ? (
-               <Tooltip text="Flash">
-                  <img
-                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                     src={flash}
-                     alt="Flash"
-                  />
-               </Tooltip>
-            ) : postData.grenadeType === 'smoke' ? (
-               <Tooltip text="Smoke">
-                  <img
-                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                     src={smoke}
-                     alt="Smoke"
-                     title="Smoke"
-                  />
-               </Tooltip>
-            ) : postData.grenadeType === 'molotov' ? (
-               <Tooltip text="Molotov">
-                  <img
-                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                     src={molotov}
-                     alt="Molotov"
-                     title="Molotov"
-                  />
-               </Tooltip>
-            ) : postData.grenadeType === 'shock' ? (
-               <Tooltip text="Decoy">
-                  <img
-                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                     src={decoy}
-                     alt="Decoy"
-                     title="Decoy"
-                  />
-               </Tooltip>
-            ) : postData.grenadeType === 'he' ? (
-               <Tooltip text="HE">
-                  <img
-                     className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                     src={he}
-                     alt="HE"
-                     title="HE"
-                  />
-               </Tooltip>
-            ) : (
-               'Unknown'
-            )}
-         </div>
-         <img
-            className="w-full h-60 object-cover cursor-pointer"
-            src={`${CDN_URL}/${postData.landingPosition.public_id}`}
-            alt={postData.postTitle}
-            onClick={async () => {
-               await incrementViewCount();
-               navigate(`/game/${postData.game}/${postData.postTitle}`, {
-                  state: { postData },
-               });
-            }}
-         />
-         <div className="text-center mt-3">
-            <div className="text-lg font-bold text-gray-800">
-               {postData.postTitle}
+               ) : postData.grenadeType === 'smoke' ? (
+                  <Tooltip text="Smoke">
+                     <img
+                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                        src={smoke}
+                        alt="Smoke"
+                        title="Smoke"
+                     />
+                  </Tooltip>
+               ) : postData.grenadeType === 'molotov' ? (
+                  <Tooltip text="Molotov">
+                     <img
+                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                        src={molotov}
+                        alt="Molotov"
+                        title="Molotov"
+                     />
+                  </Tooltip>
+               ) : postData.grenadeType === 'shock' ? (
+                  <Tooltip text="Decoy">
+                     <img
+                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                        src={decoy}
+                        alt="Decoy"
+                        title="Decoy"
+                     />
+                  </Tooltip>
+               ) : postData.grenadeType === 'he' ? (
+                  <Tooltip text="HE">
+                     <img
+                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
+                        src={he}
+                        alt="HE"
+                        title="HE"
+                     />
+                  </Tooltip>
+               ) : (
+                  'Unknown'
+               )}
             </div>
-            <div className="mt-2 text-sm text-gray-600 flex justify-between">
-               <div className="flex items-center">
-                  <Tooltip text={postData.views.toString()}>
-                     <img
-                        className="svg-icon w-4 h-4 mr-2"
-                        src={views}
-                        alt="Views"
-                     />
-                  </Tooltip>
-                  : {postData.views}
+            <img
+               className="w-full h-60 object-cover cursor-pointer"
+               src={`${CDN_URL}/${postData.landingPosition.public_id}`}
+               alt={postData.postTitle}
+               onClick={async () => {
+                  await incrementViewCount();
+                  navigate(`/game/${postData.game}/${postData.postTitle}`, {
+                     state: { postData },
+                  });
+               }}
+            />
+            <div className="text-center mt-3">
+               <div className="text-lg font-bold text-gray-800">
+                  {postData.postTitle}
                </div>
-               <div className="flex items-center">
-                  <Tooltip text={postData.likes.toString()}>
-                     <img
-                        className="svg-icon w-4 h-4 mr-2"
-                        src={like}
-                        alt="Likes"
-                     />
-                  </Tooltip>
-                  : {postData.likes}
-               </div>
-               <div className="flex items-center">
-                  <Tooltip text={postData.dislikes.toString()}>
-                     <img
-                        className="svg-icon w-4 h-4 mr-2"
-                        src={dislike}
-                        alt="Dislikes"
-                     />
-                  </Tooltip>
-                  : {postData.dislikes}
+               <div className="mt-2 text-sm text-gray-600 flex justify-between">
+                  <div className="flex items-center">
+                     <Tooltip text={postData.views.toString()}>
+                        <img
+                           className="svg-icon w-4 h-4 mr-2"
+                           src={views}
+                           alt="Views"
+                        />
+                     </Tooltip>
+                     : {postData.views}
+                  </div>
+                  <div className="flex items-center">
+                     <Tooltip text={postData.likes.toString()}>
+                        <img
+                           className="svg-icon w-4 h-4 mr-2"
+                           src={like}
+                           alt="Likes"
+                        />
+                     </Tooltip>
+                     : {postData.likes}
+                  </div>
+                  <div className="flex items-center">
+                     <Tooltip text={postData.dislikes.toString()}>
+                        <img
+                           className="svg-icon w-4 h-4 mr-2"
+                           src={dislike}
+                           alt="Dislikes"
+                        />
+                     </Tooltip>
+                     : {postData.dislikes}
+                  </div>
                </div>
             </div>
          </div>
-      </div>
+      </>
    );
 };
 

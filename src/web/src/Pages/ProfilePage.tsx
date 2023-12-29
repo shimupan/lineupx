@@ -30,7 +30,7 @@ const ProfilePage = () => {
    });
    const [loading, setLoading] = useState(true);
    const [posts, setPosts] = useState<PostType[][]>([[]]);
-   const [open, setOpen] = useState(false);
+   const [open, setOpen] = useState(true);
    const Auth = useContext(AuthContext);
    const verified = Auth?.Verified;
 
@@ -76,7 +76,7 @@ const ProfilePage = () => {
       <>
          <Header />
          <SideNavWrapper />
-         {open ? (
+         {open && Auth?.username == user.username ? (
             <div className="h-screen">
                <ProfileEdit user={user} setOpen={setOpen} />
             </div>
@@ -113,16 +113,18 @@ const ProfilePage = () => {
                   </div>
                </div>
                <div className="w-full h-[225px] flex flex-col justify-center items-center">
-                  <div>
-                     Edit Profile{' '}
-                     <CiEdit
-                        className="inline cursor-pointer"
-                        size={20}
-                        onClick={() => {
-                           setOpen(!open);
-                        }}
-                     />
-                  </div>
+                  {Auth?.username == user.username && (
+                     <div>
+                        Edit Profile{' '}
+                        <CiEdit
+                           className="inline cursor-pointer"
+                           size={20}
+                           onClick={() => {
+                              setOpen(!open);
+                           }}
+                        />
+                     </div>
+                  )}
                   <div>{user?.username}</div>
                   <div>{user?.email}</div>
                </div>

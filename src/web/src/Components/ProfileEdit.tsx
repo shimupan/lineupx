@@ -14,7 +14,13 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
                <div className="flex flex-wrap border shadow rounded-lg p-3 dark:bg-gray-600">
                   <div className="flex justify-between w-full text-xl text-gray-600 dark:text-gray-300 pb-2">
                      <h2>Account Settings:</h2>
-                     <IoMdClose size={20} className="cursor-pointer" onClick={() => {setOpen(!open)}}/>
+                     <IoMdClose
+                        size={20}
+                        className="cursor-pointer"
+                        onClick={() => {
+                           setOpen(!open);
+                        }}
+                     />
                   </div>
 
                   <div className="flex flex-col gap-2 w-full border-gray-400">

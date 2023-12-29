@@ -32,7 +32,9 @@ const ForgotPassword: React.FC = () => {
             console.error('Forgot password error:', error.response?.data);
 
             toast.update(id, {
-               render: error.response?.data || 'Forgot password email failed to send.',
+               render:
+                  error.response?.data ||
+                  'Forgot password email failed to send.',
                type: 'error',
                isLoading: false,
                autoClose: 1000,
@@ -57,7 +59,6 @@ const ForgotPassword: React.FC = () => {
          <Header />
 
          <SideNavWrapper />
-
 
          <div className="h-screen md:h-full md:w-1/2 lg:w-1/2 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">

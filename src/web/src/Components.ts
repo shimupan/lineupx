@@ -9,7 +9,7 @@ export { default as Upload } from './Pages/Upload';
 export { default as ForgotPassword } from './Pages/auth/ForgotPassword';
 export { default as ResetPassword } from './Pages/auth/ResetPassword';
 export { default as GoogleCallBack } from './Pages/auth/Google';
-export { default as VerifyEmail} from './Pages/auth/VerifyEmail'
+export { default as VerifyEmail } from './Pages/auth/VerifyEmail';
 export { default as PostPage } from './Pages/PostPage';
 export { default as CS2Lineups } from './Pages/game/CS2/CS2Lineups';
 export { default as ValorantLineups } from './Pages/game/Valorant/ValorantLineups';
