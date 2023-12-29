@@ -17,14 +17,26 @@ const Valorant: React.FC = () => {
 
    useEffect(() => {
       document.title = 'Valorant';
-      axios
-         .get('/post/Valorant')
-         .then((res) => {
-            setPosts(res.data.slice(0, 10));
-         })
-         .catch((err) => {
-            console.log(err);
-         });
+
+      // Function to fetch data
+      const fetchData = () => {
+         axios
+            .get('/post/Valorant')
+            .then((res) => {
+               setPosts(res.data.slice(0, 10));
+            })
+            .catch((err) => {
+               console.log(err);
+            });
+      };
+
+      fetchData();
+
+      const intervalId = setInterval(fetchData, 1000);
+
+      return () => {
+         clearInterval(intervalId);
+      };
    }, []);
 
    const handleSearch = (searchTerm: string) => {
@@ -62,10 +74,11 @@ const Valorant: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pl-20">
                {posts.map((post) => {
                   return (
-                     <div key={post.landingPosition.public_id} className="max-w-md mx-auto">
-                        <Posts
-                           postData={post}
-                        />
+                     <div
+                        key={post.landingPosition.public_id}
+                        className="max-w-md mx-auto"
+                     >
+                        <Posts postData={post} />
                      </div>
                   );
                })}

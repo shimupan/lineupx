@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../model/user.js';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -58,4 +59,34 @@ router.post('/user', async (req, res) => {
    }
 });
 
+router.post('/user/:id/comment', async (req, res) => {
+   const { id } = req.params;
+   const { userId, text, postId } = req.body;
+
+   if (!text) {
+      return res.status(400).send('Comment text is required');
+   }
+
+   try {
+      const user = await User.findById(id);
+
+      if (!user) {
+         return res.status(404).send('User not found');
+      }
+
+      const comment = {
+         user: userId,
+         text: text,
+         post: postId,
+      };
+
+      user.comments.push(comment);
+      await user.save();
+
+      res.status(200).send(user);
+   } catch (error) {
+      console.error('Failed to add comment:', error);
+      res.status(500).send('Server error');
+   }
+});
 export default router;

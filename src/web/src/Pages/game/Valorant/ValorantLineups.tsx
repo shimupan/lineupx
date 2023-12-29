@@ -28,7 +28,7 @@ const ValorantLineups: React.FC = () => {
    }, [Auth?.username]);
 
    const handleClick = (mapName: string) => {
-      navigate(`/game/valorant/agents/${agentName}/lineups/${mapName}`);
+      navigate(`/game/Valorant/agents/${agentName}/lineups/${mapName}`);
    };
 
    return (
@@ -36,9 +36,8 @@ const ValorantLineups: React.FC = () => {
          <Header />
          <SideNavWrapper />
          <main className="bg-gradient-to-br from-purple-800 to-blue-600 min-h-screen p-4">
-            
             <div className="container mx-auto py-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                   {maps
                      .filter(
                         (map) =>
@@ -59,7 +58,7 @@ const ValorantLineups: React.FC = () => {
                            <img
                               src={map.splash}
                               alt={map.displayName}
-                              className="w-full h-48 object-cover hover:opacity-75"
+                              className="w-full h-auto sm:h-48 object-cover hover:opacity-75"
                            />
                            <div className="px-6 py-4">
                               <div className="font-bold text-xl mb-2 text-white text-center">

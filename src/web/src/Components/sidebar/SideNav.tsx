@@ -19,8 +19,10 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
    const location = useLocation();
-   const isSpecialRoute = location.pathname.startsWith('/game/Valorant') || location.pathname.startsWith('/game/CS2');
-   const topPosition = isSpecialRoute ? 'top-[120px]' : 'top-[90px]';
+   const isSpecialRoute =
+      location.pathname.startsWith('/game/Valorant') ||
+      location.pathname.startsWith('/game/CS2');
+   const topPosition = isSpecialRoute ? 'top-[90px]' : 'top-[50px]';
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -49,10 +51,14 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
 
    return (
       <aside
-         className={`${expanded ? 'h-full' : ''} md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-300`}
+         className={`${
+            expanded ? 'h-full' : ''
+         } md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-300`}
       >
          <nav
-            className={`h-full flex flex-col overflow-hidden mt-5 sm:mt-0 ${
+            className={`h-full flex flex-col overflow-hidden ${
+               isSpecialRoute ? 'mt-[5px]' : 'mt-[10px]'
+            } md:mt-0 ${
                expanded
                   ? 'transition-all w-screen md:w-[400px]'
                   : 'transition-all w-[50px] md:w-[70px]'
@@ -66,7 +72,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                } items-center`}
             >
                <button
-                  className='p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-black text-2xl'
+                  className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-black text-2xl"
                   onClick={() => {
                      setExpanded((curr) => !curr);
                      console.log(expanded);
@@ -86,7 +92,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
                         Auth?.username ? Auth?.username : 'Guest'
                      }`}
-                     className='ml-[2px] w-10 h-10 rounded-md cursor-pointer'
+                     className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
                   />
                </Link>
                <div
@@ -99,16 +105,16 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                         expanded ? 'w-52 ml-3' : 'hidden'
                      }`}
                   >
-                     <h4 className='font-semibold text-black'>
+                     <h4 className="font-semibold text-black">
                         {Auth?.username ? Auth?.username : 'Guest'}
                      </h4>
-                     <span className='text-xs text-gray-600'>
+                     <span className="text-xs text-gray-600">
                         {Auth?.email ? Auth?.email : 'Guest@Mail.com'}
                      </span>
                   </div>
                   <IoLogOut
                      size={25}
-                     className='text-black'
+                     className="text-black"
                      style={{ cursor: 'pointer' }}
                      onClick={logout}
                   />
