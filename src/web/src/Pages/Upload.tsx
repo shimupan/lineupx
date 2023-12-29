@@ -168,7 +168,7 @@ const Upload: React.FC = () => {
                            placeholder="Enter a post name (please be descriptive)"
                            value={postName}
                            onChange={(e) => setPostName(e.target.value)}
-                           className="bg-[#edf2f7] flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
+                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                         />
                         <label
                            htmlFor="mapName"
