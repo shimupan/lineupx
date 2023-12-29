@@ -3,7 +3,7 @@ import { AuthContext } from '../App';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import logo from '../assets/lineupx.png';
+import logo from '../assets/lineupx_compact.webp';
 
 const Header: React.FC = () => {
    const Auth = useContext(AuthContext);
@@ -42,7 +42,7 @@ const Header: React.FC = () => {
             id="header"
             className="sticky top-0 w-full relative z-50 fixed top-0 w-full bg-[#181818] shadow-lg relative"
          >
-            <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
+            <div className="w-full flex items-center justify-between mt-0 px-2 md:px-6 py-1 md:py-2">
                <input className="hidden" type="checkbox" id="menu-toggle" />
 
                <div
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
                               <img
                                  src={logo}
                                  alt="Logo"
-                                 className="w-100 h-20 transform scale-125"
+                                 className="w-auto h-12 mt-[-10px] md:mt-0"
                               />
                            </Link>
                         </li>

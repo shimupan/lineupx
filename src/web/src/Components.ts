@@ -37,3 +37,4 @@ export { default as Carousel } from './Components/Carousel';
 export { default as Loading } from './Components/Loading';
 export { default as Posts } from './Components/Posts';
 export { default as ProfileEdit } from './Components/ProfileEdit';
+export { default as AgentSelector } from './Components/AgentSelector';

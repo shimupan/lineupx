@@ -118,6 +118,12 @@ router.post('/post', postLimit, async (req, res) => {
       jumpThrow,
       game,
       user,
+      lineupLocation,
+      lineupDescription,
+      teamSide,
+      valorantAgent,
+      ability,
+      comments,
    } = req.body;
 
    const createModel = (collectionName) =>
@@ -148,17 +154,16 @@ router.post('/post', postLimit, async (req, res) => {
       );
 
       const newPost = new postData({
+         Username: user.username,
          UserID: user._id,
          postTitle: postName,
          mapName: mapName,
-         /*
-         TODO: Forgot to add the following to the form
          lineupLocation: lineupLocation,
          lineupDescription: lineupDescription,
          teamSide: teamSide,
-         */
          likes: [],
          dislikes: [],
+         comments: [],
          views: 0,
          standingPosition: {
             public_id: uploadStandingPostion.public_id,
@@ -176,7 +181,10 @@ router.post('/post', postLimit, async (req, res) => {
          jumpThrow: JumpThrow,
          game: game,
          approved: false,
+         valorantAgent: valorantAgent,
+         ability: ability,
       });
+
       const savedPost = await newPost.save();
 
       if (!savedPost) {
@@ -188,6 +196,60 @@ router.post('/post', postLimit, async (req, res) => {
    } catch (error) {
       console.log(error);
       res.send(error);
+   }
+});
+
+// Increment view count for a specific post
+router.post('/post/:id/increment-view-count', async (req, res) => {
+   const PostData = mongoose.model('PostData', PostDataSchema);
+   const { id } = req.params;
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      post.views += 1;
+      await post.save();
+
+      res.send(post);
+   } catch (error) {
+      console.error('Failed to increment view count:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+// Endpoint to add a comment to a post
+router.post('/post/:id/comment', async (req, res) => {
+   const { id } = req.params;
+   const { username, userId, text } = req.body;
+
+   if (!text) {
+      return res.status(400).send('Comment text is required');
+   }
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const comment = {
+         username: username,
+         user: userId,
+         text: text,
+      };
+
+      post.comments.push(comment);
+      await post.save();
+
+      res.status(200).send(post);
+   } catch (error) {
+      console.error('Failed to add comment:', error);
+      res.status(500).send('Server error');
    }
 });
 

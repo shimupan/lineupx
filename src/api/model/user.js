@@ -57,6 +57,18 @@ const UserSchema = new mongoose.Schema({
          required: false,
       },
    ],
+   comments: [
+      {
+         text: { type: String, required: true },
+         createdAt: { type: Date, default: Date.now },
+         // Optional: Add reference to PostData if these comments are related to specific posts
+         post: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PostData',
+            required: false,
+         },
+      },
+   ],
    resetPasswordToken: {
       type: String,
    },

@@ -38,6 +38,8 @@ axios.defaults.baseURL = baseURL || 'http://localhost:3000';
 const cookies = new Cookies();
 
 type AuthContextType = {
+   _id: string;
+   setid: React.Dispatch<React.SetStateAction<string>>;
    accessToken: string;
    setAccessToken: React.Dispatch<React.SetStateAction<string>>;
    refreshToken: string;
@@ -64,6 +66,7 @@ function App() {
    const [email, setEmail] = useState<string>('');
    const [Verified, setVerified] = useState<boolean>(false);
    const [role, setRole] = useState<string>('');
+   const [_id, setid] = useState<string>('');
 
    useEffect(() => {
       const accessTokenC = cookies.get('accessToken');
@@ -87,6 +90,7 @@ function App() {
                setUsername(response.data.username);
                setEmail(response.data.email);
                setVerified(response.data.Verified);
+               setid(response.data._id);
             } catch (error) {
                return error;
             }
@@ -97,17 +101,19 @@ function App() {
    return (
       <AuthContext.Provider
          value={{
+            _id,
             accessToken,
             refreshToken,
             email,
             role,
+            username,
+            Verified,
             setAccessToken,
             setRefreshToken,
             setEmail,
-            username,
             setUsername,
-            Verified,
             setVerified,
+            setid,
          }}
       >
          <BrowserRouter>

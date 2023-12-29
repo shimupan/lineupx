@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "framer-motion": "^10.16.16"
+    "framer-motion": "^10.16.16",
+    "reactstrap": "^9.2.1"
   }
 }

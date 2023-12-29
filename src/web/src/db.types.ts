@@ -8,6 +8,7 @@ export type UserType = {
 };
 
 export type PostType = {
+   Username: string;
    _id: string;
    UserID: string;
    postTitle: string;
@@ -33,6 +34,8 @@ export type PostType = {
    grenadeType: string;
    jumpThrow: string;
    game: string;
+   valorantAgent: string;
+   ability: string;
 };
 
 export type ValorantAgent = {
