@@ -31,12 +31,6 @@ const CS2: React.FC = () => {
       };
 
       fetchData();
-
-      const intervalId = setInterval(fetchData, 1000);
-
-      return () => {
-         clearInterval(intervalId);
-      };
    }, []);
 
    const handleSearch = (searchTerm: string) => {

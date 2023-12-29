@@ -1,29 +1,32 @@
 import { useState, useEffect } from 'react';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
 
-type Response<T> = [T | null, boolean, any];
+type AxiosReturn<T> = {
+   response: AxiosResponse<T> | null;
+   error: Error | null;
+   loading: boolean;
+};
 
-function useAxios<T = any>(options: AxiosRequestConfig): Response<T> {
-   const [response, setResponse] = useState<T | null>(null);
-   const [error, setError] = useState<any>(null);
-   const [isLoading, setIsLoading] = useState(false);
+export default function useAxios<T = any>(config: AxiosRequestConfig): AxiosReturn<T> {
+   const [response, setResponse] = useState<AxiosResponse<T> | null>(null);
+   const [error, setError] = useState<AxiosError | null>(null);
+   const [loading, setLoading] = useState<boolean>(true);
 
    useEffect(() => {
       const fetchData = async () => {
-         setIsLoading(true);
          try {
-            const res: AxiosResponse<T> = await axios(options);
-            setResponse(res.data);
-         } catch (error) {
-            setError(error);
+            const res = await axios(config);
+            setResponse(res);
+         } catch (err) {
+            const axiosError = err as AxiosError;
+            setError(axiosError);
+         } finally {
+            setLoading(false);
          }
-         setIsLoading(false);
       };
 
       fetchData();
-   }, [options]);
+   }, [config]);
 
-   return [response, isLoading, error];
+   return { response, error, loading };
 }
-
-export default useAxios;

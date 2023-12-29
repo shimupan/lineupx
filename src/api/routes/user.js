@@ -6,11 +6,11 @@ import { findDuplicateUsername, findDuplicateEmail } from '../helper/findDuplica
 const router = express.Router();
 
 // single user login
-router.get('/users', async (req, res) => {
-   const accessToken = req.headers.accesstoken;
-   const refreshToken = req.headers.refreshtoken;
+router.post('/users', async (req, res) => {
+   const { accessToken, refreshToken } = req.body;
+   
    if (!accessToken || !refreshToken) {
-      res.status(401).send('Access Denied');
+      return res.status(401).send('Access Denied');
    }
 
    const decoded = jwt.decode(accessToken);

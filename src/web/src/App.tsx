@@ -80,11 +80,9 @@ function App() {
       if (accessToken && refreshToken) {
          (async () => {
             try {
-               const response = await axios.get('/users', {
-                  headers: {
-                     accessToken: accessToken,
-                     refreshToken: refreshToken,
-                  },
+               const response = await axios.post('/users', {
+                  accessToken: accessToken,
+                  refreshToken: refreshToken,
                });
                setRole(response.data?.role || 'user');
                setUsername(response.data.username);

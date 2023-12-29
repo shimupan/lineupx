@@ -12,7 +12,6 @@ interface Comment {
    userId: string;
    username: string;
    createdAt: Date;
-   // other properties...
 }
 const PostPage = () => {
    const location = useLocation();
@@ -102,25 +101,6 @@ const PostPage = () => {
          }
       }
    };
-
-   useEffect(() => {
-      fetchComments();
-      const intervalId = setInterval(fetchComments, 1);
-      function handleClickOutside(event: MouseEvent) {
-         if (
-            popupRef.current &&
-            !popupRef.current.contains(event.target as Node)
-         ) {
-            setPopupVisible(false);
-         }
-      }
-
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-         document.removeEventListener('mousedown', handleClickOutside);
-         clearInterval(intervalId);
-      };
-   }, []);
 
    return (
       <>
