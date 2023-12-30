@@ -44,7 +44,7 @@ const SearchBar = ({
 
       setFilteredSuggestions(filtered);
    };
-   
+
    const handleClear = () => {
       setSearchTerm('');
       onSearch('');

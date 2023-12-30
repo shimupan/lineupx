@@ -25,16 +25,15 @@ import {
    AdminCheck,
    AdminModifyUser,
    AdminModifyPost,
+   PageNotFound,
 } from './Components';
+import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 import './App.css';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.baseURL = baseURL || 'http://localhost:3000';
-
-const cookies = new Cookies();
 
 type AuthContextType = {
    _id: string;
@@ -66,10 +65,11 @@ function App() {
    const [Verified, setVerified] = useState<boolean>(false);
    const [role, setRole] = useState<string>('');
    const [_id, setid] = useState<string>('');
+   const [accessTokenC] = useCookies("accessToken", "");
+   const [refreshTokenC] = useCookies("refreshToken", "");
 
    useEffect(() => {
-      const accessTokenC = cookies.get('accessToken');
-      const refreshTokenC = cookies.get('refreshToken');
+      console.log(accessTokenC, refreshTokenC)
       if (accessTokenC && !accessToken) {
          setAccessToken(accessTokenC);
       }
@@ -77,102 +77,131 @@ function App() {
          setRefreshToken(refreshTokenC);
       }
       if (accessToken && refreshToken) {
-         (async () => {
-            try {
-               const response = await axios.get('/users', {
-                  headers: {
-                     accessToken: accessToken,
-                     refreshToken: refreshToken,
-                  },
-               });
+         axios
+            .post('/users', {
+               accessToken: accessToken,
+               refreshToken: refreshToken,
+            })
+            .then((response) => {
                setRole(response.data?.role || 'user');
                setUsername(response.data.username);
                setEmail(response.data.email);
                setVerified(response.data.Verified);
                setid(response.data._id);
-            } catch (error) {
+            })
+            .catch((error) => {
                return error;
-            }
-         })();
+            });
       }
    }, [accessToken, refreshToken]);
 
    return (
-      <AuthContext.Provider
-         value={{
-            _id,
-            accessToken,
-            refreshToken,
-            email,
-            role,
-            username,
-            Verified,
-            setAccessToken,
-            setRefreshToken,
-            setEmail,
-            setUsername,
-            setVerified,
-            setid,
-         }}
-      >
-         <BrowserRouter>
-            <Routes>
-               <Route path="/" element={<Page />}></Route>
-               <Route path="/game/valorant" element={<Valorant />}></Route>
-               <Route path="/game/valorant/agents/:agentName/lineups" element={<ValorantLineups />}></Route>
-               <Route path="/game/valorant/agents" element={<ValorantAgents />}></Route>
-               <Route path="/game/valorant/agents/:agentName/lineups/:mapName" element={<ValorantMaps />} />
-               <Route
-                  path="/game/valorant/lineups"
-                  element={<ValorantLineups />}
-               ></Route>
-               <Route
-                  path="/game/valorant/agents"
-                  element={<ValorantAgents />}
-               ></Route>
-               <Route
-                  path="/game/valorant/lineups/:mapName"
-                  element={<ValorantMaps />}
-               />
-               <Route path="/" element={<ValorantLineups />} />
-               <Route path="/game/cs2" element={<CS2 />}></Route>
-               <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
-               <Route path="/game/cs2/lineups/:mapName" element={<CS2Maps />}></Route>
-               <Route path="/user/:id" element={<ProfilePage />}></Route>
-               <Route path="/game/:game/:id" element={<PostPage />}></Route>
-               {/* Auth Routes */}
-               <Route path="/register" element={<Register />}></Route>
-               <Route path="/login" element={<Login />}></Route>
-               <Route
-                  path="/forgotpassword"
-                  element={<ForgotPassword />}
-               ></Route>
-               <Route path="/resetpassword" element={<ResetPassword />}></Route>
-               {/* Protected Routes */}
-               <Route element={<RequireAuth allowedRoles={['admin']} />}>
-                  <Route path="/admin" element={<AdminHome />}></Route>
-                  <Route path="/admin/users" element={<AdminUsers />}></Route>
-                  <Route path="/admin/posts" element={<AdminPosts />}></Route>
-                  <Route path="/admin/check" element={<AdminCheck />}></Route>
+      <>
+         <AuthContext.Provider
+            value={{
+               _id,
+               accessToken,
+               refreshToken,
+               email,
+               role,
+               username,
+               Verified,
+               setAccessToken,
+               setRefreshToken,
+               setEmail,
+               setUsername,
+               setVerified,
+               setid,
+            }}
+         >
+            <BrowserRouter>
+               <Routes>
+                  <Route path="/" element={<Page />}></Route>
+                  <Route path="/game/valorant" element={<Valorant />}></Route>
                   <Route
-                     path="/admin/user/:id"
-                     element={<AdminModifyUser />}
+                     path="/game/valorant/agents/:agentName/lineups"
+                     element={<ValorantLineups />}
                   ></Route>
                   <Route
-                     path="/admin/post/:id"
-                     element={<AdminModifyPost />}
+                     path="/game/valorant/agents"
+                     element={<ValorantAgents />}
                   ></Route>
-               </Route>
-               <Route
-                  element={<RequireAuth allowedRoles={['user', 'admin']} />}
-               >
-                  <Route path="/upload" element={<Upload />}></Route>
-               </Route>
-               <Route path="/google-callback" element={<GoogleCallBack />} />
-               <Route path="/verifyemail" element={<VerifyEmail />} />
-            </Routes>
-         </BrowserRouter>
-      </AuthContext.Provider>
+                  <Route
+                     path="/game/valorant/agents/:agentName/lineups/:mapName"
+                     element={<ValorantMaps />}
+                  />
+                  <Route
+                     path="/game/valorant/lineups"
+                     element={<ValorantLineups />}
+                  ></Route>
+                  <Route
+                     path="/game/valorant/agents"
+                     element={<ValorantAgents />}
+                  ></Route>
+                  <Route
+                     path="/game/valorant/lineups/:mapName"
+                     element={<ValorantMaps />}
+                  />
+                  <Route path="/game/cs2" element={<CS2 />}></Route>
+                  <Route
+                     path="/game/cs2/lineups"
+                     element={<CS2Lineups />}
+                  ></Route>
+                  <Route
+                     path="/game/cs2/lineups/:mapName"
+                     element={<CS2Maps />}
+                  ></Route>
+                  <Route path="/user/:id" element={<ProfilePage />}></Route>
+                  <Route path="/game/:game/:id" element={<PostPage />}></Route>
+                  {/* Auth Routes */}
+                  <Route path="/register" element={<Register />}></Route>
+                  <Route path="/login" element={<Login />}></Route>
+                  <Route
+                     path="/forgotpassword"
+                     element={<ForgotPassword />}
+                  ></Route>
+                  <Route
+                     path="/resetpassword"
+                     element={<ResetPassword />}
+                  ></Route>
+                  {/* Protected Routes */}
+                  {role === 'admin' && Verified && (
+                     <Route element={<RequireAuth allowedRoles={['admin']} />}>
+                        <Route path="/admin" element={<AdminHome />}></Route>
+                        <Route
+                           path="/admin/users"
+                           element={<AdminUsers />}
+                        ></Route>
+                        <Route
+                           path="/admin/posts"
+                           element={<AdminPosts />}
+                        ></Route>
+                        <Route
+                           path="/admin/check"
+                           element={<AdminCheck />}
+                        ></Route>
+                        <Route
+                           path="/admin/user/:id"
+                           element={<AdminModifyUser />}
+                        ></Route>
+                        <Route
+                           path="/admin/post/:id"
+                           element={<AdminModifyPost />}
+                        ></Route>
+                     </Route>
+                  )}
+                  <Route
+                     element={<RequireAuth allowedRoles={['user', 'admin']} />}
+                  >
+                     <Route path="/upload" element={<Upload />}></Route>
+                  </Route>
+                  <Route path="/google-callback" element={<GoogleCallBack />} />
+                  <Route path="/verifyemail" element={<VerifyEmail />} />
+                  <Route path="*" element={<PageNotFound />}></Route>
+               </Routes>
+            </BrowserRouter>
+         </AuthContext.Provider>
+      </>
    );
 }
 

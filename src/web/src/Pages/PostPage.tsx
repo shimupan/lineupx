@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header, Footer, SideNavWrapper } from '../Components';
 import { CDN_URL } from '../Constants';
-import { PostType } from '../db.types';
+import { PostType } from '../global.types';
 import { AuthContext } from '../App';
 import axios from 'axios';
 import gear from '../assets/svg/gear.svg';
@@ -12,7 +12,6 @@ interface Comment {
    userId: string;
    username: string;
    createdAt: Date;
-   // other properties...
 }
 const PostPage = () => {
    const location = useLocation();
@@ -105,7 +104,6 @@ const PostPage = () => {
 
    useEffect(() => {
       fetchComments();
-      const intervalId = setInterval(fetchComments, 1);
       function handleClickOutside(event: MouseEvent) {
          if (
             popupRef.current &&
@@ -118,7 +116,6 @@ const PostPage = () => {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
          document.removeEventListener('mousedown', handleClickOutside);
-         clearInterval(intervalId);
       };
    }, []);
 

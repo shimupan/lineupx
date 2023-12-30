@@ -2,7 +2,7 @@ import { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../../App';
 import { getAllUsers } from '../../util/getUser';
 import { Footer, Header, SideNavWrapper } from '../../Components';
-import { UserType } from '../../db.types';
+import { UserType } from '../../global.types';
 import { useNavigate } from 'react-router-dom';
 
 const AdminUsers: React.FC = () => {

@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import Posts from '../../Components/Posts';
-import { PostType } from '../../db.types';
+import { PostType } from '../../global.types';
 import axios from 'axios';
-
 import {
    Header,
    SideNavWrapper,
    Searchbar,
    Footer,
    Carousel,
+   ValorantPopup,
 } from '../../Components';
 import { VALORANT_MAPS, VALORANT_BANNER } from '../../Constants';
+import { useLocalStorage } from '../../hooks';
 
 const Valorant: React.FC = () => {
+   const [open, setOpen] = useState<boolean>(true);
    const [posts, setPosts] = useState<PostType[]>([]);
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');

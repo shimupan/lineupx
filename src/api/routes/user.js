@@ -1,16 +1,19 @@
 import express from 'express';
 import User from '../model/user.js';
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
+import {
+   findDuplicateUsername,
+   findDuplicateEmail,
+} from '../helper/findDuplicateUser.js';
 
 const router = express.Router();
 
 // single user login
-router.get('/users', async (req, res) => {
-   const accessToken = req.headers.accesstoken;
-   const refreshToken = req.headers.refreshtoken;
+router.post('/users', async (req, res) => {
+   const { accessToken, refreshToken } = req.body;
+
    if (!accessToken || !refreshToken) {
-      res.status(401).send('Access Denied');
+      return res.status(401).send('Access Denied');
    }
 
    const decoded = jwt.decode(accessToken);
@@ -89,4 +92,62 @@ router.post('/user/:id/comment', async (req, res) => {
       res.status(500).send('Server error');
    }
 });
+
+router.post('/user/update', async (req, res) => {
+   const { user, newUsername, newEmail } = req.body;
+
+   try {
+      const userUpdate = await User.findById(user._id);
+
+      if (!userUpdate) {
+         return res.status(400).json({
+            message: 'Error Processing User',
+            type: 'error',
+         });
+      }
+
+      if (newUsername != userUpdate.username) {
+         if (newUsername.length < 3) {
+            return res.status(400).json({
+               message: 'Username must be at least 3 characters long',
+               type: 'error',
+            });
+         }
+         const isDuplicate = await findDuplicateUsername(newUsername);
+         if (isDuplicate) {
+            return res.status(400).json({
+               message: 'Username already exists',
+               type: 'error',
+            });
+         }
+         userUpdate.username = newUsername;
+      }
+
+      if (newEmail != userUpdate.email) {
+         const isDuplicate = await findDuplicateEmail(newEmail);
+         if (isDuplicate) {
+            return res.status(400).json({
+               message: 'Email already exists',
+               type: 'error',
+            });
+         }
+         userUpdate.email = newEmail;
+         userUpdate.Verified = false;
+      }
+
+      await userUpdate.save();
+
+      res.status(200).json({
+         message: 'Updated successfully',
+         type: 'success',
+      });
+   } catch (error) {
+      console.error('Failed to update user:', error);
+      res.status(200).json({
+         message: 'Error updating user',
+         type: 'error',
+      });
+   }
+});
+
 export default router;
