@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import Posts from '../../Components/Posts';
-import { PostType } from '../../db.types';
+import { PostType, ValorantAgent } from '../../db.types';
 import axios from 'axios';
+
 
 import {
    Header,
@@ -16,7 +17,8 @@ const Valorant: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
-   const [suggestions] = useState(['Apple', 'Banana', 'Cherry']); 
+   const [suggestions, setSuggestions] = useState<string[]>([]);
+   const [agents, setAgents] = useState<ValorantAgent>();
 
    useEffect(() => {
       document.title = 'Valorant';
@@ -27,6 +29,19 @@ const Valorant: React.FC = () => {
             .get('/post/Valorant')
             .then((res) => {
                setPosts(res.data);
+               const titles = res.data.map((post: PostType) => post.postTitle);
+               setSuggestions(titles);
+            })
+            .catch((err) => {
+               console.log(err);
+            });
+
+         axios
+            .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
+            .then((response) => {
+               setAgents(response.data.data);
+               const agentNames = agents?.data.map((agent) => agent.displayName) || [];
+               setSuggestions(prevSuggestions => [...prevSuggestions, ...agentNames]);
             })
             .catch((err) => {
                console.log(err);
@@ -34,9 +49,9 @@ const Valorant: React.FC = () => {
       };
 
       fetchData();
-
+      console.log(suggestions);
       return () => {};
-   }, []);
+   }, [suggestions]);
 
    const handleSearch = (value: string) => {
       setSearchTerm(value);

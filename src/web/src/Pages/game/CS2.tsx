@@ -16,9 +16,10 @@ const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
+   const [suggestions, setSuggestions] = useState<string[]>([]);
 
    useEffect(() => {
-      document.title = 'Counter-Strike 2';
+      document.title = 'CS2';
 
       // Function to fetch data
       const fetchData = () => {
@@ -26,6 +27,19 @@ const CS2: React.FC = () => {
             .get('/post/CS2')
             .then((res) => {
                setPosts(res.data);
+               const titles = res.data.map((post: PostType) => post.postTitle);
+               const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
+               const maps = [
+                  'Dust2',
+                  'Inferno',
+                  'Mirage',
+                  'Nuke',
+                  'Ancient',
+                  'Anubis',
+                  'Vertigo',
+                  'Overpass',
+               ];
+               setSuggestions([...titles, ...nades, ...maps]);
             })
             .catch((err) => {
                console.log(err);
@@ -33,9 +47,8 @@ const CS2: React.FC = () => {
       };
 
       fetchData();
-
       return () => {};
-   }, []);
+   });
 
    const handleSearch = (value: string) => {
       setSearchTerm(value);
@@ -72,14 +85,14 @@ const CS2: React.FC = () => {
                }}
             >
                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-               <h1 className="text-lg mb-4 pt-10 font-bold z-10">
-                  Counter-Strike 2
-               </h1>
+               <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
+
                <Searchbar
                   onChange={(e) => handleSearch(e.target.value)}
                   onSearch={handleSearch}
                   placeholder="Search for CS2 Lineups"
                   className="z-10"
+                  suggestions={suggestions}
                />
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
