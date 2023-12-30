@@ -39,7 +39,14 @@ const CS2: React.FC = () => {
                   'Vertigo',
                   'Overpass',
                ];
-               setSuggestions([...titles, ...nades, ...maps]);
+               setSuggestions((prevSuggestions) => [
+                  ...new Set([
+                     ...titles,
+                     ...prevSuggestions,
+                     ...nades,
+                     ...maps,
+                  ]),
+               ]);
             })
             .catch((err) => {
                console.log(err);

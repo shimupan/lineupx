@@ -29,7 +29,6 @@ const Valorant: React.FC = () => {
             const titles = postsResponse.data.map(
                (post: PostType) => `${post.postTitle}`,
             );
-            setSuggestions(titles);
 
             const agentsResponse = await axios.get(
                'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
@@ -45,8 +44,7 @@ const Valorant: React.FC = () => {
 
             // Extract displayNames for suggestions
             const displayNames = agentsResponse.data.data.map(
-               (agent: { displayName: string }) =>
-                  `${agent.displayName}`,
+               (agent: { displayName: string }) => `${agent.displayName}`,
             );
 
             const abilities = agentsResponse.data.data.flatMap(
@@ -57,28 +55,40 @@ const Valorant: React.FC = () => {
                   }[];
                }) => {
                   return agent.abilities.map(
-                     (ability) =>
-                        `${ability.displayName} )`,
+                     (ability) => `${ability.displayName}`,
                   );
                },
             );
 
+            const itemsToRemove = [
+               'The Range',
+               'Kasbah',
+               'District',
+               'Piazza',
+               'Drift',
+            ].map((item) => item.toLowerCase().trim());
+            const filteredSuggestions = suggestions.filter(
+               (suggestion) =>
+                  !itemsToRemove.includes(suggestion.toLowerCase().trim()),
+            );
             setSuggestions((prevSuggestions) => [
                ...new Set([
+                  ...titles,
                   ...prevSuggestions,
                   ...mapTitles,
                   ...displayNames,
                   ...abilities,
+                  ...filteredSuggestions,
                ]),
             ]);
          } catch (err) {
             console.log(err);
          }
       };
-      console.log(suggestions);
+
       fetchData();
       return () => {};
-   }, [suggestions]);
+   }, []);
 
    const handleSearch = (value: string) => {
       setSearchTerm(value);

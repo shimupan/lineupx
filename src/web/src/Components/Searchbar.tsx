@@ -1,4 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
+import Fuse from 'fuse.js';
 
 interface SearchBarProps {
    onSearch: (searchTerm: string) => void;
@@ -28,12 +29,22 @@ const SearchBar = ({
       setSearchTerm(event.target.value);
       onChange(event);
 
-      // Filter the suggestions based on the input
-      const filtered = suggestions.filter((suggestion) =>
-         suggestion.toLowerCase().startsWith(event.target.value.toLowerCase()),
-      );
+      // Setup Fuse.js
+      const fuse = new Fuse(suggestions, {
+         keys: ['text'],
+         includeScore: true,
+         threshold: 0.3,
+      });
+
+      // Use Fuse.js to search the suggestions
+      const result = fuse.search(event.target.value);
+
+      // Extract the item from each result
+      const filtered = result.map(({ item }) => item);
+
       setFilteredSuggestions(filtered);
    };
+   
    const handleClear = () => {
       setSearchTerm('');
       onSearch('');
