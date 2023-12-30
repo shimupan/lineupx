@@ -40,3 +40,5 @@ export { default as ProfileEdit } from './Components/ProfileEdit';
 export { default as AgentSelector } from './Components/AgentSelector';
 export { default as ValorantPopup } from './Components/ValorantPopup';
 export { default as CookiesPopup } from './Components/CookiesPopup';
+export { default as ValorantMode } from './Components/upload/ValorantMode';
+export { default as CS2Mode } from './Components/upload/CS2Mode';

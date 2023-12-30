@@ -1,12 +1,12 @@
 import React, { useReducer, useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useValorant } from '../../hooks';
 import { Dropzone } from '../../Components';
-import { Header, SideNavWrapper, AgentSelector } from '../../Components';
+import { Header, SideNavWrapper, ValorantMode, CS2Mode } from '../../Components';
 import { AuthContext } from '../../App';
 import { ToastContainer } from 'react-toastify';
 import { reducer, UploadDefaults } from './upload.reducer';
 import { handleSubmit } from './upload.util';
-import axios from 'axios';
 
 const Upload: React.FC = () => {
    // TODO: ADD Agents and Agent specific stuff if the game is valorant
@@ -25,13 +25,11 @@ const Upload: React.FC = () => {
    const Auth = useContext(AuthContext);
    const verified = Auth?.Verified;
 
+   const { allAgents } = useValorant();
+
    useEffect(() => {
-      axios
-         .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
-         .then((response) => {
-            dispatch({ type: 'setAgents', payload: response.data });
-         });
-   }, []);
+      dispatch({ type: 'setAgents', payload: allAgents });
+   }, [allAgents]);
 
    if (!verified) {
       return (
@@ -119,191 +117,8 @@ const Upload: React.FC = () => {
                         >
                            Map Name*
                         </label>
-                        {game === 'CS2' && (
-                           <>
-                              <select
-                                 id="mapName"
-                                 value={state.mapName}
-                                 onChange={(e) =>
-                                    dispatch({
-                                       type: 'setMapName',
-                                       payload: e.target.value,
-                                    })
-                                 }
-                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                              >
-                                 <option value="">--</option>
-                                 <option value="mirage">Mirage</option>
-                                 <option value="dust2">Dust 2</option>
-                                 <option value="vertigo">Vertigo</option>
-                                 <option value="nuke">Nuke</option>
-                                 <option value="inferno">Inferno</option>
-                                 <option value="overpass">Overpass</option>
-                                 <option value="anubis">Anubis</option>
-                                 <option value="ancient">Ancient</option>
-                              </select>
-
-                              <label
-                                 htmlFor="grenadeType"
-                                 className="mb-2 text-sm text-start text-gray-900"
-                              >
-                                 Grenade Type*
-                              </label>
-                              <select
-                                 id="grenadeType"
-                                 value={state.grenadeType}
-                                 onChange={(e) =>
-                                    dispatch({
-                                       type: 'setGrenadeType',
-                                       payload: e.target.value,
-                                    })
-                                 }
-                                 className="flex text-black items-center w-full px-5
-                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
-                                    focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                              >
-                                 <option value="">--</option>
-                                 <option value="smoke">Smoke</option>
-                                 <option value="flash">Flash</option>
-                                 <option value="molotov">Molotov</option>
-                                 <option value="shock">Decoy</option>
-                                 <option value="he">HE</option>
-                              </select>
-                              <label
-                                 htmlFor="grenadeType"
-                                 className="mb-2 text-sm text-start text-gray-900"
-                              >
-                                 Team Side*
-                              </label>
-                              <select
-                                 id="teamSide"
-                                 value={state.teamSide}
-                                 onChange={(e) =>
-                                    dispatch({
-                                       type: 'setTeamSide',
-                                       payload: e.target.value,
-                                    })
-                                 }
-                                 className="flex text-black items-center w-full px-5
-                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
-                                    focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                              >
-                                 <option value="">--</option>
-                                 <option value="CT">Counter Terrorist</option>
-                                 <option value="T">Terrorist</option>
-                              </select>
-                           </>
-                        )}
-                        {game === 'Valorant' && (
-                           <>
-                              <select
-                                 id="mapName"
-                                 value={state.mapName}
-                                 onChange={(e) =>
-                                    dispatch({
-                                       type: 'setMapName',
-                                       payload: e.target.value,
-                                    })
-                                 }
-                                 className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                              >
-                                 <option value="">--</option>
-                                 <option value="bind">Bind</option>
-                                 <option value="haven">Haven</option>
-                                 <option value="split">Split</option>
-                                 <option value="icebox">Icebox</option>
-                                 <option value="ascent">Ascent</option>
-                                 <option value="breeze">Breeze</option>
-                                 <option value="fracture">Fracture</option>
-                                 <option value="pearl">Pearl</option>
-                                 <option value="lotus">Lotus</option>
-                                 <option value="sunset">Sunset</option>
-                              </select>
-
-                              <label
-                                 htmlFor="grenadeType"
-                                 className="mb-2 text-sm text-start text-gray-900"
-                              >
-                                 Agent*
-                              </label>
-                              <AgentSelector
-                                 agents={state.agents?.data}
-                                 onSelectAgent={(selectedAgent) => {
-                                    dispatch({
-                                       type: 'setValorantAgent',
-                                       payload: selectedAgent.displayName,
-                                    });
-                                    dispatch({
-                                       type: 'setSelectedAgentAbilities',
-                                       payload: selectedAgent.abilities.map(
-                                          (ability) => ability.displayName,
-                                       ),
-                                    });
-                                 }}
-                              />
-
-                              <label
-                                 htmlFor="agentAbility"
-                                 className="mb-2 text-sm text-start text-gray-900"
-                              >
-                                 Agent Ability*
-                              </label>
-                              <select
-                                 id="ability"
-                                 value={state.ability}
-                                 onChange={(e) =>
-                                    dispatch({
-                                       type: 'setAbility',
-                                       payload: e.target.value,
-                                    })
-                                 }
-                                 className={`flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl ${
-                                    state.selectedAgentAbilities.length === 0
-                                       ? 'opacity-50 cursor-not-allowed'
-                                       : ''
-                                 }`}
-                                 disabled={
-                                    state.selectedAgentAbilities.length === 0
-                                 }
-                              >
-                                 <option value="">--</option>
-                                 {state.selectedAgentAbilities.map(
-                                    (ability, index) => (
-                                       <option key={index} value={ability}>
-                                          {ability}
-                                       </option>
-                                    ),
-                                 )}
-                              </select>
-
-                              <label
-                                 htmlFor="grenadeType"
-                                 className="mb-2 text-sm text-start text-gray-900"
-                              >
-                                 Team Side*
-                              </label>
-                              <select
-                                 id="teamSide"
-                                 value={state.teamSide}
-                                 onChange={(e) =>
-                                    dispatch({
-                                       type: 'setTeamSide',
-                                       payload: e.target.value,
-                                    })
-                                 }
-                                 className="flex text-black items-center w-full px-5
-                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
-                                    focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                              >
-                                 <option value="">--</option>
-                                 <option value="Defender">Defender</option>
-                                 <option value="Attacker">Attacker</option>
-                              </select>
-                           </>
-                        )}
+                        {game === 'CS2' && <CS2Mode state={state} dispatch={dispatch}/>}
+                        {game === 'Valorant' && <ValorantMode state={state} dispatch={dispatch}/>}
                         <label
                            htmlFor="jumpThrow"
                            className="mb-2 text-sm text-start text-gray-900"

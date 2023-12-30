@@ -15,7 +15,7 @@ export const handleSubmit = async (
    },
 ) => {
    e.preventDefault();
-   
+
    const {
       state,
       game,
