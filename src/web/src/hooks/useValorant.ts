@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ValorantAgent, ValorantMaps } from '../db.types';
+import { ValorantAgent, ValorantMaps } from '../global.types';
 
 type Agent = {
    currentAgent: string;

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL } from '../../Constants';
-import { PostType } from '../../db.types';
+import { PostType } from '../../global.types';
 import { approveRejectPosts } from '../../util/updatePost';
 import axios from 'axios';
 

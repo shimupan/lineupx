@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Posts from '../../Components/Posts';
-import { PostType } from '../../db.types';
+import { PostType } from '../../global.types';
 import axios from 'axios';
 
 import {

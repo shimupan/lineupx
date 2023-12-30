@@ -1,88 +1,22 @@
 import React, { useReducer, useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Dropzone } from '../Components';
-import { Header, SideNavWrapper, AgentSelector } from '../Components';
-import { AuthContext } from '../App';
-import { getUserByUsername } from '../util/getUser';
-import { ToastContainer, toast } from 'react-toastify';
-import { ValorantAgent } from '../db.types';
-import 'react-toastify/dist/ReactToastify.css';
+import { Dropzone } from '../../Components';
+import { Header, SideNavWrapper, AgentSelector } from '../../Components';
+import { AuthContext } from '../../App';
+import { ToastContainer } from 'react-toastify';
+import { reducer, UploadDefaults } from './upload.reducer';
+import { handleSubmit } from './upload.util';
 import axios from 'axios';
-
-type StateVariables = {
-   postName: string;
-   mapName: string;
-   grenadeType: string;
-   jumpThrow: string;
-   valorantAgent: string;
-   ability: string;
-   lineupLocation: string;
-   lineupDescription: string;
-   teamSide: string;
-   agents: ValorantAgent | undefined;
-   selectedAgentAbilities: string[];
-};
-
-type StateActions =
-   | { type: 'setPostName'; payload: string }
-   | { type: 'setMapName'; payload: string }
-   | { type: 'setGrenadeType'; payload: string }
-   | { type: 'setJumpThrow'; payload: string }
-   | { type: 'setValorantAgent'; payload: string }
-   | { type: 'setAbility'; payload: string }
-   | { type: 'setLineupLocation'; payload: string }
-   | { type: 'setLineupDescription'; payload: string }
-   | { type: 'setTeamSide'; payload: string }
-   | { type: 'setAgents'; payload: ValorantAgent | undefined }
-   | { type: 'setSelectedAgentAbilities'; payload: string[] };
-
-function reducer(state: StateVariables, action: StateActions): StateVariables {
-   switch (action.type) {
-      case 'setPostName':
-         return { ...state, postName: action.payload };
-      case 'setMapName':
-         return { ...state, mapName: action.payload };
-      case 'setGrenadeType':
-         return { ...state, grenadeType: action.payload };
-      case 'setJumpThrow':
-         return { ...state, jumpThrow: action.payload };
-      case 'setValorantAgent':
-         return { ...state, valorantAgent: action.payload };
-      case 'setAbility':
-         return { ...state, ability: action.payload };
-      case 'setLineupLocation':
-         return { ...state, lineupLocation: action.payload };
-      case 'setLineupDescription':
-         return { ...state, lineupDescription: action.payload };
-      case 'setTeamSide':
-         return { ...state, teamSide: action.payload };
-      case 'setAgents':
-         return { ...state, agents: action.payload };
-      case 'setSelectedAgentAbilities':
-         return { ...state, selectedAgentAbilities: action.payload };
-      default:
-         return state;
-   }
-}
 
 const Upload: React.FC = () => {
    // TODO: ADD Agents and Agent specific stuff if the game is valorant
-   const [state, dispatch] = useReducer(reducer, {
-      postName: '',
-      mapName: '',
-      grenadeType: '',
-      jumpThrow: '',
-      valorantAgent: '',
-      ability: '',
-      lineupLocation: '',
-      lineupDescription: '',
-      teamSide: '',
-      agents: undefined,
-      selectedAgentAbilities: [],
-   });
+   // Future state variables will go in the reducer
+   const [state, dispatch] = useReducer(reducer, UploadDefaults);
+   // Images are outside since they are used as props
    const [standingPosition, setStandingPosition] = useState<string>('');
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
+
    // This part checks for the game that was passed in from the previous page
    // Dont change this part
    const { state: locationState } = useLocation();
@@ -90,69 +24,6 @@ const Upload: React.FC = () => {
 
    const Auth = useContext(AuthContext);
    const verified = Auth?.Verified;
-
-   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      if (!state.postName) toast.error('Post name is required.');
-      else if (game === 'CS2' && !state.mapName)
-         toast.error('Map name is required.');
-      else if (game === 'CS2' && !state.grenadeType)
-         toast.error('Grenade Type is required.');
-      else if (game === 'Valorant' && !state.valorantAgent)
-         toast.error('Valorant Agent is required.');
-      else if (game === 'Valorant' && !state.ability)
-         toast.error('Ability is required.');
-      else if (!state.teamSide) toast.error('Team Side is required.');
-      else if (!state.lineupDescription)
-         toast.error('Line up description is required.');
-      else if (!state.lineupLocation)
-         toast.error('Line up location is required.');
-      else if (!standingPosition)
-         toast.error('Standing Position image is required.');
-      else if (!aimingPosition)
-         toast.error('Aiming Position image is required.');
-      else if (landingPosition)
-         toast.error('Landing Position image is required.');
-
-      const id = toast.loading('Uploading Post...');
-      try {
-         const user = await getUserByUsername(Auth?.username!);
-
-         await axios.post('/post', {
-            postName: state.postName,
-            mapName: state.mapName,
-            standingPosition,
-            aimingPosition,
-            landingPosition,
-            grenadeType: state.grenadeType,
-            jumpThrow: state.jumpThrow,
-            game,
-            user,
-            lineupDescription: state.lineupDescription,
-            lineupLocation: state.lineupLocation,
-            teamSide: state.teamSide,
-            valorantAgent: state.valorantAgent,
-            ability: state.ability,
-         });
-         toast.update(id, {
-            render: 'Post Uploaded Successfully!',
-            type: 'success',
-            isLoading: false,
-            autoClose: 1000,
-            hideProgressBar: false,
-         });
-      } catch (error) {
-         toast.update(id, {
-            render: 'Post Failed to Upload...',
-            type: 'error',
-            isLoading: false,
-            autoClose: 1000,
-            hideProgressBar: false,
-         });
-         console.log(error);
-      }
-   };
 
    useEffect(() => {
       axios
@@ -209,7 +80,16 @@ const Upload: React.FC = () => {
                   <div className="flex items-center xl:p-10">
                      <form
                         className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl"
-                        onSubmit={handleSubmit}
+                        onSubmit={(e) => {
+                           handleSubmit(e, {
+                              state: state,
+                              game: game,
+                              standingPosition: standingPosition,
+                              aimingPosition: aimingPosition,
+                              landingPosition: landingPosition,
+                              username: Auth?.username,
+                           });
+                        }}
                      >
                         <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Upload a New Post

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { UserType } from '../../db.types';
+import { UserType } from '../../global.types';
 import { Header, SideNavWrapper, Footer } from '../../Components';
 import { CiEdit } from 'react-icons/ci';
 

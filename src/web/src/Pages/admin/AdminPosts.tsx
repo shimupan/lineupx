@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL, GAMES } from '../../Constants';
-import { PostType } from '../../db.types';
+import { PostType } from '../../global.types';
 import axios from 'axios';
 
 const AdminPosts: React.FC = () => {

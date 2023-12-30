@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef } from 'react';
 import { Header, Footer, SideNavWrapper } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
-import 'react-toastify/dist/ReactToastify.css';
 
 import ancient from '../../../assets/cs2maps/ancient.webp';
 import anubis from '../../../assets/cs2maps/anubis.webp';

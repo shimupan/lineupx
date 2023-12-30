@@ -5,7 +5,6 @@ import { Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
 import { useCookies } from '../../hooks';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Login: React.FC = () => {
    const [email, setEmail] = useState<string>('');

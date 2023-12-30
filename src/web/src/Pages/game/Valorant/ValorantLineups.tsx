@@ -1,7 +1,6 @@
 import { Header, Footer, SideNavWrapper } from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useValorant } from '../../../hooks/index';
-import 'react-toastify/dist/ReactToastify.css';
 
 const ValorantLineups: React.FC = () => {
    const { allMaps } = useValorant();

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword: React.FC = () => {
    const [password, setPassword] = useState<string>('');

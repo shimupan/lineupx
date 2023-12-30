@@ -5,7 +5,7 @@ export { default as Valorant } from './Pages/game/Valorant';
 export { default as CS2 } from './Pages/game/CS2';
 export { default as Login } from './Pages/auth/Login';
 export { default as Register } from './Pages/auth/Register';
-export { default as Upload } from './Pages/Upload';
+export { default as Upload } from './Pages/upload/Upload';
 export { default as ForgotPassword } from './Pages/auth/ForgotPassword';
 export { default as ResetPassword } from './Pages/auth/ResetPassword';
 export { default as GoogleCallBack } from './Pages/auth/Google';

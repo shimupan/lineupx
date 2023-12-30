@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { UserType } from '../db.types';
+import { UserType } from '../global.types';
 import { IoMdClose } from 'react-icons/io';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-import 'react-toastify/dist/ReactToastify.css';
 
 type ProfileEditProps = {
    user: UserType;
@@ -41,7 +40,8 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
                autoClose: 1000,
                hideProgressBar: false,
             });
-         }).catch((error) => {
+         })
+         .catch((error) => {
             toast.update(id, {
                render: error.response.data.message,
                type: error.response.data.type,

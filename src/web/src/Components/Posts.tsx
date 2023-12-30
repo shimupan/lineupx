@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { PostType, ValorantAgent } from '../db.types';
+import { PostType, ValorantAgent } from '../global.types';
 import { CDN_URL } from '../Constants';
 import axios from 'axios';
 import { useState, useEffect } from 'react';

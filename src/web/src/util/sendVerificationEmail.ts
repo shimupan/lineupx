@@ -1,15 +1,17 @@
 import axios from 'axios';
-import { UserType } from '../db.types';
+import { UserType } from '../global.types';
 
 type ResponseType = {
    render: any;
-   type: "success" | "error";
+   type: 'success' | 'error';
    isLoading: boolean;
    autoClose: number;
    hideProgressBar: boolean;
 };
 
-export const sendVerificationEmail = async (user: UserType): Promise<ResponseType> => {
+export const sendVerificationEmail = async (
+   user: UserType,
+): Promise<ResponseType> => {
    try {
       const response = await axios.post('/send-verification-email', {
          email: user?.email,
