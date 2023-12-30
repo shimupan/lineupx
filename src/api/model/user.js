@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
    ProfilePicture: {
       type: String,
       required: false,
-      default: "",
+      default: '',
    },
    role: {
       type: String,
