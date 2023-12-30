@@ -1,17 +1,24 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
+import Fuse from 'fuse.js';
 
 interface SearchBarProps {
    onSearch: (searchTerm: string) => void;
    placeholder: string;
    className?: string;
+   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+   suggestions: string[]; // Add this prop for the autocomplete suggestions
 }
 
 const SearchBar = ({
    onSearch,
    placeholder,
    className = '',
+   onChange,
+   suggestions,
 }: SearchBarProps) => {
    const [searchTerm, setSearchTerm] = useState('');
+   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+   const [isFocused, setIsFocused] = useState(false);
 
    const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
@@ -20,6 +27,22 @@ const SearchBar = ({
 
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
+      onChange(event);
+
+      // Setup Fuse.js
+      const fuse = new Fuse(suggestions, {
+         keys: ['text'],
+         includeScore: true,
+         threshold: 0.3,
+      });
+
+      // Use Fuse.js to search the suggestions
+      const result = fuse.search(event.target.value);
+
+      // Extract the item from each result
+      const filtered = result.map(({ item }) => item);
+
+      setFilteredSuggestions(filtered);
    };
 
    const handleClear = () => {
@@ -27,11 +50,46 @@ const SearchBar = ({
       onSearch('');
    };
 
+   const handleFocus = () => {
+      setIsFocused(true);
+   };
+
+   const handleBlur = () => {
+      setTimeout(() => {
+         setIsFocused(false);
+      }, 100);
+   };
+
+   const handleSuggestionClick = (suggestion: string) => {
+      setSearchTerm(suggestion);
+      onSearch(suggestion);
+   };
+   const renderSuggestions = () => {
+      if (filteredSuggestions.length === 0) {
+         return null;
+      }
+
+      return (
+         <ul className="absolute z-10 bg-white w-full rounded-b-lg shadow-md border border-gray-200 mt-[-2px] py-1 overflow-y-auto max-h-64 scrollbar scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+            {filteredSuggestions.map((suggestion, index) => (
+               <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="text-black px-4 py-2 cursor-pointer hover:bg-gray-100"
+               >
+                  {suggestion}
+               </li>
+            ))}
+         </ul>
+      );
+   };
    return (
-      <>
+      <div className="relative w-full md:w-1/4 lg:w-1/4 xl:w-2/3 2xl:w-1/2 mx-auto">
          <form
             onSubmit={handleSubmit}
-            className={`flex items-center justify-start rounded-full bg-white text-lg ${className} p-4 w-1/2 relative`} // Make the search bar 50% of the full width
+            className={`flex items-center justify-start ${
+               isFocused && filteredSuggestions.length > 0 ? '' : 'rounded-b-lg'
+            } rounded-t-lg bg-white text-lg ${className} p-4 w-full relative`}
          >
             <button
                type="submit"
@@ -60,6 +118,8 @@ const SearchBar = ({
                placeholder={placeholder}
                value={searchTerm}
                onChange={handleChange}
+               onFocus={handleFocus}
+               onBlur={handleBlur}
                aria-label="Search"
                className="flex-grow text-black rounded-full focus:outline-none text-lg pl-2 pr-10 w-full bg-white"
                autoComplete="on"
@@ -87,7 +147,8 @@ const SearchBar = ({
                </button>
             )}
          </form>
-      </>
+         {isFocused && renderSuggestions()}
+      </div>
    );
 };
 
