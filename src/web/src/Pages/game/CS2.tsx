@@ -14,6 +14,8 @@ import { CS2_MAPS, CS2_BANNER } from '../../Constants';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
+   const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
+   const [searchTerm, setSearchTerm] = useState('');
 
    useEffect(() => {
       document.title = 'Counter-Strike 2';
@@ -23,7 +25,7 @@ const CS2: React.FC = () => {
          axios
             .get('/post/CS2')
             .then((res) => {
-               setPosts(res.data.slice(0, 10));
+               setPosts(res.data);
             })
             .catch((err) => {
                console.log(err);
@@ -32,16 +34,28 @@ const CS2: React.FC = () => {
 
       fetchData();
 
-      const intervalId = setInterval(fetchData, 1000);
-
-      return () => {
-         clearInterval(intervalId);
-      };
+      return () => {};
    }, []);
 
-   const handleSearch = (searchTerm: string) => {
-      console.log('Searching for:', searchTerm);
-      // TODO: Implement search functionality and logic
+   const handleSearch = (value: string) => {
+      setSearchTerm(value);
+      let filtered = posts;
+
+      if (value) {
+         // Filter posts based on search term
+         filtered = posts.filter(
+            (post) =>
+               post.postTitle.toLowerCase().includes(value.toLowerCase()) ||
+               post.grenadeType.toLowerCase().includes(value.toLowerCase()) ||
+               post.mapName.toLowerCase().includes(value.toLowerCase()) ||
+               post.teamSide?.toLowerCase() === value.toLowerCase(),
+         );
+      } else {
+         // If search term is empty, only show the first 10 posts
+         filtered = posts.slice(0, 10);
+      }
+
+      setFilteredPosts(filtered);
    };
 
    return (
@@ -62,6 +76,7 @@ const CS2: React.FC = () => {
                   Counter-Strike 2
                </h1>
                <Searchbar
+                  onChange={(e) => handleSearch(e.target.value)}
                   onSearch={handleSearch}
                   placeholder="Search for CS2 Lineups"
                   className="z-10"
@@ -73,17 +88,18 @@ const CS2: React.FC = () => {
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pl-20">
-               {posts.map((post) => {
-                  return (
-                     <div key={post.landingPosition.public_id} className="max-w-md mx-auto">
-                        <Posts
-                           postData={post}
-                        />
+               {(searchTerm === '' ? posts.slice(0, 10) : filteredPosts).map(
+                  (post) => (
+                     <div
+                        key={post.landingPosition.public_id}
+                        className="max-w-md mx-auto"
+                     >
+                        <Posts postData={post} />
                      </div>
-                  );
-               })}
+                  ),
+               )}
             </div>
          </main>
          <Footer className="mt-auto" />

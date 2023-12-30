@@ -4,12 +4,14 @@ interface SearchBarProps {
    onSearch: (searchTerm: string) => void;
    placeholder: string;
    className?: string;
+   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; 
 }
 
 const SearchBar = ({
    onSearch,
    placeholder,
    className = '',
+   onChange,
 }: SearchBarProps) => {
    const [searchTerm, setSearchTerm] = useState('');
 
@@ -20,12 +22,15 @@ const SearchBar = ({
 
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
+      onChange(event);
    };
 
    const handleClear = () => {
       setSearchTerm('');
       onSearch('');
    };
+
+   
 
    return (
       <form
