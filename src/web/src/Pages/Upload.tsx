@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useReducer, useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Dropzone } from '../Components';
 import { Header, SideNavWrapper, AgentSelector } from '../Components';
@@ -9,28 +9,84 @@ import { ValorantAgent } from '../db.types';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
+type StateVariables = {
+   postName: string;
+   mapName: string;
+   grenadeType: string;
+   jumpThrow: string;
+   valorantAgent: string;
+   ability: string;
+   lineupLocation: string;
+   lineupDescription: string;
+   teamSide: string;
+   agents: ValorantAgent | undefined;
+   selectedAgentAbilities: string[];
+};
+
+type StateActions =
+   | { type: 'setPostName'; payload: string }
+   | { type: 'setMapName'; payload: string }
+   | { type: 'setGrenadeType'; payload: string }
+   | { type: 'setJumpThrow'; payload: string }
+   | { type: 'setValorantAgent'; payload: string }
+   | { type: 'setAbility'; payload: string }
+   | { type: 'setLineupLocation'; payload: string }
+   | { type: 'setLineupDescription'; payload: string }
+   | { type: 'setTeamSide'; payload: string }
+   | { type: 'setAgents'; payload: ValorantAgent | undefined }
+   | { type: 'setSelectedAgentAbilities'; payload: string[] };
+
+function reducer(state: StateVariables, action: StateActions): StateVariables {
+   switch (action.type) {
+      case 'setPostName':
+         return { ...state, postName: action.payload };
+      case 'setMapName':
+         return { ...state, mapName: action.payload };
+      case 'setGrenadeType':
+         return { ...state, grenadeType: action.payload };
+      case 'setJumpThrow':
+         return { ...state, jumpThrow: action.payload };
+      case 'setValorantAgent':
+         return { ...state, valorantAgent: action.payload };
+      case 'setAbility':
+         return { ...state, ability: action.payload };
+      case 'setLineupLocation':
+         return { ...state, lineupLocation: action.payload };
+      case 'setLineupDescription':
+         return { ...state, lineupDescription: action.payload };
+      case 'setTeamSide':
+         return { ...state, teamSide: action.payload };
+      case 'setAgents':
+         return { ...state, agents: action.payload };
+      case 'setSelectedAgentAbilities':
+         return { ...state, selectedAgentAbilities: action.payload };
+      default:
+         return state;
+   }
+}
+
 const Upload: React.FC = () => {
    // TODO: ADD Agents and Agent specific stuff if the game is valorant
-   const [postName, setPostName] = useState<string>('');
-   const [mapName, setMapName] = useState<string>('');
-   const [grenadeType, setGrenadeType] = useState<string>('');
-   const [jumpThrow, setJumpThrow] = useState<string>('');
+   const [state, dispatch] = useReducer(reducer, {
+      postName: '',
+      mapName: '',
+      grenadeType: '',
+      jumpThrow: '',
+      valorantAgent: '',
+      ability: '',
+      lineupLocation: '',
+      lineupDescription: '',
+      teamSide: '',
+      agents: undefined,
+      selectedAgentAbilities: [],
+   });
    const [standingPosition, setStandingPosition] = useState<string>('');
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
-   const [valorantAgent, setValorantAgent] = useState<string>('');
-   const [ability, setAgentAbility] = useState<string>('');
-   const [lineupLocation, setLineupLocation] = useState<string>('');
-   const [lineupDescription, setLineupDescription] = useState<string>('');
-   const [teamSide, setTeamSide] = useState<string>('');
-   const [agents, setAgents] = useState<ValorantAgent>();
-   const [selectedAgentAbilities, setSelectedAgentAbilities] = useState<
-      string[]
-   >([]);
    // This part checks for the game that was passed in from the previous page
    // Dont change this part
-   const { state } = useLocation();
-   const game = state.game.substring(6);
+   const { state: locationState } = useLocation();
+   const game = locationState.game.substring(6);
 
    const Auth = useContext(AuthContext);
    const verified = Auth?.Verified;
@@ -38,23 +94,25 @@ const Upload: React.FC = () => {
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (!postName) toast.error('Post name is required.');
-      else if (game === 'CS2' && !mapName) toast.error('Map name is required.');
-      else if (game === 'CS2' && !grenadeType)
+      if (!state.postName) toast.error('Post name is required.');
+      else if (game === 'CS2' && !state.mapName)
+         toast.error('Map name is required.');
+      else if (game === 'CS2' && !state.grenadeType)
          toast.error('Grenade Type is required.');
-      else if (game === 'Valorant' && !valorantAgent)
+      else if (game === 'Valorant' && !state.valorantAgent)
          toast.error('Valorant Agent is required.');
-      else if (game === 'Valorant' && !ability)
+      else if (game === 'Valorant' && !state.ability)
          toast.error('Ability is required.');
-      else if (!teamSide) toast.error('Team Side is required.');
-      else if (!lineupDescription)
+      else if (!state.teamSide) toast.error('Team Side is required.');
+      else if (!state.lineupDescription)
          toast.error('Line up description is required.');
-      else if (!lineupLocation) toast.error('Line up location is required.');
+      else if (!state.lineupLocation)
+         toast.error('Line up location is required.');
       else if (!standingPosition)
          toast.error('Standing Position image is required.');
       else if (!aimingPosition)
          toast.error('Aiming Position image is required.');
-      else if (!landingPosition)
+      else if (landingPosition)
          toast.error('Landing Position image is required.');
 
       const id = toast.loading('Uploading Post...');
@@ -62,20 +120,20 @@ const Upload: React.FC = () => {
          const user = await getUserByUsername(Auth?.username!);
 
          await axios.post('/post', {
-            postName,
-            mapName,
+            postName: state.postName,
+            mapName: state.mapName,
             standingPosition,
             aimingPosition,
             landingPosition,
-            grenadeType,
-            jumpThrow,
+            grenadeType: state.grenadeType,
+            jumpThrow: state.jumpThrow,
             game,
             user,
-            lineupDescription,
-            lineupLocation,
-            teamSide,
-            valorantAgent,
-            ability,
+            lineupDescription: state.lineupDescription,
+            lineupLocation: state.lineupLocation,
+            teamSide: state.teamSide,
+            valorantAgent: state.valorantAgent,
+            ability: state.ability,
          });
          toast.update(id, {
             render: 'Post Uploaded Successfully!',
@@ -100,7 +158,7 @@ const Upload: React.FC = () => {
       axios
          .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
          .then((response) => {
-            setAgents(response.data);
+            dispatch({ type: 'setAgents', payload: response.data });
          });
    }, []);
 
@@ -166,8 +224,13 @@ const Upload: React.FC = () => {
                            id="postName"
                            type="postName"
                            placeholder="Enter a post name (please be descriptive)"
-                           value={postName}
-                           onChange={(e) => setPostName(e.target.value)}
+                           value={state.postName}
+                           onChange={(e) =>
+                              dispatch({
+                                 type: 'setPostName',
+                                 payload: e.target.value,
+                              })
+                           }
                            className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                         />
                         <label
@@ -180,8 +243,13 @@ const Upload: React.FC = () => {
                            <>
                               <select
                                  id="mapName"
-                                 value={mapName}
-                                 onChange={(e) => setMapName(e.target.value)}
+                                 value={state.mapName}
+                                 onChange={(e) =>
+                                    dispatch({
+                                       type: 'setMapName',
+                                       payload: e.target.value,
+                                    })
+                                 }
                                  className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
                                  <option value="">--</option>
@@ -203,9 +271,12 @@ const Upload: React.FC = () => {
                               </label>
                               <select
                                  id="grenadeType"
-                                 value={grenadeType}
+                                 value={state.grenadeType}
                                  onChange={(e) =>
-                                    setGrenadeType(e.target.value)
+                                    dispatch({
+                                       type: 'setGrenadeType',
+                                       payload: e.target.value,
+                                    })
                                  }
                                  className="flex text-black items-center w-full px-5
                                     py-4 mb-5 mr-2 text-sm font-medium outline-none
@@ -227,8 +298,13 @@ const Upload: React.FC = () => {
                               </label>
                               <select
                                  id="teamSide"
-                                 value={teamSide}
-                                 onChange={(e) => setTeamSide(e.target.value)}
+                                 value={state.teamSide}
+                                 onChange={(e) =>
+                                    dispatch({
+                                       type: 'setTeamSide',
+                                       payload: e.target.value,
+                                    })
+                                 }
                                  className="flex text-black items-center w-full px-5
                                     py-4 mb-5 mr-2 text-sm font-medium outline-none
                                     focus:bg-grey-400 placeholder:text-grey-700
@@ -244,8 +320,13 @@ const Upload: React.FC = () => {
                            <>
                               <select
                                  id="mapName"
-                                 value={mapName}
-                                 onChange={(e) => setMapName(e.target.value)}
+                                 value={state.mapName}
+                                 onChange={(e) =>
+                                    dispatch({
+                                       type: 'setMapName',
+                                       payload: e.target.value,
+                                    })
+                                 }
                                  className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                               >
                                  <option value="">--</option>
@@ -268,14 +349,18 @@ const Upload: React.FC = () => {
                                  Agent*
                               </label>
                               <AgentSelector
-                                 agents={agents?.data}
+                                 agents={state.agents?.data}
                                  onSelectAgent={(selectedAgent) => {
-                                    setValorantAgent(selectedAgent.displayName);
-                                    setSelectedAgentAbilities(
-                                       selectedAgent.abilities.map(
+                                    dispatch({
+                                       type: 'setValorantAgent',
+                                       payload: selectedAgent.displayName,
+                                    });
+                                    dispatch({
+                                       type: 'setSelectedAgentAbilities',
+                                       payload: selectedAgent.abilities.map(
                                           (ability) => ability.displayName,
                                        ),
-                                    );
+                                    });
                                  }}
                               />
 
@@ -287,19 +372,24 @@ const Upload: React.FC = () => {
                               </label>
                               <select
                                  id="ability"
-                                 value={ability}
+                                 value={state.ability}
                                  onChange={(e) =>
-                                    setAgentAbility(e.target.value)
+                                    dispatch({
+                                       type: 'setAbility',
+                                       payload: e.target.value,
+                                    })
                                  }
                                  className={`flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl ${
-                                    selectedAgentAbilities.length === 0
+                                    state.selectedAgentAbilities.length === 0
                                        ? 'opacity-50 cursor-not-allowed'
                                        : ''
                                  }`}
-                                 disabled={selectedAgentAbilities.length === 0}
+                                 disabled={
+                                    state.selectedAgentAbilities.length === 0
+                                 }
                               >
                                  <option value="">--</option>
-                                 {selectedAgentAbilities.map(
+                                 {state.selectedAgentAbilities.map(
                                     (ability, index) => (
                                        <option key={index} value={ability}>
                                           {ability}
@@ -316,8 +406,13 @@ const Upload: React.FC = () => {
                               </label>
                               <select
                                  id="teamSide"
-                                 value={teamSide}
-                                 onChange={(e) => setTeamSide(e.target.value)}
+                                 value={state.teamSide}
+                                 onChange={(e) =>
+                                    dispatch({
+                                       type: 'setTeamSide',
+                                       payload: e.target.value,
+                                    })
+                                 }
                                  className="flex text-black items-center w-full px-5
                                     py-4 mb-5 mr-2 text-sm font-medium outline-none
                                     focus:bg-grey-400 placeholder:text-grey-700
@@ -338,8 +433,13 @@ const Upload: React.FC = () => {
                         <select
                            id="jumpThrow"
                            placeholder="Enter a map name"
-                           value={jumpThrow}
-                           onChange={(e) => setJumpThrow(e.target.value)}
+                           value={state.jumpThrow}
+                           onChange={(e) =>
+                              dispatch({
+                                 type: 'setJumpThrow',
+                                 payload: e.target.value,
+                              })
+                           }
                            className="flex text-black items-center w-full px-5
                            py-4 mb-5 mr-2 text-sm font-medium outline-none
                            focus:bg-grey-400 placeholder:text-grey-700
@@ -358,9 +458,12 @@ const Upload: React.FC = () => {
                         <textarea
                            id="lineupDescription"
                            placeholder="Enter the description of the lineup"
-                           value={lineupDescription}
+                           value={state.lineupDescription}
                            onChange={(e) =>
-                              setLineupDescription(e.target.value)
+                              dispatch({
+                                 type: 'setLineupDescription',
+                                 payload: e.target.value,
+                              })
                            }
                            className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                         />
@@ -374,8 +477,13 @@ const Upload: React.FC = () => {
                            id="lineupLocation"
                            type="lineupLocation"
                            placeholder="Enter the location of the lineup"
-                           value={lineupLocation}
-                           onChange={(e) => setLineupLocation(e.target.value)}
+                           value={state.lineupLocation}
+                           onChange={(e) =>
+                              dispatch({
+                                 type: 'setLineupLocation',
+                                 payload: e.target.value,
+                              })
+                           }
                            className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                         />
                         <label
