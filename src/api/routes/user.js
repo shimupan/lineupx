@@ -1,14 +1,17 @@
 import express from 'express';
 import User from '../model/user.js';
 import jwt from 'jsonwebtoken';
-import { findDuplicateUsername, findDuplicateEmail } from '../helper/findDuplicateUser.js';
+import {
+   findDuplicateUsername,
+   findDuplicateEmail,
+} from '../helper/findDuplicateUser.js';
 
 const router = express.Router();
 
 // single user login
 router.post('/users', async (req, res) => {
    const { accessToken, refreshToken } = req.body;
-   
+
    if (!accessToken || !refreshToken) {
       return res.status(401).send('Access Denied');
    }
@@ -92,7 +95,7 @@ router.post('/user/:id/comment', async (req, res) => {
 
 router.post('/user/update', async (req, res) => {
    const { user, newUsername, newEmail } = req.body;
-   
+
    try {
       const userUpdate = await User.findById(user._id);
 
