@@ -71,7 +71,6 @@ const Login: React.FC = () => {
          }
       }
       if (Auth?.accessToken) {
-         console.log(Auth?.username);
          navigate(`/user/${Auth?.username}`);
       }
    };
