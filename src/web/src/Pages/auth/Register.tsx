@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Register: React.FC = () => {
    const [userName, setUserName] = useState<string>('');

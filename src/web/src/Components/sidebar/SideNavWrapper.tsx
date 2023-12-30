@@ -24,43 +24,45 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
    };
 
    return (
-      <div className={`side-nav-wrapper ${className}`}>
-         <SideNav>
-            <SideNavItems
-               icon={<MdHome size={25} />}
-               text="Home"
-               active={activeItem === '/'}
-               onClick={() => handleClick('/')}
-            />
-            <SideNavItems
-               icon={<img src={cs2Logo} alt="CS2" width={25} />}
-               text="CS 2"
-               active={activeItem === '/game/CS2'}
-               onClick={() => handleClick('/game/CS2')}
-            />
-            <SideNavItems
-               icon={<img src={valorantLogo} alt="Valorant" width={25} />}
-               text="Valorant"
-               active={activeItem === '/game/Valorant'}
-               onClick={() => handleClick('/game/Valorant')}
-            />
-            {Auth?.role === 'admin' && (
+      <>
+         <div className={`side-nav-wrapper ${className}`}>
+            <SideNav>
                <SideNavItems
-                  icon={<RiAdminFill size={25} />}
-                  text="Admin"
-                  active={activeItem === '/admin'}
-                  onClick={() => handleClick('/admin')}
+                  icon={<MdHome size={25} />}
+                  text="Home"
+                  active={activeItem === '/'}
+                  onClick={() => handleClick('/')}
                />
-            )}
-            <SideNavItems
-               icon={<MdOutlineSettings size={25} />}
-               text="Profile"
-               active={activeItem === '/user/ooccupate'}
-               onClick={() => handleClick('/user/ooccupate')}
-               alert
-            />
-         </SideNav>
-      </div>
+               <SideNavItems
+                  icon={<img src={cs2Logo} alt="CS2" width={25} />}
+                  text="CS 2"
+                  active={activeItem === '/game/CS2'}
+                  onClick={() => handleClick('/game/CS2')}
+               />
+               <SideNavItems
+                  icon={<img src={valorantLogo} alt="Valorant" width={25} />}
+                  text="Valorant"
+                  active={activeItem === '/game/Valorant'}
+                  onClick={() => handleClick('/game/Valorant')}
+               />
+               {Auth?.role === 'admin' && (
+                  <SideNavItems
+                     icon={<RiAdminFill size={25} />}
+                     text="Admin"
+                     active={activeItem === '/admin'}
+                     onClick={() => handleClick('/admin')}
+                  />
+               )}
+               <SideNavItems
+                  icon={<MdOutlineSettings size={25} />}
+                  text="Profile"
+                  active={activeItem === '/user/ooccupate'}
+                  onClick={() => handleClick('/user/ooccupate')}
+                  alert
+               />
+            </SideNav>
+         </div>
+      </>
    );
 };
 

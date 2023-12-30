@@ -3,37 +3,34 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
+import { useCookies } from '../../hooks';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loginError, setLoginError] = useState<string | null>(null);
-  const navigate = useNavigate();
-  const Auth = useContext(AuthContext);
+   const [email, setEmail] = useState<string>('');
+   const [password, setPassword] = useState<string>('');
+   const [loginError, setLoginError] = useState<string | null>(null);
+   const [, setAccessToken] = useCookies('accessToken', '');
+   const [, setRefreshToken] = useCookies('refreshToken', '');
+   const navigate = useNavigate();
+   const Auth = useContext(AuthContext);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoginError('');
+   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setLoginError('');
 
-    if (!email || !password) {
-      setLoginError('Email and password are required');
-      return;
-    }
+      if (!email || !password) {
+         setLoginError('Email and password are required');
+         return;
+      }
 
-    if (!isValidEmail(email)) {
-      setLoginError('Please enter a valid email address');
-      return;
-    }
+      if (!isValidEmail(email)) {
+         setLoginError('Please enter a valid email address');
+         return;
+      }
       const id = toast.loading('Logging in...');
 
       try {
-         
          const response = await axios.post('/login', { email, password });
 
          toast.update(id, {
@@ -48,11 +45,14 @@ const Login: React.FC = () => {
          expire.setTime(expire.getTime() + 1000 * 60 * 60 * 24 * 7);
          Auth?.setAccessToken(response.data.accessToken);
          Auth?.setRefreshToken(response.data.refreshToken);
-         cookies.set('accessToken', response.data.accessToken, {
+         setAccessToken(response.data.accessToken, {
             path: '/',
             expires: expire,
          });
-         cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+         setRefreshToken(response.data.refreshToken, {
+            path: '/',
+            expires: expire,
+         });
          navigate('/');
       } catch (error) {
          toast.update(id, {
@@ -71,7 +71,6 @@ const Login: React.FC = () => {
          }
       }
       if (Auth?.accessToken) {
-         console.log(Auth?.username);
          navigate(`/user/${Auth?.username}`);
       }
    };
@@ -96,8 +95,10 @@ const Login: React.FC = () => {
                      <form
                         className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl"
                         onSubmit={handleSubmit}
-                     >  
-                        {loginError && <div className="text-red-500">{loginError}</div>}
+                     >
+                        {loginError && (
+                           <div className="text-red-500">{loginError}</div>
+                        )}
                         <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Sign In
                         </h3>

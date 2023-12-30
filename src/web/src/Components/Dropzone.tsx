@@ -75,27 +75,29 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
    );
 
    return (
-      <div>
-         <div {...getRootProps({ style })}>
-            <input {...getInputProps()} />
-            {isDragActive ? (
-               <p>Drop the files here ...</p>
-            ) : (
-               <p>
-                  Drag 'n' drop some files here, or click to select files. PNG
-                  and JPEG only
-               </p>
+      <>
+         <div>
+            <div {...getRootProps({ style })}>
+               <input {...getInputProps()} />
+               {isDragActive ? (
+                  <p>Drop the files here ...</p>
+               ) : (
+                  <p>
+                     Drag 'n' drop some files here, or click to select files.
+                     PNG and JPEG only
+                  </p>
+               )}
+            </div>
+            {preview && (
+               <div className="text-black mb-5">
+                  <div>
+                     <h4>Accepted files</h4>
+                     <img src={preview as string} alt="Upload preview" />
+                  </div>
+               </div>
             )}
          </div>
-         {preview && (
-            <div className="text-black mb-5">
-               <div>
-                  <h4>Accepted files</h4>
-                  <img src={preview as string} alt="Upload preview" />
-               </div>
-            </div>
-         )}
-      </div>
+      </>
    );
 };
 

@@ -1,35 +1,18 @@
-import { useEffect, useState } from 'react';
 import { Header, Footer, SideNavWrapper } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
-import { ValorantAgent } from '../../../db.types';
-import axios from 'axios';
+import { useValorant } from '../../../hooks/index';
 
 const ValorantAgents: React.FC = () => {
-   const [agents, setAgents] = useState<ValorantAgent>();
-   const [selectedAgentName, setSelectedAgentName] = useState<string | null>(
-      null,
-   );
+   const {
+      allAgents,
+      agentDetails,
+      setAgentDetails
+   } = useValorant();
    const navigate = useNavigate();
-   const [currentAgent, setCurrentAgent] = useState<string>(
-      'https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/fullportrait.png',
-   );
-   const [currentBackground, setCurrentBackground] = useState<string>(
-      'https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/background.png',
-   );
+
    const handleClick = (agentName: string) => {
       navigate(`/game/Valorant/agents/${agentName}/lineups`);
    };
-   useEffect(() => {
-      axios
-         .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
-         .then((response) => {
-            setAgents(response.data);
-         });
-   }, []);
-
-   useEffect(() => {
-      console.log(agents);
-   }, [agents]);
 
    return (
       <>
@@ -38,16 +21,18 @@ const ValorantAgents: React.FC = () => {
 
          <div className="flex flex-col md:flex-row">
             <div
-               style={{ backgroundImage: `url(${currentBackground})` }}
+               style={{
+                  backgroundImage: `url(${agentDetails.currentBackground})`,
+               }}
                className="bg-cover"
             >
-               <img src={currentAgent} />
+               <img src={agentDetails.currentAgent} loading="lazy" />
             </div>
 
             <div className="flex flex-col md:flex-row">
                <div className="text-white p-5 flex flex-col">
                   <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 ml-4 md:ml-8">
-                     {agents?.data.map((agent) => (
+                     {allAgents?.data.map((agent) => (
                         <div
                            className="agent-card bg-gray-800 rounded-lg overflow-hidden w-full hover:scale-105 transition-transform duration-300"
                            key={agent.displayName}
@@ -57,10 +42,14 @@ const ValorantAgents: React.FC = () => {
                               alt={agent.displayName}
                               className="w-full block transition-opacity duration-300 hover:opacity-90 cursor-pointer"
                               onClick={() => {
-                                 setCurrentAgent(agent.fullPortrait);
-                                 setCurrentBackground(agent.background);
-                                 setSelectedAgentName(agent.displayName);
+                                 setAgentDetails((prevState) => ({
+                                    ...prevState,
+                                    currentAgent: agent.fullPortrait,
+                                    currentBackground: agent.background,
+                                    selectedAgentName: agent.displayName,
+                                 }));
                               }}
+                              loading="lazy"
                            />
                            <div className="text-center py-2 text-base font-bold text-white overflow-hidden whitespace-nowrap overflow-ellipsis">
                               {agent.displayName}
@@ -68,8 +57,11 @@ const ValorantAgents: React.FC = () => {
                         </div>
                      ))}
                   </div>
-                  {agents?.data
-                     .filter((agent) => agent.displayName === selectedAgentName)
+                  {allAgents?.data
+                     .filter(
+                        (agent) =>
+                           agent.displayName === agentDetails.selectedAgentName,
+                     )
                      .map((agent) => (
                         <div
                            className="abilities flex flex-wrap justify-center items-start gap-4 p-4"
@@ -84,6 +76,7 @@ const ValorantAgents: React.FC = () => {
                                     src={ability.displayIcon}
                                     alt={ability.displayName}
                                     className="ability-icon w-12 h-12 mb-2"
+                                    loading="lazy"
                                  />
                                  <div className="ability-name font-semibold text-center">
                                     {ability.displayName}
@@ -103,8 +96,8 @@ const ValorantAgents: React.FC = () => {
             <button
                className="relative w-60 h-16 outline-none transition-all duration-100 bg-transparent border-none text-sm font-bold text-[#ddebf0] rounded-none hover:bg-[#27c39f] focus:outline-none"
                onClick={() => {
-                  if (selectedAgentName) {
-                     handleClick(selectedAgentName);
+                  if (agentDetails.selectedAgentName) {
+                     handleClick(agentDetails.selectedAgentName);
                   }
                }}
             >

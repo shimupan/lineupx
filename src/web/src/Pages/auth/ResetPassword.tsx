@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword: React.FC = () => {
    const [password, setPassword] = useState<string>('');
@@ -67,7 +66,6 @@ const ResetPassword: React.FC = () => {
          <Header />
 
          <SideNavWrapper />
-
 
          <div className="h-screen md:h-full md:w-1/2 lg:w-1/2 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
