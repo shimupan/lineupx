@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import Posts from '../../Components/Posts';
-import { PostType, ValorantAgent } from '../../db.types';
+import { PostType } from '../../db.types';
 import axios from 'axios';
-
 
 import {
    Header,
@@ -18,38 +17,66 @@ const Valorant: React.FC = () => {
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
    const [suggestions, setSuggestions] = useState<string[]>([]);
-   const [agents, setAgents] = useState<ValorantAgent>();
 
    useEffect(() => {
       document.title = 'Valorant';
 
       // Function to fetch data
-      const fetchData = () => {
-         axios
-            .get('/post/Valorant')
-            .then((res) => {
-               setPosts(res.data);
-               const titles = res.data.map((post: PostType) => post.postTitle);
-               setSuggestions(titles);
-            })
-            .catch((err) => {
-               console.log(err);
-            });
+      const fetchData = async () => {
+         try {
+            const postsResponse = await axios.get('/post/Valorant');
+            setPosts(postsResponse.data);
+            const titles = postsResponse.data.map(
+               (post: PostType) => `${post.postTitle}`,
+            );
+            setSuggestions(titles);
 
-         axios
-            .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
-            .then((response) => {
-               setAgents(response.data.data);
-               const agentNames = agents?.data.map((agent) => agent.displayName) || [];
-               setSuggestions(prevSuggestions => [...prevSuggestions, ...agentNames]);
-            })
-            .catch((err) => {
-               console.log(err);
-            });
+            const agentsResponse = await axios.get(
+               'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
+            );
+
+            const mapsResponse = await fetch(
+               'https://valorant-api.com/v1/maps',
+            );
+            const mapsData = await mapsResponse.json();
+            const mapTitles = mapsData.data.map(
+               (map: { displayName: string }) => `${map.displayName}`,
+            );
+
+            // Extract displayNames for suggestions
+            const displayNames = agentsResponse.data.data.map(
+               (agent: { displayName: string }) =>
+                  `${agent.displayName}`,
+            );
+
+            const abilities = agentsResponse.data.data.flatMap(
+               (agent: {
+                  displayName: string;
+                  abilities: {
+                     displayName: string;
+                  }[];
+               }) => {
+                  return agent.abilities.map(
+                     (ability) =>
+                        `${ability.displayName} )`,
+                  );
+               },
+            );
+
+            setSuggestions((prevSuggestions) => [
+               ...new Set([
+                  ...prevSuggestions,
+                  ...mapTitles,
+                  ...displayNames,
+                  ...abilities,
+               ]),
+            ]);
+         } catch (err) {
+            console.log(err);
+         }
       };
-
-      fetchData();
       console.log(suggestions);
+      fetchData();
       return () => {};
    }, [suggestions]);
 
@@ -90,7 +117,7 @@ const Valorant: React.FC = () => {
             >
                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                <h1 className="text-lg mb-4 pt-10 font-bold z-10">Valorant</h1>
-               
+
                <Searchbar
                   onChange={(e) => handleSearch(e.target.value)}
                   onSearch={handleSearch}
