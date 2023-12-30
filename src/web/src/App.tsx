@@ -27,15 +27,13 @@ import {
    AdminModifyPost,
    PageNotFound,
 } from './Components';
+import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 import './App.css';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.baseURL = baseURL || 'http://localhost:3000';
-
-const cookies = new Cookies();
 
 type AuthContextType = {
    _id: string;
@@ -67,10 +65,11 @@ function App() {
    const [Verified, setVerified] = useState<boolean>(false);
    const [role, setRole] = useState<string>('');
    const [_id, setid] = useState<string>('');
+   const [accessTokenC] = useCookies("accessToken", "");
+   const [refreshTokenC] = useCookies("refreshToken", "");
 
    useEffect(() => {
-      const accessTokenC = cookies.get('accessToken');
-      const refreshTokenC = cookies.get('refreshToken');
+      console.log(accessTokenC, refreshTokenC)
       if (accessTokenC && !accessToken) {
          setAccessToken(accessTokenC);
       }

@@ -3,17 +3,16 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Header, SideNavWrapper } from '../../Components';
 import { AuthContext } from '../../App';
+import { useCookies } from '../../hooks';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const Login: React.FC = () => {
    const [email, setEmail] = useState<string>('');
    const [password, setPassword] = useState<string>('');
    const [loginError, setLoginError] = useState<string | null>(null);
+   const [, setAccessToken] = useCookies('accessToken', '');
+   const [, setRefreshToken] = useCookies('refreshToken', '');
    const navigate = useNavigate();
    const Auth = useContext(AuthContext);
 
@@ -47,11 +46,14 @@ const Login: React.FC = () => {
          expire.setTime(expire.getTime() + 1000 * 60 * 60 * 24 * 7);
          Auth?.setAccessToken(response.data.accessToken);
          Auth?.setRefreshToken(response.data.refreshToken);
-         cookies.set('accessToken', response.data.accessToken, {
+         setAccessToken(response.data.accessToken, {
             path: '/',
             expires: expire,
          });
-         cookies.set('refreshToken', response.data.refreshToken, { path: '/' });
+         setRefreshToken(response.data.refreshToken, {
+            path: '/',
+            expires: expire,
+         });
          navigate('/');
       } catch (error) {
          toast.update(id, {

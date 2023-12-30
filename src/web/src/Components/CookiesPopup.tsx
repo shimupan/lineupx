@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const CookiesPopup = () => {
-   const [open, setOpen] = useState(true);
+   const [open, setOpen] = useState(false);
+   useEffect(() => {
+      const timer = setTimeout(() => {
+         setOpen(true);
+      }, 15000);
 
+      return () => clearTimeout(timer);
+   }, []);
    return (
       <div className="fixed bottom-0 right-0 z-40">
          <div
