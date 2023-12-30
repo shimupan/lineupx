@@ -16,6 +16,7 @@ const Valorant: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
+   const [suggestions] = useState(['Apple', 'Banana', 'Cherry']); 
 
    useEffect(() => {
       document.title = 'Valorant';
@@ -74,11 +75,13 @@ const Valorant: React.FC = () => {
             >
                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                <h1 className="text-lg mb-4 pt-10 font-bold z-10">Valorant</h1>
+               
                <Searchbar
                   onChange={(e) => handleSearch(e.target.value)}
                   onSearch={handleSearch}
                   placeholder="Search for Valorant Lineups"
                   className="z-10"
+                  suggestions={suggestions}
                />
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
