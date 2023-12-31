@@ -60,76 +60,104 @@ const CS2Lineups: React.FC = () => {
          <SideNavWrapper />
          <div className="flex flex-1 h-screen">
             <div className="flex-1 flex justify-center items-center">
-               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 ml-10">
+               <div className="flex flex-col sm:flex-row justify-center items-center">
                   {mapImage && (
                      <img
                         src={mapImage}
                         alt={mapName}
                         style={{
                            width: isMobile ? '100%' : '1000%',
-                           maxWidth: '900px',
+                           maxWidth: '700px',
                            margin: '0 auto',
                            display: 'block',
                         }}
                      />
                   )}
-               </div>
-               <div className="flex flex-wrap justify-center md:justify-start">
-                  <button onClick={() => setActiveButton('decoy')}>
-                     <img
-                        src={decoy}
-                        alt="decoy"
-                        style={{
-                           opacity: activeButton === 'decoy' ? 1 : 0.5,
-                           width: '50px',
-                           height: '50px',
-                        }}
-                     />
-                  </button>
-                  <button onClick={() => setActiveButton('smoke')}>
-                     <img
-                        src={smoke}
-                        alt="smoke"
-                        style={{
-                           opacity: activeButton === 'smoke' ? 1 : 0.5,
-                           width: '50px',
-                           height: '50px',
-                        }}
-                     />
-                  </button>
-                  <button onClick={() => setActiveButton('molotov')}>
-                     <img
-                        src={molotov}
-                        alt="molotov"
-                        style={{
-                           opacity: activeButton === 'molotov' ? 1 : 0.5,
-                           width: '50px',
-                           height: '50px',
-                        }}
-                     />
-                  </button>
-                  <button onClick={() => setActiveButton('he')}>
-                     <img
-                        src={he}
-                        alt="he"
-                        style={{
-                           opacity: activeButton === 'he' ? 1 : 0.5,
-                           width: '50px',
-                           height: '50px',
-                        }}
-                     />
-                  </button>
-                  <button onClick={() => setActiveButton('flash')}>
-                     <img
-                        src={flash}
-                        alt="flash"
-                        style={{
-                           opacity: activeButton === 'flash' ? 1 : 0.5,
-                           width: '50px',
-                           height: '50px',
-                        }}
-                     />
-                  </button>
+                  <div className="flex flex-row sm:flex-col">
+                     <button
+                        onClick={() =>
+                           setActiveButton(
+                              activeButton === 'decoy' ? '' : 'decoy',
+                           )
+                        }
+                     >
+                        <img
+                           src={decoy}
+                           alt="decoy"
+                           style={{
+                              width: isMobile ? '96px' : '70px',
+                              height: isMobile ? '96px' : '70px',
+                              opacity: activeButton === 'decoy' ? 1 : 0.5,
+                           }}
+                        />
+                     </button>
+                     <button
+                        onClick={() =>
+                           setActiveButton(
+                              activeButton === 'smoke' ? '' : 'smoke',
+                           )
+                        }
+                     >
+                        <img
+                           src={smoke}
+                           alt="smoke"
+                           style={{
+                              width: isMobile ? '96px' : '70px',
+                              height: isMobile ? '96px' : '70px',
+                              opacity: activeButton === 'smoke' ? 1 : 0.5,
+                           }}
+                        />
+                     </button>
+                     <button
+                        onClick={() =>
+                           setActiveButton(
+                              activeButton === 'molotov' ? '' : 'molotov',
+                           )
+                        }
+                     >
+                        <img
+                           src={molotov}
+                           alt="molotov"
+                           style={{
+                              width: isMobile ? '96px' : '70px',
+                              height: isMobile ? '96px' : '70px',
+                              opacity: activeButton === 'molotov' ? 1 : 0.5,
+                           }}
+                        />
+                     </button>
+                     <button
+                        onClick={() =>
+                           setActiveButton(activeButton === 'he' ? '' : 'he')
+                        }
+                     >
+                        <img
+                           src={he}
+                           alt="he"
+                           style={{
+                              width: isMobile ? '96px' : '70px',
+                              height: isMobile ? '96px' : '70px',
+                              opacity: activeButton === 'he' ? 1 : 0.5,
+                           }}
+                        />
+                     </button>
+                     <button
+                        onClick={() =>
+                           setActiveButton(
+                              activeButton === 'flash' ? '' : 'flash',
+                           )
+                        }
+                     >
+                        <img
+                           src={flash}
+                           alt="flash"
+                           style={{
+                              width: isMobile ? '96px' : '70px',
+                              height: isMobile ? '96px' : '70px',
+                              opacity: activeButton === 'flash' ? 1 : 0.5,
+                           }}
+                        />
+                     </button>
+                  </div>
                </div>
             </div>
          </div>
