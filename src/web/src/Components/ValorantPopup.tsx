@@ -16,7 +16,7 @@ const ValorantPopup: React.FC<ValorantPopupProps> = ({ setOpen, setValue }) => {
          }}
       >
          <div
-            className="bg-white p-6 rounded-lg text-center w-1/4"
+            className="bg-white p-6 rounded-lg text-center w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4"
             onClick={(event) => event.stopPropagation()}
          >
             <div className="border-b border-gray-500 text-4xl">
