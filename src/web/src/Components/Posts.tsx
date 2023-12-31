@@ -89,7 +89,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
 
    return (
       <>
-         <div className="max-w-full my-5 p-5 border rounded-lg shadow-sm bg-white overflow-hidden">
+         <div className="max-w-full my-5 p-4 border rounded-lg shadow-sm bg-white overflow-hidden">
             <div className="text-center text-sm text-gray-600">
                By: {postData.Username}
             </div>
@@ -161,7 +161,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   'Unknown'
                )}
             </div>
-            <div className="post-container w-90 h-58 relative overflow-hidden">
+            <div className="post-container w-80 h-48 relative overflow-hidden">
                <img
                   className="w-full h-full object-cover cursor-pointer"
                   src={`${CDN_URL}/${postData.landingPosition.public_id}`}
