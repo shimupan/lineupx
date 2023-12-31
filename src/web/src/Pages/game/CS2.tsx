@@ -55,7 +55,7 @@ const CS2: React.FC = () => {
 
       fetchData();
       return () => {};
-   });
+   }, []);
 
    const handleSearch = (value: string) => {
       setSearchTerm(value);
