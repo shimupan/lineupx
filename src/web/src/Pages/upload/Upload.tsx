@@ -2,7 +2,12 @@ import React, { useReducer, useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useValorant } from '../../hooks';
 import { Dropzone } from '../../Components';
-import { Header, SideNavWrapper, ValorantMode, CS2Mode } from '../../Components';
+import {
+   Header,
+   SideNavWrapper,
+   ValorantMode,
+   CS2Mode,
+} from '../../Components';
 import { AuthContext } from '../../App';
 import { ToastContainer } from 'react-toastify';
 import { reducer, UploadDefaults } from './upload.reducer';
@@ -72,12 +77,16 @@ const Upload: React.FC = () => {
 
          <SideNavWrapper />
 
-         <div className="min-h-screen md:h-full md:w-1/2 lg:w-1/3 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5 md:p-10 lg:p-0">
+         <div className="min-h-screen container mx-auto bg-white rounded-lg md:pt-12 md:my-5 md:p-10 lg:p-0 md:w-1/2 lg:w-1/3">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
                <div className="flex items-center justify-center w-full lg:p-12">
-                  <div className="flex items-center xl:p-10">
+                  <div
+                     className="flex items-center xl:p-10"
+                     style={{ maxWidth: '100%', padding: '1rem' }}
+                  >
                      <form
-                        className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl"
+                        className="flex flex-col w-full pb-6 text-center bg-white rounded-3xl"
+                        style={{ maxWidth: '100%', padding: '1rem' }}
                         onSubmit={(e) => {
                            handleSubmit(e, {
                               state: state,
@@ -117,8 +126,12 @@ const Upload: React.FC = () => {
                         >
                            Map Name*
                         </label>
-                        {game === 'CS2' && <CS2Mode state={state} dispatch={dispatch}/>}
-                        {game === 'Valorant' && <ValorantMode state={state} dispatch={dispatch}/>}
+                        {game === 'CS2' && (
+                           <CS2Mode state={state} dispatch={dispatch} />
+                        )}
+                        {game === 'Valorant' && (
+                           <ValorantMode state={state} dispatch={dispatch} />
+                        )}
                         <label
                            htmlFor="jumpThrow"
                            className="mb-2 text-sm text-start text-gray-900"

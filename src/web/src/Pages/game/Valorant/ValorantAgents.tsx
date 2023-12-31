@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useValorant } from '../../../hooks/index';
 
 const ValorantAgents: React.FC = () => {
-   const {
-      allAgents,
-      agentDetails,
-      setAgentDetails
-   } = useValorant();
+   const { allAgents, agentDetails, setAgentDetails } = useValorant();
    const navigate = useNavigate();
 
    const handleClick = (agentName: string) => {
@@ -67,25 +63,27 @@ const ValorantAgents: React.FC = () => {
                            className="abilities flex flex-wrap justify-center items-start gap-4 p-4"
                            key={agent.displayName}
                         >
-                           {agent.abilities.map((ability, index) => (
-                              <div
-                                 key={index}
-                                 className="ability bg-1b2838 shadow-lg rounded-lg p-2 flex flex-col items-center justify-start w-48"
-                              >
-                                 <img
-                                    src={ability.displayIcon}
-                                    alt={ability.displayName}
-                                    className="ability-icon w-12 h-12 mb-2"
-                                    loading="lazy"
-                                 />
-                                 <div className="ability-name font-semibold text-center">
-                                    {ability.displayName}
+                           <div className="flex flex-row flex-wrap justify-center">
+                              {agent.abilities.map((ability, index) => (
+                                 <div
+                                    key={index}
+                                    className="ability bg-1b2838 shadow-lg rounded-lg p-2 flex flex-col items-center justify-start w-48 m-2"
+                                 >
+                                    <img
+                                       src={ability.displayIcon}
+                                       alt={ability.displayName}
+                                       className="ability-icon w-12 h-12 mb-2"
+                                       loading="lazy"
+                                    />
+                                    <div className="ability-name font-semibold text-center">
+                                       {ability.displayName}
+                                    </div>
+                                    <div className="ability-description text-sm text-gray-600 overflow-auto max-h-24 p-2">
+                                       {ability.description}
+                                    </div>
                                  </div>
-                                 <div className="ability-description text-sm text-gray-600 overflow-auto max-h-24 p-2">
-                                    {ability.description}
-                                 </div>
-                              </div>
-                           ))}
+                              ))}
+                           </div>
                         </div>
                      ))}
                </div>

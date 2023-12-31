@@ -98,7 +98,6 @@ const CS2: React.FC = () => {
                   onChange={(e) => handleSearch(e.target.value)}
                   onSearch={handleSearch}
                   placeholder="Search for CS2 Lineups"
-                  className="z-10"
                   suggestions={suggestions}
                />
             </div>
@@ -109,13 +108,10 @@ const CS2: React.FC = () => {
             </div>
             {/* TODO: STYLING BELOW */}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pl-20">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
                {(searchTerm === '' ? posts.slice(0, 10) : filteredPosts).map(
                   (post) => (
-                     <div
-                        key={post.landingPosition.public_id}
-                        className="max-w-md mx-auto"
-                     >
+                     <div key={post.landingPosition.public_id}>
                         <Posts postData={post} />
                      </div>
                   ),
