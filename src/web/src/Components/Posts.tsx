@@ -99,7 +99,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   <>
                      <Tooltip text={postData.ability}>
                         <img
-                           className="svg-icon absolute top-0 w-4 h-4 mt-[-25px]"
+                           className="svg-icon absolute top-0 w-4 h-4 mt-[-25px] object-contain"
                            style={{ right: '20px', filter: 'brightness(0)' }}
                            src={abilityIcon}
                            alt={postData.ability}
@@ -161,17 +161,19 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   'Unknown'
                )}
             </div>
-            <img
-               className="w-full h-60 object-cover cursor-pointer"
-               src={`${CDN_URL}/${postData.landingPosition.public_id}`}
-               alt={postData.postTitle}
-               onClick={async () => {
-                  await incrementViewCount();
-                  navigate(`/game/${postData.game}/${postData.postTitle}`, {
-                     state: { postData },
-                  });
-               }}
-            />
+            <div className="post-container w-90 h-58 relative overflow-hidden">
+               <img
+                  className="w-full h-full object-cover cursor-pointer"
+                  src={`${CDN_URL}/${postData.landingPosition.public_id}`}
+                  alt={postData.postTitle}
+                  onClick={async () => {
+                     await incrementViewCount();
+                     navigate(`/game/${postData.game}/${postData.postTitle}`, {
+                        state: { postData },
+                     });
+                  }}
+               />
+            </div>
             <div className="text-center mt-3">
                <div className="text-lg font-bold text-gray-800">
                   {postData.postTitle}
