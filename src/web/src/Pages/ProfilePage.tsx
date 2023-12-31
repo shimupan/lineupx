@@ -131,7 +131,7 @@ const ProfilePage = () => {
                   return (
                      <React.Fragment key={index}>
                         <div className="text-center text-4xl">{game}</div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pl-20">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
                            {posts[index].map((post) => {
                               return (
                                  <div
