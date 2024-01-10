@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { Header, Footer, SideNavWrapper, Dot } from '../../../Components';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 
@@ -28,6 +28,40 @@ const mapRadars = [
    { name: 'Overpass', image: overpass },
    { name: 'Vertigo', image: vertigo },
 ];
+
+type MapNames =
+   | 'Ancient'
+   | 'Anubis'
+   | 'Dust2'
+   | 'Inferno'
+   | 'Mirage'
+   | 'Nuke'
+   | 'Overpass'
+   | 'Vertigo';
+
+const grenadePositions: Record<
+   MapNames,
+   { xPercent: number; yPercent: number; color: string; type: string }[]
+> = {
+   Ancient: [
+      // #DAC081 is terroist color, #8199DA is ct color
+      { xPercent: 10, yPercent: 20, color: '#DAC081', type: 'decoy' },
+      { xPercent: 30, yPercent: 40, color: '#8199DA', type: 'smoke' },
+   ],
+   Anubis: [
+      { xPercent: 10, yPercent: 20, color: '#DAC081', type: 'decoy' },
+      { xPercent: 30, yPercent: 40, color: '#8199DA', type: 'smoke' },
+   ],
+   Dust2: [],
+   Inferno: [],
+   Mirage: [
+      { xPercent: 10, yPercent: 20, color: '#DAC081', type: 'decoy' },
+      { xPercent: 30, yPercent: 40, color: '#8199DA', type: 'smoke' },
+   ],
+   Nuke: [],
+   Overpass: [],
+   Vertigo: [],
+};
 
 const CS2Lineups: React.FC = () => {
    const Auth = useContext(AuthContext);
@@ -62,16 +96,32 @@ const CS2Lineups: React.FC = () => {
             <div className="flex-1 flex justify-center items-center">
                <div className="flex flex-col sm:flex-row justify-center items-center">
                   {mapImage && (
-                     <img
-                        src={mapImage}
-                        alt={mapName}
-                        style={{
-                           width: isMobile ? '100%' : '1000%',
-                           maxWidth: '700px',
-                           margin: '0 auto',
-                           display: 'block',
-                        }}
-                     />
+                     <div style={{ position: 'relative' }}>
+                        <img
+                           src={mapImage}
+                           alt={mapName}
+                           style={{
+                              width: isMobile ? '100%' : '1000%',
+                              maxWidth: '700px',
+                              margin: '0 auto',
+                              display: 'block',
+                           }}
+                        />
+                        {mapName &&
+                           grenadePositions[mapName as MapNames] &&
+                           grenadePositions[mapName as MapNames]
+                              .filter(
+                                 (position) => position.type === activeButton,
+                              )
+                              .map((position, index) => (
+                                 <Dot
+                                    key={index}
+                                    xPercent={position.xPercent}
+                                    yPercent={position.yPercent}
+                                    color={position.color}
+                                 />
+                              ))}
+                     </div>
                   )}
                   <div className="flex flex-row sm:flex-col">
                      <button
