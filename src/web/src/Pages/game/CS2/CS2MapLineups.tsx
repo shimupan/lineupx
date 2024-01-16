@@ -13,6 +13,7 @@ import overpass from '../../../assets/cs2maps/overpassradar.webp';
 import vertigo from '../../../assets/cs2maps/vertigoradar.webp';
 
 import dust2Coordinates from '../../../assets/cs2jsons/dust2.json';
+import ancientCoordinates from '../../../assets/cs2jsons/ancient.json';
 
 import decoy from '../../../assets/svg/decoy.svg';
 import smoke from '../../../assets/svg/smoke.svg';
@@ -21,8 +22,8 @@ import he from '../../../assets/svg/he.svg';
 import flash from '../../../assets/svg/flash.svg';
 
 const mapRadars = [
-   { name: 'Ancient', image: ancient },
-   { name: 'Anubis', image: anubis },
+   { name: 'Ancient', image: ancient, coordinates: ancientCoordinates },
+   { name: 'Anubis', image: anubis},
    { name: 'Dust 2', image: dust2, coordinates: dust2Coordinates },
    { name: 'Inferno', image: inferno },
    { name: 'Mirage', image: mirage },
@@ -94,7 +95,7 @@ const CS2Lineups: React.FC = () => {
                            style={{
                               position: 'absolute',
                               top: `${coordinate.y/3}px`,
-                              left: `${coordinate.x/3}px`,
+                              left: `${coordinate.x/2.95}px`,
                               width: '10px',
                               height: '10px',
                               borderRadius: '50%',

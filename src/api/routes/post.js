@@ -257,7 +257,7 @@ router.post('/post/:id/comment', async (req, res) => {
 router.post('/save-coordinates', (req, res) => {
    const { x, y } = req.body;
 
-   fs.readFile('dust2.json', 'utf8', (err, data) => {
+   fs.readFile('ancient.json', 'utf8', (err, data) => {
       if (err) {
          console.error(err);
          res.status(500).send('An error occurred');
@@ -267,7 +267,7 @@ router.post('/save-coordinates', (req, res) => {
       const json = JSON.parse(data);
       json.coordinates.push({ x, y, name});
 
-      fs.writeFile('dust2.json', JSON.stringify(json, null, 2), 'utf8', (err) => {
+      fs.writeFile('ancient.json', JSON.stringify(json, null, 2), 'utf8', (err) => {
          if (err) {
             console.error(err);
             res.status(500).send('An error occurred');
