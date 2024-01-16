@@ -12,6 +12,8 @@ import nuke from '../../../assets/cs2maps/nukeradar.webp';
 import overpass from '../../../assets/cs2maps/overpassradar.webp';
 import vertigo from '../../../assets/cs2maps/vertigoradar.webp';
 
+import dust2Coordinates from '../../../assets/cs2jsons/dust2.json';
+
 import decoy from '../../../assets/svg/decoy.svg';
 import smoke from '../../../assets/svg/smoke.svg';
 import molotov from '../../../assets/svg/molotov.svg';
@@ -21,13 +23,19 @@ import flash from '../../../assets/svg/flash.svg';
 const mapRadars = [
    { name: 'Ancient', image: ancient },
    { name: 'Anubis', image: anubis },
-   { name: 'Dust 2', image: dust2 },
+   { name: 'Dust 2', image: dust2, coordinates: dust2Coordinates },
    { name: 'Inferno', image: inferno },
    { name: 'Mirage', image: mirage },
    { name: 'Nuke', image: nuke },
    { name: 'Overpass', image: overpass },
    { name: 'Vertigo', image: vertigo },
 ];
+
+interface Coordinate {
+   x: number;
+   y: number;
+   name: string;
+}
 
 const CS2Lineups: React.FC = () => {
    const Auth = useContext(AuthContext);
@@ -36,6 +44,8 @@ const CS2Lineups: React.FC = () => {
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
    // TOGGLE BUTTONS
    const [activeButton, setActiveButton] = useState<string | null>(null);
+   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
+
    useEffect(() => {
       const mapObject = mapRadars.find((map) => map.name === mapName);
       const handleResize = () => {
@@ -44,8 +54,13 @@ const CS2Lineups: React.FC = () => {
       window.addEventListener('resize', handleResize);
       if (mapObject) {
          setMapImage(mapObject.image);
+         if (mapObject && mapObject.coordinates) {
+            setCoordinates(mapObject.coordinates.coordinates);
+         }
       }
-
+      if (mapName === 'Dust 2') {
+         setCoordinates(dust2Coordinates.coordinates);
+      }
       if (Auth?.accessToken && Auth.username) {
          // Your authentication related logic
       }
@@ -61,7 +76,7 @@ const CS2Lineups: React.FC = () => {
          <div className="flex flex-1 h-screen">
             <div className="flex-1 flex justify-center items-center">
                <div className="flex flex-col sm:flex-row justify-center items-center">
-                  {mapImage && (
+                  <div style={{ position: 'relative' }}>
                      <img
                         src={mapImage}
                         alt={mapName}
@@ -72,7 +87,24 @@ const CS2Lineups: React.FC = () => {
                            display: 'block',
                         }}
                      />
-                  )}
+                     {coordinates.map((coordinate, index) => (
+                        <div
+                           key={index}
+                           title={coordinate.name}
+                           style={{
+                              position: 'absolute',
+                              top: `${coordinate.y/3}px`,
+                              left: `${coordinate.x/3}px`,
+                              width: '10px',
+                              height: '10px',
+                              borderRadius: '50%',
+                              backgroundColor: 'blue',
+                           }}
+                        ></div>
+                     ))}
+                  </div>
+                  
+ 
                   <div className="flex flex-row sm:flex-col">
                      <button
                         onClick={() =>

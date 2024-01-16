@@ -1,5 +1,6 @@
 import { StateVariables, StateActions } from '../../Pages/upload/upload.types';
 import React, { useRef, useEffect, useState } from 'react';
+import axios from 'axios';
 import ancient from '../../assets/cs2maps/ancientradar.webp';
 import anubis from '../../assets/cs2maps/anubisradar.webp';
 import dust2 from '../../assets/cs2maps/dust2radar.webp';
@@ -8,6 +9,7 @@ import mirage from '../../assets/cs2maps/mirageradar.webp';
 import nuke from '../../assets/cs2maps/nukeradar.webp';
 import overpass from '../../assets/cs2maps/overpassradar.webp';
 import vertigo from '../../assets/cs2maps/vertigoradar.webp';
+
 
 type CS2ModeProps = {
    state: StateVariables;
@@ -29,8 +31,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
    const [mapImage, setMapImage] = useState('');
 
    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-   const [dragging, setDragging] = useState(false);
-   const [dragPosition, setDragPosition] = useState<{
+   const [clickPosition, setClickPosition] = useState<{
       x: number;
       y: number;
    } | null>(null);
@@ -40,15 +41,16 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
       if (canvas && mapImage) {
          const context = canvas.getContext('2d');
          const img = new Image();
+
          img.onload = () => {
             canvas.width = img.width;
             canvas.height = img.height;
             context?.drawImage(img, 0, 0, img.width, img.height);
-            if (dragPosition && context) {
+            if (clickPosition && context) {
                context.beginPath();
                context.arc(
-                  dragPosition.x,
-                  dragPosition.y,
+                  clickPosition.x,
+                  clickPosition.y,
                   10,
                   0,
                   2 * Math.PI,
@@ -57,17 +59,24 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                context.fillStyle = 'red';
                context.fill();
             }
+            if (context) {
+               context.beginPath();
+               context.arc(668, 521, 5, 0, 2 * Math.PI); // 5 is the radius of the dot
+               context.fillStyle = 'blue';
+               context.fill();
+            }
          };
+
          img.src = mapImage;
          if (img.complete) {
             canvas.width = img.width;
             canvas.height = img.height;
             context?.drawImage(img, 0, 0, img.width, img.height);
-            if (dragPosition && context) {
+            if (clickPosition && context) {
                context.beginPath();
                context.arc(
-                  dragPosition.x,
-                  dragPosition.y,
+                  clickPosition.x,
+                  clickPosition.y,
                   10,
                   0,
                   2 * Math.PI,
@@ -77,28 +86,10 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                context.fill();
             }
          }
-
-         const handleMouseMove = (e: MouseEvent) => {
-            if (dragging) {
-               setDragPosition({ x: e.clientX, y: e.clientY });
-            }
-         };
-
-         const handleMouseUp = () => {
-            setDragging(false);
-         };
-
-         canvas.addEventListener('mousemove', handleMouseMove);
-         window.addEventListener('mouseup', handleMouseUp);
-
-         return () => {
-            canvas.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-         };
       }
-   }, [mapImage, dragging, dragPosition, setDragging, setDragPosition]);
+   }, [mapImage, clickPosition, setClickPosition]);
 
-   const handleMouseMove = (
+   const handleClick = async (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
    ) => {
       const canvas = canvasRef.current;
@@ -110,19 +101,18 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
          const x = (e.clientX - rect.left) * scaleX;
          const y = (e.clientY - rect.top) * scaleY;
 
-         if (e.buttons === 1) {
-            // Check if left mouse button is pressed
-            setDragging(true);
-            setDragPosition({ x, y });
-         } else {
-            setDragging(false);
+         setClickPosition({ x, y });
+
+         try {
+            const response = await axios.post('/save-coordinates', { x, y });
+            console.log(response.data);
+         } catch (error) {
+            console.error(error);
          }
       }
    };
 
-   const handleMouseUp = () => {
-      setDragging(false);
-   };
+
 
    return (
       <>
@@ -136,7 +126,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                   payload: mapName,
                });
                setMapImage(mapImages[mapName]);
-               setDragPosition({ x: 50, y: 20 });
+               setClickPosition({ x: 50, y: 20 });
             }}
             className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
          >
@@ -153,8 +143,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
          {mapImage && (
             <canvas
                ref={canvasRef}
-               onMouseMove={handleMouseMove}
-               onMouseUp={handleMouseUp}
+               onClick={handleClick}
             />
          )}
 

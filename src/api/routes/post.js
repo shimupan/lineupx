@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
+import fs from 'fs';
 
 const postLimit = rateLimit({
    windowMs: 24 * 60 * 60 * 1000,
@@ -251,6 +252,31 @@ router.post('/post/:id/comment', async (req, res) => {
       console.error('Failed to add comment:', error);
       res.status(500).send('Server error');
    }
+});
+
+router.post('/save-coordinates', (req, res) => {
+   const { x, y } = req.body;
+
+   fs.readFile('dust2.json', 'utf8', (err, data) => {
+      if (err) {
+         console.error(err);
+         res.status(500).send('An error occurred');
+         return;
+      }
+      const name = '';
+      const json = JSON.parse(data);
+      json.coordinates.push({ x, y, name});
+
+      fs.writeFile('dust2.json', JSON.stringify(json, null, 2), 'utf8', (err) => {
+         if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred');
+            return;
+         }
+
+         res.send('Coordinates saved successfully');
+      });
+   });
 });
 
 export default router;
