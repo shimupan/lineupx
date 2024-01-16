@@ -13,6 +13,8 @@ import overpass from '../../../assets/cs2maps/overpassradar.webp';
 import vertigo from '../../../assets/cs2maps/vertigoradar.webp';
 
 import dust2Coordinates from '../../../assets/cs2jsons/dust2.json';
+import anubisCoordinates from '../../../assets/cs2jsons/anubis.json';
+import vertigoCoordinates from '../../../assets/cs2jsons/vertigo.json';
 
 import decoy from '../../../assets/svg/decoy.svg';
 import smoke from '../../../assets/svg/smoke.svg';
@@ -22,13 +24,13 @@ import flash from '../../../assets/svg/flash.svg';
 
 const mapRadars = [
    { name: 'Ancient', image: ancient },
-   { name: 'Anubis', image: anubis },
+   { name: 'Anubis', image: anubis, coordinates: anubisCoordinates },
    { name: 'Dust 2', image: dust2, coordinates: dust2Coordinates },
    { name: 'Inferno', image: inferno },
    { name: 'Mirage', image: mirage },
    { name: 'Nuke', image: nuke },
    { name: 'Overpass', image: overpass },
-   { name: 'Vertigo', image: vertigo },
+   { name: 'Vertigo', image: vertigo, coordinates: vertigoCoordinates },
 ];
 
 interface Coordinate {
