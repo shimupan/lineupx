@@ -15,6 +15,11 @@ import vertigo from '../../../assets/cs2maps/vertigoradar.webp';
 import dust2Coordinates from '../../../assets/cs2jsons/dust2.json';
 import anubisCoordinates from '../../../assets/cs2jsons/anubis.json';
 import vertigoCoordinates from '../../../assets/cs2jsons/vertigo.json';
+import ancientCoordinates from '../../../assets/cs2jsons/ancient.json';
+import infernoCoordinates from '../../../assets/cs2jsons/inferno.json';
+import nukeCoordinates from '../../../assets/cs2jsons/nuke.json';
+import mirageCoordinates from '../../../assets/cs2jsons/mirage.json';
+
 
 import decoy from '../../../assets/svg/decoy.svg';
 import smoke from '../../../assets/svg/smoke.svg';
@@ -23,12 +28,12 @@ import he from '../../../assets/svg/he.svg';
 import flash from '../../../assets/svg/flash.svg';
 
 const mapRadars = [
-   { name: 'Ancient', image: ancient },
-   { name: 'Anubis', image: anubis, coordinates: anubisCoordinates },
+   { name: 'Ancient', image: ancient, coordinates: ancientCoordinates },
+   { name: 'Anubis', image: anubis, coordinates: anubisCoordinates},
    { name: 'Dust 2', image: dust2, coordinates: dust2Coordinates },
-   { name: 'Inferno', image: inferno },
-   { name: 'Mirage', image: mirage },
-   { name: 'Nuke', image: nuke },
+   { name: 'Inferno', image: inferno, coordinates: infernoCoordinates},
+   { name: 'Mirage', image: mirage, coordinates: mirageCoordinates},
+   { name: 'Nuke', image: nuke, coordinates: nukeCoordinates},
    { name: 'Overpass', image: overpass },
    { name: 'Vertigo', image: vertigo, coordinates: vertigoCoordinates },
 ];
@@ -96,7 +101,7 @@ const CS2Lineups: React.FC = () => {
                            style={{
                               position: 'absolute',
                               top: `${coordinate.y/3}px`,
-                              left: `${coordinate.x/3}px`,
+                              left: `${coordinate.x/2.95}px`,
                               width: '10px',
                               height: '10px',
                               borderRadius: '50%',
