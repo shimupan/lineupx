@@ -1,8 +1,8 @@
 // Pages
 export { default as ProfilePage } from './Pages/ProfilePage';
 export { default as Page } from './Pages/Page';
-export { default as Valorant } from './Pages/game/Valorant';
-export { default as CS2 } from './Pages/game/CS2';
+export { default as Valorant } from './Pages/game/Valorant/Valorant';
+export { default as CS2 } from './Pages/game/CS2/CS2';
 export { default as Login } from './Pages/auth/Login';
 export { default as Register } from './Pages/auth/Register';
 export { default as Upload } from './Pages/upload/Upload';
