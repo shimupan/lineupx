@@ -6,6 +6,10 @@ import axios from 'axios';
 
 import splitCoordinates from '../../../assets/valorantjsons/split.json';
 import bindCoordinates from '../../../assets/valorantjsons/bind.json';
+import ascentCoordinates from '../../../assets/valorantjsons/ascent.json';
+import pearlCoordinates from '../../../assets/valorantjsons/pearl.json';
+import havenCoordinates from '../../../assets/valorantjsons/haven.json';
+import iceboxCoordinates from '../../../assets/valorantjsons/icebox.json';
 
 interface Map {
    uuid: string;
@@ -36,15 +40,15 @@ interface Ability {
 
 const mapRadars = [
    { name: 'Split', coordinates: splitCoordinates.coordinates },
-   { name: 'Haven', coordinates: [] },
+   { name: 'Haven', coordinates: havenCoordinates.coordinates },
    { name: 'Bind', coordinates: bindCoordinates.coordinates },
-   { name: 'Ascent', coordinates: [] },
-   { name: 'Icebox', coordinates: [] },
+   { name: 'Ascent', coordinates: ascentCoordinates.coordinates },
+   { name: 'Icebox', coordinates: iceboxCoordinates.coordinates },
    { name: 'Breeze', coordinates: [] },
    { name: 'Fracture', coordinates: [] },
    { name: 'Sunset', coordinates: [] },
    { name: 'Lotus', coordinates: [] },
-   { name: 'Pearl', coordinates: [] },
+   { name: 'Pearl', coordinates: pearlCoordinates.coordinates },
 ];
 
 interface Coordinate {
