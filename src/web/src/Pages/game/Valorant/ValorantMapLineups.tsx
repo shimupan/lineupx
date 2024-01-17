@@ -79,19 +79,6 @@ const ValorantLineups: React.FC = () => {
          .then((response) => response.json())
          .then((data) => {
             setMaps(data.data);
-
-            // Resize each map's displayIcon
-            data.data.forEach(async (map: Map) => {
-               try {
-                  const response = await axios.post('/resize-image', {
-                     imageUrl: map.displayIcon,
-                  });
-                  map.displayIcon = response.data.resizedImageUrl;
-               } catch (error) {
-                  const message = (error as Error).message;
-                  console.error('Error resizing image:', message);
-               }
-            });
          });
       if (agentName) {
          axios.get(`https://valorant-api.com/v1/agents`).then((response) => {
