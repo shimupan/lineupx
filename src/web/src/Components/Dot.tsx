@@ -1,15 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type DotProps = {
    coordinate: { x: number; y: number; name: string };
    selectedDot: string;
    setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
+   mode: string;
 };
 
 const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot }) => {
    const [isHovered, setIsHovered] = useState(false);
-   const top = coordinate.y / 3;
-   const left = coordinate.x / 2.95;
+   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+   useEffect(() => {
+      window.addEventListener("resize", () => {
+         setIsMobile(window.innerWidth <= 768);
+      });
+   }, []);
+
+   const top = isMobile ? coordinate.y / 6.8 : coordinate.y / 3;
+   const left = isMobile ? coordinate.x / 6.5 : coordinate.x / 2.95;
 
    function changeDot() {
       if(selectedDot === coordinate.name) {

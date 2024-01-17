@@ -101,6 +101,7 @@ const CS2Lineups: React.FC = () => {
                            coordinate={coordinate}
                            selectedDot={selectedDot}
                            setSelectedDot={setSelectedDot}
+                            mode="CS2Lineups"
                         />
                      ))}
                   </div>

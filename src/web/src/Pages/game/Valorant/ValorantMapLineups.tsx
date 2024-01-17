@@ -1,13 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { Header, Footer, SideNavWrapper, Dot } from '../../../Components';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import axios from 'axios';
+
+import splitCoordinates from '../../../assets/valorantjsons/split.json';
 
 interface Map {
    uuid: string;
    displayName: string;
    displayIcon: string;
+   name: string;
+   coordinates: Coordinate[];
    // Add other properties if needed
 }
 
@@ -29,11 +33,32 @@ interface Ability {
    // Add other properties as needed
 }
 
+const mapRadars = [
+   { name: 'Split', coordinates: splitCoordinates.coordinates },
+   { name: 'Haven', coordinates: [] },
+   { name: 'Bind', coordinates: [] },
+   { name: 'Ascent', coordinates: [] },
+   { name: 'Icebox', coordinates: [] },
+   { name: 'Breeze', coordinates: [] },
+   { name: 'Fracture', coordinates: [] },
+   { name: 'Sunset', coordinates: [] },
+   { name: 'Lotus', coordinates: [] },
+   { name: 'Pearl', coordinates: [] },
+];
+
+interface Coordinate {
+   x: number;
+   y: number;
+   name: string;
+}
+
 const ValorantLineups: React.FC = () => {
    const [maps, setMaps] = useState<Map[]>([]);
    const [agent, setAgent] = useState<ValorantAgent | null>(null);
    const [selectedAbility, setSelectedAbility] = useState<Ability | null>(null);
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
+   const [selectedDot, setSelectedDot] = useState<string>('');
    const Auth = useContext(AuthContext);
    const { agentName, mapName } = useParams<{
       agentName: string;
@@ -64,6 +89,16 @@ const ValorantLineups: React.FC = () => {
       } else {
          setAgent(null);
       }
+      const mapObject = mapRadars.find((map) => map.name === mapName);
+
+      if (mapObject && Array.isArray(mapObject.coordinates)) {
+         setCoordinates(mapObject.coordinates);
+       } else {
+         console.error(`Invalid coordinates for map: ${mapName}`);
+         setCoordinates([]); 
+       }
+      
+      
 
       if (Auth?.accessToken && Auth.username) {
          // Your authentication related logic
@@ -92,7 +127,7 @@ const ValorantLineups: React.FC = () => {
                                  src={map.displayIcon}
                                  alt={map.displayName}
                                  style={{
-                                    width: isMobile ? '100%' : '1000%',
+                                    width: isMobile ? '100%' : '1000',
                                     maxWidth: '700px',
                                     margin: '0 auto',
                                     display: 'block',
@@ -100,6 +135,15 @@ const ValorantLineups: React.FC = () => {
                               />
                            </div>
                         ))}
+                     {coordinates.map((coordinate, index) => (
+                        <Dot
+                           key={index}
+                           coordinate={coordinate}
+                           selectedDot={selectedDot}
+                           setSelectedDot={setSelectedDot}
+                           mode="ValorantLineups"
+                        />
+                     ))}
                   </div>
                </div>
                {agent && (
