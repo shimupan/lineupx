@@ -125,43 +125,51 @@ const ValorantLineups: React.FC = () => {
       <>
          <Header />
          <SideNavWrapper />
-         <div className="flex flex-1 h-screen mt-32 sm:mt-0">
+         <div className="flex flex-1 h-screen">
             <div className="flex-1 flex flex-col">
                <div className="flex justify-center items-center">
-                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
-                     {maps
-                        .filter((map) => map.displayName === mapName)
-                        .map((map) => (
-                           <div
-                              key={map.uuid}
-                              className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5 map-container flex flex-col items-center justify-center m-auto"
-                           >
-                              <img
-                                 src={map.displayIcon}
-                                 alt={map.displayName}
-                                 onLoad={(event) => {
-                                    const target = event.target as HTMLImageElement;
-                                    const { naturalWidth: width, naturalHeight: height } = target;
-                                    console.log(`Image dimensions: ${width}x${height}`);
-                                 }}
-                                 style={{
-                                    width: isMobile ? '100%' : '1000',
-                                    maxWidth: '700px',
-                                    margin: '0 auto',
-                                    display: 'block',
-                                 }}
-                              />
-                           </div>
+                  <div className="flex flex-col sm:flex-row justify-center items-center">
+                     <div style={{ position: 'relative' }}>
+                        {maps
+                           .filter((map) => map.displayName === mapName)
+                           .map((map) => (
+                              <div
+                                 key={map.uuid}
+                                 className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5 map-container flex flex-col items-center justify-center m-auto"
+                              >
+                                 <img
+                                    src={map.displayIcon}
+                                    alt={map.displayName}
+                                    onLoad={(event) => {
+                                       const target =
+                                          event.target as HTMLImageElement;
+                                       const {
+                                          naturalWidth: width,
+                                          naturalHeight: height,
+                                       } = target;
+                                       console.log(
+                                          `Image dimensions: ${width}x${height}`,
+                                       );
+                                    }}
+                                    style={{
+                                       width: isMobile ? '100%' : '1000',
+                                       maxWidth: '700px',
+                                       margin: '0 auto',
+                                       display: 'block',
+                                    }}
+                                 />
+                              </div>
+                           ))}
+                        {coordinates.map((coordinate, index) => (
+                           <Dot
+                              key={index}
+                              coordinate={coordinate}
+                              selectedDot={selectedDot}
+                              setSelectedDot={setSelectedDot}
+                              mode="ValorantLineups"
+                           />
                         ))}
-                     {coordinates.map((coordinate, index) => (
-                        <Dot
-                           key={index}
-                           coordinate={coordinate}
-                           selectedDot={selectedDot}
-                           setSelectedDot={setSelectedDot}
-                           mode="ValorantLineups"
-                        />
-                     ))}
+                     </div>
                   </div>
                </div>
                {agent && (

@@ -17,13 +17,17 @@ const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot, mode
       });
    }, []);
    let top,left;
-
+   const screenWidth = window.innerWidth;
+   const screenHeight = window.innerHeight;
+   
    if(mode === "ValorantLineups"){
-      top = isMobile ? coordinate.y / 6.8 : coordinate.y / 1.95;
-      left = isMobile ? coordinate.x / 6.5 : coordinate.x / .7;
+      top = isMobile ? coordinate.y * (screenHeight / 4500) : coordinate.y / 3;
+      left = isMobile ? coordinate.x * (screenWidth / 2100) : coordinate.x / 2.95;
    }else{
-      top = isMobile ? coordinate.y / 6.8 : coordinate.y / 3;
-      left = isMobile ? coordinate.x / 6.5 : coordinate.x / 2.95;
+
+
+      top = isMobile ? coordinate.y * (screenHeight / 4500) : coordinate.y / 3;
+      left = isMobile ? coordinate.x * (screenWidth / 2100) : coordinate.x / 2.95;
    }
 
 
