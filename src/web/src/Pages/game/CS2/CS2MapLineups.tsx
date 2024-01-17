@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { Header, Footer, SideNavWrapper, Dot } from '../../../Components';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 
@@ -20,7 +20,6 @@ import infernoCoordinates from '../../../assets/cs2jsons/inferno.json';
 import nukeCoordinates from '../../../assets/cs2jsons/nuke.json';
 import mirageCoordinates from '../../../assets/cs2jsons/mirage.json';
 
-
 import decoy from '../../../assets/svg/decoy.svg';
 import smoke from '../../../assets/svg/smoke.svg';
 import molotov from '../../../assets/svg/molotov.svg';
@@ -29,11 +28,11 @@ import flash from '../../../assets/svg/flash.svg';
 
 const mapRadars = [
    { name: 'Ancient', image: ancient, coordinates: ancientCoordinates },
-   { name: 'Anubis', image: anubis, coordinates: anubisCoordinates},
+   { name: 'Anubis', image: anubis, coordinates: anubisCoordinates },
    { name: 'Dust 2', image: dust2, coordinates: dust2Coordinates },
-   { name: 'Inferno', image: inferno, coordinates: infernoCoordinates},
-   { name: 'Mirage', image: mirage, coordinates: mirageCoordinates},
-   { name: 'Nuke', image: nuke, coordinates: nukeCoordinates},
+   { name: 'Inferno', image: inferno, coordinates: infernoCoordinates },
+   { name: 'Mirage', image: mirage, coordinates: mirageCoordinates },
+   { name: 'Nuke', image: nuke, coordinates: nukeCoordinates },
    { name: 'Overpass', image: overpass },
    { name: 'Vertigo', image: vertigo, coordinates: vertigoCoordinates },
 ];
@@ -52,6 +51,7 @@ const CS2Lineups: React.FC = () => {
    // TOGGLE BUTTONS
    const [activeButton, setActiveButton] = useState<string | null>(null);
    const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
+   const [selectedDot, setSelectedDot] = useState<string>('');
 
    useEffect(() => {
       const mapObject = mapRadars.find((map) => map.name === mapName);
@@ -95,23 +95,15 @@ const CS2Lineups: React.FC = () => {
                         }}
                      />
                      {coordinates.map((coordinate, index) => (
-                        <div
+                        <Dot
                            key={index}
-                           title={coordinate.name}
-                           style={{
-                              position: 'absolute',
-                              top: `${coordinate.y/3}px`,
-                              left: `${coordinate.x/2.95}px`,
-                              width: '10px',
-                              height: '10px',
-                              borderRadius: '50%',
-                              backgroundColor: 'blue',
-                           }}
-                        ></div>
+                           coordinate={coordinate}
+                           selectedDot={selectedDot}
+                           setSelectedDot={setSelectedDot}
+                        />
                      ))}
                   </div>
-                  
- 
+
                   <div className="flex flex-row sm:flex-col">
                      <button
                         onClick={() =>
