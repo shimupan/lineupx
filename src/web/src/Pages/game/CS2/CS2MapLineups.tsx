@@ -19,6 +19,7 @@ import ancientCoordinates from '../../../assets/cs2jsons/ancient.json';
 import infernoCoordinates from '../../../assets/cs2jsons/inferno.json';
 import nukeCoordinates from '../../../assets/cs2jsons/nuke.json';
 import mirageCoordinates from '../../../assets/cs2jsons/mirage.json';
+import overpassCoordinates from '../../../assets/cs2jsons/overpass.json';
 
 
 import decoy from '../../../assets/svg/decoy.svg';
@@ -34,7 +35,7 @@ const mapRadars = [
    { name: 'Inferno', image: inferno, coordinates: infernoCoordinates},
    { name: 'Mirage', image: mirage, coordinates: mirageCoordinates},
    { name: 'Nuke', image: nuke, coordinates: nukeCoordinates},
-   { name: 'Overpass', image: overpass },
+   { name: 'Overpass', image: overpass, coordinates: overpassCoordinates},
    { name: 'Vertigo', image: vertigo, coordinates: vertigoCoordinates },
 ];
 
