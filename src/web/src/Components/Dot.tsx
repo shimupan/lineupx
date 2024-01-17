@@ -7,7 +7,7 @@ type DotProps = {
    mode: string;
 };
 
-const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot }) => {
+const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot, mode }) => {
    const [isHovered, setIsHovered] = useState(false);
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -16,9 +16,16 @@ const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot }) =>
          setIsMobile(window.innerWidth <= 768);
       });
    }, []);
+   let top,left;
 
-   const top = isMobile ? coordinate.y / 6.8 : coordinate.y / 3;
-   const left = isMobile ? coordinate.x / 6.5 : coordinate.x / 2.95;
+   if(mode === "ValorantLineups"){
+      top = isMobile ? coordinate.y / 6.8 : coordinate.y / 1.95;
+      left = isMobile ? coordinate.x / 6.5 : coordinate.x / .7;
+   }else{
+      top = isMobile ? coordinate.y / 6.8 : coordinate.y / 3;
+      left = isMobile ? coordinate.x / 6.5 : coordinate.x / 2.95;
+   }
+
 
    function changeDot() {
       if(selectedDot === coordinate.name) {

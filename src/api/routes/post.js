@@ -279,4 +279,32 @@ router.post('/save-coordinates', (req, res) => {
    });
 });
 
+
+router.post('/resize-image', async (req, res) => {
+   const { imageUrl } = req.body;
+
+   // Check if imageUrl is provided
+   if (!imageUrl) {
+      return res.status(400).json({ error: 'Image URL is required' });
+   }
+
+   try {
+      // Generate the transformed image URL
+      const transformedImageUrl = cloudinaryObject.url(imageUrl, {
+         type: 'fetch', // Add this line
+         width: 2048,
+         height: 2048,
+         crop: 'fill',
+      });
+
+      res.status(200).send({ resizedImageUrl: transformedImageUrl });
+   } catch (error) {
+      console.error('Error resizing image:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+   }
+});
+
+
+
+
 export default router;

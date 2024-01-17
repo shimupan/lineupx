@@ -5,6 +5,7 @@ import { AuthContext } from '../../../App';
 import axios from 'axios';
 
 import splitCoordinates from '../../../assets/valorantjsons/split.json';
+import bindCoordinates from '../../../assets/valorantjsons/bind.json';
 
 interface Map {
    uuid: string;
@@ -36,7 +37,7 @@ interface Ability {
 const mapRadars = [
    { name: 'Split', coordinates: splitCoordinates.coordinates },
    { name: 'Haven', coordinates: [] },
-   { name: 'Bind', coordinates: [] },
+   { name: 'Bind', coordinates: bindCoordinates.coordinates },
    { name: 'Ascent', coordinates: [] },
    { name: 'Icebox', coordinates: [] },
    { name: 'Breeze', coordinates: [] },
@@ -76,8 +77,22 @@ const ValorantLineups: React.FC = () => {
       window.addEventListener('resize', handleResize);
       fetch('https://valorant-api.com/v1/maps')
          .then((response) => response.json())
-         .then((data) => setMaps(data.data));
+         .then((data) => {
+            setMaps(data.data);
 
+            // Resize each map's displayIcon
+            data.data.forEach(async (map: Map) => {
+               try {
+                  const response = await axios.post('/resize-image', {
+                     imageUrl: map.displayIcon,
+                  });
+                  map.displayIcon = response.data.resizedImageUrl;
+               } catch (error) {
+                  const message = (error as Error).message;
+                  console.error('Error resizing image:', message);
+               }
+            });
+         });
       if (agentName) {
          axios.get(`https://valorant-api.com/v1/agents`).then((response) => {
             const matchingAgent = response.data.data.find(
@@ -93,12 +108,10 @@ const ValorantLineups: React.FC = () => {
 
       if (mapObject && Array.isArray(mapObject.coordinates)) {
          setCoordinates(mapObject.coordinates);
-       } else {
+      } else {
          console.error(`Invalid coordinates for map: ${mapName}`);
-         setCoordinates([]); 
-       }
-      
-      
+         setCoordinates([]);
+      }
 
       if (Auth?.accessToken && Auth.username) {
          // Your authentication related logic
@@ -126,6 +139,11 @@ const ValorantLineups: React.FC = () => {
                               <img
                                  src={map.displayIcon}
                                  alt={map.displayName}
+                                 onLoad={(event) => {
+                                    const target = event.target as HTMLImageElement;
+                                    const { naturalWidth: width, naturalHeight: height } = target;
+                                    console.log(`Image dimensions: ${width}x${height}`);
+                                 }}
                                  style={{
                                     width: isMobile ? '100%' : '1000',
                                     maxWidth: '700px',
