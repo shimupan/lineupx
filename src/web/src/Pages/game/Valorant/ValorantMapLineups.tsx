@@ -6,6 +6,11 @@ import axios from 'axios';
 
 import splitCoordinates from '../../../assets/valorantjsons/split.json';
 import bindCoordinates from '../../../assets/valorantjsons/bind.json';
+import lotusCoordinates from '../../../assets/valorantjsons/lotus.json';
+import sunsetCoordinates from '../../../assets/valorantjsons/sunset.json';
+import fractureCoordinates from '../../../assets/valorantjsons/fracture.json';
+import breezeCoordinates from '../../../assets/valorantjsons/breeze.json';
+
 
 interface Map {
    uuid: string;
@@ -40,10 +45,10 @@ const mapRadars = [
    { name: 'Bind', coordinates: bindCoordinates.coordinates },
    { name: 'Ascent', coordinates: [] },
    { name: 'Icebox', coordinates: [] },
-   { name: 'Breeze', coordinates: [] },
-   { name: 'Fracture', coordinates: [] },
-   { name: 'Sunset', coordinates: [] },
-   { name: 'Lotus', coordinates: [] },
+   { name: 'Breeze', coordinates: breezeCoordinates.coordinates },
+   { name: 'Fracture', coordinates: fractureCoordinates.coordinates },
+   { name: 'Sunset', coordinates: sunsetCoordinates.coordinates },
+   { name: 'Lotus', coordinates: lotusCoordinates.coordinates },
    { name: 'Pearl', coordinates: [] },
 ];
 
