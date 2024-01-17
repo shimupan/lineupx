@@ -120,6 +120,7 @@ const CS2Lineups: React.FC = () => {
                               width: isMobile ? '96px' : '70px',
                               height: isMobile ? '96px' : '70px',
                               opacity: activeButton === 'decoy' ? 1 : 0.5,
+                              filter: activeButton === 'decoy' ? 'invert(1)' : 'none',
                            }}
                         />
                      </button>
@@ -137,6 +138,7 @@ const CS2Lineups: React.FC = () => {
                               width: isMobile ? '96px' : '70px',
                               height: isMobile ? '96px' : '70px',
                               opacity: activeButton === 'smoke' ? 1 : 0.5,
+                              filter: activeButton === 'smoke' ? 'invert(1)' : 'none',
                            }}
                         />
                      </button>
@@ -154,6 +156,7 @@ const CS2Lineups: React.FC = () => {
                               width: isMobile ? '96px' : '70px',
                               height: isMobile ? '96px' : '70px',
                               opacity: activeButton === 'molotov' ? 1 : 0.5,
+                              filter: activeButton === 'molotov' ? 'invert(1)' : 'none',
                            }}
                         />
                      </button>
@@ -169,6 +172,7 @@ const CS2Lineups: React.FC = () => {
                               width: isMobile ? '96px' : '70px',
                               height: isMobile ? '96px' : '70px',
                               opacity: activeButton === 'he' ? 1 : 0.5,
+                              filter: activeButton === 'he' ? 'invert(1)' : 'none',
                            }}
                         />
                      </button>
@@ -186,6 +190,7 @@ const CS2Lineups: React.FC = () => {
                               width: isMobile ? '96px' : '70px',
                               height: isMobile ? '96px' : '70px',
                               opacity: activeButton === 'flash' ? 1 : 0.5,
+                              filter: activeButton === 'flash' ? 'invert(1)' : 'none',
                            }}
                         />
                      </button>
