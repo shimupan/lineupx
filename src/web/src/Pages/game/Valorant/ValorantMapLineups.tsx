@@ -11,6 +11,10 @@ import sunsetCoordinates from '../../../assets/valorantjsons/sunset.json';
 import fractureCoordinates from '../../../assets/valorantjsons/fracture.json';
 import breezeCoordinates from '../../../assets/valorantjsons/breeze.json';
 
+import ascentCoordinates from '../../../assets/valorantjsons/ascent.json';
+import pearlCoordinates from '../../../assets/valorantjsons/pearl.json';
+import havenCoordinates from '../../../assets/valorantjsons/haven.json';
+import iceboxCoordinates from '../../../assets/valorantjsons/icebox.json';
 
 interface Map {
    uuid: string;
@@ -41,15 +45,15 @@ interface Ability {
 
 const mapRadars = [
    { name: 'Split', coordinates: splitCoordinates.coordinates },
-   { name: 'Haven', coordinates: [] },
+   { name: 'Haven', coordinates: havenCoordinates.coordinates },
    { name: 'Bind', coordinates: bindCoordinates.coordinates },
-   { name: 'Ascent', coordinates: [] },
-   { name: 'Icebox', coordinates: [] },
+   { name: 'Ascent', coordinates: ascentCoordinates.coordinates },
+   { name: 'Icebox', coordinates: iceboxCoordinates.coordinates },
    { name: 'Breeze', coordinates: breezeCoordinates.coordinates },
    { name: 'Fracture', coordinates: fractureCoordinates.coordinates },
    { name: 'Sunset', coordinates: sunsetCoordinates.coordinates },
    { name: 'Lotus', coordinates: lotusCoordinates.coordinates },
-   { name: 'Pearl', coordinates: [] },
+   { name: 'Pearl', coordinates: pearlCoordinates.coordinates },
 ];
 
 interface Coordinate {
