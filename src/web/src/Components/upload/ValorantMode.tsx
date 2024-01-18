@@ -153,10 +153,10 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
                   ref={canvasRef}
                   onClick={handleClick}
                   style={{
-                     width: isMobile ? '80%' : '800%',
-                     maxWidth: '500px',
-                     margin: '0 auto',
-                     display: 'block',
+                      width: '100%',
+                      maxWidth: '100vw',
+                      margin: '0 auto',
+                      display: 'block',
                   }}
                />
             </div>

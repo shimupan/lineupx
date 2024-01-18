@@ -1,4 +1,5 @@
 import { StateVariables, StateActions } from '../../Pages/upload/upload.types';
+import { Dot } from '../../Components';
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import ancient from '../../assets/cs2maps/ancientradar.webp';
@@ -10,32 +11,43 @@ import nuke from '../../assets/cs2maps/nukeradar.webp';
 import overpass from '../../assets/cs2maps/overpassradar.webp';
 import vertigo from '../../assets/cs2maps/vertigoradar.webp';
 
+import dust2Coordinates from '../../assets/cs2jsons/dust2.json';
+import anubisCoordinates from '../../assets/cs2jsons/anubis.json';
+import vertigoCoordinates from '../../assets/cs2jsons/vertigo.json';
+import ancientCoordinates from '../../assets/cs2jsons/ancient.json';
+import infernoCoordinates from '../../assets/cs2jsons/inferno.json';
+import nukeCoordinates from '../../assets/cs2jsons/nuke.json';
+import mirageCoordinates from '../../assets/cs2jsons/mirage.json';
+import overpassCoordinates from '../../assets/cs2jsons/overpass.json';
 
 type CS2ModeProps = {
    state: StateVariables;
    dispatch: React.Dispatch<StateActions>;
 };
 
-const mapImages = {
-   mirage,
-   dust2,
-   vertigo,
-   nuke,
-   inferno,
-   overpass,
-   anubis,
-   ancient,
+const mapData = {
+   mirage: { image: mirage, coordinates: mirageCoordinates },
+   dust2: { image: dust2, coordinates: dust2Coordinates },
+   vertigo: { image: vertigo, coordinates: vertigoCoordinates },
+   nuke: { image: nuke, coordinates: nukeCoordinates },
+   inferno: { image: inferno, coordinates: infernoCoordinates },
+   overpass: { image: overpass, coordinates: overpassCoordinates },
+   anubis: { image: anubis, coordinates: anubisCoordinates },
+   ancient: { image: ancient, coordinates: ancientCoordinates },
 };
 
 const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
    const [mapImage, setMapImage] = useState('');
-
+   const [coordinates, setCoordinates] = useState<{ x: number; y: number }[]>(
+      [],
+   );
    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+   const [dotSelected, setDotSelected] = useState(false);
    const [clickPosition, setClickPosition] = useState<{
       x: number;
       y: number;
    } | null>(null);
-
+   
    useEffect(() => {
       const canvas = canvasRef.current;
       if (canvas && mapImage) {
@@ -46,6 +58,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             canvas.width = img.width;
             canvas.height = img.height;
             context?.drawImage(img, 0, 0, img.width, img.height);
+
             if (clickPosition && context) {
                context.beginPath();
                context.arc(
@@ -61,7 +74,6 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             }
             if (context) {
                context.beginPath();
-               context.arc(668, 521, 5, 0, 2 * Math.PI); // 5 is the radius of the dot
                context.fillStyle = 'blue';
                context.fill();
             }
@@ -72,7 +84,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             canvas.width = img.width;
             canvas.height = img.height;
             context?.drawImage(img, 0, 0, img.width, img.height);
-            if (clickPosition && context) {
+            if (clickPosition && context && dotSelected) {
                context.beginPath();
                context.arc(
                   clickPosition.x,
@@ -89,6 +101,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
       }
    }, [mapImage, clickPosition, setClickPosition]);
 
+
    const handleClick = async (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
    ) => {
@@ -101,6 +114,22 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
          const x = (e.clientX - rect.left) * scaleX;
          const y = (e.clientY - rect.top) * scaleY;
 
+         // Check if click is within 15 pixels of a dot
+         const clickedDot = coordinates.find(
+            (coord) => Math.hypot(coord.x - x, coord.y - y) < 15,
+         );
+
+         if (clickedDot) {
+            // If a dot was clicked, only show that dot
+            setCoordinates([clickedDot]);
+            setDotSelected(true);
+         } else {
+            // If no dot was clicked, show all dots
+            const mapName = state.mapName as keyof typeof mapData;
+            setCoordinates(mapData[mapName].coordinates.coordinates);
+            setDotSelected(false);
+         }
+
          setClickPosition({ x, y });
 
          try {
@@ -112,21 +141,19 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
       }
    };
 
-
-
    return (
       <>
          <select
             id="mapName"
             value={state.mapName}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-               const mapName = e.target.value as keyof typeof mapImages;
+               const mapName = e.target.value as keyof typeof mapData;
                dispatch({
                   type: 'setMapName',
                   payload: mapName,
                });
-               setMapImage(mapImages[mapName]);
-               
+               setMapImage(mapData[mapName].image);
+               setCoordinates(mapData[mapName].coordinates.coordinates);
             }}
             className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
          >
@@ -140,12 +167,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             <option value="anubis">Anubis</option>
             <option value="ancient">Ancient</option>
          </select>
-         {mapImage && (
-            <canvas
-               ref={canvasRef}
-               onClick={handleClick}
-            />
-         )}
+         {mapImage && <canvas ref={canvasRef} onClick={handleClick} />}
 
          <label
             htmlFor="grenadeType"
