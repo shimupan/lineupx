@@ -10,7 +10,6 @@ import lotusCoordinates from '../../../assets/valorantjsons/lotus.json';
 import sunsetCoordinates from '../../../assets/valorantjsons/sunset.json';
 import fractureCoordinates from '../../../assets/valorantjsons/fracture.json';
 import breezeCoordinates from '../../../assets/valorantjsons/breeze.json';
-
 import ascentCoordinates from '../../../assets/valorantjsons/ascent.json';
 import pearlCoordinates from '../../../assets/valorantjsons/pearl.json';
 import havenCoordinates from '../../../assets/valorantjsons/haven.json';

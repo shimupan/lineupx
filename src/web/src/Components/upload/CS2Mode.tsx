@@ -36,7 +36,7 @@ const mapData = {
 
 const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
    const [mapImage, setMapImage] = useState('');
-   const [coordinates, setCoordinates] = useState<{ x: number; y: number }[]>(
+   const [coordinates, setCoordinates] = useState<{ x: number; y: number, name: string }[]>(
       [],
    );
    const [hoverPosition, setHoverPosition] = useState<{
@@ -51,6 +51,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
    const [selectedDot, setSelectedDot] = useState<{
       x: number;
       y: number;
+      name: string;
    } | null>(null);
    const [placedDot, setPlacedDot] = useState<{ x: number; y: number } | null>(
       null,
@@ -107,7 +108,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
          const x = (e.clientX - rect.left) * scaleX;
          const y = (e.clientY - rect.top) * scaleY;
 
-         setHoverPosition({ x, y });
+         setHoverPosition({ x, y});
       }
    };
 
@@ -160,7 +161,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                setPlacedDot({ x, y });
                dispatch({
                   type: 'setLineupLocationCoords',
-                  payload: { x: selectedDot.x, y: selectedDot.y, name: 'bruh' },
+                  payload: { x: selectedDot.x, y: selectedDot.y, name: selectedDot.name },
                });
                if (placedDot) {
                   dispatch({
@@ -171,7 +172,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             }
          }
 
-         setClickPosition({ x, y });
+         setClickPosition({ x, y});
       }
    };
 

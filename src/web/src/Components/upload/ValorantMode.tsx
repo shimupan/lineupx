@@ -3,6 +3,17 @@ import { StateVariables, StateActions } from '../../Pages/upload/upload.types';
 import { AgentSelector } from '../../Components';
 import axios from 'axios';
 
+import splitCoordinates from '../../assets/valorantjsons/split.json';
+import bindCoordinates from '../../assets/valorantjsons/bind.json';
+import lotusCoordinates from '../../assets/valorantjsons/lotus.json';
+import sunsetCoordinates from '../../assets/valorantjsons/sunset.json';
+import fractureCoordinates from '../../assets/valorantjsons/fracture.json';
+import breezeCoordinates from '../../assets/valorantjsons/breeze.json';
+import ascentCoordinates from '../../assets/valorantjsons/ascent.json';
+import pearlCoordinates from '../../assets/valorantjsons/pearl.json';
+import havenCoordinates from '../../assets/valorantjsons/haven.json';
+import iceboxCoordinates from '../../assets/valorantjsons/icebox.json';
+
 type ValorantModeProps = {
    state: StateVariables;
    dispatch: React.Dispatch<StateActions>;
