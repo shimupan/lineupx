@@ -20,12 +20,10 @@ const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot, mode
    const screenWidth = window.innerWidth;
    const screenHeight = window.innerHeight;
    
-   if(mode === "ValorantLineups"){
+   if(mode === "CS2Lineups Form"){
       top = isMobile ? coordinate.y * (screenHeight / 4500) : coordinate.y / 3;
       left = isMobile ? coordinate.x * (screenWidth / 2100) : coordinate.x / 2.95;
    }else{
-
-
       top = isMobile ? coordinate.y * (screenHeight / 4500) : coordinate.y / 3;
       left = isMobile ? coordinate.x * (screenWidth / 2100) : coordinate.x / 2.95;
    }

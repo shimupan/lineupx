@@ -125,6 +125,8 @@ router.post('/post', postLimit, async (req, res) => {
       valorantAgent,
       ability,
       comments,
+      lineupLocationCoords,
+      lineupPositionCoords,
    } = req.body;
 
    const createModel = (collectionName) =>
@@ -184,6 +186,15 @@ router.post('/post', postLimit, async (req, res) => {
          approved: false,
          valorantAgent: valorantAgent,
          ability: ability,
+         lineupLocationCoords:{
+            x: lineupLocationCoords.x,
+            y: lineupLocationCoords.y,
+            name: lineupLocationCoords.name,
+         },
+         lineupPositionCoords:{
+            x: lineupPositionCoords.x,
+            y: lineupPositionCoords.y,
+         }
       });
 
       const savedPost = await newPost.save();

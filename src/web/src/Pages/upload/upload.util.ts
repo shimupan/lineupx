@@ -63,6 +63,8 @@ export const handleSubmit = async (
          teamSide: state.teamSide,
          valorantAgent: state.valorantAgent,
          ability: state.ability,
+         lineupLocationCoords: state.lineupLocationCoords,
+         lineupPositionCoords: state.lineupPositionCoords,
       });
       toast.update(id, {
          render: 'Post Uploaded Successfully!',

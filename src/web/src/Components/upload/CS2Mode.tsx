@@ -1,7 +1,5 @@
 import { StateVariables, StateActions } from '../../Pages/upload/upload.types';
-import { Dot } from '../../Components';
 import React, { useRef, useEffect, useState } from 'react';
-import axios from 'axios';
 import ancient from '../../assets/cs2maps/ancientradar.webp';
 import anubis from '../../assets/cs2maps/anubisradar.webp';
 import dust2 from '../../assets/cs2maps/dust2radar.webp';
@@ -41,13 +39,22 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
    const [coordinates, setCoordinates] = useState<{ x: number; y: number }[]>(
       [],
    );
+   const [hoverPosition, setHoverPosition] = useState<{
+      x: number;
+      y: number;
+   } | null>(null);
    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-   const [dotSelected, setDotSelected] = useState(false);
    const [clickPosition, setClickPosition] = useState<{
       x: number;
       y: number;
    } | null>(null);
-   
+   const [selectedDot, setSelectedDot] = useState<{
+      x: number;
+      y: number;
+   } | null>(null);
+   const [placedDot, setPlacedDot] = useState<{ x: number; y: number } | null>(
+      null,
+   );
    useEffect(() => {
       const canvas = canvasRef.current;
       if (canvas && mapImage) {
@@ -59,23 +66,23 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             canvas.height = img.height;
             context?.drawImage(img, 0, 0, img.width, img.height);
 
-            if (clickPosition && context) {
-               context.beginPath();
-               context.arc(
-                  clickPosition.x,
-                  clickPosition.y,
-                  10,
-                  0,
-                  2 * Math.PI,
-                  false,
-               );
-               context.fillStyle = 'red';
-               context.fill();
-            }
+            coordinates.forEach((coord) => {
+               if (context) {
+                  const color =
+                     hoverPosition &&
+                     Math.hypot(
+                        coord.x - hoverPosition.x,
+                        coord.y - hoverPosition.y,
+                     ) < 15
+                        ? 'red'
+                        : 'blue';
+                  drawMarker(context, coord.x, coord.y, 15, color);
+               }
+            });
             if (context) {
-               context.beginPath();
-               context.fillStyle = 'blue';
-               context.fill();
+               if (placedDot && selectedDot) {
+                  drawMarker(context, placedDot.x, placedDot.y, 15, 'green');
+               }
             }
          };
 
@@ -84,23 +91,38 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             canvas.width = img.width;
             canvas.height = img.height;
             context?.drawImage(img, 0, 0, img.width, img.height);
-            if (clickPosition && context && dotSelected) {
-               context.beginPath();
-               context.arc(
-                  clickPosition.x,
-                  clickPosition.y,
-                  10,
-                  0,
-                  2 * Math.PI,
-                  false,
-               );
-               context.fillStyle = 'red';
-               context.fill();
-            }
          }
       }
-   }, [mapImage, clickPosition, setClickPosition]);
+   }, [mapImage, clickPosition, setClickPosition, hoverPosition]);
 
+   const handleMouseMove = (
+      e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
+   ) => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+         const rect = canvas.getBoundingClientRect();
+         const scaleX = canvas.width / rect.width;
+         const scaleY = canvas.height / rect.height;
+
+         const x = (e.clientX - rect.left) * scaleX;
+         const y = (e.clientY - rect.top) * scaleY;
+
+         setHoverPosition({ x, y });
+      }
+   };
+
+   const drawMarker = (
+      context: CanvasRenderingContext2D,
+      x: number,
+      y: number,
+      radius: number = 15,
+      color: string = 'blue',
+   ) => {
+      context.beginPath();
+      context.arc(x, y, radius, 0, 2 * Math.PI);
+      context.fillStyle = color;
+      context.fill();
+   };
 
    const handleClick = async (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -119,25 +141,34 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             (coord) => Math.hypot(coord.x - x, coord.y - y) < 15,
          );
 
-         if (clickedDot) {
+         const mapName = state.mapName as keyof typeof mapData;
+
+         if (selectedDot && clickedDot && selectedDot === clickedDot) {
+            // If the same dot was clicked, show all dots
+            setCoordinates(mapData[mapName].coordinates.coordinates);
+            setSelectedDot(null);
+            setPlacedDot(null);
+         } else if (clickedDot) {
             // If a dot was clicked, only show that dot
             setCoordinates([clickedDot]);
-            setDotSelected(true);
-         } else {
-            // If no dot was clicked, show all dots
-            const mapName = state.mapName as keyof typeof mapData;
-            setCoordinates(mapData[mapName].coordinates.coordinates);
-            setDotSelected(false);
+            setSelectedDot(clickedDot);
+         } else if (selectedDot) {
+            // If a dot was selected and the clicked position is not transparent, place a new dot
+            const context = canvas.getContext('2d');
+            const imageData = context?.getImageData(x, y, 1, 1).data;
+            if (imageData && imageData[3] !== 0) {
+               setPlacedDot({ x, y });
+               console.log({ x, y });
+               dispatch({ type: 'setLineupLocationCoords', payload: { lat: selectedDot.x, lng: selectedDot.y, name: "bruh"} });
+               if(placedDot){
+                  dispatch({ type: 'setLineupPositionCoords', payload: { lat: placedDot.x, lng: placedDot.y } });
+               }
+   
+            }
          }
 
          setClickPosition({ x, y });
 
-         try {
-            const response = await axios.post('/save-coordinates', { x, y });
-            console.log(response.data);
-         } catch (error) {
-            console.error(error);
-         }
       }
    };
 
@@ -167,7 +198,13 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             <option value="anubis">Anubis</option>
             <option value="ancient">Ancient</option>
          </select>
-         {mapImage && <canvas ref={canvasRef} onClick={handleClick} />}
+         {mapImage && (
+            <canvas
+               ref={canvasRef}
+               onClick={handleClick}
+               onMouseMove={handleMouseMove}
+            />
+         )}
 
          <label
             htmlFor="grenadeType"
