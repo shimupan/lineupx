@@ -158,17 +158,20 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             const imageData = context?.getImageData(x, y, 1, 1).data;
             if (imageData && imageData[3] !== 0) {
                setPlacedDot({ x, y });
-               console.log({ x, y });
-               dispatch({ type: 'setLineupLocationCoords', payload: { lat: selectedDot.x, lng: selectedDot.y, name: "bruh"} });
-               if(placedDot){
-                  dispatch({ type: 'setLineupPositionCoords', payload: { lat: placedDot.x, lng: placedDot.y } });
+               dispatch({
+                  type: 'setLineupLocationCoords',
+                  payload: { x: selectedDot.x, y: selectedDot.y, name: 'bruh' },
+               });
+               if (placedDot) {
+                  dispatch({
+                     type: 'setLineupPositionCoords',
+                     payload: { x: placedDot.x, y: placedDot.y },
+                  });
                }
-   
             }
          }
 
          setClickPosition({ x, y });
-
       }
    };
 

@@ -12,8 +12,8 @@ export type StateVariables = {
    teamSide: string;
    agents: ValorantAgent | undefined;
    selectedAgentAbilities: string[];
-   lineupLocationCoords: { lat: number; lng: number; name: string };
-   lineupPositionCoords: { lat: number; lng: number };
+   lineupLocationCoords: { x: number; y: number; name: string };
+   lineupPositionCoords: { x: number; y: number };
 };
 
 export type StateActions =
@@ -28,5 +28,5 @@ export type StateActions =
    | { type: 'setTeamSide'; payload: string }
    | { type: 'setAgents'; payload: ValorantAgent | undefined }
    | { type: 'setSelectedAgentAbilities'; payload: string[] }
-   | { type: 'setLineupLocationCoords'; payload: { lat: number; lng: number; name: string } }
-   | { type: 'setLineupPositionCoords'; payload: { lat: number; lng: number } };
+   | { type: 'setLineupLocationCoords'; payload: { x: number; y: number; name: string } }
+   | { type: 'setLineupPositionCoords'; payload: { x: number; y: number } };
