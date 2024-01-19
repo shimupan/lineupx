@@ -94,7 +94,15 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             context?.drawImage(img, 0, 0, img.width, img.height);
          }
       }
-   }, [mapImage, clickPosition, setClickPosition, hoverPosition]);
+
+      if (placedDot) {
+         dispatch({
+            type: 'setLineupPositionCoords',
+            payload: { x: placedDot.x, y: placedDot.y },
+         });
+      }
+
+   }, [mapImage, clickPosition, setClickPosition, hoverPosition, placedDot, dispatch]);
 
    const handleMouseMove = (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -163,13 +171,6 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                   type: 'setLineupLocationCoords',
                   payload: { x: selectedDot.x, y: selectedDot.y, name: selectedDot.name },
                });
-               if (placedDot) {
-                  console.log(placedDot.x,placedDot.y);
-                  dispatch({
-                     type: 'setLineupPositionCoords',
-                     payload: { x: placedDot.x, y: placedDot.y },
-                  });
-               }
             }
          }
 
