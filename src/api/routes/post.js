@@ -186,15 +186,15 @@ router.post('/post', postLimit, async (req, res) => {
          approved: false,
          valorantAgent: valorantAgent,
          ability: ability,
-         lineupLocationCoords:{
+         lineupLocationCoords: {
             x: lineupLocationCoords.x,
             y: lineupLocationCoords.y,
             name: lineupLocationCoords.name,
          },
-         lineupPositionCoords:{
+         lineupPositionCoords: {
             x: lineupPositionCoords.x,
             y: lineupPositionCoords.y,
-         }
+         },
       });
 
       const savedPost = await newPost.save();
@@ -265,6 +265,7 @@ router.post('/post/:id/comment', async (req, res) => {
    }
 });
 
+/*
 router.post('/save-coordinates', (req, res) => {
    const { x, y } = req.body;
 
@@ -289,7 +290,7 @@ router.post('/save-coordinates', (req, res) => {
       });
    });
 });
-
+*/
 
 router.post('/resize-image', async (req, res) => {
    const { imageUrl } = req.body;
@@ -314,8 +315,5 @@ router.post('/resize-image', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
    }
 });
-
-
-
 
 export default router;
