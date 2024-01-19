@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
+import fs from 'fs';
 
 const postLimit = rateLimit({
    windowMs: 24 * 60 * 60 * 1000,
@@ -124,6 +125,8 @@ router.post('/post', postLimit, async (req, res) => {
       valorantAgent,
       ability,
       comments,
+      lineupLocationCoords,
+      lineupPositionCoords,
    } = req.body;
 
    const createModel = (collectionName) =>
@@ -183,6 +186,15 @@ router.post('/post', postLimit, async (req, res) => {
          approved: false,
          valorantAgent: valorantAgent,
          ability: ability,
+         lineupLocationCoords: {
+            x: lineupLocationCoords.x,
+            y: lineupLocationCoords.y,
+            name: lineupLocationCoords.name,
+         },
+         lineupPositionCoords: {
+            x: lineupPositionCoords.x,
+            y: lineupPositionCoords.y,
+         },
       });
 
       const savedPost = await newPost.save();
@@ -250,6 +262,57 @@ router.post('/post/:id/comment', async (req, res) => {
    } catch (error) {
       console.error('Failed to add comment:', error);
       res.status(500).send('Server error');
+   }
+});
+
+/*
+router.post('/save-coordinates', (req, res) => {
+   const { x, y } = req.body;
+
+   fs.readFile('ancient.json', 'utf8', (err, data) => {
+      if (err) {
+         console.error(err);
+         res.status(500).send('An error occurred');
+         return;
+      }
+      const name = '';
+      const json = JSON.parse(data);
+      json.coordinates.push({ x, y, name});
+
+      fs.writeFile('ancient.json', JSON.stringify(json, null, 2), 'utf8', (err) => {
+         if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred');
+            return;
+         }
+
+         res.send('Coordinates saved successfully');
+      });
+   });
+});
+*/
+
+router.post('/resize-image', async (req, res) => {
+   const { imageUrl } = req.body;
+
+   // Check if imageUrl is provided
+   if (!imageUrl) {
+      return res.status(400).json({ error: 'Image URL is required' });
+   }
+
+   try {
+      // Generate the transformed image URL
+      const transformedImageUrl = cloudinaryObject.url(imageUrl, {
+         type: 'fetch', // Add this line
+         width: 2048,
+         height: 2048,
+         crop: 'fill',
+      });
+
+      res.status(200).send({ resizedImageUrl: transformedImageUrl });
+   } catch (error) {
+      console.error('Error resizing image:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
    }
 });
 

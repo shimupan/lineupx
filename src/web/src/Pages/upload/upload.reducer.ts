@@ -27,6 +27,10 @@ export function reducer(
          return { ...state, agents: action.payload };
       case 'setSelectedAgentAbilities':
          return { ...state, selectedAgentAbilities: action.payload };
+      case 'setLineupLocationCoords':
+         return { ...state, lineupLocationCoords: action.payload };
+      case 'setLineupPositionCoords':
+         return { ...state, lineupPositionCoords: action.payload };
       default:
          return state;
    }
@@ -44,4 +48,6 @@ export const UploadDefaults = {
    teamSide: '',
    agents: undefined,
    selectedAgentAbilities: [],
+   lineupLocationCoords: { x: 0, y: 0, name: ''},
+   lineupPositionCoords: { x: 0, y: 0 },
 };

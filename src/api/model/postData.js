@@ -115,6 +115,30 @@ const PostDataSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
+   lineupLocationCoords: {
+      x: {
+         type: Number,
+         required: true,
+      },
+      y: {
+         type: Number,
+         required: true,
+      },
+      name: {
+         type: String,
+         required: true,
+      },
+   },
+   lineupPositionCoords: {
+      x: {
+         type: Number,
+         required: true,
+      },
+      y: {
+         type: Number,
+         required: true,
+      },
+   },
    teamSide: {
       type: String,
       required: true,
