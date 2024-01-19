@@ -164,6 +164,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                   payload: { x: selectedDot.x, y: selectedDot.y, name: selectedDot.name },
                });
                if (placedDot) {
+                  console.log(placedDot.x,placedDot.y);
                   dispatch({
                      type: 'setLineupPositionCoords',
                      payload: { x: placedDot.x, y: placedDot.y },
