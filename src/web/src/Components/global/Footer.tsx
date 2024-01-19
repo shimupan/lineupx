@@ -1,4 +1,4 @@
-import github from '../assets/github.png';
+import github from '../../assets/github.png';
 
 interface FooterProps {
    className?: string;

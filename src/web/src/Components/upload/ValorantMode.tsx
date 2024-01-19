@@ -111,7 +111,13 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             context?.drawImage(img, 0, 0, img.width * 2, img.height * 2);
          }
       }
-   }, [maps, state.mapName, clickPosition, setClickPosition, hoverPosition]);
+      if (placedDot) {
+         dispatch({
+            type: 'setLineupPositionCoords',
+            payload: { x: placedDot.x, y: placedDot.y },
+         });
+      }
+   }, [maps, state.mapName, clickPosition, setClickPosition, hoverPosition, dispatch, placedDot]);
 
    const handleMouseMove = (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -185,12 +191,6 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
                      name: selectedDot.name,
                   },
                });
-               if (placedDot) {
-                  dispatch({
-                     type: 'setLineupPositionCoords',
-                     payload: { x: placedDot.x, y: placedDot.y },
-                  });
-               }
             }
          }
 

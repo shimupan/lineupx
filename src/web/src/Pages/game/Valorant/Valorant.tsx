@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Posts from '../../Components/Posts';
-import { PostType } from '../../global.types';
+import Posts from '../../../Components/post/Posts';
+import { PostType } from '../../../global.types';
 import axios from 'axios';
 import {
    Header,
@@ -9,9 +9,9 @@ import {
    Footer,
    Carousel,
    ValorantPopup,
-} from '../../Components';
-import { VALORANT_MAPS, VALORANT_BANNER } from '../../Constants';
-import { useLocalStorage } from '../../hooks';
+} from '../../../Components';
+import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
+import { useLocalStorage } from '../../../hooks';
 
 const Valorant: React.FC = () => {
    const [open, setOpen] = useState<boolean>(true);

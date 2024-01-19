@@ -55,6 +55,7 @@ const CS2Lineups: React.FC = () => {
    const [selectedDot, setSelectedDot] = useState<string>('');
 
    useEffect(() => {
+      // Load all dots
       const mapObject = mapRadars.find((map) => map.name === mapName);
       const handleResize = () => {
          setIsMobile(window.innerWidth <= 768);
@@ -68,9 +69,6 @@ const CS2Lineups: React.FC = () => {
       }
       if (mapName === 'Dust 2') {
          setCoordinates(dust2Coordinates.coordinates);
-      }
-      if (Auth?.accessToken && Auth.username) {
-         // Your authentication related logic
       }
       return () => {
          window.removeEventListener('resize', handleResize);
@@ -104,110 +102,6 @@ const CS2Lineups: React.FC = () => {
                            mode="CS2Lineups"
                         />
                      ))}
-                  </div>
-
-                  <div className="flex flex-row sm:flex-col">
-                     <button
-                        onClick={() =>
-                           setActiveButton(
-                              activeButton === 'decoy' ? '' : 'decoy',
-                           )
-                        }
-                     >
-                        <img
-                           src={decoy}
-                           alt="decoy"
-                           style={{
-                              width: isMobile ? '96px' : '70px',
-                              height: isMobile ? '96px' : '70px',
-                              opacity: activeButton === 'decoy' ? 1 : 0.5,
-                              filter:
-                                 activeButton === 'decoy'
-                                    ? 'invert(1)'
-                                    : 'none',
-                           }}
-                        />
-                     </button>
-                     <button
-                        onClick={() =>
-                           setActiveButton(
-                              activeButton === 'smoke' ? '' : 'smoke',
-                           )
-                        }
-                     >
-                        <img
-                           src={smoke}
-                           alt="smoke"
-                           style={{
-                              width: isMobile ? '96px' : '70px',
-                              height: isMobile ? '96px' : '70px',
-                              opacity: activeButton === 'smoke' ? 1 : 0.5,
-                              filter:
-                                 activeButton === 'smoke'
-                                    ? 'invert(1)'
-                                    : 'none',
-                           }}
-                        />
-                     </button>
-                     <button
-                        onClick={() =>
-                           setActiveButton(
-                              activeButton === 'molotov' ? '' : 'molotov',
-                           )
-                        }
-                     >
-                        <img
-                           src={molotov}
-                           alt="molotov"
-                           style={{
-                              width: isMobile ? '96px' : '70px',
-                              height: isMobile ? '96px' : '70px',
-                              opacity: activeButton === 'molotov' ? 1 : 0.5,
-                              filter:
-                                 activeButton === 'molotov'
-                                    ? 'invert(1)'
-                                    : 'none',
-                           }}
-                        />
-                     </button>
-                     <button
-                        onClick={() =>
-                           setActiveButton(activeButton === 'he' ? '' : 'he')
-                        }
-                     >
-                        <img
-                           src={he}
-                           alt="he"
-                           style={{
-                              width: isMobile ? '96px' : '70px',
-                              height: isMobile ? '96px' : '70px',
-                              opacity: activeButton === 'he' ? 1 : 0.5,
-                              filter:
-                                 activeButton === 'he' ? 'invert(1)' : 'none',
-                           }}
-                        />
-                     </button>
-                     <button
-                        onClick={() =>
-                           setActiveButton(
-                              activeButton === 'flash' ? '' : 'flash',
-                           )
-                        }
-                     >
-                        <img
-                           src={flash}
-                           alt="flash"
-                           style={{
-                              width: isMobile ? '96px' : '70px',
-                              height: isMobile ? '96px' : '70px',
-                              opacity: activeButton === 'flash' ? 1 : 0.5,
-                              filter:
-                                 activeButton === 'flash'
-                                    ? 'invert(1)'
-                                    : 'none',
-                           }}
-                        />
-                     </button>
                   </div>
                </div>
             </div>

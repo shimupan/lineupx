@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Posts from '../../Components/Posts';
-import { PostType } from '../../global.types';
+import Posts from '../../../Components/post/Posts';
+import { PostType } from '../../../global.types';
 import axios from 'axios';
 
 import {
@@ -9,8 +9,8 @@ import {
    Searchbar,
    Footer,
    Carousel,
-} from '../../Components';
-import { CS2_MAPS, CS2_BANNER } from '../../Constants';
+} from '../../../Components';
+import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
