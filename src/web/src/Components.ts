@@ -43,3 +43,4 @@ export { default as CookiesPopup } from './Components/auth/CookiesPopup';
 export { default as ValorantMode } from './Components/upload/ValorantMode';
 export { default as CS2Mode } from './Components/upload/CS2Mode';
 export { default as Dot } from './Components/upload/Dot';
+export { default as GrenadeSelection } from './Components/game/cs2/GrenadeSelection';

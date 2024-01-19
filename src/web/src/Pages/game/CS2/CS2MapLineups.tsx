@@ -1,7 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Header, Footer, SideNavWrapper, Dot } from '../../../Components';
+import {
+   Header,
+   Footer,
+   SideNavWrapper,
+   Dot,
+   GrenadeSelection,
+} from '../../../Components';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
+import axios from 'axios';
 
 import ancient from '../../../assets/cs2maps/ancientradar.webp';
 import anubis from '../../../assets/cs2maps/anubisradar.webp';
@@ -20,12 +27,7 @@ import infernoCoordinates from '../../../assets/cs2jsons/inferno.json';
 import nukeCoordinates from '../../../assets/cs2jsons/nuke.json';
 import mirageCoordinates from '../../../assets/cs2jsons/mirage.json';
 import overpassCoordinates from '../../../assets/cs2jsons/overpass.json';
-
-import decoy from '../../../assets/svg/decoy.svg';
-import smoke from '../../../assets/svg/smoke.svg';
-import molotov from '../../../assets/svg/molotov.svg';
-import he from '../../../assets/svg/he.svg';
-import flash from '../../../assets/svg/flash.svg';
+import { PostType } from '../../../global.types';
 
 const mapRadars = [
    { name: 'Ancient', image: ancient, coordinates: ancientCoordinates },
@@ -52,10 +54,13 @@ const CS2Lineups: React.FC = () => {
    // TOGGLE BUTTONS
    const [activeButton, setActiveButton] = useState<string | null>(null);
    const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
+   const [complementCoordinates, setComplementCoordinates] = useState<
+      Coordinate[]
+   >([]);
    const [selectedDot, setSelectedDot] = useState<string>('');
 
+   // Load all dots
    useEffect(() => {
-      // Load all dots
       const mapObject = mapRadars.find((map) => map.name === mapName);
       const handleResize = () => {
          setIsMobile(window.innerWidth <= 768);
@@ -75,14 +80,56 @@ const CS2Lineups: React.FC = () => {
       };
    }, [Auth?.username]);
 
+   // Perform filter
+   useEffect(() => {
+      if (!activeButton && !selectedDot) {
+         !selectedDot ? setComplementCoordinates([]) : setComplementCoordinates([]);
+      }
+      console.log(activeButton, selectedDot);
+      if (selectedDot) {
+         try {
+            let coords: Coordinate[] = [];
+            axios.get(`/CS2/${selectedDot}`).then((res) => {
+               res.data.forEach((post: PostType) => {
+                  let coord: Coordinate = {
+                     x: post.lineupPositionCoords.x,
+                     y: post.lineupPositionCoords.y,
+                     name: post.grenadeType,
+                  };
+                  coords.push(coord);
+               });
+               setComplementCoordinates(coords);
+            });
+         } catch (error) {
+            console.error(error);
+         }
+      }
+   }, [activeButton, selectedDot]);
+
    return (
       <>
          <Header />
          <SideNavWrapper />
+         <div className="text-center pt-12">
+            {!selectedDot && !activeButton ? (
+               <p>
+                  Please choose a landing position for your grenade or select a
+                  grenade to see all possible lineups
+               </p>
+            ) : selectedDot && !activeButton ? (
+               <p>Showing all lineups for {selectedDot}</p>
+            ) : !selectedDot && activeButton ? (
+               <p>Showing all lineups for {activeButton}</p>
+            ) : (
+               <p>
+                  Showing all lineups for {selectedDot} {activeButton}
+               </p>
+            )}
+         </div>
          <div className="flex flex-1 h-screen">
             <div className="flex-1 flex justify-center items-center">
                <div className="flex flex-col sm:flex-row justify-center items-center">
-                  <div style={{ position: 'relative' }}>
+                  <div className="relative mb-12">
                      <img
                         src={mapImage}
                         alt={mapName}
@@ -102,7 +149,26 @@ const CS2Lineups: React.FC = () => {
                            mode="CS2Lineups"
                         />
                      ))}
+                     {complementCoordinates.map((coordinate) => {
+                        console.log('mapped');
+                        return (
+                           <Dot
+                              key={coordinate.name}
+                              coordinate={coordinate}
+                              selectedDot={selectedDot}
+                              setSelectedDot={setSelectedDot}
+                              mode="CS2Lineups"
+                              special={true}
+                           />
+                        );
+                     })}
                   </div>
+
+                  <GrenadeSelection
+                     isMobile={isMobile}
+                     activeButton={activeButton}
+                     setActiveButton={setActiveButton!}
+                  />
                </div>
             </div>
          </div>

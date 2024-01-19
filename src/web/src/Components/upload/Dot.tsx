@@ -5,9 +5,10 @@ type DotProps = {
    selectedDot: string;
    setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
    mode: string;
+   special?: boolean;
 };
 
-const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot, mode }) => {
+const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot, mode, special }) => {
    const [isHovered, setIsHovered] = useState(false);
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -39,7 +40,7 @@ const Dot: React.FC<DotProps> = ({ coordinate, selectedDot, setSelectedDot, mode
    }
 
    return (
-      (selectedDot === coordinate.name || selectedDot === "") && (
+      (selectedDot === coordinate.name || selectedDot === "" || special) && (
          <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => {

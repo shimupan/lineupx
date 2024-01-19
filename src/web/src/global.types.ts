@@ -15,6 +15,15 @@ export type PostType = {
    mapName: string;
    lineupLocation?: string;
    lineupDescription?: string;
+   lineupLocationCoords: {
+      x: number;
+      y: number;
+      name: string;
+   }
+   lineupPositionCoords: {
+      x: number;
+      y: number;
+   }
    teamSide?: string;
    likes: string[];
    dislikes: string[];

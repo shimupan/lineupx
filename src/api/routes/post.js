@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
-import fs from 'fs';
 
 const postLimit = rateLimit({
    windowMs: 24 * 60 * 60 * 1000,
@@ -315,5 +314,25 @@ router.post('/resize-image', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
    }
 });
+
+// return all posts for a specific lineup location
+router.get('/:game/:LineupLocation', async (req, res) => {
+   const { game, LineupLocation } = req.params;
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find({ "lineupLocationCoords.name": LineupLocation, approved: true })
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
+
+// returns all post for a specific grenade
+router.post('/:game/:grenade', async (req, res) => {});
+
+// returns all post for a specifc grenade and lineup location
+router.post('/:game/:LineupLocation/:grenade', async (req, res) => {});
+
 
 export default router;
