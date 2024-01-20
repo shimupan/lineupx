@@ -36,13 +36,9 @@ const mapData = {
 
 const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
    const [mapImage, setMapImage] = useState('');
-   const [coordinates, setCoordinates] = useState<{ x: number; y: number, name: string }[]>(
-      [],
-   );
-   const [hoverPosition, setHoverPosition] = useState<{
-      x: number;
-      y: number;
-   } | null>(null);
+   const [coordinates, setCoordinates] = useState<
+      { x: number; y: number; name: string }[]
+   >([]);
    const canvasRef = useRef<HTMLCanvasElement | null>(null);
    const [clickPosition, setClickPosition] = useState<{
       x: number;
@@ -69,15 +65,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
 
             coordinates.forEach((coord) => {
                if (context) {
-                  const color =
-                     hoverPosition &&
-                     Math.hypot(
-                        coord.x - hoverPosition.x,
-                        coord.y - hoverPosition.y,
-                     ) < 15
-                        ? 'red'
-                        : 'blue';
-                  drawMarker(context, coord.x, coord.y, 15, color);
+                  drawMarker(context, coord.x, coord.y, 15, 'blue');
                }
             });
             if (context) {
@@ -101,24 +89,13 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             payload: { x: placedDot.x, y: placedDot.y },
          });
       }
-
-   }, [mapImage, clickPosition, setClickPosition, hoverPosition, placedDot, dispatch]);
-
-   const handleMouseMove = (
-      e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
-   ) => {
-      const canvas = canvasRef.current;
-      if (canvas) {
-         const rect = canvas.getBoundingClientRect();
-         const scaleX = canvas.width / rect.width;
-         const scaleY = canvas.height / rect.height;
-
-         const x = (e.clientX - rect.left) * scaleX;
-         const y = (e.clientY - rect.top) * scaleY;
-
-         setHoverPosition({ x, y});
-      }
-   };
+   }, [
+      mapImage,
+      clickPosition,
+      setClickPosition,
+      placedDot,
+      dispatch,
+   ]);
 
    const drawMarker = (
       context: CanvasRenderingContext2D,
@@ -169,12 +146,16 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                setPlacedDot({ x, y });
                dispatch({
                   type: 'setLineupLocationCoords',
-                  payload: { x: selectedDot.x, y: selectedDot.y, name: selectedDot.name },
+                  payload: {
+                     x: selectedDot.x,
+                     y: selectedDot.y,
+                     name: selectedDot.name,
+                  },
                });
             }
          }
 
-         setClickPosition({ x, y});
+         setClickPosition({ x, y });
       }
    };
 
@@ -204,12 +185,21 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             <option value="anubis">Anubis</option>
             <option value="ancient">Ancient</option>
          </select>
+
          {mapImage && (
-            <canvas
-               ref={canvasRef}
-               onClick={handleClick}
-               onMouseMove={handleMouseMove}
-            />
+            <>
+               <label
+                  className="mb-2 text-sm text-start text-gray-900"
+               >
+                  Select the position on the map of where your lineup lands.
+                  After you click on it select the position of where you stand
+                  at to throw the lineup
+               </label>
+               <canvas
+                  ref={canvasRef}
+                  onClick={handleClick}
+               />
+            </>
          )}
 
          <label

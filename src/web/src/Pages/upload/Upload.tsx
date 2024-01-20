@@ -77,7 +77,7 @@ const Upload: React.FC = () => {
 
          <SideNavWrapper />
 
-         <div className="min-h-screen container mx-auto bg-white rounded-lg md:pt-12 md:my-5 md:p-10 lg:p-0 md:w-1/2 lg:w-1/3">
+         <div className="min-h-screen container mx-auto bg-white rounded-lg md:pt-12 md:my-5 md:p-10 lg:p-0 md:w-1/2 lg:w-1/2">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
                <div className="flex items-center justify-center w-full lg:p-12">
                   <div
