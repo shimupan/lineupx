@@ -7,12 +7,12 @@ import {
    Loading,
    Posts,
    ProfileEdit,
-} from '../Components';
-import { getUserByUsername } from '../util/getUser';
-import { GAMES } from '../Constants';
-import { AuthContext } from '../App';
-import { UserType, PostType } from '../global.types';
-import { sendVerificationEmail } from '../util/sendVerificationEmail';
+} from '../../Components';
+import { getUserByUsername } from '../../util/getUser';
+import { GAMES } from '../../Constants';
+import { AuthContext } from '../../App';
+import { UserType, PostType } from '../../global.types';
+import { sendVerificationEmail } from '../../util/sendVerificationEmail';
 import { CiEdit } from 'react-icons/ci';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';

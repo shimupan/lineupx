@@ -1,8 +1,8 @@
-import Decoy from '../../../assets/svg/Decoy.svg';
-import Smoke from '../../../assets/svg/Smoke.svg';
-import Molotov from '../../../assets/svg/Molotov.svg';
+import Decoy from '../../../assets/svg/decoy.svg';
+import Smoke from '../../../assets/svg/smoke.svg';
+import Molotov from '../../../assets/svg/molotov.svg';
 import HE from '../../../assets/svg/he.svg';
-import Flash from '../../../assets/svg/Flash.svg';
+import Flash from '../../../assets/svg/flash.svg';
 
 type GrenadeSelectionProps = {
     isMobile: boolean;

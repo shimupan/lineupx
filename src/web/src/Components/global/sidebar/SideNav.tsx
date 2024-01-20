@@ -1,6 +1,6 @@
 import { useState, useContext, createContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../../App';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 

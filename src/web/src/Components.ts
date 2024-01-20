@@ -1,5 +1,5 @@
 // Pages
-export { default as ProfilePage } from './Pages/ProfilePage';
+export { default as ProfilePage } from './Pages/user/ProfilePage';
 export { default as Page } from './Pages/Page';
 export { default as Valorant } from './Pages/game/Valorant/Valorant';
 export { default as CS2 } from './Pages/game/CS2/CS2';
@@ -26,10 +26,10 @@ export { default as PageNotFound } from './Pages/auth/PageNotFound';
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';
-export { default as SideNav } from './Components/sidebar/SideNav';
-export { default as SideNavItems } from './Components/sidebar/SideNavItems';
+export { default as SideNav } from './Components/global/sidebar/SideNav';
+export { default as SideNavItems } from './Components/global/sidebar/SideNavItems';
 export { default as Footer } from './Components/global/Footer';
-export { default as SideNavWrapper } from './Components/sidebar/SideNavWrapper';
+export { default as SideNavWrapper } from './Components/global/sidebar/SideNavWrapper';
 export { default as Searchbar } from './Components/game/Searchbar';
 export { default as RequireAuth } from './Components/auth/RequireAuth';
 export { default as Dropzone } from './Components/upload/Dropzone';
