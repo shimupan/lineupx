@@ -44,6 +44,10 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       x: number;
       y: number;
    } | null>(null);
+   const [hoverPosition, setHoverPosition] = useState<{
+      x: number;
+      y: number;
+   } | null>(null);
    const [coordinates, setCoordinates] = useState<
       { x: number; y: number; name: string }[]
    >([]);
@@ -81,22 +85,31 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
 
             coordinates.forEach((coord) => {
                if (context) {
-                  drawMarker(context, coord.x, coord.y, 15, 'blue');
+                  const isHovered =
+                     hoverPosition &&
+                     Math.hypot(
+                        coord.x - hoverPosition.x,
+                        coord.y - hoverPosition.y,
+                     ) < 15;
+                  drawMarker(context, coord.x, coord.y, 15, 'blue', isHovered);
                }
             });
             if (context) {
                if (placedDot && selectedDot) {
-                  drawMarker(context, placedDot.x, placedDot.y, 15, 'green');
+                  drawMarker(
+                     context,
+                     placedDot.x,
+                     placedDot.y,
+                     15,
+                     'green',
+                     false,
+                     true,
+                  );
                }
             }
          };
 
          img.src = selectedMap.displayIcon;
-         if (img.complete) {
-            canvas.width = img.width * 2;
-            canvas.height = img.height * 2;
-            context?.drawImage(img, 0, 0, img.width * 2, img.height * 2);
-         }
       }
 
       if (placedDot) {
@@ -110,9 +123,26 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       state.mapName,
       clickPosition,
       setClickPosition,
+      hoverPosition,
       placedDot,
       dispatch,
    ]);
+
+   const handleMouseMove = (
+      e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
+   ) => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+         const rect = canvas.getBoundingClientRect();
+         const scaleX = canvas.width / rect.width;
+         const scaleY = canvas.height / rect.height;
+
+         const x = (e.clientX - rect.left) * scaleX;
+         const y = (e.clientY - rect.top) * scaleY;
+
+         setHoverPosition({ x, y });
+      }
+   };
 
    const drawMarker = (
       context: CanvasRenderingContext2D,
@@ -120,11 +150,33 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       y: number,
       radius: number = 15,
       color: string = 'blue',
+      isHovered: boolean | null | undefined = false,
+      isPlaced: boolean | null | undefined = false,
    ) => {
       context.beginPath();
       context.arc(x, y, radius, 0, 2 * Math.PI);
       context.fillStyle = color;
       context.fill();
+
+      if (isHovered) {
+         const pulsateRadius = radius + Math.sin(Date.now() / 200) * 10;
+         context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 30;
+         context.beginPath();
+         context.arc(x, y, pulsateRadius, 0, 2 * Math.PI);
+         context.fillStyle = 'rgba(255, 0, 100, 0.3)';
+         context.fill();
+         context.globalAlpha = 1;
+      }
+
+      if (isPlaced) {
+         const pulsateRadius = radius + Math.sin(Date.now() / 200) * 5;
+         context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 20;
+         context.beginPath();
+         context.arc(x, y, pulsateRadius, 0, 2 * Math.PI);
+         context.fillStyle = 'rgba(255, 255, 0, 0.3)';
+         context.fill();
+         context.globalAlpha = 1;
+      }
    };
 
    const handleClick = async (
@@ -215,6 +267,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
                <canvas
                   ref={canvasRef}
                   onClick={handleClick}
+                  onMouseMove={handleMouseMove}
                   style={{
                      width: '100%',
                      maxWidth: '100vw',

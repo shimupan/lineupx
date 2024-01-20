@@ -39,6 +39,10 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
    const [coordinates, setCoordinates] = useState<
       { x: number; y: number; name: string }[]
    >([]);
+   const [hoverPosition, setHoverPosition] = useState<{
+      x: number;
+      y: number;
+   } | null>(null);
    const canvasRef = useRef<HTMLCanvasElement | null>(null);
    const [clickPosition, setClickPosition] = useState<{
       x: number;
@@ -57,6 +61,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
       if (canvas && mapImage) {
          const context = canvas.getContext('2d');
          const img = new Image();
+         img.crossOrigin = 'anonymous';
 
          img.onload = () => {
             canvas.width = img.width;
@@ -65,22 +70,31 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
 
             coordinates.forEach((coord) => {
                if (context) {
-                  drawMarker(context, coord.x, coord.y, 15, 'blue');
+                  const isHovered =
+                     hoverPosition &&
+                     Math.hypot(
+                        coord.x - hoverPosition.x,
+                        coord.y - hoverPosition.y,
+                     ) < 15;
+                  drawMarker(context, coord.x, coord.y, 15, 'blue', isHovered);
                }
             });
             if (context) {
                if (placedDot && selectedDot) {
-                  drawMarker(context, placedDot.x, placedDot.y, 15, 'green');
+                  drawMarker(
+                     context,
+                     placedDot.x,
+                     placedDot.y,
+                     15,
+                     'green',
+                     false,
+                     true,
+                  );
                }
             }
          };
 
          img.src = mapImage;
-         if (img.complete) {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            context?.drawImage(img, 0, 0, img.width, img.height);
-         }
       }
 
       if (placedDot) {
@@ -93,9 +107,26 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
       mapImage,
       clickPosition,
       setClickPosition,
+      hoverPosition,
       placedDot,
       dispatch,
    ]);
+
+   const handleMouseMove = (
+      e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
+   ) => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+         const rect = canvas.getBoundingClientRect();
+         const scaleX = canvas.width / rect.width;
+         const scaleY = canvas.height / rect.height;
+
+         const x = (e.clientX - rect.left) * scaleX;
+         const y = (e.clientY - rect.top) * scaleY;
+
+         setHoverPosition({ x, y });
+      }
+   };
 
    const drawMarker = (
       context: CanvasRenderingContext2D,
@@ -103,12 +134,35 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
       y: number,
       radius: number = 15,
       color: string = 'blue',
+      isHovered: boolean | null | undefined = false,
+      isPlaced: boolean | null | undefined = false,
    ) => {
       context.beginPath();
       context.arc(x, y, radius, 0, 2 * Math.PI);
       context.fillStyle = color;
       context.fill();
+
+      if (isHovered) {
+         const pulsateRadius = radius + Math.sin(Date.now() / 200) * 10;
+         context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 30;
+         context.beginPath();
+         context.arc(x, y, pulsateRadius, 0, 2 * Math.PI);
+         context.fillStyle = 'rgba(255, 0, 100, 0.3)';
+         context.fill();
+         context.globalAlpha = 1;
+      }
+
+      if (isPlaced) {
+         const pulsateRadius = radius + Math.sin(Date.now() / 200) * 5;
+         context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 20;
+         context.beginPath();
+         context.arc(x, y, pulsateRadius, 0, 2 * Math.PI);
+         context.fillStyle = 'rgba(255, 255, 0, 0.3)';
+         context.fill();
+         context.globalAlpha = 1;
+      }
    };
+    
 
    const handleClick = async (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -185,12 +239,9 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             <option value="anubis">Anubis</option>
             <option value="ancient">Ancient</option>
          </select>
-
          {mapImage && (
             <>
-               <label
-                  className="mb-2 text-sm text-start text-gray-900"
-               >
+               <label className="mb-2 text-sm text-start text-gray-900">
                   Select the position on the map of where your lineup lands.
                   After you click on it select the position of where you stand
                   at to throw the lineup
@@ -198,6 +249,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                <canvas
                   ref={canvasRef}
                   onClick={handleClick}
+                  onMouseMove={handleMouseMove}
                />
             </>
          )}
