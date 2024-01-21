@@ -160,9 +160,18 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
          context.fillStyle = 'rgba(255, 255, 0, 0.3)';
          context.fill();
          context.globalAlpha = 1;
+         // Draw animated line from selectedDot to placedDot
+         if (selectedDot) {
+            context.beginPath();
+            context.moveTo(selectedDot.x, selectedDot.y);
+            context.lineTo(x, y);
+            context.strokeStyle = 'black';
+            context.lineWidth = 2;
+            context.setLineDash([5, 15]);
+            context.stroke();
+         }
       }
    };
-    
 
    const handleClick = async (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,

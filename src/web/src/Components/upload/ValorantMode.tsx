@@ -159,6 +159,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       context.fill();
 
       if (isHovered) {
+         // Draw hover effect
          const pulsateRadius = radius + Math.sin(Date.now() / 200) * 10;
          context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 30;
          context.beginPath();
@@ -169,6 +170,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       }
 
       if (isPlaced) {
+         // Draw placed dot effect
          const pulsateRadius = radius + Math.sin(Date.now() / 200) * 5;
          context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 20;
          context.beginPath();
@@ -176,6 +178,17 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
          context.fillStyle = 'rgba(255, 255, 0, 0.3)';
          context.fill();
          context.globalAlpha = 1;
+
+         // Draw animated line from selectedDot to placedDot
+         if (selectedDot) {
+            context.beginPath();
+            context.moveTo(selectedDot.x, selectedDot.y);
+            context.lineTo(x, y);
+            context.strokeStyle = 'black';
+            context.lineWidth = 2;
+            context.setLineDash([5, 15]);
+            context.stroke();
+         }
       }
    };
 
