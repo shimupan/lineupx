@@ -2,7 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { PostType, ValorantAgent } from '../global.types';
 import { CDN_URL } from '../Constants';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../App';
 
 import decoy from '../assets/svg/decoy.svg';
 import smoke from '../assets/svg/smoke.svg';
@@ -27,6 +28,8 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       [],
    );
    const navigate = useNavigate();
+   const Auth = useContext(AuthContext);
+   const user_Id = Auth?._id;
 
    useEffect(() => {
       axios
@@ -77,12 +80,40 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
 
    const incrementViewCount = async () => {
       axios
-         .post(`/post/${postData._id}/increment-view-count`)
+         .post(`/post/${postData._id}/increment-view-count`, {
+            userId: user_Id,
+         })
          .then((response) => {
             console.error('Successfully incremented view count:', response);
          })
          .catch((error) => {
             console.error('Failed to increment view count:', error);
+            // Handle error
+         });
+   };
+
+   const incrementLikeCount = async () => {
+      axios
+         .post(`/post/${postData._id}/increment-like`, {
+            userId: user_Id,
+         })
+         .then((response) => {
+            console.log('Successfully incremented like count:', response);
+         })
+         .catch((error) => {
+            console.error('Failed to increment like count:', error);
+            // Handle error
+         });
+   };
+
+   const incrementDislikeCount = async () => {
+      axios
+         .post(`/post/${postData._id}/increment-dislike`)
+         .then((response) => {
+            console.log('Successfully incremented dislike count:', response);
+         })
+         .catch((error) => {
+            console.error('Failed to increment dislike count:', error);
             // Handle error
          });
    };
@@ -190,24 +221,26 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      : {postData.views}
                   </div>
                   <div className="flex items-center">
-                     <Tooltip text={postData.likes.toString()}>
+                     <Tooltip text={postData.likes.length.toString()}>
                         <img
-                           className="svg-icon w-4 h-4 mr-2"
+                           className="svg-icon w-6 h-6 mr-2 cursor-pointer hover:bg-gray-200 rounded-full p-1"
                            src={like}
                            alt="Likes"
+                           onClick={incrementLikeCount}
                         />
                      </Tooltip>
-                     : {postData.likes}
+                     : {postData.likes.length}
                   </div>
                   <div className="flex items-center">
-                     <Tooltip text={postData.dislikes.toString()}>
+                     <Tooltip text={postData.dislikes.length.toString()}>
                         <img
-                           className="svg-icon w-4 h-4 mr-2"
+                           className="svg-icon w-6 h-6 mr-2 cursor-pointer hover:bg-gray-200 rounded-full p-1"
                            src={dislike}
                            alt="Dislikes"
+                           onClick={incrementDislikeCount}
                         />
                      </Tooltip>
-                     : {postData.dislikes}
+                     : {postData.dislikes.length}
                   </div>
                </div>
             </div>
