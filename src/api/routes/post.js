@@ -334,7 +334,6 @@ router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
          });
    } else if (game === 'Valorant') {
       const PostData = mongoose.model('PostData', PostDataSchema, game);
-      console.log(agent, map);
       PostData.find({
          'lineupLocationCoords.name': LineupLocation,
          valorantAgent: agent,
