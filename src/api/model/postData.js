@@ -31,16 +31,20 @@ const PostDataSchema = new mongoose.Schema({
    },
    likes: [
       {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'PostData',
-         required: false,
+         userId: {
+            type: String,
+            ref: 'User',
+            required: false,
+         },
       },
    ],
    dislikes: [
       {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'PostData',
-         required: false,
+         userId: {
+            type: String,
+            ref: 'User',
+            required: false,
+         },
       },
    ],
    views: {

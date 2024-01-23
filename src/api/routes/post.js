@@ -264,6 +264,86 @@ router.post('/post/:id/comment', async (req, res) => {
    }
 });
 
+// Increment like count for a specific post
+router.post('/post/:id/increment-like', async (req, res) => {
+   const { id } = req.params;
+   const { userId } = req.body;
+
+   const PostData = mongoose.model('PostData', PostDataSchema);
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      // Check if the user has already liked the post
+      if (post.likes.some((like) => like.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { likes: { userId: userId } } },
+         );
+         return res.send(post);
+      }
+
+      // Check if the user has already disliked the post
+      if (post.dislikes.some((dislike) => dislike.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { dislikes: { userId: userId } } },
+         );
+      }
+
+      post.likes.push({ userId: userId });
+      await post.save();
+
+      res.send(post);
+   } catch (error) {
+      console.error('Failed to increment like count:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+// Increment dislike count for a specific post
+router.post('/post/:id/increment-dislike', async (req, res) => {
+   const { id } = req.params;
+   const { userId } = req.body;
+
+   const PostData = mongoose.model('PostData', PostDataSchema);
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      // Check if the user has already disliked the post
+      if (post.dislikes.some((dislike) => dislike.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { dislikes: { userId: userId } } },
+         );
+         return res.send(post);
+      }
+
+      // Check if the user has already liked the post
+      if (post.likes.some((like) => like.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { likes: { userId: userId } } },
+         );
+      }
+
+      post.dislikes.push({ userId: userId });
+      await post.save();
+
+      res.send(post);
+   } catch (error) {
+      console.error('Failed to increment dislike count:', error);
+      res.status(500).send('Server error');
+   }
+});
+
 /*
 router.post('/save-coordinates', (req, res) => {
    const { x, y } = req.body;

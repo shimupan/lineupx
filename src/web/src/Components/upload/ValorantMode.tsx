@@ -68,7 +68,9 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       fetch('https://valorant-api.com/v1/maps')
          .then((response) => response.json())
          .then((data) => setMaps(data.data));
-
+   }, []);
+   
+   useEffect(() => {
       const canvas = canvasRef.current;
       const selectedMap = maps.find(
          (map) => map.displayName.toLowerCase() === state.mapName.toLowerCase(),
@@ -85,32 +87,33 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
 
             coordinates.forEach((coord) => {
                if (context) {
-                  const color =
+                  const isHovered =
                      hoverPosition &&
                      Math.hypot(
                         coord.x - hoverPosition.x,
                         coord.y - hoverPosition.y,
-                     ) < 15
-                        ? 'red'
-                        : 'blue';
-                  drawMarker(context, coord.x, coord.y, 15, color);
+                     ) < 15;
+                  drawMarker(context, coord.x, coord.y, 15, 'blue', isHovered);
                }
             });
             if (context) {
-               console.log(1);
                if (placedDot && selectedDot) {
-                  drawMarker(context, placedDot.x, placedDot.y, 15, 'green');
+                  drawMarker(
+                     context,
+                     placedDot.x,
+                     placedDot.y,
+                     15,
+                     'green',
+                     false,
+                     true,
+                  );
                }
             }
          };
 
          img.src = selectedMap.displayIcon;
-         if (img.complete) {
-            canvas.width = img.width * 2;
-            canvas.height = img.height * 2;
-            context?.drawImage(img, 0, 0, img.width * 2, img.height * 2);
-         }
       }
+
       if (placedDot) {
          dispatch({
             type: 'setLineupPositionCoords',
@@ -121,8 +124,9 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       state.mapName,
       clickPosition,
       setClickPosition,
-      dispatch,
+      hoverPosition,
       placedDot,
+      dispatch,
    ]);
 
    const handleMouseMove = (
@@ -147,11 +151,46 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       y: number,
       radius: number = 15,
       color: string = 'blue',
+      isHovered: boolean | null | undefined = false,
+      isPlaced: boolean | null | undefined = false,
    ) => {
       context.beginPath();
       context.arc(x, y, radius, 0, 2 * Math.PI);
       context.fillStyle = color;
       context.fill();
+
+      if (isHovered) {
+         // Draw hover effect
+         const pulsateRadius = radius + Math.sin(Date.now() / 200) * 10;
+         context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 30;
+         context.beginPath();
+         context.arc(x, y, pulsateRadius, 0, 2 * Math.PI);
+         context.fillStyle = 'rgba(255, 0, 100, 0.3)';
+         context.fill();
+         context.globalAlpha = 1;
+      }
+
+      if (isPlaced) {
+         // Draw placed dot effect
+         const pulsateRadius = radius + Math.sin(Date.now() / 200) * 5;
+         context.globalAlpha = 0.8 + Math.sin(Date.now() / 200) * 20;
+         context.beginPath();
+         context.arc(x, y, pulsateRadius, 0, 2 * Math.PI);
+         context.fillStyle = 'rgba(255, 255, 0, 0.3)';
+         context.fill();
+         context.globalAlpha = 1;
+
+         // Draw animated line from selectedDot to placedDot
+         if (selectedDot) {
+            context.beginPath();
+            context.moveTo(selectedDot.x, selectedDot.y);
+            context.lineTo(x, y);
+            context.strokeStyle = 'black';
+            context.lineWidth = 2;
+            context.setLineDash([5, 15]);
+            context.stroke();
+         }
+      }
    };
 
    const handleClick = async (
@@ -233,6 +272,12 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
          </select>
 
          {selectedMap && (
+            <>
+               <label className="mb-2 text-sm text-start text-gray-900">
+                  Select the position on the map of where your lineup lands.
+                  After you click on it select the position of where you stand
+                  at to throw the lineup
+               </label>
                <canvas
                   ref={canvasRef}
                   onClick={handleClick}
@@ -244,7 +289,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
                      display: 'block',
                   }}
                />
-            
+            </>
          )}
 
          <label
