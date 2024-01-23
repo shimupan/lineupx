@@ -316,7 +316,7 @@ router.post('/resize-image', async (req, res) => {
 });
 
 // return all posts for a specific lineup location
-router.get('/:game/:LineupLocation', async (req, res) => {
+router.get('/location/:game/:LineupLocation', async (req, res) => {
    const { game, LineupLocation } = req.params;
    const PostData = mongoose.model('PostData', PostDataSchema, game);
    PostData.find({ "lineupLocationCoords.name": LineupLocation, approved: true })
@@ -329,7 +329,17 @@ router.get('/:game/:LineupLocation', async (req, res) => {
 });
 
 // returns all post for a specific grenade
-router.post('/:game/:grenade', async (req, res) => {});
+router.get('/grenade/:game/:grenade', async (req, res) => {
+   const { game, grenade } = req.params;
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find({ grenadeType: grenade.toLowerCase(), approved: true })
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
 
 // returns all post for a specifc grenade and lineup location
 router.post('/:game/:LineupLocation/:grenade', async (req, res) => {});

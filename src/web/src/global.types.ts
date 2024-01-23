@@ -129,3 +129,10 @@ export type ValorantMaps = {
       }[];
    }[];
 };
+
+export type Coordinate = {
+   x: number;
+   y: number;
+   name: string;
+   post?: PostType;
+};

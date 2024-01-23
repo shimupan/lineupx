@@ -8,7 +8,7 @@ import {
 } from '../../../Components';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
-import axios from 'axios';
+import { Coordinate } from '../../../global.types';
 
 import ancient from '../../../assets/cs2maps/ancientradar.webp';
 import anubis from '../../../assets/cs2maps/anubisradar.webp';
@@ -27,7 +27,7 @@ import infernoCoordinates from '../../../assets/cs2jsons/inferno.json';
 import nukeCoordinates from '../../../assets/cs2jsons/nuke.json';
 import mirageCoordinates from '../../../assets/cs2jsons/mirage.json';
 import overpassCoordinates from '../../../assets/cs2jsons/overpass.json';
-import { PostType } from '../../../global.types';
+import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 
 const mapRadars = [
    { name: 'Ancient', image: ancient, coordinates: ancientCoordinates },
@@ -39,12 +39,6 @@ const mapRadars = [
    { name: 'Overpass', image: overpass, coordinates: overpassCoordinates },
    { name: 'Vertigo', image: vertigo, coordinates: vertigoCoordinates },
 ];
-
-interface Coordinate {
-   x: number;
-   y: number;
-   name: string;
-}
 
 const CS2Lineups: React.FC = () => {
    const Auth = useContext(AuthContext);
@@ -83,26 +77,27 @@ const CS2Lineups: React.FC = () => {
    // Perform filter
    useEffect(() => {
       if (!activeButton && !selectedDot) {
-         !selectedDot ? setComplementCoordinates([]) : setComplementCoordinates([]);
+         !selectedDot
+            ? setComplementCoordinates([])
+            : setComplementCoordinates([]);
       }
-      console.log(activeButton, selectedDot);
-      if (selectedDot) {
-         try {
-            let coords: Coordinate[] = [];
-            axios.get(`/CS2/${selectedDot}`).then((res) => {
-               res.data.forEach((post: PostType) => {
-                  let coord: Coordinate = {
-                     x: post.lineupPositionCoords.x,
-                     y: post.lineupPositionCoords.y,
-                     name: post.grenadeType,
-                  };
-                  coords.push(coord);
-               });
+      if (activeButton) {
+         getPostByGrenade(activeButton, "CS2")
+            .then((coords) => {
                setComplementCoordinates(coords);
+            })
+            .catch((error) => {
+               console.error(error);
             });
-         } catch (error) {
-            console.error(error);
-         }
+      }
+      if (selectedDot) {
+         getPostByCoordinate(selectedDot, "CS2")
+            .then((coords) => {
+               setComplementCoordinates(coords);
+            })
+            .catch((error) => {
+               console.error(error);
+            });
       }
    }, [activeButton, selectedDot]);
 
@@ -140,28 +135,51 @@ const CS2Lineups: React.FC = () => {
                            display: 'block',
                         }}
                      />
-                     {coordinates.map((coordinate, index) => (
-                        <Dot
-                           key={index}
-                           coordinate={coordinate}
-                           selectedDot={selectedDot}
-                           setSelectedDot={setSelectedDot}
-                           mode="CS2Lineups"
-                        />
-                     ))}
-                     {complementCoordinates.map((coordinate) => {
-                        console.log('mapped');
-                        return (
+                     {/*
+                        Bit confusing, but basically 
+                        1) if there is no active button and no selected dot, then show all dots
+                        2) if there is an active button, then show only dots that match the active button
+                        3) if there is a selected dot, then show only dots that match the selected dot
+                        4) if there is an active button and a selected dot, then show only dots that match both
+                     */}
+                     {!activeButton &&
+                        complementCoordinates &&
+                        coordinates.map((coordinate, index) => (
                            <Dot
-                              key={coordinate.name}
+                              key={index}
                               coordinate={coordinate}
                               selectedDot={selectedDot}
                               setSelectedDot={setSelectedDot}
                               mode="CS2Lineups"
-                              special={true}
                            />
-                        );
-                     })}
+                        ))}
+                     {activeButton
+                        ? complementCoordinates
+                             .filter(
+                                (coordinate) =>
+                                   coordinate.name ===
+                                   activeButton.toLowerCase(),
+                             )
+                             .map((coordinate, index) => (
+                                <Dot
+                                   key={coordinate.name + index}
+                                   coordinate={coordinate}
+                                   selectedDot={selectedDot}
+                                   setSelectedDot={setSelectedDot}
+                                   mode="CS2Lineups"
+                                   special={coordinate.post}
+                                />
+                             ))
+                        : complementCoordinates.map((coordinate, index) => (
+                             <Dot
+                                key={coordinate.name + index}
+                                coordinate={coordinate}
+                                selectedDot={selectedDot}
+                                setSelectedDot={setSelectedDot}
+                                mode="CS2Lineups"
+                                special={coordinate.post}
+                             />
+                          ))}
                   </div>
 
                   <GrenadeSelection
