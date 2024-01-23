@@ -316,33 +316,71 @@ router.post('/resize-image', async (req, res) => {
 });
 
 // return all posts for a specific lineup location
-router.get('/location/:game/:LineupLocation', async (req, res) => {
-   const { game, LineupLocation } = req.params;
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
-   PostData.find({ "lineupLocationCoords.name": LineupLocation, approved: true })
-      .then((data) => {
-         res.send(data);
+router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
+   const { game, LineupLocation, map, agent } = req.params;
+   const parsedMap = map.replace(/\s/g, '').toLowerCase();
+   if (game === 'CS2') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         'lineupLocationCoords.name': LineupLocation,
+         mapName: parsedMap,
+         approved: true,
       })
-      .catch((err) => {
-         res.send(err);
-      });
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (game === 'Valorant') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      console.log(agent, map);
+      PostData.find({
+         'lineupLocationCoords.name': LineupLocation,
+         valorantAgent: agent,
+         mapName: map,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   }
 });
 
 // returns all post for a specific grenade
-router.get('/grenade/:game/:grenade', async (req, res) => {
-   const { game, grenade } = req.params;
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
-   PostData.find({ grenadeType: grenade.toLowerCase(), approved: true })
-      .then((data) => {
-         res.send(data);
+router.get('/grenade/:map/:game/:grenade', async (req, res) => {
+   const { game, map, grenade } = req.params;
+   const parsedMap = map.replace(/\s/g, '').toLowerCase();
+   if (game === 'CS2') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         grenadeType: grenade.toLowerCase(),
+         mapName: parsedMap,
+         approved: true,
       })
-      .catch((err) => {
-         res.send(err);
-      });
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (game === 'Valorant') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         ability: grenade,
+         mapName: map,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   }
 });
-
-// returns all post for a specifc grenade and lineup location
-router.post('/:game/:LineupLocation/:grenade', async (req, res) => {});
-
 
 export default router;

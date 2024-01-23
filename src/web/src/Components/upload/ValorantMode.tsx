@@ -76,7 +76,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       if (canvas && selectedMap) {
          const context = canvas.getContext('2d');
          const img = new Image();
-         img.crossOrigin = "anonymous";
+         img.crossOrigin = 'anonymous';
 
          img.onload = () => {
             canvas.width = img.width * 2;
@@ -117,7 +117,13 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             payload: { x: placedDot.x, y: placedDot.y },
          });
       }
-   }, [maps, state.mapName, clickPosition, setClickPosition, hoverPosition, dispatch, placedDot]);
+   }, [
+      state.mapName,
+      clickPosition,
+      setClickPosition,
+      dispatch,
+      placedDot,
+   ]);
 
    const handleMouseMove = (
       e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,

@@ -82,7 +82,7 @@ const CS2Lineups: React.FC = () => {
             : setComplementCoordinates([]);
       }
       if (activeButton) {
-         getPostByGrenade(activeButton, "CS2")
+         getPostByGrenade(activeButton, "CS2", mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
             })
@@ -91,7 +91,7 @@ const CS2Lineups: React.FC = () => {
             });
       }
       if (selectedDot) {
-         getPostByCoordinate(selectedDot, "CS2")
+         getPostByCoordinate(selectedDot, "CS2", mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
             })
