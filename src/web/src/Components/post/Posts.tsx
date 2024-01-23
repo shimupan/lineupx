@@ -3,7 +3,7 @@ import { PostType, ValorantAgent } from '../../global.types';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../App';
+import { AuthContext } from '../../App';
 
 import decoy from '../../assets/svg/decoy.svg';
 import smoke from '../../assets/svg/smoke.svg';
