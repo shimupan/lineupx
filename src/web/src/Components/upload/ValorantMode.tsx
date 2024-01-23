@@ -68,7 +68,9 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
       fetch('https://valorant-api.com/v1/maps')
          .then((response) => response.json())
          .then((data) => setMaps(data.data));
-
+   }, []);
+   
+   useEffect(() => {
       const canvas = canvasRef.current;
       const selectedMap = maps.find(
          (map) => map.displayName.toLowerCase() === state.mapName.toLowerCase(),
@@ -119,7 +121,6 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
          });
       }
    }, [
-      maps,
       state.mapName,
       clickPosition,
       setClickPosition,

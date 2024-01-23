@@ -280,13 +280,18 @@ router.post('/post/:id/increment-like', async (req, res) => {
 
       // Check if the user has already liked the post
       if (post.likes.some((like) => like.userId === userId)) {
-         return res.status(200).send(post); // User has already liked this post, return the post as is
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { likes: { userId: userId } } },
+         );
+         return res.send(post);
       }
 
       // Check if the user has already disliked the post
       if (post.dislikes.some((dislike) => dislike.userId === userId)) {
-         post.dislikes = post.dislikes.filter(
-            (dislike) => dislike.userId !== userId,
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { dislikes: { userId: userId } } },
          );
       }
 
@@ -315,12 +320,19 @@ router.post('/post/:id/increment-dislike', async (req, res) => {
 
       // Check if the user has already disliked the post
       if (post.dislikes.some((dislike) => dislike.userId === userId)) {
-         return res.status(200).send(post); // User has already disliked this post, return the post as is
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { dislikes: { userId: userId } } },
+         );
+         return res.send(post);
       }
 
       // Check if the user has already liked the post
       if (post.likes.some((like) => like.userId === userId)) {
-         post.likes = post.likes.filter((like) => like.userId !== userId);
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { likes: { userId: userId } } },
+         );
       }
 
       post.dislikes.push({ userId: userId });
@@ -332,6 +344,7 @@ router.post('/post/:id/increment-dislike', async (req, res) => {
       res.status(500).send('Server error');
    }
 });
+
 /*
 router.post('/save-coordinates', (req, res) => {
    const { x, y } = req.body;
