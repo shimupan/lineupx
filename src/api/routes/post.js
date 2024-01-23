@@ -232,8 +232,6 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
    }
 });
 
-
-
 // Endpoint to add a comment to a post
 router.post('/post/:id/comment', async (req, res) => {
    const { id } = req.params;
@@ -273,7 +271,7 @@ router.post('/post/:id/increment-like', async (req, res) => {
    const { userId } = req.body;
 
    const PostData = mongoose.model('PostData', PostDataSchema);
-   
+
    try {
       const post = await PostData.findById(id);
       if (!post) {
@@ -281,13 +279,15 @@ router.post('/post/:id/increment-like', async (req, res) => {
       }
 
       // Check if the user has already liked the post
-      if (post.likes.some(like => like.userId === userId)) {
+      if (post.likes.some((like) => like.userId === userId)) {
          return res.status(200).send(post); // User has already liked this post, return the post as is
       }
 
       // Check if the user has already disliked the post
-      if (post.dislikes.some(dislike => dislike.userId === userId)) {
-         post.dislikes = post.dislikes.filter(dislike => dislike.userId !== userId);
+      if (post.dislikes.some((dislike) => dislike.userId === userId)) {
+         post.dislikes = post.dislikes.filter(
+            (dislike) => dislike.userId !== userId,
+         );
       }
 
       post.likes.push({ userId: userId });
@@ -306,7 +306,7 @@ router.post('/post/:id/increment-dislike', async (req, res) => {
    const { userId } = req.body;
 
    const PostData = mongoose.model('PostData', PostDataSchema);
-   
+
    try {
       const post = await PostData.findById(id);
       if (!post) {
@@ -314,13 +314,13 @@ router.post('/post/:id/increment-dislike', async (req, res) => {
       }
 
       // Check if the user has already disliked the post
-      if (post.dislikes.some(dislike => dislike.userId === userId)) {
+      if (post.dislikes.some((dislike) => dislike.userId === userId)) {
          return res.status(200).send(post); // User has already disliked this post, return the post as is
       }
 
       // Check if the user has already liked the post
-      if (post.likes.some(like => like.userId === userId)) {
-         post.likes = post.likes.filter(like => like.userId !== userId);
+      if (post.likes.some((like) => like.userId === userId)) {
+         post.likes = post.likes.filter((like) => like.userId !== userId);
       }
 
       post.dislikes.push({ userId: userId });
