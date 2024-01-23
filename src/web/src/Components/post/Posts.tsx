@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { PostType, ValorantAgent } from '../global.types';
-import { CDN_URL } from '../Constants';
+import { PostType, ValorantAgent } from '../../global.types';
+import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../App';
+import { AuthContext } from '../../App';
 
-import decoy from '../assets/svg/decoy.svg';
-import smoke from '../assets/svg/smoke.svg';
-import molotov from '../assets/svg/molotov.svg';
-import he from '../assets/svg/he.svg';
-import flash from '../assets/svg/flash.svg';
-import views from '../assets/svg/views.svg';
-import like from '../assets/svg/like.svg';
-import dislike from '../assets/svg/dislike.svg';
+import decoy from '../../assets/svg/decoy.svg';
+import smoke from '../../assets/svg/smoke.svg';
+import molotov from '../../assets/svg/molotov.svg';
+import he from '../../assets/svg/he.svg';
+import flash from '../../assets/svg/flash.svg';
+import views from '../../assets/svg/views.svg';
+import like from '../../assets/svg/like.svg';
+import dislike from '../../assets/svg/dislike.svg';
 
 interface PostsProps {
    postData: PostType;

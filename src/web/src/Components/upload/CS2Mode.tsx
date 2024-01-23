@@ -103,11 +103,18 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             payload: { x: placedDot.x, y: placedDot.y },
          });
       }
+
+      if (placedDot) {
+         dispatch({
+            type: 'setLineupPositionCoords',
+            payload: { x: placedDot.x, y: placedDot.y },
+         });
+      }
    }, [
       mapImage,
       clickPosition,
       setClickPosition,
-      hoverPosition,
+      hoverPosition, dispatch, placedDot,
       placedDot,
       dispatch,
    ]);

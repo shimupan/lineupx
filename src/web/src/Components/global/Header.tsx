@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { AuthContext } from '../App';
+import { AuthContext } from '../../App';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import logo from '../assets/lineupx_compact.webp';
+import logo from '../../assets/lineupx_compact.webp';
 
 const Header: React.FC = () => {
    const Auth = useContext(AuthContext);

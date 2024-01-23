@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ValorantAgent } from '../global.types';
+import { ValorantAgent } from '../../../global.types';
 
 interface AgentSelectorProps {
    agents?: ValorantAgent['data'];

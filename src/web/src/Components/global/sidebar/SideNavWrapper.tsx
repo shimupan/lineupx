@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { SideNav, SideNavItems } from '../../Components';
-import { AuthContext } from '../../App';
+import { SideNav, SideNavItems } from '../../../Components';
+import { AuthContext } from '../../../App';
 import { MdOutlineSettings, MdHome } from 'react-icons/md';
 import { RiAdminFill } from 'react-icons/ri';
-import cs2Logo from '../../assets/cs2logo.webp';
-import valorantLogo from '../../assets/valorantlogo.webp';
+import cs2Logo from '../../../assets/cs2logo.webp';
+import valorantLogo from '../../../assets/valorantlogo.webp';
 
 type SideNavWrapperProps = {
    className?: string;

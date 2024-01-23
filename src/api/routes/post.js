@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
-import fs from 'fs';
 
 const postLimit = rateLimit({
    windowMs: 24 * 60 * 60 * 1000,
@@ -393,6 +392,73 @@ router.post('/resize-image', async (req, res) => {
    } catch (error) {
       console.error('Error resizing image:', error.message);
       res.status(500).json({ error: 'Internal Server Error' });
+   }
+});
+
+// return all posts for a specific lineup location
+router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
+   const { game, LineupLocation, map, agent } = req.params;
+   const parsedMap = map.replace(/\s/g, '').toLowerCase();
+   if (game === 'CS2') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         'lineupLocationCoords.name': LineupLocation,
+         mapName: parsedMap,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (game === 'Valorant') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         'lineupLocationCoords.name': LineupLocation,
+         valorantAgent: agent,
+         mapName: map,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   }
+});
+
+// returns all post for a specific grenade
+router.get('/grenade/:map/:game/:grenade', async (req, res) => {
+   const { game, map, grenade } = req.params;
+   const parsedMap = map.replace(/\s/g, '').toLowerCase();
+   if (game === 'CS2') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         grenadeType: grenade.toLowerCase(),
+         mapName: parsedMap,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (game === 'Valorant') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         ability: grenade,
+         mapName: map,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
    }
 });
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { UserType } from '../global.types';
+import { UserType } from '../../global.types';
 import { IoMdClose } from 'react-icons/io';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';

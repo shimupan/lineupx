@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useCookies } from '../hooks';
+import { useCookies } from '../../hooks';
 
 const CookiesPopup = () => {
    const [open, setOpen] = useState(false);
@@ -86,7 +86,7 @@ const CookiesPopup = () => {
                            <button
                               className="flex-1 px-4 py-3 h-full text-gray-500 hover:text-white hover:bg-green-400 duration-150"
                               onClick={() => {
-                                 console.log("All");
+                                 console.log('All');
                                  setOpen(false);
                                  setAcceptedCookies('ALL', {
                                     path: '/',

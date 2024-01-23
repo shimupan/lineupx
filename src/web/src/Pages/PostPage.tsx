@@ -16,14 +16,14 @@ interface Comment {
 const PostPage = () => {
    const location = useLocation();
    const postData = location.state.postData;
-   const Auth = useContext(AuthContext);
-   const user_Id = Auth?._id;
-   const verified = Auth?.Verified;
    const imagePositions = [
       postData.landingPosition.public_id,
       postData.standingPosition.public_id,
       postData.aimingPosition.public_id,
    ];
+   const Auth = useContext(AuthContext);
+   const user_Id = Auth?._id;
+   const verified = Auth?.Verified;
 
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    const [viewMode, setViewMode] = useState('carousel');

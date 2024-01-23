@@ -70,7 +70,7 @@ const SearchBar = ({
       }
 
       return (
-         <ul className="absolute z-10 bg-white w-full rounded-b-lg shadow-md border border-gray-200 mt-[-2px] py-1 overflow-y-auto max-h-64 scrollbar scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+         <ul className="absolute z-10 bg-white w-full rounded-b-lg shadow-md border border-gray-200 mt-[-2px] py-1 overflow-y-auto max-h-64 scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
             {filteredSuggestions.map((suggestion, index) => (
                <li
                   key={index}
