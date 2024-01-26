@@ -52,7 +52,7 @@ const CS2Lineups: React.FC = () => {
       Coordinate[]
    >([]);
    const [selectedDot, setSelectedDot] = useState<string>('');
-
+   const [isMapLoaded, setIsMapLoaded] = useState(false);
    // Load all dots
    useEffect(() => {
       const mapObject = mapRadars.find((map) => map.name === mapName);
@@ -82,7 +82,7 @@ const CS2Lineups: React.FC = () => {
             : setComplementCoordinates([]);
       }
       if (activeButton) {
-         getPostByGrenade(activeButton, "CS2", mapName!)
+         getPostByGrenade(activeButton, 'CS2', mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
             })
@@ -91,7 +91,7 @@ const CS2Lineups: React.FC = () => {
             });
       }
       if (selectedDot) {
-         getPostByCoordinate(selectedDot, "CS2", mapName!)
+         getPostByCoordinate(selectedDot, 'CS2', mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
             })
@@ -121,13 +121,14 @@ const CS2Lineups: React.FC = () => {
                </p>
             )}
          </div>
-         <div className="flex flex-1 h-screen">
+         <div className="flex flex-1">
             <div className="flex-1 flex justify-center items-center">
                <div className="flex flex-col sm:flex-row justify-center items-center">
                   <div className="relative mb-12">
                      <img
                         src={mapImage}
                         alt={mapName}
+                        onLoad={() => setIsMapLoaded(true)}
                         style={{
                            width: isMobile ? '100%' : '1000%',
                            maxWidth: '700px',
@@ -142,7 +143,8 @@ const CS2Lineups: React.FC = () => {
                         3) if there is a selected dot, then show only dots that match the selected dot
                         4) if there is an active button and a selected dot, then show only dots that match both
                      */}
-                     {!activeButton &&
+                     {isMapLoaded &&
+                        !activeButton &&
                         complementCoordinates &&
                         coordinates.map((coordinate, index) => (
                            <Dot
@@ -153,7 +155,7 @@ const CS2Lineups: React.FC = () => {
                               mode="CS2Lineups"
                            />
                         ))}
-                     {activeButton
+                     {isMapLoaded && activeButton
                         ? complementCoordinates
                              .filter(
                                 (coordinate) =>
