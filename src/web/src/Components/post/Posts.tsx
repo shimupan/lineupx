@@ -120,7 +120,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
 
    return (
       <>
-         <div className="max-w-full my-5 p-4 border rounded-lg shadow-sm bg-white overflow-hidden">
+         <div className="max-w-full my-5 p-4 border rounded-lg shadow-sm bg-white">
             <div className="text-center text-sm text-gray-600">
                By: {postData.Username}
             </div>

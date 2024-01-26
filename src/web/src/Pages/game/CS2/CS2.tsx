@@ -24,7 +24,7 @@ const CS2: React.FC = () => {
       // Function to fetch data
       const fetchData = () => {
          axios
-            .get('/post/CS2')
+            .get('/post/CS2?page=1')
             .then((res) => {
                setPosts(res.data);
                const titles = res.data.map((post: PostType) => post.postTitle);
@@ -109,7 +109,7 @@ const CS2: React.FC = () => {
             {/* TODO: STYLING BELOW */}
 
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
-               {(searchTerm === '' ? posts.slice(0, 10) : filteredPosts).map(
+               {(searchTerm === '' ? posts : filteredPosts).map(
                   (post) => (
                      <div key={post.landingPosition.public_id}>
                         <Posts postData={post} />

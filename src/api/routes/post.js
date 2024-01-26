@@ -36,7 +36,11 @@ router.get('/post/:game', (req, res) => {
    const { game } = req.params;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
+   const pageSize = 10;
+   const page = Number(req.query.page) || 1;
    PostData.find({ approved: true })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
       .then((data) => {
          res.send(data);
       })
