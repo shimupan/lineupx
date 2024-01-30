@@ -45,6 +45,7 @@ export type PostType = {
    game: string;
    valorantAgent: string;
    ability: string;
+   date: string;
 };
 
 export type ValorantAgent = {

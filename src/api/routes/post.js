@@ -34,19 +34,33 @@ router.get('/post/:game/:id', (req, res) => {
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
+   const page = Number(req.query.page) || 1;
+   const recent = req.query.recent || false;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
    const pageSize = 10;
-   const page = Number(req.query.page) || 1;
-   PostData.find({ approved: true })
-      .skip((page - 1) * pageSize)
-      .limit(pageSize)
-      .then((data) => {
-         res.send(data);
-      })
-      .catch((err) => {
-         res.send(err);
-      });
+   if(!recent){
+      PostData.find({ approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else {
+      PostData.find({ approved: true })
+         .sort({ date: -1 })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   }
 });
 
 // Allow authorized users to get all unapproved posts

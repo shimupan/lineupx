@@ -4,6 +4,7 @@ import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../App';
+import { timeAgo } from './helper';
 
 import decoy from '../../assets/svg/decoy.svg';
 import smoke from '../../assets/svg/smoke.svg';
@@ -210,7 +211,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   {postData.postTitle}
                </div>
                <div className="mt-2 text-sm text-gray-600 flex justify-between">
-                  <div className="flex items-center">
+                  <div className="flex flex-start">
                      <Tooltip text={postData.views.toString()}>
                         <img
                            className="svg-icon w-4 h-4 mr-2"
@@ -219,22 +220,23 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         />
                      </Tooltip>
                      : {postData.views}
+                     <div className="ml-2">
+                        {timeAgo(new Date(postData.date))}
+                     </div>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex flex-end">
                      <Tooltip text={postData.likes.length.toString()}>
                         <img
-                           className="svg-icon w-6 h-6 mr-2 cursor-pointer hover:bg-gray-200 rounded-full p-1"
+                           className="svg-icon w-6 h-6 cursor-pointer hover:bg-gray-200 rounded-full p-1"
                            src={like}
                            alt="Likes"
                            onClick={incrementLikeCount}
                         />
                      </Tooltip>
                      : {postData.likes.length}
-                  </div>
-                  <div className="flex items-center">
                      <Tooltip text={postData.dislikes.length.toString()}>
                         <img
-                           className="svg-icon w-6 h-6 mr-2 cursor-pointer hover:bg-gray-200 rounded-full p-1"
+                           className="svg-icon w-6 h-6 cursor-pointer hover:bg-gray-200 rounded-full p-1"
                            src={dislike}
                            alt="Dislikes"
                            onClick={incrementDislikeCount}

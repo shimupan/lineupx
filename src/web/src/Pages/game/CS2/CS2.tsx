@@ -24,7 +24,7 @@ const CS2: React.FC = () => {
       // Function to fetch data
       const fetchData = () => {
          axios
-            .get('/post/CS2?page=1')
+            .get('/post/CS2?page=1&recent=true')
             .then((res) => {
                setPosts(res.data);
                const titles = res.data.map((post: PostType) => post.postTitle);
@@ -107,7 +107,9 @@ const CS2: React.FC = () => {
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
-
+            <h1 className="text-3xl font-bold text-center mt-10">
+               Recently Uploaded Lineups
+            </h1>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
                {(searchTerm === '' ? posts : filteredPosts).map(
                   (post) => (
