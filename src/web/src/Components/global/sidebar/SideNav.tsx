@@ -28,7 +28,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
       topPosition = 'top-[90px]';
    }
    const isMobile = window.innerWidth <= 768; 
-   if (location.pathname === '/game/Valorant' || location.pathname === '/game/CS2' && approved && isMobile) {
+   if ((location.pathname === '/game/Valorant' || location.pathname === '/game/CS2') && approved && isMobile) {
       topPosition = 'top-[140px]';
    }else if (isSpecialRoute && approved && isMobile) {
       topPosition = 'top-[115px]'; 
