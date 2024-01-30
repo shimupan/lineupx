@@ -102,7 +102,10 @@ const ValorantLineups: React.FC = () => {
             ? setComplementCoordinates([])
             : setComplementCoordinates([]);
       }
-      if (selectedAbility) {
+      if (selectedAbility && selectedDot) {
+         return;
+      }
+      else if (selectedAbility) {
          getPostByGrenade(
             selectedAbility.displayName,
             'Valorant',
@@ -115,7 +118,7 @@ const ValorantLineups: React.FC = () => {
                console.error(error);
             });
       }
-      if (selectedDot) {
+      else if (selectedDot) {
          getPostByCoordinate(selectedDot, 'Valorant', mapName!.toLowerCase(), agentName)
             .then((coords) => {
                setComplementCoordinates(coords);

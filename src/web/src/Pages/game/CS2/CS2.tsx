@@ -14,17 +14,19 @@ import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
+   /*
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
+   */
    const [suggestions, setSuggestions] = useState<string[]>([]);
-
+   
    useEffect(() => {
       document.title = 'CS2';
 
       // Function to fetch data
       const fetchData = () => {
          axios
-            .get('/post/CS2?page=1&recent=true')
+            .get('/post/CS2?page=1?recent=true')
             .then((res) => {
                setPosts(res.data);
                const titles = res.data.map((post: PostType) => post.postTitle);
@@ -56,8 +58,10 @@ const CS2: React.FC = () => {
       fetchData();
       return () => {};
    }, []);
-
+   
    const handleSearch = (value: string) => {
+      value = value.toLowerCase();
+      /*
       setSearchTerm(value);
       let filtered = posts;
 
@@ -76,6 +80,7 @@ const CS2: React.FC = () => {
       }
 
       setFilteredPosts(filtered);
+      */
    };
 
    return (
@@ -99,6 +104,7 @@ const CS2: React.FC = () => {
                   onSearch={handleSearch}
                   placeholder="Search for CS2 Lineups"
                   suggestions={suggestions}
+                  game={"CS2"}
                />
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
@@ -108,16 +114,14 @@ const CS2: React.FC = () => {
             </div>
             {/* TODO: STYLING BELOW */}
             <h1 className="text-3xl font-bold text-center mt-10">
-               Recently Uploaded Lineups
+               Recently added Lineups
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
-               {(searchTerm === '' ? posts : filteredPosts).map(
-                  (post) => (
-                     <div key={post.landingPosition.public_id}>
-                        <Posts postData={post} />
-                     </div>
-                  ),
-               )}
+               {(posts).map((post) => (
+                  <div key={post.landingPosition.public_id}>
+                     <Posts postData={post} />
+                  </div>
+               ))}
             </div>
          </main>
          <Footer className="mt-auto" />

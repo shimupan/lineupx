@@ -142,6 +142,7 @@ const Valorant: React.FC = () => {
                      onSearch={handleSearch}
                      placeholder="Search for Valorant Lineups"
                      suggestions={suggestions}
+                     game={"Valorant"}
                   />
                </div>
                <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">

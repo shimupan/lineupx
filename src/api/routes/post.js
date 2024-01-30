@@ -36,11 +36,34 @@ router.get('/post/:game', (req, res) => {
    const { game } = req.params;
    const page = Number(req.query.page) || 1;
    const recent = req.query.recent || false;
+   const map = req.query.map || null;
+   const search = req.query.search || null;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
-   const pageSize = 10;
-   if(!recent){
+   const pageSize = 20;
+   if (recent) {
       PostData.find({ approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (map) {
+      const parsedMap = map.replace(/\s/g, '').toLowerCase();
+      PostData.find({ mapName: parsedMap, approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (search) {
+      PostData.find({ postTitle: { $regex: search, $options: 'i' }, approved: true })
          .skip((page - 1) * pageSize)
          .limit(pageSize)
          .then((data) => {
@@ -51,7 +74,6 @@ router.get('/post/:game', (req, res) => {
          });
    } else {
       PostData.find({ approved: true })
-         .sort({ date: -1 })
          .skip((page - 1) * pageSize)
          .limit(pageSize)
          .then((data) => {
@@ -479,5 +501,7 @@ router.get('/grenade/:map/:game/:grenade', async (req, res) => {
          });
    }
 });
+
+// returns all post for a specific map
 
 export default router;
