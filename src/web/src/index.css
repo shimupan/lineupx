@@ -55,6 +55,10 @@ input {
   background: #edf2f7; /* This is the color for bg-gray-200 in Tailwind CSS */
 }
 
+select{
+  background: #edf2f7; /* This is the color for bg-gray-200 in Tailwind CSS */
+}
+
 .container {
   display: flex;
   flex-direction: row;

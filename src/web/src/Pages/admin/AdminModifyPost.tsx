@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { PostType } from '../../db.types';
+import { PostType } from '../../global.types';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import { AuthContext } from '../../App';

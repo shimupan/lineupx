@@ -3,7 +3,6 @@ import { useContext, useEffect, useRef } from 'react';
 import { Header, Game, Footer, SideNavWrapper } from '../Components';
 import { AuthContext } from '../App';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import cs2 from '../assets/csgo2.webp';
 import valorant from '../assets/valorant.jpg';

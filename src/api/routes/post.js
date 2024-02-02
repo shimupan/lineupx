@@ -118,6 +118,14 @@ router.post('/post', postLimit, async (req, res) => {
       jumpThrow,
       game,
       user,
+      lineupLocation,
+      lineupDescription,
+      teamSide,
+      valorantAgent,
+      ability,
+      comments,
+      lineupLocationCoords,
+      lineupPositionCoords,
    } = req.body;
 
    const createModel = (collectionName) =>
@@ -148,17 +156,16 @@ router.post('/post', postLimit, async (req, res) => {
       );
 
       const newPost = new postData({
+         Username: user.username,
          UserID: user._id,
          postTitle: postName,
          mapName: mapName,
-         /*
-         TODO: Forgot to add the following to the form
          lineupLocation: lineupLocation,
          lineupDescription: lineupDescription,
          teamSide: teamSide,
-         */
          likes: [],
          dislikes: [],
+         comments: [],
          views: 0,
          standingPosition: {
             public_id: uploadStandingPostion.public_id,
@@ -176,7 +183,19 @@ router.post('/post', postLimit, async (req, res) => {
          jumpThrow: JumpThrow,
          game: game,
          approved: false,
+         valorantAgent: valorantAgent,
+         ability: ability,
+         lineupLocationCoords: {
+            x: lineupLocationCoords.x,
+            y: lineupLocationCoords.y,
+            name: lineupLocationCoords.name,
+         },
+         lineupPositionCoords: {
+            x: lineupPositionCoords.x,
+            y: lineupPositionCoords.y,
+         },
       });
+
       const savedPost = await newPost.save();
 
       if (!savedPost) {
@@ -188,6 +207,258 @@ router.post('/post', postLimit, async (req, res) => {
    } catch (error) {
       console.log(error);
       res.send(error);
+   }
+});
+
+// Increment view count for a specific post
+router.post('/post/:id/increment-view-count', async (req, res) => {
+   const PostData = mongoose.model('PostData', PostDataSchema);
+   const { id } = req.params;
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      post.views += 1;
+      await post.save();
+
+      res.send(post);
+   } catch (error) {
+      console.error('Failed to increment view count:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+// Endpoint to add a comment to a post
+router.post('/post/:id/comment', async (req, res) => {
+   const { id } = req.params;
+   const { username, userId, text } = req.body;
+
+   if (!text) {
+      return res.status(400).send('Comment text is required');
+   }
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const comment = {
+         username: username,
+         user: userId,
+         text: text,
+      };
+
+      post.comments.push(comment);
+      await post.save();
+
+      res.status(200).send(post);
+   } catch (error) {
+      console.error('Failed to add comment:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+// Increment like count for a specific post
+router.post('/post/:id/increment-like', async (req, res) => {
+   const { id } = req.params;
+   const { userId } = req.body;
+
+   const PostData = mongoose.model('PostData', PostDataSchema);
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      // Check if the user has already liked the post
+      if (post.likes.some((like) => like.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { likes: { userId: userId } } },
+         );
+         return res.send(post);
+      }
+
+      // Check if the user has already disliked the post
+      if (post.dislikes.some((dislike) => dislike.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { dislikes: { userId: userId } } },
+         );
+      }
+
+      post.likes.push({ userId: userId });
+      await post.save();
+
+      res.send(post);
+   } catch (error) {
+      console.error('Failed to increment like count:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+// Increment dislike count for a specific post
+router.post('/post/:id/increment-dislike', async (req, res) => {
+   const { id } = req.params;
+   const { userId } = req.body;
+
+   const PostData = mongoose.model('PostData', PostDataSchema);
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      // Check if the user has already disliked the post
+      if (post.dislikes.some((dislike) => dislike.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { dislikes: { userId: userId } } },
+         );
+         return res.send(post);
+      }
+
+      // Check if the user has already liked the post
+      if (post.likes.some((like) => like.userId === userId)) {
+         await PostData.updateOne(
+            { _id: id },
+            { $pull: { likes: { userId: userId } } },
+         );
+      }
+
+      post.dislikes.push({ userId: userId });
+      await post.save();
+
+      res.send(post);
+   } catch (error) {
+      console.error('Failed to increment dislike count:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+/*
+router.post('/save-coordinates', (req, res) => {
+   const { x, y } = req.body;
+
+   fs.readFile('ancient.json', 'utf8', (err, data) => {
+      if (err) {
+         console.error(err);
+         res.status(500).send('An error occurred');
+         return;
+      }
+      const name = '';
+      const json = JSON.parse(data);
+      json.coordinates.push({ x, y, name});
+
+      fs.writeFile('ancient.json', JSON.stringify(json, null, 2), 'utf8', (err) => {
+         if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred');
+            return;
+         }
+
+         res.send('Coordinates saved successfully');
+      });
+   });
+});
+*/
+
+router.post('/resize-image', async (req, res) => {
+   const { imageUrl } = req.body;
+
+   // Check if imageUrl is provided
+   if (!imageUrl) {
+      return res.status(400).json({ error: 'Image URL is required' });
+   }
+
+   try {
+      // Generate the transformed image URL
+      const transformedImageUrl = cloudinaryObject.url(imageUrl, {
+         type: 'fetch', // Add this line
+         width: 2048,
+         height: 2048,
+         crop: 'fill',
+      });
+
+      res.status(200).send({ resizedImageUrl: transformedImageUrl });
+   } catch (error) {
+      console.error('Error resizing image:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+   }
+});
+
+// return all posts for a specific lineup location
+router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
+   const { game, LineupLocation, map, agent } = req.params;
+   const parsedMap = map.replace(/\s/g, '').toLowerCase();
+   if (game === 'CS2') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         'lineupLocationCoords.name': LineupLocation,
+         mapName: parsedMap,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (game === 'Valorant') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         'lineupLocationCoords.name': LineupLocation,
+         valorantAgent: agent,
+         mapName: map,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   }
+});
+
+// returns all post for a specific grenade
+router.get('/grenade/:map/:game/:grenade', async (req, res) => {
+   const { game, map, grenade } = req.params;
+   const parsedMap = map.replace(/\s/g, '').toLowerCase();
+   if (game === 'CS2') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         grenadeType: grenade.toLowerCase(),
+         mapName: parsedMap,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (game === 'Valorant') {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      PostData.find({
+         ability: grenade,
+         mapName: map,
+         approved: true,
+      })
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
    }
 });
 

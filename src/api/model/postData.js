@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const PostDataSchema = new mongoose.Schema({
+   Username: {
+      type: String,
+      required: true,
+   },
    UserID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Users',
@@ -27,16 +31,20 @@ const PostDataSchema = new mongoose.Schema({
    },
    likes: [
       {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'PostData',
-         required: false,
+         userId: {
+            type: String,
+            ref: 'User',
+            required: false,
+         },
       },
    ],
    dislikes: [
       {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'PostData',
-         required: false,
+         userId: {
+            type: String,
+            ref: 'User',
+            required: false,
+         },
       },
    ],
    views: {
@@ -75,7 +83,9 @@ const PostDataSchema = new mongoose.Schema({
    },
    grenadeType: {
       type: String,
-      required: true,
+      required: function () {
+         return this.game !== 'Valorant';
+      },
    },
    jumpThrow: {
       type: Boolean,
@@ -89,6 +99,76 @@ const PostDataSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
    },
+   valorantAgent: {
+      type: String,
+      required: function () {
+         return this.game !== 'CS2';
+      },
+   },
+   ability: {
+      type: String,
+      required: function () {
+         return this.game !== 'CS2';
+      },
+   },
+   lineupLocation: {
+      type: String,
+      required: true,
+   },
+   lineupDescription: {
+      type: String,
+      required: true,
+   },
+   lineupLocationCoords: {
+      x: {
+         type: Number,
+         required: true,
+      },
+      y: {
+         type: Number,
+         required: true,
+      },
+      name: {
+         type: String,
+         required: true,
+      },
+   },
+   lineupPositionCoords: {
+      x: {
+         type: Number,
+         required: true,
+      },
+      y: {
+         type: Number,
+         required: true,
+      },
+   },
+   teamSide: {
+      type: String,
+      required: true,
+   },
+   comments: [
+      {
+         username: {
+            type: String,
+            ref: 'User',
+            required: true,
+         },
+         user: {
+            type: String,
+            ref: 'User',
+            required: true,
+         },
+         text: {
+            type: String,
+            required: true,
+         },
+         createdAt: {
+            type: Date,
+            default: Date.now,
+         },
+      },
+   ],
 });
 
 export default PostDataSchema;
