@@ -102,6 +102,8 @@ router.post('/user/:id/comment', async (req, res) => {
 router.post('/user/:id/pfp', (req, res) => {
    const form = new Formidable();
 
+   form.maxFileSize = 1 * 1024 * 1024;
+
    form.parse(req, (err, fields, files) => {
       if (err) {
          console.error('Error parsing the files:', err);
@@ -109,6 +111,11 @@ router.post('/user/:id/pfp', (req, res) => {
       }
 
       const file = files.image; // Ensure the key 'image' matches your client-side form
+
+      if (!file.type.startsWith('image/')) {
+         res.status(400).json({ error: 'Uploaded file is not an image' });
+         return;
+      }
 
       // Check if the file exists
       if (!file) {
@@ -130,11 +137,11 @@ router.post('/user/:id/pfp', (req, res) => {
 
          // Upload the file to Cloudinary
          cloudinaryObject.uploader
-            .upload(newPath, { 
+            .upload(newPath, {
                folder: 'profile_pictures',
                transformation: [
-                  { width: 64, height: 64, crop: "fill", gravity: "auto" }
-               ]
+                  { width: 64, height: 64, crop: 'fill', gravity: 'auto' },
+               ],
             })
             .then((uploadResponse) => {
                const userId = req.params.id;

@@ -84,6 +84,12 @@ const ProfilePage = () => {
       if (event.target.files && event.target.files.length > 0) {
          const file = event.target.files[0];
 
+         // Check if the file is an image
+         if (!file.type.startsWith('image/')) {
+            toast.error('Please upload an image file');
+            return;
+         }
+
          const formData = new FormData();
          formData.append('image', file);
 
