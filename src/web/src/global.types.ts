@@ -5,6 +5,7 @@ export type UserType = {
    email: string;
    password: string;
    Verified: boolean;
+   ProfilePicture: string;
 };
 
 export type PostType = {

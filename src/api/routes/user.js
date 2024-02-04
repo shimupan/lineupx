@@ -1,13 +1,17 @@
 import express from 'express';
 import User from '../model/user.js';
 import jwt from 'jsonwebtoken';
+import path from path;
 import {
    findDuplicateUsername,
    findDuplicateEmail,
 } from '../helper/findDuplicateUser.js';
+import cloudinary from '../config/cloudinary.js';
+import { Formidable } from 'formidable';
+import fs from 'fs';
 
 const router = express.Router();
-
+const cloudinaryObject = cloudinary();
 // single user login
 router.post('/users', async (req, res) => {
    const { accessToken, refreshToken } = req.body;
@@ -91,6 +95,62 @@ router.post('/user/:id/comment', async (req, res) => {
       console.error('Failed to add comment:', error);
       res.status(500).send('Server error');
    }
+});
+
+router.post('/user/:id/pfp', (req, res) => {
+   const form = new Formidable();
+
+   form.parse(req, (err, fields, files) => {
+      if (err) {
+         console.error('Error parsing the files:', err);
+         return res.status(400).send('Error processing the file');
+      }
+
+      const file = files.image; // Ensure the key 'image' matches your client-side form
+
+      // Check if the file exists
+      if (!file) {
+         return res.status(400).send('No file uploaded');
+      }
+
+      // Define new path (ensure the 'uploads' directory exists)
+      const newPath = path.join(__dirname, 'uploads', file.originalFilename);
+
+      // Move the file from the temporary path to the new path
+      fs.rename(file.filepath, newPath, (err) => {
+         if (err) {
+            console.error('Error moving the file:', err);
+            return res.status(500).send('Error processing the file');
+         }
+
+         // Upload the file to Cloudinary
+         cloudinaryObject.uploader
+            .upload(newPath, { folder: 'profile_pictures' })
+            .then((uploadResponse) => {
+               const userId = req.params.id;
+
+               // Find the user and update their profile picture URL
+               User.findById(userId, (err, user) => {
+                  if (err || !user) {
+                     console.error('User not found:', err);
+                     return res.status(404).send('User not found');
+                  }
+
+                  user.ProfilePicture = uploadResponse.secure_url;
+                  user.save();
+
+                  res.status(200).json({
+                     message: 'Profile picture updated successfully',
+                     profilePicture: user.ProfilePicture,
+                  });
+               });
+            })
+            .catch((error) => {
+               console.error('Failed to upload profile picture:', error);
+               res.status(500).send('Server error');
+            });
+      });
+   });
 });
 
 router.post('/user/update', async (req, res) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import {
    Header,
@@ -26,6 +26,7 @@ const ProfilePage = () => {
       email: '',
       password: '',
       Verified: false,
+      ProfilePicture: '',
    });
    const [loading, setLoading] = useState(true);
    const [posts, setPosts] = useState<PostType[][]>([[]]);
@@ -68,6 +69,48 @@ const ProfilePage = () => {
          toast.update(id, response);
       });
    }
+   const fileInputRef = useRef<HTMLInputElement>(null);
+
+   const triggerFileInput = () => {
+      // Trigger the file input when the avatar is clicked
+      if (fileInputRef.current) {
+         fileInputRef.current.click();
+      }
+   };
+
+   const handleFileChange = async (
+      event: React.ChangeEvent<HTMLInputElement>,
+   ) => {
+      if (event.target.files && event.target.files.length > 0) {
+         const file = event.target.files[0];
+
+         const formData = new FormData();
+         formData.append('image', file);
+
+         try {
+            const response = await axios.post(
+               `/user/${user._id}/pfp`,
+               formData,
+               {
+                  headers: {
+                     'Content-Type': 'multipart/form-data',
+                  },
+               },
+            );
+
+            // Update the user state with the new profile picture URL
+            setUser((prevState) => ({
+               ...prevState,
+               ProfilePicture: response.data.profilePicture,
+            }));
+
+            toast.success('Profile picture updated successfully');
+         } catch (error) {
+            console.error('Error uploading profile picture:', error);
+            toast.error('Error uploading profile picture');
+         }
+      }
+   };
 
    if (loading) return <Loading />;
 
@@ -104,10 +147,20 @@ const ProfilePage = () => {
                         )}
                      </div>
                      <img
-                        src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
-                           user?.username ? user.username : ''
-                        }`}
+                        src={
+                           user.ProfilePicture ||
+                           `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
+                              user?.username ? user.username : ''
+                           }`
+                        }
                         className="ml-[2px] rounded-md cursor-pointer absolute top-[275px] w-[100px]"
+                        onClick={triggerFileInput}
+                     />
+                     <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
                      />
                   </div>
                </div>
