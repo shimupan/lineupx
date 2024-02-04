@@ -49,6 +49,8 @@ type AuthContextType = {
    Verified: boolean;
    setVerified: React.Dispatch<React.SetStateAction<boolean>>;
    role: string;
+   ProfilePicture: string;
+   setProfilePicture: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -64,6 +66,7 @@ function App() {
    const [email, setEmail] = useState<string>('');
    const [Verified, setVerified] = useState<boolean>(false);
    const [role, setRole] = useState<string>('');
+   const [ProfilePicture, setProfilePicture] = useState<string>('');
    const [_id, setid] = useState<string>('');
    const [accessTokenC] = useCookies("accessToken", "");
    const [refreshTokenC] = useCookies("refreshToken", "");
@@ -88,6 +91,7 @@ function App() {
                setEmail(response.data.email);
                setVerified(response.data.Verified);
                setid(response.data._id);
+               setProfilePicture(response.data.ProfilePicture);
             })
             .catch((error) => {
                return error;
@@ -105,6 +109,7 @@ function App() {
                email,
                role,
                username,
+               ProfilePicture,
                Verified,
                setAccessToken,
                setRefreshToken,
@@ -112,6 +117,7 @@ function App() {
                setUsername,
                setVerified,
                setid,
+               setProfilePicture,
             }}
          >
             <BrowserRouter>

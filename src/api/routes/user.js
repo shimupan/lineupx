@@ -130,7 +130,12 @@ router.post('/user/:id/pfp', (req, res) => {
 
          // Upload the file to Cloudinary
          cloudinaryObject.uploader
-            .upload(newPath, { folder: 'profile_pictures' })
+            .upload(newPath, { 
+               folder: 'profile_pictures',
+               transformation: [
+                  { width: 64, height: 64, crop: "fill", gravity: "auto" }
+               ]
+            })
             .then((uploadResponse) => {
                const userId = req.params.id;
 
