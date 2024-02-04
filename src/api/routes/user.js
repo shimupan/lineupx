@@ -1,7 +1,9 @@
 import express from 'express';
 import User from '../model/user.js';
 import jwt from 'jsonwebtoken';
-import path from path;
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import {
    findDuplicateUsername,
    findDuplicateEmail,
@@ -114,10 +116,13 @@ router.post('/user/:id/pfp', (req, res) => {
       }
 
       // Define new path (ensure the 'uploads' directory exists)
-      const newPath = path.join(__dirname, 'uploads', file.originalFilename);
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = dirname(__filename);
+      const newPath = path.join(__dirname, file[0].originalFilename);
 
       // Move the file from the temporary path to the new path
-      fs.rename(file.filepath, newPath, (err) => {
+      fs.rename(file[0].filepath, newPath, (err) => {
+         // Changed file.filepath to file.path
          if (err) {
             console.error('Error moving the file:', err);
             return res.status(500).send('Error processing the file');
@@ -129,20 +134,35 @@ router.post('/user/:id/pfp', (req, res) => {
             .then((uploadResponse) => {
                const userId = req.params.id;
 
-               // Find the user and update their profile picture URL
-               User.findById(userId, (err, user) => {
-                  if (err || !user) {
-                     console.error('User not found:', err);
-                     return res.status(404).send('User not found');
+               // Delete the file after it has been uploaded
+               fs.unlink(newPath, (err) => {
+                  if (err) {
+                     console.error('Failed to delete the file:', err);
+                     return res.status(500).send('Server error');
                   }
 
-                  user.ProfilePicture = uploadResponse.secure_url;
-                  user.save();
+                  // Find the user and update their profile picture URL
+                  User.findById(userId)
+                     .then((user) => {
+                        if (!user) {
+                           console.error('User not found');
+                           return res.status(404).send('User not found');
+                        }
 
-                  res.status(200).json({
-                     message: 'Profile picture updated successfully',
-                     profilePicture: user.ProfilePicture,
-                  });
+                        user.ProfilePicture = uploadResponse.secure_url;
+                        return user.save().then(() => user); // return the user after saving
+                     })
+                     .then((user) => {
+                        // receive the user here
+                        res.status(200).json({
+                           message: 'Profile picture updated successfully',
+                           profilePicture: user.ProfilePicture,
+                        });
+                     })
+                     .catch((err) => {
+                        console.error('Failed to update user:', err);
+                        res.status(500).send('Server error');
+                     });
                });
             })
             .catch((error) => {
