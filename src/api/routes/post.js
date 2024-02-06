@@ -65,10 +65,7 @@ router.get('/post/:game', (req, res) => {
    } else if (search) {
       const reg = new RegExp(search.split(' ').join('.*'), 'i');
       PostData.find({
-         $or: [
-            { postTitle: { $regex: reg } },
-            { mapName: { $regex: reg } },
-         ],
+         $or: [{ postTitle: { $regex: reg } }, { mapName: { $regex: reg } }],
          approved: true,
       })
          .skip((page - 1) * pageSize)
