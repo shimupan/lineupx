@@ -102,7 +102,9 @@ const ValorantLineups: React.FC = () => {
             ? setComplementCoordinates([])
             : setComplementCoordinates([]);
       }
-      if (selectedAbility) {
+      if (selectedAbility && selectedDot) {
+         return;
+      } else if (selectedAbility) {
          getPostByGrenade(
             selectedAbility.displayName,
             'Valorant',
@@ -114,9 +116,13 @@ const ValorantLineups: React.FC = () => {
             .catch((error) => {
                console.error(error);
             });
-      }
-      if (selectedDot) {
-         getPostByCoordinate(selectedDot, 'Valorant', mapName!.toLowerCase(), agentName)
+      } else if (selectedDot) {
+         getPostByCoordinate(
+            selectedDot,
+            'Valorant',
+            mapName!.toLowerCase(),
+            agentName,
+         )
             .then((coords) => {
                setComplementCoordinates(coords);
             })
@@ -132,10 +138,12 @@ const ValorantLineups: React.FC = () => {
          <SideNavWrapper />
          <div className="text-center pt-12">
             {!selectedDot && !selectedAbility ? (
-               <p>
-                  Please choose a landing position for your grenade or select a
-                  grenade to see all possible lineups
-               </p>
+               <>
+                  <p>
+                     Please choose a landing position for your grenade or select
+                     a grenade to see all possible lineups
+                  </p>
+               </>
             ) : selectedDot && !selectedAbility ? (
                <p>Showing all lineups for {selectedDot}</p>
             ) : !selectedDot && selectedAbility ? (

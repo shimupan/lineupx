@@ -24,6 +24,7 @@ export { default as AdminCheck } from './Pages/admin/AdminCheck';
 export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
 export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
 export { default as PageNotFound } from './Pages/auth/PageNotFound';
+export { default as SearchResults } from './Pages/SearchResults/SearchResults';
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';

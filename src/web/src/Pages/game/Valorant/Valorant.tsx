@@ -142,6 +142,7 @@ const Valorant: React.FC = () => {
                      onSearch={handleSearch}
                      placeholder="Search for Valorant Lineups"
                      suggestions={suggestions}
+                     game={"Valorant"}
                   />
                </div>
                <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
@@ -150,6 +151,9 @@ const Valorant: React.FC = () => {
                   </div>
                </div>
                {/* TODO: STYLING BELOW */}
+               <h1 className="text-3xl font-bold text-center mt-10">
+                  Recently Uploaded Lineups
+               </h1>
                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
                   {(searchTerm === '' ? posts.slice(0, 10) : filteredPosts).map(
                      (post) => (

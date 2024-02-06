@@ -6,7 +6,7 @@ import {
    Dot,
    GrenadeSelection,
 } from '../../../Components';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
 
@@ -42,6 +42,7 @@ const mapRadars = [
 
 const CS2Lineups: React.FC = () => {
    const Auth = useContext(AuthContext);
+   const navigate = useNavigate();
    const { mapName } = useParams<{ mapName: string }>();
    const [mapImage, setMapImage] = useState('');
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -81,7 +82,9 @@ const CS2Lineups: React.FC = () => {
             ? setComplementCoordinates([])
             : setComplementCoordinates([]);
       }
-      if (activeButton) {
+      if (activeButton && selectedDot) {
+         return;
+      } else if (activeButton) {
          getPostByGrenade(activeButton, 'CS2', mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
@@ -89,8 +92,7 @@ const CS2Lineups: React.FC = () => {
             .catch((error) => {
                console.error(error);
             });
-      }
-      if (selectedDot) {
+      } else if (selectedDot) {
          getPostByCoordinate(selectedDot, 'CS2', mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
@@ -107,18 +109,64 @@ const CS2Lineups: React.FC = () => {
          <SideNavWrapper />
          <div className="text-center pt-12">
             {!selectedDot && !activeButton ? (
-               <p>
-                  Please choose a landing position for your grenade or select a
-                  grenade to see all possible lineups
-               </p>
+               <>
+                  <p>
+                     Please choose a landing position for your grenade or select
+                     a grenade to see all possible lineups
+                  </p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(`/search/CS2/${mapName}?filter=map`)
+                     }
+                  >
+                     Expanded Posts for {mapName}
+                  </button>
+               </>
             ) : selectedDot && !activeButton ? (
-               <p>Showing all lineups for {selectedDot}</p>
+               <>
+                  <p>Showing all lineups for {selectedDot}</p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(
+                           `/search/CS2/${selectedDot}+${mapName}?filter=location`,
+                        )
+                     }
+                  >
+                     Expanded Posts for {selectedDot}
+                  </button>
+               </>
             ) : !selectedDot && activeButton ? (
-               <p>Showing all lineups for {activeButton}</p>
+               <>
+                  <p>Showing all lineups for {activeButton}</p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(
+                           `/search/CS2/${activeButton}+${mapName}?filter=utility`,
+                        )
+                     }
+                  >
+                     Expanded Posts for {activeButton}
+                  </button>
+               </>
             ) : (
-               <p>
-                  Showing all lineups for {selectedDot} {activeButton}
-               </p>
+               <>
+                  <p>
+                     Showing all lineups for {selectedDot} {activeButton}
+                  </p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(
+                           `/search/CS2/${selectedDot}+${activeButton}+${mapName}?filter=all`,
+                        )
+                     }
+                  >
+                     Expanded Posts for {selectedDot} {activeButton}
+                  </button>
+               </>
             )}
          </div>
          <div className="flex flex-1">
