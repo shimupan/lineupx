@@ -84,7 +84,7 @@ const ProfilePage = () => {
                <div>
                   <div className="bg-gradient-to-r from-purple-900 via-blue-700 to-cyan-400 h-[300px] flex justify-center relative">
                      <div className="w-full h-[200px] flex flex-col justify-center items-center">
-                        {!verified && (
+                        {Auth?.accessToken && !verified && (
                            <div
                               className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-4 rounded-md"
                               role="alert"
