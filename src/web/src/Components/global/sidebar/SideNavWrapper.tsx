@@ -6,6 +6,7 @@ import { MdOutlineSettings, MdHome } from 'react-icons/md';
 import { RiAdminFill } from 'react-icons/ri';
 import cs2Logo from '../../../assets/cs2logo.webp';
 import valorantLogo from '../../../assets/valorantlogo.webp';
+import questionMark from '../../../assets/svg/questionmark.svg';
 
 type SideNavWrapperProps = {
    className?: string;
@@ -59,6 +60,12 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                   active={activeItem === '/user/ooccupate'}
                   onClick={() => handleClick('/user/ooccupate')}
                   alert
+               />
+               <SideNavItems
+                  icon={<img src={questionMark} alt="About" width={25} />}
+                  text="About"
+                  active={activeItem === '/about'}
+                  onClick={() => handleClick('/about')}
                />
             </SideNav>
          </div>

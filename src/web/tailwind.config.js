@@ -19,6 +19,9 @@ module.exports = {
         track: 'rgba(0, 0, 0, 0.1)', 
         thumb: 'rgba(0, 0, 0, 0.4)', 
       },
+      spacing: {
+        '64': '16rem', 
+      },
     },
   },
   module: {

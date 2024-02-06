@@ -47,7 +47,7 @@ const ValorantLineups: React.FC = () => {
       agentName: string;
       mapName: string;
    }>();
-
+   const [isMapLoaded, setIsMapLoaded] = useState(false);
    const handleAbilityClick = (
       ability: ValorantAgent['data'][0]['abilities'][0],
    ) => {
@@ -155,7 +155,7 @@ const ValorantLineups: React.FC = () => {
                </p>
             )}
          </div>
-         <div className="flex flex-1 h-screen">
+         <div className="flex flex-1">
             <div className="flex-1 flex flex-col">
                <div className="flex justify-center items-center">
                   <div className="flex flex-col sm:flex-row justify-center items-center">
@@ -180,6 +180,7 @@ const ValorantLineups: React.FC = () => {
                                        console.log(
                                           `Image dimensions: ${width}x${height}`,
                                        );
+                                       setIsMapLoaded(true);
                                     }}
                                     style={{
                                        width: isMobile ? '100%' : '1000',
@@ -188,7 +189,7 @@ const ValorantLineups: React.FC = () => {
                                        display: 'block',
                                     }}
                                  />
-                                 {!selectedAbility &&
+                                 {isMapLoaded && !selectedAbility &&
                                     complementCoordinates &&
                                     coordinates.map((coordinate, index) => (
                                        <Dot
@@ -201,7 +202,7 @@ const ValorantLineups: React.FC = () => {
                                     ))}
                               </div>
                            ))}
-                        {selectedAbility
+                        {isMapLoaded && selectedAbility
                            ? complementCoordinates
                                 .filter(
                                    (coordinate) =>

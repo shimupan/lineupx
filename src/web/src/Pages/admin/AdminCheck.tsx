@@ -57,14 +57,14 @@ const AdminCheck: React.FC = () => {
       <>
          <Header />
          <SideNavWrapper />
-         <div className="ml-20 font-extrabold text-4xl">
-            Click on a Post to Expand and View the Images.
+         <div className="ml-2 sm:ml-10 md:ml-20 font-extrabold text-xl sm:text-3xl md:text-4xl mb-4">
+            Click on a Post to expand and view the images.
          </div>
-         <div className="flex flex-col overflow-x-auto ml-20">
-            <div className="sm:-mx-6 lg:-mx-8">
+         <div className="flex flex-col overflow-x-auto ml-2 sm:ml-10 md:ml-20">
+            <div className="-mx-2 sm:-mx-6 lg:-mx-8">
                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                   <div className="overflow-x-auto">
-                     <table className="min-w-full text-left text-sm font-light pl-32">
+                     <table className="min-w-full text-left text-xs sm:text-sm md:text-base font-light pl-2 sm:pl-16 md:pl-32">
                         <thead className="border-b font-medium dark:border-neutral-500">
                            <tr>
                               <th
