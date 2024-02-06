@@ -15,6 +15,7 @@ type SideNavProps = {
 export const SideNavContext = createContext<boolean>(true);
 const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const Auth = useContext(AuthContext);
+   console.log(Auth?.ProfilePicture);
    const navigate = useNavigate();
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
@@ -102,9 +103,13 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                >
                   <Link to={`/user/${Auth?.username ? Auth?.username : 1}`}>
                      <img
-                        src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
-                           Auth?.username ? Auth?.username : 'Guest'
-                        }`}
+                        src={
+                           Auth?.ProfilePicture
+                           ? Auth?.ProfilePicture
+                           : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
+                              Auth?.username ? Auth?.username : 'Guest'
+                             }`
+                        }
                         className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
                      />
                   </Link>
