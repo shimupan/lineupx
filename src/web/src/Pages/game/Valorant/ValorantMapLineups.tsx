@@ -47,7 +47,7 @@ const ValorantLineups: React.FC = () => {
       agentName: string;
       mapName: string;
    }>();
-
+   const [isMapLoaded, setIsMapLoaded] = useState(false);
    const handleAbilityClick = (
       ability: ValorantAgent['data'][0]['abilities'][0],
    ) => {
@@ -102,7 +102,9 @@ const ValorantLineups: React.FC = () => {
             ? setComplementCoordinates([])
             : setComplementCoordinates([]);
       }
-      if (selectedAbility) {
+      if (selectedAbility && selectedDot) {
+         return;
+      } else if (selectedAbility) {
          getPostByGrenade(
             selectedAbility.displayName,
             'Valorant',
@@ -114,9 +116,13 @@ const ValorantLineups: React.FC = () => {
             .catch((error) => {
                console.error(error);
             });
-      }
-      if (selectedDot) {
-         getPostByCoordinate(selectedDot, 'Valorant', mapName!.toLowerCase(), agentName)
+      } else if (selectedDot) {
+         getPostByCoordinate(
+            selectedDot,
+            'Valorant',
+            mapName!.toLowerCase(),
+            agentName,
+         )
             .then((coords) => {
                setComplementCoordinates(coords);
             })
@@ -132,10 +138,12 @@ const ValorantLineups: React.FC = () => {
          <SideNavWrapper />
          <div className="text-center pt-12">
             {!selectedDot && !selectedAbility ? (
-               <p>
-                  Please choose a landing position for your grenade or select a
-                  grenade to see all possible lineups
-               </p>
+               <>
+                  <p>
+                     Please choose a landing position for your grenade or select
+                     a grenade to see all possible lineups
+                  </p>
+               </>
             ) : selectedDot && !selectedAbility ? (
                <p>Showing all lineups for {selectedDot}</p>
             ) : !selectedDot && selectedAbility ? (
@@ -147,7 +155,7 @@ const ValorantLineups: React.FC = () => {
                </p>
             )}
          </div>
-         <div className="flex flex-1 h-screen">
+         <div className="flex flex-1">
             <div className="flex-1 flex flex-col">
                <div className="flex justify-center items-center">
                   <div className="flex flex-col sm:flex-row justify-center items-center">
@@ -172,6 +180,7 @@ const ValorantLineups: React.FC = () => {
                                        console.log(
                                           `Image dimensions: ${width}x${height}`,
                                        );
+                                       setIsMapLoaded(true);
                                     }}
                                     style={{
                                        width: isMobile ? '100%' : '1000',
@@ -180,7 +189,7 @@ const ValorantLineups: React.FC = () => {
                                        display: 'block',
                                     }}
                                  />
-                                 {!selectedAbility &&
+                                 {isMapLoaded && !selectedAbility &&
                                     complementCoordinates &&
                                     coordinates.map((coordinate, index) => (
                                        <Dot
@@ -193,7 +202,7 @@ const ValorantLineups: React.FC = () => {
                                     ))}
                               </div>
                            ))}
-                        {selectedAbility
+                        {isMapLoaded && selectedAbility
                            ? complementCoordinates
                                 .filter(
                                    (coordinate) =>

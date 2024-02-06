@@ -2,6 +2,7 @@
 export { default as ProfilePage } from './Pages/user/ProfilePage';
 export { default as Page } from './Pages/Page';
 export { default as Valorant } from './Pages/game/Valorant/Valorant';
+export { default as About } from './Pages/About';
 export { default as CS2 } from './Pages/game/CS2/CS2';
 export { default as Login } from './Pages/auth/Login';
 export { default as Register } from './Pages/auth/Register';
@@ -23,6 +24,7 @@ export { default as AdminCheck } from './Pages/admin/AdminCheck';
 export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
 export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
 export { default as PageNotFound } from './Pages/auth/PageNotFound';
+export { default as SearchResults } from './Pages/SearchResults/SearchResults';
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';

@@ -26,6 +26,8 @@ import {
    AdminModifyUser,
    AdminModifyPost,
    PageNotFound,
+   SearchResults,
+   About,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -157,8 +159,10 @@ function App() {
                      path="/game/cs2/lineups/:mapName"
                      element={<CS2Maps />}
                   ></Route>
+                  <Route path="/search/:game/:query" element={<SearchResults />}></Route>
                   <Route path="/user/:id" element={<ProfilePage />}></Route>
                   <Route path="/game/:game/:id" element={<PostPage />}></Route>
+                  <Route path="/about" element={<About />}></Route>
                   {/* Auth Routes */}
                   <Route path="/register" element={<Register />}></Route>
                   <Route path="/login" element={<Login />}></Route>

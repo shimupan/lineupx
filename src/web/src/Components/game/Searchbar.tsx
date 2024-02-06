@@ -1,12 +1,14 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Fuse from 'fuse.js';
 
 interface SearchBarProps {
    onSearch: (searchTerm: string) => void;
+   game: string;
    placeholder: string;
    className?: string;
    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-   suggestions: string[]; // Add this prop for the autocomplete suggestions
+   suggestions: string[];
 }
 
 const SearchBar = ({
@@ -15,11 +17,12 @@ const SearchBar = ({
    className = '',
    onChange,
    suggestions,
+   game,
 }: SearchBarProps) => {
    const [searchTerm, setSearchTerm] = useState('');
    const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
    const [isFocused, setIsFocused] = useState(false);
-
+   const navigate = useNavigate();
    const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
       onSearch(searchTerm);
@@ -120,6 +123,11 @@ const SearchBar = ({
                onChange={handleChange}
                onFocus={handleFocus}
                onBlur={handleBlur}
+               onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                     navigate(`/search/${game}/${searchTerm}`);
+                  }
+               }}
                aria-label="Search"
                className="flex-grow text-black rounded-full focus:outline-none text-lg pl-2 pr-10 w-full bg-white"
                autoComplete="on"

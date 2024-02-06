@@ -20,10 +20,22 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
    const location = useLocation();
+   const approved = Auth?.role === 'admin';
    const isSpecialRoute =
       location.pathname.startsWith('/game/Valorant') ||
       location.pathname.startsWith('/game/CS2');
-   const topPosition = isSpecialRoute ? 'top-[90px]' : 'top-[50px]';
+   let topPosition = 'top-[50px]';
+   if (isSpecialRoute) {
+      topPosition = 'top-[90px]';
+   }
+   const isMobile = window.innerWidth <= 768; 
+   if ((location.pathname === '/game/Valorant' || location.pathname === '/game/CS2') && approved && isMobile) {
+      topPosition = 'top-[140px]';
+   }else if (isSpecialRoute && approved && isMobile) {
+      topPosition = 'top-[115px]'; 
+   }else if (approved && isMobile){
+      topPosition = 'top-[75px]';
+   }
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token

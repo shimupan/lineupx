@@ -35,7 +35,7 @@ const Dot: React.FC<DotProps> = ({
          ? coordinate.x * (screenWidth / 2100)
          : coordinate.x / 2.95;
    } else {
-      top = isMobile ? coordinate.y * (screenHeight / 4500) : coordinate.y / 3;
+      top = isMobile ? coordinate.y * (screenHeight / 4200) : coordinate.y / 3;
       left = isMobile
          ? coordinate.x * (screenWidth / 2100)
          : coordinate.x / 2.95;
