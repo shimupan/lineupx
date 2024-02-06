@@ -112,11 +112,6 @@ router.post('/user/:id/pfp', (req, res) => {
 
       const file = files.image; // Ensure the key 'image' matches your client-side form
 
-      if (!file.type.startsWith('image/')) {
-         res.status(400).json({ error: 'Uploaded file is not an image' });
-         return;
-      }
-
       // Check if the file exists
       if (!file) {
          return res.status(400).send('No file uploaded');
