@@ -63,7 +63,14 @@ router.get('/post/:game', (req, res) => {
             res.send(err);
          });
    } else if (search) {
-      PostData.find({ postTitle: { $regex: search, $options: 'i' }, approved: true })
+      const reg = new RegExp(search.split(' ').join('.*'), 'i');
+      PostData.find({
+         $or: [
+            { postTitle: { $regex: reg } },
+            { mapName: { $regex: reg } },
+         ],
+         approved: true,
+      })
          .skip((page - 1) * pageSize)
          .limit(pageSize)
          .then((data) => {

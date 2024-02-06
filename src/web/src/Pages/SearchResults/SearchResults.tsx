@@ -17,7 +17,6 @@ export const SearchResults = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
 
    useEffect(() => {
-      if (filter === null) return;
       if (filter) {
          if (filter === 'map') {
             getPostByMap(game!, query!)
@@ -79,7 +78,8 @@ export const SearchResults = () => {
          }
       } else {
          // normal search
-         axios.get(`/post/CS2?page=1&${query}`).then((res) => {
+         console.log("searching")
+         axios.get(`/post/CS2?page=1&search=${query}`).then((res) => {
             setPosts(res.data);
          });
       }
