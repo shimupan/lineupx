@@ -192,7 +192,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   'Unknown'
                )}
             </div>
-            <div className="post-container w-80 h-48 relative overflow-hidden">
+            <div className="post-container w-full h-48 relative overflow-hidden">
                <img
                   className="w-full h-full object-cover cursor-pointer"
                   src={`${CDN_URL}/${postData.landingPosition.public_id}`}

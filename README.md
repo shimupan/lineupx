@@ -46,17 +46,19 @@ Frontend
 
 Backend
 
-* Express
-* MongoDB
+* ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
+* ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge)
+* ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## About Us
 
-We are an community driven, open-sourced project built to help new and experienced players alike to understand games better by providing an easy way to view and upload lineups. We will support multiple games in the future and provide our community with more game knowledge.
+We are a community-driven, open-source project built to help new and experienced players alike understand FPS games better by providing an easy way to view and upload lineups. Currently, we only support CS2 and Valorant, but plan on supporting multiple games in the future.
 
-For Developers, please read <a href="./docs/contributing/CONTRIBUTING.md">CONTRIBUTING</a> to learn how to setup a local copy and start contributing!
+For Developers, please read <a href="./docs/contributing/CONTRIBUTING.md">CONTRIBUTING</a> to learn how to set up a local copy and start contributing!
     
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -77,7 +79,7 @@ Profile Page
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the community such an amazing place to learn, inspire, and create. We are open sourced so any contributions you make are **greatly appreciated**. Please read the docs before opening or closing any issues.
+Contributions make the community such an amazing place to learn, inspire, and create. We are open source so any contributions you make are **greatly appreciated**. Please read the docs before opening or closing any issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
