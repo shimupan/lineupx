@@ -2,6 +2,12 @@ import { toast } from 'react-toastify';
 import { StateVariables } from './upload.types';
 import { getUserByUsername } from '../../util/getUser';
 import axios from 'axios';
+import { AxiosError } from 'axios';
+
+
+function isAxiosError(error: unknown): error is AxiosError {
+   return (error as AxiosError).response !== undefined;
+}
 
 export const handleSubmit = async (
    e: React.FormEvent<HTMLFormElement>,
@@ -74,8 +80,14 @@ export const handleSubmit = async (
          hideProgressBar: false,
       });
    } catch (error) {
+      let errorMessage = 'Post Failed to Upload...';
+      if (isAxiosError(error) && error.response && error.response.status === 429) {
+         if (typeof error.response.data === 'string') {
+            errorMessage = error.response.data;
+         }
+      }
       toast.update(id, {
-         render: 'Post Failed to Upload...',
+         render: errorMessage,
          type: 'error',
          isLoading: false,
          autoClose: 1000,

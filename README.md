@@ -16,7 +16,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/shimupan">
-    <img src="src/web/src/assets/lineupx.png" alt="Logo" width="60%" height="60%" />
+    <img src="src/web/src/assets/lineupx_blackbox.webp" alt="Logo" width="60%" height="60%" />
   </a>
 
   <h3 align="center">LineupX</h3>
@@ -56,9 +56,14 @@ Backend
 <!-- GETTING STARTED -->
 ## About Us
 
-We are a community-driven, open-source project built to help new and experienced players alike understand FPS games better by providing an easy way to view and upload lineups. Currently, we only support CS2 and Valorant, but plan on supporting multiple games in the future.
++ We are a community-driven, open-source project built to help new and experienced players alike understand FPS games better by providing an easy way to view and upload lineups. Currently, we only support CS2 and Valorant, but plan on supporting multiple games in the future.
++ Our mission is to provide a platform where gamers can learn and share lineups rapidly. Normally when you want to learn a lineup you would have to watch a video or read a guide, but with LineupX you can learn them in three pictures. We believe that by using three pictures (where you stand to throw the lineup, crosshair placement, and where the lineup lands) players can learn lineups faster.
 
 For Developers, please read <a href="./docs/contributing/CONTRIBUTING.md">CONTRIBUTING</a> to learn how to set up a local copy and start contributing!
+
+## What is a Lineup?
+
+The "definition of a lineup" is a set of instructions that a player follows to throw a grenade. They are used in many FPS games such as Counter-Strike: Global Offensive (CS:GO), Valorant, and Overwatch. Players often learn lineups because they provide a competitive edge. These strategies involve deploying utilities like smokes, molotovs, and flashbangs. The purpose behind such tactics includes obstructing the opponent's vision, clearing contested areas, and securing control over key parts of the map.
     
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

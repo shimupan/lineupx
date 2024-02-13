@@ -44,8 +44,23 @@ const About: React.FC = () => {
                   lineup you would have to watch a video or read a guide, but
                   with LineupX you can learn them in three pictures. We believe
                   that by using three pictures (where you stand to throw the
-                  lineup, crosshair placement, and where the lineup lands) players
-                  can learn lineups faster. 
+                  lineup, crosshair placement, and where the lineup lands)
+                  players can learn lineups faster.
+               </p>
+
+               <h1 className="text-4xl font-bold text-blue-500 mb-4">
+                  What is a Lineup?
+               </h1>
+               <p className="mb-4">
+                  The "definition of a lineup" is a set of instructions that a
+                  player follows to throw a grenade. They are used in many FPS
+                  games such as Counter-Strike: Global Offensive (CS:GO),
+                  Valorant, and Overwatch. Players often learn lineups
+                  because they provide a competitive edge. These strategies
+                  involve deploying utilities like smokes, molotovs, and
+                  flashbangs. The purpose behind such tactics
+                  includes obstructing the opponent's vision, clearing contested
+                  areas, and securing control over key parts of the map
                </p>
             </div>
          </div>
