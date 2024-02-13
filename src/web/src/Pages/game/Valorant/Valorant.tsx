@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
@@ -20,7 +20,8 @@ const Valorant: React.FC = () => {
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
    const [suggestions, setSuggestions] = useState<string[]>([]);
-
+   console.log(filteredPosts);
+   console.log(searchTerm);
    useEffect(() => {
       document.title = 'Valorant';
 
@@ -142,7 +143,7 @@ const Valorant: React.FC = () => {
                      onSearch={handleSearch}
                      placeholder="Search for Valorant Lineups"
                      suggestions={suggestions}
-                     game={"Valorant"}
+                     game={'Valorant'}
                   />
                </div>
                <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
@@ -151,18 +152,16 @@ const Valorant: React.FC = () => {
                   </div>
                </div>
                {/* TODO: STYLING BELOW */}
-               <h1 className="text-3xl font-bold text-center mt-10">
-                  Recently Uploaded Lineups
+               <h1 className="text-3xl font-bold text-center mt-10 mb-5">
+                  Recently added Lineups
                </h1>
-               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
-                  {(searchTerm === '' ? posts.slice(0, 10) : filteredPosts).map(
-                     (post) => (
-                        <div key={post.landingPosition.public_id}>
-                           <Posts postData={post} />
-                        </div>
-                     ),
-                  )}
-               </div>
+               <article className="ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+                  {posts.map((post) => (
+                     <React.Fragment key={post.landingPosition.public_id}>
+                        <Posts postData={post} />
+                     </React.Fragment>
+                  ))}
+               </article>
             </main>
             <Footer className="mt-auto" />
          </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
@@ -19,7 +19,7 @@ const CS2: React.FC = () => {
    const [searchTerm, setSearchTerm] = useState('');
    */
    const [suggestions, setSuggestions] = useState<string[]>([]);
-   
+
    useEffect(() => {
       document.title = 'CS2';
 
@@ -58,7 +58,7 @@ const CS2: React.FC = () => {
       fetchData();
       return () => {};
    }, []);
-   
+
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
       /*
@@ -104,7 +104,7 @@ const CS2: React.FC = () => {
                   onSearch={handleSearch}
                   placeholder="Search for CS2 Lineups"
                   suggestions={suggestions}
-                  game={"CS2"}
+                  game={'CS2'}
                />
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
@@ -113,16 +113,16 @@ const CS2: React.FC = () => {
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
-            <h1 className="text-3xl font-bold text-center mt-10">
+            <h1 className="text-3xl font-bold text-center mt-10 mb-5">
                Recently added Lineups
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
-               {(posts).map((post) => (
-                  <div key={post.landingPosition.public_id}>
+            <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+               {posts.map((post) => (
+                  <React.Fragment key={post.landingPosition.public_id}>
                      <Posts postData={post} />
-                  </div>
+                  </React.Fragment>
                ))}
-            </div>
+            </article>
          </main>
          <Footer className="mt-auto" />
       </div>
