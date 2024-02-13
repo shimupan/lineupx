@@ -20,7 +20,7 @@ const router = express.Router();
 
 /////////////////////////////////////////////////////////////////////////////
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', rateLimit, async (req, res, next) => {
    const { email, password } = req.body;
 
    try {

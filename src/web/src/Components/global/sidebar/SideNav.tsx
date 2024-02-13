@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import axios from 'axios';
@@ -15,7 +15,6 @@ type SideNavProps = {
 export const SideNavContext = createContext<boolean>(true);
 const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const Auth = useContext(AuthContext);
-   console.log(Auth?.ProfilePicture);
    const navigate = useNavigate();
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
@@ -36,6 +35,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    }else if (approved && isMobile){
       topPosition = 'top-[75px]';
    }
+   
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -53,6 +53,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
             Auth.setRefreshToken('');
             Auth.setUsername('');
             Auth.setEmail('');
+            Auth.setProfilePicture(''); 
          }
 
          // Navigate to the login or home page after logout
@@ -62,6 +63,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
       }
    };
 
+   useEffect(() => {
+      // This will cause a re-render whenever Auth changes
+   }, [Auth]);
    return (
       <>
          <aside
