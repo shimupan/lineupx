@@ -135,7 +135,7 @@ router.post('/user/:id/pfp', (req, res) => {
             .upload(newPath, {
                folder: 'profile_pictures',
                transformation: [
-                  { width: 64, height: 64, crop: 'fill', gravity: 'auto' },
+                  { width: 500, height: 500, crop: 'fill', gravity: 'auto' },
                ],
             })
             .then((uploadResponse) => {
