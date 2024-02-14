@@ -27,6 +27,7 @@ const Header: React.FC = () => {
             Auth.setRefreshToken('');
             Auth.setUsername('');
             Auth.setEmail('');
+            Auth.setProfilePicture(''); 
          }
 
          // Navigate to the login or home page after logout

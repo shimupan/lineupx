@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import axios from 'axios';
@@ -19,10 +19,23 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
    const location = useLocation();
+   const approved = Auth?.role === 'admin';
    const isSpecialRoute =
       location.pathname.startsWith('/game/Valorant') ||
       location.pathname.startsWith('/game/CS2');
-   const topPosition = isSpecialRoute ? 'top-[90px]' : 'top-[50px]';
+   let topPosition = 'top-[50px]';
+   if (isSpecialRoute) {
+      topPosition = 'top-[90px]';
+   }
+   const isMobile = window.innerWidth <= 768; 
+   if ((location.pathname === '/game/Valorant' || location.pathname === '/game/CS2') && approved && isMobile) {
+      topPosition = 'top-[140px]';
+   }else if (isSpecialRoute && approved && isMobile) {
+      topPosition = 'top-[115px]'; 
+   }else if (approved && isMobile){
+      topPosition = 'top-[75px]';
+   }
+   
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -40,6 +53,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
             Auth.setRefreshToken('');
             Auth.setUsername('');
             Auth.setEmail('');
+            Auth.setProfilePicture(''); 
          }
 
          // Navigate to the login or home page after logout
@@ -49,6 +63,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
       }
    };
 
+   useEffect(() => {
+      // This will cause a re-render whenever Auth changes
+   }, [Auth]);
    return (
       <>
          <aside
@@ -90,9 +107,13 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                >
                   <Link to={`/user/${Auth?.username ? Auth?.username : 1}`}>
                      <img
-                        src={`https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
-                           Auth?.username ? Auth?.username : 'Guest'
-                        }`}
+                        src={
+                           Auth?.ProfilePicture
+                           ? Auth?.ProfilePicture
+                           : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
+                              Auth?.username ? Auth?.username : 'Guest'
+                             }`
+                        }
                         className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
                      />
                   </Link>

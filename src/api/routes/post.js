@@ -34,15 +34,59 @@ router.get('/post/:game/:id', (req, res) => {
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
+   const page = Number(req.query.page) || 1;
+   const recent = req.query.recent || false;
+   const map = req.query.map || null;
+   const search = req.query.search || null;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
-   PostData.find({ approved: true })
-      .then((data) => {
-         res.send(data);
+   const pageSize = 20;
+   if (recent) {
+      PostData.find({ approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (map) {
+      const parsedMap = map.replace(/\s/g, '').toLowerCase();
+      PostData.find({ mapName: parsedMap, approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else if (search) {
+      const reg = new RegExp(search.split(' ').join('.*'), 'i');
+      PostData.find({
+         $or: [{ postTitle: { $regex: reg } }, { mapName: { $regex: reg } }],
+         approved: true,
       })
-      .catch((err) => {
-         res.send(err);
-      });
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else {
+      PostData.find({ approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   }
 });
 
 // Allow authorized users to get all unapproved posts
@@ -461,5 +505,7 @@ router.get('/grenade/:map/:game/:grenade', async (req, res) => {
          });
    }
 });
+
+// returns all post for a specific map
 
 export default router;

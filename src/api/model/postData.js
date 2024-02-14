@@ -99,6 +99,10 @@ const PostDataSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
    },
+   date: {
+      type: Date,
+      default: Date.now,
+   },
    valorantAgent: {
       type: String,
       required: function () {

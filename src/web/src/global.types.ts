@@ -5,6 +5,7 @@ export type UserType = {
    email: string;
    password: string;
    Verified: boolean;
+   ProfilePicture: string;
 };
 
 export type PostType = {
@@ -45,6 +46,7 @@ export type PostType = {
    game: string;
    valorantAgent: string;
    ability: string;
+   date: string;
 };
 
 export type ValorantAgent = {

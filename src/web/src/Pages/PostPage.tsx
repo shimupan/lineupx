@@ -65,8 +65,8 @@ const PostPage = () => {
             (post: PostType) => post._id === postData._id,
          );
          if (specificPost) {
-            comments.sort(
-               (a, b) =>
+            specificPost.comments.sort(
+               (a: any, b: any) =>
                   new Date(b.createdAt).getTime() -
                   new Date(a.createdAt).getTime(),
             );
@@ -93,8 +93,16 @@ const PostPage = () => {
                user: user_Id,
                post: postData._id,
             });
-            setComments([...comments, response.data]);
-            setUserComments([...userComments, userResponse.data]);
+
+            const newCommentWithDate = {
+               ...response.data,
+               createdAt: new Date(),
+               username: Auth?.username,
+               text: newComment,
+            };
+
+            setComments([newCommentWithDate, ...comments]);
+            setUserComments([userResponse.data, ...userComments]);
             setNewComment('');
          } catch (error) {
             console.error('Error posting comment:', error);
@@ -215,7 +223,7 @@ const PostPage = () => {
                         style={{
                            minHeight: '100px',
                            maxHeight: '200px',
-                           width: '300px',
+                           width: '800px',
                         }}
                      ></textarea>
                      <button
@@ -233,7 +241,7 @@ const PostPage = () => {
                   className="comments-list"
                   style={{
                      maxHeight: '500px',
-                     maxWidth: '800px',
+                     maxWidth: '1000px',
                      overflowY: 'auto',
                      overflowX: 'hidden',
                   }}

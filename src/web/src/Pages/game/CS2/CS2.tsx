@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
@@ -14,8 +14,10 @@ import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
+   /*
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
+   */
    const [suggestions, setSuggestions] = useState<string[]>([]);
 
    useEffect(() => {
@@ -24,7 +26,7 @@ const CS2: React.FC = () => {
       // Function to fetch data
       const fetchData = () => {
          axios
-            .get('/post/CS2')
+            .get('/post/CS2?page=1?recent=true')
             .then((res) => {
                setPosts(res.data);
                const titles = res.data.map((post: PostType) => post.postTitle);
@@ -58,6 +60,8 @@ const CS2: React.FC = () => {
    }, []);
 
    const handleSearch = (value: string) => {
+      value = value.toLowerCase();
+      /*
       setSearchTerm(value);
       let filtered = posts;
 
@@ -76,6 +80,7 @@ const CS2: React.FC = () => {
       }
 
       setFilteredPosts(filtered);
+      */
    };
 
    return (
@@ -99,6 +104,7 @@ const CS2: React.FC = () => {
                   onSearch={handleSearch}
                   placeholder="Search for CS2 Lineups"
                   suggestions={suggestions}
+                  game={'CS2'}
                />
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
@@ -107,16 +113,16 @@ const CS2: React.FC = () => {
                </div>
             </div>
             {/* TODO: STYLING BELOW */}
-
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
-               {(searchTerm === '' ? posts.slice(0, 10) : filteredPosts).map(
-                  (post) => (
-                     <div key={post.landingPosition.public_id}>
-                        <Posts postData={post} />
-                     </div>
-                  ),
-               )}
-            </div>
+            <h1 className="text-3xl font-bold text-center mt-10 mb-5">
+               Recently added Lineups
+            </h1>
+            <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+               {posts.map((post) => (
+                  <React.Fragment key={post.landingPosition.public_id}>
+                     <Posts postData={post} />
+                  </React.Fragment>
+               ))}
+            </article>
          </main>
          <Footer className="mt-auto" />
       </div>

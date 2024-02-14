@@ -1,18 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import { PostType, ValorantAgent } from '../../global.types';
+import { useNavigate, Link } from 'react-router-dom';
+import { PostType, UserType, ValorantAgent } from '../../global.types';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../App';
+import { timeAgo } from './helper';
 
 import decoy from '../../assets/svg/decoy.svg';
 import smoke from '../../assets/svg/smoke.svg';
 import molotov from '../../assets/svg/molotov.svg';
 import he from '../../assets/svg/he.svg';
 import flash from '../../assets/svg/flash.svg';
+/*
 import views from '../../assets/svg/views.svg';
 import like from '../../assets/svg/like.svg';
 import dislike from '../../assets/svg/dislike.svg';
+*/
+import { getUserByID } from '../../util/getUser';
+
+import { FaCheckCircle } from 'react-icons/fa';
 
 interface PostsProps {
    postData: PostType;
@@ -27,6 +33,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    const [valorantAgents, setValorantAgents] = useState<ValorantAgent['data']>(
       [],
    );
+   const [user, setUser] = useState<UserType>();
    const navigate = useNavigate();
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
@@ -37,6 +44,9 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
          .then((response) => {
             setValorantAgents(response.data.data);
          });
+      getUserByID(postData.UserID).then((response) => {
+         setUser(response);
+      });
    }, []);
 
    const valorantAgentIcon = valorantAgents.find(
@@ -91,7 +101,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             // Handle error
          });
    };
-
+   /*
    const incrementLikeCount = async () => {
       axios
          .post(`/post/${postData._id}/increment-like`, {
@@ -117,84 +127,14 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             // Handle error
          });
    };
+   */
 
    return (
       <>
-         <div className="max-w-full my-5 p-4 border rounded-lg shadow-sm bg-white overflow-hidden">
-            <div className="text-center text-sm text-gray-600">
-               By: {postData.Username}
-            </div>
-
-            <div className="svg-container relative text-sm text-gray-600">
-               {postData.game === 'Valorant' ? (
-                  <>
-                     <Tooltip text={postData.ability}>
-                        <img
-                           className="svg-icon absolute top-0 w-4 h-4 mt-[-25px] object-contain"
-                           style={{ right: '20px', filter: 'brightness(0)' }}
-                           src={abilityIcon}
-                           alt={postData.ability}
-                        />
-                     </Tooltip>
-                     <Tooltip text={postData.valorantAgent}>
-                        <img
-                           className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                           src={valorantAgentIcon}
-                           alt={postData.valorantAgent}
-                        />
-                     </Tooltip>
-                  </>
-               ) : postData.grenadeType === 'flash' ? (
-                  <Tooltip text="Flash">
-                     <img
-                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                        src={flash}
-                        alt="Flash"
-                     />
-                  </Tooltip>
-               ) : postData.grenadeType === 'smoke' ? (
-                  <Tooltip text="Smoke">
-                     <img
-                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                        src={smoke}
-                        alt="Smoke"
-                        title="Smoke"
-                     />
-                  </Tooltip>
-               ) : postData.grenadeType === 'molotov' ? (
-                  <Tooltip text="Molotov">
-                     <img
-                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                        src={molotov}
-                        alt="Molotov"
-                        title="Molotov"
-                     />
-                  </Tooltip>
-               ) : postData.grenadeType === 'shock' ? (
-                  <Tooltip text="Decoy">
-                     <img
-                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                        src={decoy}
-                        alt="Decoy"
-                        title="Decoy"
-                     />
-                  </Tooltip>
-               ) : postData.grenadeType === 'he' ? (
-                  <Tooltip text="HE">
-                     <img
-                        className="svg-icon absolute top-0 right-0 w-4 h-4 mt-[-25px]"
-                        src={he}
-                        alt="HE"
-                        title="HE"
-                     />
-                  </Tooltip>
-               ) : (
-                  'Unknown'
-               )}
-            </div>
-            <div className="post-container w-80 h-48 relative overflow-hidden">
+         <div>
+            <div className="relative">
                <img
-                  className="w-full h-full object-cover cursor-pointer"
+                  className="w-full max-h-80 min-w-[250px] min-h-[150px] bg-gray-400 rounded-lg cursor-pointer"
                   src={`${CDN_URL}/${postData.landingPosition.public_id}`}
                   alt={postData.postTitle}
                   onClick={async () => {
@@ -204,43 +144,115 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      });
                   }}
                />
-            </div>
-            <div className="text-center mt-3">
-               <div className="text-lg font-bold text-gray-800">
-                  {postData.postTitle}
+               <div className="">
+                  {postData.game === 'Valorant' ? (
+                     <>
+                        <Tooltip text={postData.ability}>
+                           <img
+                              className="svg-icon absolute top-0 bottom-20 w-8 h-8 mt-[-32px] mr-[20px] filter invert"
+                              style={{ right: '20px' }}
+                              src={abilityIcon}
+                              alt={postData.ability}
+                           />
+                        </Tooltip>
+                        <Tooltip text={postData.valorantAgent}>
+                           <img
+                              className="svg-icon absolute bottom-0 right-0 w-8 h-8 mt-[-25px] "
+                              src={valorantAgentIcon}
+                              alt={postData.valorantAgent}
+                           />
+                        </Tooltip>
+                     </>
+                  ) : postData.grenadeType === 'flash' ? (
+                     <Tooltip text="Flash">
+                        <img
+                           className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
+                           src={flash}
+                           alt="Flash"
+                        />
+                     </Tooltip>
+                  ) : postData.grenadeType === 'smoke' ? (
+                     <Tooltip text="Smoke">
+                        <img
+                           className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
+                           src={smoke}
+                           alt="Smoke"
+                           title="Smoke"
+                        />
+                     </Tooltip>
+                  ) : postData.grenadeType === 'molotov' ? (
+                     <Tooltip text="Molotov">
+                        <img
+                           className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
+                           src={molotov}
+                           alt="Molotov"
+                           title="Molotov"
+                        />
+                     </Tooltip>
+                  ) : postData.grenadeType === 'shock' ? (
+                     <img
+                        className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
+                        src={decoy}
+                        alt="Decoy"
+                        title="Decoy"
+                     />
+                  ) : postData.grenadeType === 'he' ? (
+                     <Tooltip text="HE">
+                        <img
+                           className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
+                           src={he}
+                           alt="HE"
+                           title="HE"
+                        />
+                     </Tooltip>
+                  ) : (
+                     'Unknown'
+                  )}
                </div>
-               <div className="mt-2 text-sm text-gray-600 flex justify-between">
-                  <div className="flex items-center">
-                     <Tooltip text={postData.views.toString()}>
-                        <img
-                           className="svg-icon w-4 h-4 mr-2"
-                           src={views}
-                           alt="Views"
-                        />
+            </div>
+
+            <div className="flex items-start mt-4">
+               <Link to={`/user/${postData.Username}`}>
+                  <img
+                     src={user?.ProfilePicture}
+                     className="mr-3 rounded-full w-9 h-9 bg-gray-400"
+                  />
+               </Link>
+               <div className="flex flex-col">
+                  <Link
+                     className="text-lg font-bold m-0 no-underline"
+                     to={`/game/${postData.game}/${postData.postTitle}`}
+                  >
+                     {postData.postTitle.length > 23
+                        ? `${postData.postTitle.substring(0, 23)}...`
+                        : postData.postTitle}
+                  </Link>
+                  <div className="flex flex-row">
+                     <Tooltip text={postData.Username}>
+                        <Link
+                           className="no-underline m-0 transition-colors duration-150 text-gray-300 hover:text-white"
+                           to={`/user/${postData.Username}`}
+                        >
+                           {postData.Username}
+                        </Link>
                      </Tooltip>
-                     : {postData.views}
+                     {user?.role == 'admin' && (
+                        <Tooltip text={user?.role}>
+                           <span className="flex justify-center items-center ml-1 mt-0.2">
+                              <FaCheckCircle size={13} />
+                           </span>
+                        </Tooltip>
+                     )}
                   </div>
-                  <div className="flex items-center">
-                     <Tooltip text={postData.likes.length.toString()}>
-                        <img
-                           className="svg-icon w-6 h-6 mr-2 cursor-pointer hover:bg-gray-200 rounded-full p-1"
-                           src={like}
-                           alt="Likes"
-                           onClick={incrementLikeCount}
-                        />
-                     </Tooltip>
-                     : {postData.likes.length}
-                  </div>
-                  <div className="flex items-center">
-                     <Tooltip text={postData.dislikes.length.toString()}>
-                        <img
-                           className="svg-icon w-6 h-6 mr-2 cursor-pointer hover:bg-gray-200 rounded-full p-1"
-                           src={dislike}
-                           alt="Dislikes"
-                           onClick={incrementDislikeCount}
-                        />
-                     </Tooltip>
-                     : {postData.dislikes.length}
+
+                  <div>
+                     <span className="text-gray-300">
+                        {postData.views} views
+                     </span>
+                     <span className="ml-1 mr-1 text-gray-300">•</span>
+                     <span className="text-gray-300">
+                        {timeAgo(new Date(postData.date))}
+                     </span>
                   </div>
                </div>
             </div>

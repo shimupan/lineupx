@@ -6,7 +6,7 @@ import {
    Dot,
    GrenadeSelection,
 } from '../../../Components';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
 
@@ -42,6 +42,7 @@ const mapRadars = [
 
 const CS2Lineups: React.FC = () => {
    const Auth = useContext(AuthContext);
+   const navigate = useNavigate();
    const { mapName } = useParams<{ mapName: string }>();
    const [mapImage, setMapImage] = useState('');
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -52,7 +53,7 @@ const CS2Lineups: React.FC = () => {
       Coordinate[]
    >([]);
    const [selectedDot, setSelectedDot] = useState<string>('');
-
+   const [isMapLoaded, setIsMapLoaded] = useState(false);
    // Load all dots
    useEffect(() => {
       const mapObject = mapRadars.find((map) => map.name === mapName);
@@ -81,17 +82,18 @@ const CS2Lineups: React.FC = () => {
             ? setComplementCoordinates([])
             : setComplementCoordinates([]);
       }
-      if (activeButton) {
-         getPostByGrenade(activeButton, "CS2", mapName!)
+      if (activeButton && selectedDot) {
+         return;
+      } else if (activeButton) {
+         getPostByGrenade(activeButton, 'CS2', mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
             })
             .catch((error) => {
                console.error(error);
             });
-      }
-      if (selectedDot) {
-         getPostByCoordinate(selectedDot, "CS2", mapName!)
+      } else if (selectedDot) {
+         getPostByCoordinate(selectedDot, 'CS2', mapName!)
             .then((coords) => {
                setComplementCoordinates(coords);
             })
@@ -107,27 +109,74 @@ const CS2Lineups: React.FC = () => {
          <SideNavWrapper />
          <div className="text-center pt-12">
             {!selectedDot && !activeButton ? (
-               <p>
-                  Please choose a landing position for your grenade or select a
-                  grenade to see all possible lineups
-               </p>
+               <>
+                  <p>
+                     Please choose a landing position for your grenade or select
+                     a grenade to see all possible lineups
+                  </p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(`/search/CS2/${mapName}?filter=map`)
+                     }
+                  >
+                     Expanded Posts for {mapName}
+                  </button>
+               </>
             ) : selectedDot && !activeButton ? (
-               <p>Showing all lineups for {selectedDot}</p>
+               <>
+                  <p>Showing all lineups for {selectedDot}</p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(
+                           `/search/CS2/${selectedDot}+${mapName}?filter=location`,
+                        )
+                     }
+                  >
+                     Expanded Posts for {selectedDot}
+                  </button>
+               </>
             ) : !selectedDot && activeButton ? (
-               <p>Showing all lineups for {activeButton}</p>
+               <>
+                  <p>Showing all lineups for {activeButton}</p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(
+                           `/search/CS2/${activeButton}+${mapName}?filter=utility`,
+                        )
+                     }
+                  >
+                     Expanded Posts for {activeButton}
+                  </button>
+               </>
             ) : (
-               <p>
-                  Showing all lineups for {selectedDot} {activeButton}
-               </p>
+               <>
+                  <p>
+                     Showing all lineups for {selectedDot} {activeButton}
+                  </p>
+                  <button
+                     className="btn mt-1"
+                     onClick={() =>
+                        navigate(
+                           `/search/CS2/${selectedDot}+${activeButton}+${mapName}?filter=all`,
+                        )
+                     }
+                  >
+                     Expanded Posts for {selectedDot} {activeButton}
+                  </button>
+               </>
             )}
          </div>
-         <div className="flex flex-1 h-screen">
+         <div className="flex flex-1">
             <div className="flex-1 flex justify-center items-center">
                <div className="flex flex-col sm:flex-row justify-center items-center">
                   <div className="relative mb-12">
                      <img
                         src={mapImage}
                         alt={mapName}
+                        onLoad={() => setIsMapLoaded(true)}
                         style={{
                            width: isMobile ? '100%' : '1000%',
                            maxWidth: '700px',
@@ -142,7 +191,8 @@ const CS2Lineups: React.FC = () => {
                         3) if there is a selected dot, then show only dots that match the selected dot
                         4) if there is an active button and a selected dot, then show only dots that match both
                      */}
-                     {!activeButton &&
+                     {isMapLoaded &&
+                        !activeButton &&
                         complementCoordinates &&
                         coordinates.map((coordinate, index) => (
                            <Dot
@@ -153,7 +203,7 @@ const CS2Lineups: React.FC = () => {
                               mode="CS2Lineups"
                            />
                         ))}
-                     {activeButton
+                     {isMapLoaded && activeButton
                         ? complementCoordinates
                              .filter(
                                 (coordinate) =>
