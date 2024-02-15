@@ -3,7 +3,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+
+import { FaAngleLeft } from 'react-icons/fa6';
 import { IoLogOut } from 'react-icons/io5';
+import { GiHamburgerMenu } from 'react-icons/gi';
 
 type SideNavProps = {
    children: React.ReactNode;
@@ -74,8 +77,8 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
             className={`${
                expanded ? 'h-full' : ''
             } md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-700`}
-            onMouseEnter={() => setExpanded(true)}
-            onMouseLeave={() => setExpanded(false)}
+            onMouseEnter={() => window.innerWidth > 768 && setExpanded(true)}
+            onMouseLeave={() => window.innerWidth > 768 && setExpanded(false)}
          >
             <nav
                className={`h-full flex flex-col overflow-hidden ${
@@ -93,6 +96,15 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      expanded ? 'justify-end' : ''
                   } items-center`}
                >
+                  <button
+                     className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-black text-2xl block md:hidden"
+                     onClick={() => {
+                        setExpanded((curr) => !curr);
+                        console.log(expanded);
+                     }}
+                  >
+                     {expanded ? <FaAngleLeft /> : <GiHamburgerMenu />}
+                  </button>
                </div>
 
                <div
