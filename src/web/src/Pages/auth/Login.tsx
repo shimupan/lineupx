@@ -55,19 +55,31 @@ const Login: React.FC = () => {
          });
          navigate('/');
       } catch (error) {
-         toast.update(id, {
-            render: 'Failed to Login...',
-            type: 'error',
-            isLoading: false,
-            autoClose: 2000,
-            hideProgressBar: false,
-         });
-         if (axios.isAxiosError(error)) {
-            setLoginError(error.response?.data.message || 'Login failed');
-            console.error('Login error:', error.response?.data);
+         if (axios.isAxiosError(error) && error.response?.status === 429) {
+            toast.update(id, {
+               render:
+                  error.response?.data ||
+                  'Too many login attempts, please try again later.',
+               type: 'error',
+               isLoading: false,
+               autoClose: 2000,
+               hideProgressBar: false,
+            });
          } else {
-            setLoginError('Unexpected error occurred');
-            console.error('Unexpected error:', error);
+            toast.update(id, {
+               render: 'Failed to Login...',
+               type: 'error',
+               isLoading: false,
+               autoClose: 2000,
+               hideProgressBar: false,
+            });
+            if (axios.isAxiosError(error)) {
+               setLoginError(error.response?.data.message || 'Login failed');
+               console.error('Login error:', error.response?.data);
+            } else {
+               setLoginError('Unexpected error occurred');
+               console.error('Unexpected error:', error);
+            }
          }
       }
       if (Auth?.accessToken) {
