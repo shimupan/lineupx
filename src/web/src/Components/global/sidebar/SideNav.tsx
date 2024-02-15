@@ -3,10 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-
-import { FaAngleLeft } from 'react-icons/fa6';
 import { IoLogOut } from 'react-icons/io5';
-import { GiHamburgerMenu } from 'react-icons/gi';
 
 type SideNavProps = {
    children: React.ReactNode;
@@ -27,15 +24,20 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    if (isSpecialRoute) {
       topPosition = 'top-[90px]';
    }
-   const isMobile = window.innerWidth <= 768; 
-   if ((location.pathname === '/game/Valorant' || location.pathname === '/game/CS2') && approved && isMobile) {
+   const isMobile = window.innerWidth <= 768;
+   if (
+      (location.pathname === '/game/Valorant' ||
+         location.pathname === '/game/CS2') &&
+      approved &&
+      isMobile
+   ) {
       topPosition = 'top-[140px]';
-   }else if (isSpecialRoute && approved && isMobile) {
-      topPosition = 'top-[115px]'; 
-   }else if (approved && isMobile){
+   } else if (isSpecialRoute && approved && isMobile) {
+      topPosition = 'top-[115px]';
+   } else if (approved && isMobile) {
       topPosition = 'top-[75px]';
    }
-   
+
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -53,7 +55,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
             Auth.setRefreshToken('');
             Auth.setUsername('');
             Auth.setEmail('');
-            Auth.setProfilePicture(''); 
+            Auth.setProfilePicture('');
          }
 
          // Navigate to the login or home page after logout
@@ -71,7 +73,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
          <aside
             className={`${
                expanded ? 'h-full' : ''
-            } md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-300`}
+            } md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-700`}
+            onMouseEnter={() => setExpanded(true)}
+            onMouseLeave={() => setExpanded(false)}
          >
             <nav
                className={`h-full flex flex-col overflow-hidden ${
@@ -89,15 +93,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      expanded ? 'justify-end' : ''
                   } items-center`}
                >
-                  <button
-                     className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-black text-2xl"
-                     onClick={() => {
-                        setExpanded((curr) => !curr);
-                        console.log(expanded);
-                     }}
-                  >
-                     {expanded ? <FaAngleLeft /> : <GiHamburgerMenu />}
-                  </button>
                </div>
 
                <div
@@ -109,10 +104,10 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      <img
                         src={
                            Auth?.ProfilePicture
-                           ? Auth?.ProfilePicture
-                           : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
-                              Auth?.username ? Auth?.username : 'Guest'
-                             }`
+                              ? Auth?.ProfilePicture
+                              : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
+                                   Auth?.username ? Auth?.username : 'Guest'
+                                }`
                         }
                         className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
                      />
