@@ -146,8 +146,8 @@ const Valorant: React.FC = () => {
                      game={'Valorant'}
                   />
                </div>
-               <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
-                  <div className="w-1/2">
+               <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
+                  <div className="w-full sm:w-3/4 md:w-1/2 ">
                      <Carousel images={VALORANT_MAPS} />
                   </div>
                </div>
