@@ -13,6 +13,7 @@ interface Comment {
    username: string;
    createdAt: Date;
 }
+
 const PostPage = () => {
    const location = useLocation();
    const postData = location.state.postData;
@@ -132,7 +133,7 @@ const PostPage = () => {
          <Header />
 
          <SideNavWrapper />
-
+         {/* <Posts posts={posts} /> 
          <div className="flex flex-col items-center">
             <h1 className="text-2xl font-bold mb-4 pt-3">
                {postData.postTitle}
@@ -264,6 +265,54 @@ const PostPage = () => {
                   ))}
                </div>
             </div>
+         </div>
+         */}
+         <div className="lg:flex">
+            <div className="md:ml-[70px] h-screen lg:w-3/4 bg-black">
+               <div className="h-1/2 lg:h-3/4 object-cover">
+                  <img
+                     src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
+                     alt={postData.postTitle}
+                     className="w-full h-full"
+                  />
+               </div>
+               <div className="flex justify-between w-full">
+                  <button
+                     onClick={() => handleArrowClick('prev')}
+                     className="text-2xl"
+                  >
+                     ←
+                  </button>
+                  <button
+                     onClick={() => handleArrowClick('next')}
+                     className="text-2xl"
+                  >
+                     →
+                  </button>
+               </div>
+               <div className="ml-2 text-lg font-bold">
+                  <p>{postData.postTitle}</p>
+               </div>
+               <div className="flex justify-between ml-2 mr-2">
+                  <div className="flex">
+                     <div className="flex">
+                        <div>
+                           <p>PFP</p>
+                        </div>
+                        <div className='flex flex-col'>
+                           <p>{postData.Username}</p>
+                           <p>Subscribers</p>
+                        </div>
+                     </div>
+                     <div>Follow</div>
+                  </div>
+                  <div className="flex">
+                     <p>Like</p>
+                     <p>Dislike</p>
+                  </div>
+               </div>
+            </div>
+            <div className="h-screen bg-white lg:flex-grow"></div>
          </div>
 
          <Footer />

@@ -134,7 +134,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
          <div>
             <div className="relative">
                <img
-                  className="w-full max-h-80 min-w-[250px] min-h-[150px] bg-gray-400 rounded-lg cursor-pointer"
+                  className="w-[640px] h-[240px] min-w-[250px] min-h-[150px] bg-gray-400 rounded-lg cursor-pointer"
                   src={`${CDN_URL}/${postData.landingPosition.public_id}`}
                   alt={postData.postTitle}
                   onClick={async () => {
