@@ -1,6 +1,5 @@
-// Main page of the app
 import { useContext, useEffect, useRef } from 'react';
-import { Header, Game, Footer, SideNavWrapper } from '../Components';
+import { Header, Game, Footer, SideNavWrapper, BackgroundGradientAnimation } from '../Components';
 import { AuthContext } from '../App';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -23,6 +22,7 @@ const GREETINGS = [
 const Page: React.FC = () => {
    const Auth = useContext(AuthContext);
    const initialRender = useRef(true);
+
    useEffect(() => {
       if (initialRender.current) {
          initialRender.current = false;
@@ -38,18 +38,18 @@ const Page: React.FC = () => {
 
    return (
       <>
-         <Header />
-
-         <SideNavWrapper />
-
-         <div className="h-screen flex">
-            <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
-               <Game game={'game/CS2'} name={cs2} />
-               <Game game={'game/Valorant'} name={valorant} />
+         <BackgroundGradientAnimation />
+         <div className="relative z-10">
+            <Header />
+            <SideNavWrapper />
+            <div className="h-screen flex">
+               <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
+                  <Game game={'game/CS2'} name={cs2} />
+                  <Game game={'game/Valorant'} name={valorant} />
+               </div>
             </div>
+            <Footer />
          </div>
-
-         <Footer />
 
          <ToastContainer
             position="top-center"
