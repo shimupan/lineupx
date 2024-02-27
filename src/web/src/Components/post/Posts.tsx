@@ -220,12 +220,14 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         />
                      </Tooltip>
                   ) : postData.grenadeType === 'shock' ? (
-                     <img
-                        className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
-                        src={decoy}
-                        alt="Decoy"
-                        title="Decoy"
-                     />
+                     <Tooltip text="Decoy">
+                        <img
+                           className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
+                           src={decoy}
+                           alt="Decoy"
+                           title="Decoy"
+                        />
+                     </Tooltip>
                   ) : postData.grenadeType === 'he' ? (
                      <Tooltip text="HE">
                         <img
