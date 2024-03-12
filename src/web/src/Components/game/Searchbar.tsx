@@ -87,7 +87,7 @@ const SearchBar = ({
       );
    };
    return (
-      <div className="relative w-full md:w-1/4 lg:w-1/4 xl:w-2/3 2xl:w-1/2 mx-auto px-4 sm:px-6">
+      <div className="relative w-full md:w-1/4 lg:w-1/4 xl:w-2/3 2xl:w-1/2 mx-auto">
          <form
             onSubmit={handleSubmit}
             className={`flex items-center justify-start ${
