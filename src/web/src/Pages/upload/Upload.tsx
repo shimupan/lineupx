@@ -236,7 +236,7 @@ const Upload: React.FC = () => {
                                  htmlFor="jumpThrow"
                                  className="mb-2 text-sm text-start text-gray-900"
                               >
-                                 Upload the Grenade Aiming Position
+                                 Upload the Grenade<br/>Aiming Position
                               </label>
                               <Dropzone setFile={setAimingPosition} />
                            </div>
