@@ -192,7 +192,9 @@ const Upload: React.FC = () => {
                                  })
                               }
                               className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
-                                 state.jumpThrow === 'Yes' ? 'bg-purple-200' : 'bg-[#edf2f7]'
+                                 state.jumpThrow === 'Yes'
+                                    ? 'bg-purple-200'
+                                    : 'bg-[#edf2f7]'
                               } text-dark-grey-900 rounded-2xl`}
                            >
                               Yes
@@ -206,39 +208,53 @@ const Upload: React.FC = () => {
                                  })
                               }
                               className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
-                                 state.jumpThrow === 'No' ? 'bg-purple-200' : 'bg-[#edf2f7]'
+                                 state.jumpThrow === 'No'
+                                    ? 'bg-purple-200'
+                                    : 'bg-[#edf2f7]'
                               } text-dark-grey-900 rounded-2xl`}
                            >
                               No
                            </button>
                         </div>
-                        <div className="flex space-x-4">
+                        <div className="flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0">
                            <div>
                               <label
                                  htmlFor="jumpThrow"
                                  className="mb-2 text-sm text-start text-gray-900"
                               >
-                                 Upload the Grenade Landing Position
+                                 Upload the Grenade
+                                 <br />
+                                 Landing Position
                               </label>
-                              <Dropzone setFile={setLandingPosition} />
+                              <div className="flex justify-center items-center">
+                                 <Dropzone setFile={setLandingPosition} />
+                              </div>
                            </div>
                            <div>
                               <label
                                  htmlFor="jumpThrow"
                                  className="mb-2 text-sm text-start text-gray-900"
                               >
-                                 Upload the Grenade Standing Position
+                                 Upload the Grenade
+                                 <br />
+                                 Standing Position
                               </label>
-                              <Dropzone setFile={setStandingPosition} />
+                              <div className="flex justify-center items-center">
+                                 <Dropzone setFile={setStandingPosition} />
+                              </div>
                            </div>
                            <div>
                               <label
                                  htmlFor="jumpThrow"
                                  className="mb-2 text-sm text-start text-gray-900"
                               >
-                                 Upload the Grenade<br/>Aiming Position
+                                 Upload the Grenade
+                                 <br />
+                                 Aiming Position
                               </label>
-                              <Dropzone setFile={setAimingPosition} />
+                              <div className="flex justify-center items-center">
+                                 <Dropzone setFile={setAimingPosition} />
+                              </div>
                            </div>
                         </div>
                         <button
