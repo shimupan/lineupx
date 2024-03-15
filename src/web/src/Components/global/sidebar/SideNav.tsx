@@ -85,7 +85,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                   isSpecialRoute ? 'mt-[5px]' : 'mt-[10px]'
                } md:mt-0 ${
                   expanded
-                     ? 'transition-all w-screen md:w-[400px]'
+                     ? 'transition-all w-screen md:w-[300px]'
                      : 'transition-all w-[50px] md:w-[70px]'
                } h-full flex flex-col ${
                   expanded ? 'bg-white' : 'bg-transparent'
@@ -110,28 +110,31 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                <div
                   className={`${
                      expanded ? '' : 'hidden md:block'
-                  } border-t flex p-3`}
+                  } border-t flex p-3 position-relative`}
                >
-                  <Link to={`/user/${Auth?.username ? Auth?.username : 1}`}>
-                     <img
-                        src={
-                           Auth?.ProfilePicture
-                              ? Auth?.ProfilePicture
-                              : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
-                                   Auth?.username ? Auth?.username : 'Guest'
-                                }`
-                        }
-                        className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
-                     />
-                  </Link>
+                  <div style={{ position: 'absolute', top: '5', left: '10' }}>
+                     {' '}
+                     <Link to={`/user/${Auth?.username ? Auth?.username : 1}`}>
+                        <img
+                           src={
+                              Auth?.ProfilePicture
+                                 ? Auth?.ProfilePicture
+                                 : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
+                                      Auth?.username ? Auth?.username : 'Guest'
+                                   }`
+                           }
+                           className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
+                        />
+                     </Link>
+                  </div>
                   <div
                      className={`flex justify-between items-center ${
-                        expanded ? 'w-52 ml-3' : 'w-0 ml-0'
+                        expanded ? 'w-52 ml-3 mt-10' : 'w-0 ml-0 mt-10'
                      }`}
                   >
                      <div
                         className={`leading-4 ${
-                           expanded ? 'w-52 ml-3' : 'hidden'
+                           expanded ? 'w-52 ml-10 mt-[-45px]' : 'hidden'
                         }`}
                      >
                         <h4 className="font-semibold text-black">
@@ -143,13 +146,12 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      </div>
                      <IoLogOut
                         size={25}
-                        className="text-black"
+                        className="text-black mt-[-45px]"
                         style={{ cursor: 'pointer' }}
                         onClick={logout}
                      />
                   </div>
                </div>
-
                <SideNavContext.Provider value={expanded}>
                   <ul
                      className={`${

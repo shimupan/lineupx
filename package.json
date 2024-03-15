@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "clsx": "^2.1.0",
+    "framer-motion": "^11.0.6",
+    "tailwind-merge": "^2.2.1"
+  }
+}
+{
+  "dependencies": {
     "react-map-interaction": "^2.1.0"
   }
 }

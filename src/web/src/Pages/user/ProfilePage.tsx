@@ -33,6 +33,10 @@ const ProfilePage = () => {
    const [open, setOpen] = useState(false);
    const Auth = useContext(AuthContext);
    const verified = Auth?.Verified;
+   const postCount = posts.reduce(
+      (total, current) => total + current.length,
+      0,
+   );
 
    // Gets called twice during dev mode
    // So there should be 2 error messages
@@ -133,7 +137,7 @@ const ProfilePage = () => {
                <div>
                   <div className="bg-gradient-to-r from-purple-900 via-blue-700 to-cyan-400 h-[300px] flex justify-center relative">
                      <div className="w-full h-[200px] flex flex-col justify-center items-center">
-                        {!verified && (
+                        {!verified && Auth?.username === user.username && (
                            <div
                               className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-4 rounded-md"
                               role="alert"
@@ -170,7 +174,7 @@ const ProfilePage = () => {
                      />
                   </div>
                </div>
-               <div className="w-full h-[225px] flex flex-col justify-center items-center">
+               <div className="pt-8 w-full h-[225px] flex flex-col justify-center items-center">
                   {Auth?.username == user.username && (
                      <div>
                         Edit Profile{' '}
@@ -185,18 +189,16 @@ const ProfilePage = () => {
                   )}
                   <div>{user?.username}</div>
                   <div>{user?.email}</div>
+                  <div>{postCount} posts</div>
                </div>
                {GAMES.map((game, index) => {
                   return (
                      <React.Fragment key={index}>
                         <div className="text-center text-4xl">{game}</div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
+                        <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
                            {posts[index].map((post) => {
                               return (
-                                 <div
-                                    key={post.landingPosition.public_id}
-                                    className="max-w-md mx-auto"
-                                 >
+                                 <div key={post.landingPosition.public_id}>
                                     <Posts postData={post} />
                                  </div>
                               );

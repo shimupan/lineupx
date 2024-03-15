@@ -33,6 +33,20 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    const navigate = useNavigate();
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
+   const [isHovering, setIsHovering] = useState(false);
+   const handleMouseEnter = () => {
+      setIsHovering(true);
+   };
+   const handleMouseLeave = () => {
+      setIsHovering(false);
+   };
+   const [currentImage, setCurrentImage] = useState(0);
+   const images = [
+      postData.landingPosition.public_id,
+      postData.standingPosition.public_id,
+      postData.aimingPosition.public_id,
+   ];
+   const [isAnimating, setIsAnimating] = useState(false);
 
    useEffect(() => {
       axios
@@ -43,7 +57,17 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       getUserByID(postData.UserID).then((response) => {
          setUser(response);
       });
-   }, []);
+
+      const interval = setInterval(() => {
+         setIsAnimating(true);
+         setTimeout(() => {
+            setCurrentImage((currentImage + 1) % images.length);
+            setIsAnimating(false);
+         }, 500); // 500ms matches the duration of the transition
+      }, 1000); // Change image every 1 seconds
+
+      return () => clearInterval(interval); // Clean up on component unmount
+   }, [currentImage]);
 
    const valorantAgentIcon = valorantAgents.find(
       (agent) => agent.displayName === postData.valorantAgent,
@@ -77,6 +101,8 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             // Handle error
          });
    };
+
+
    /*
    const incrementLikeCount = async () => {
       axios
@@ -108,7 +134,11 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    return (
       <>
          <div>
-            <div className="relative">
+            <div
+               onMouseEnter={handleMouseEnter}
+               onMouseLeave={handleMouseLeave}
+               className="relative"
+            >
                <img
                   className="w-[640px] h-[240px] min-w-[250px] min-h-[150px] bg-gray-400 rounded-lg cursor-pointer"
                   src={`${CDN_URL}/${postData.landingPosition.public_id}`}
@@ -166,12 +196,14 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         />
                      </Tooltip>
                   ) : postData.grenadeType === 'shock' ? (
-                     <img
-                        className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
-                        src={decoy}
-                        alt="Decoy"
-                        title="Decoy"
-                     />
+                     <Tooltip text="Decoy">
+                        <img
+                           className="svg-icon absolute top-0 right-0 w-8 h-8 mt-[-32px] filter invert"
+                           src={decoy}
+                           alt="Decoy"
+                           title="Decoy"
+                        />
+                     </Tooltip>
                   ) : postData.grenadeType === 'he' ? (
                      <Tooltip text="HE">
                         <img
@@ -185,6 +217,21 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      'Unknown'
                   )}
                </div>
+               {isHovering && (
+                  <div className="absolute top-0 left-0 w-full max-h-80 min-w-[250px] min-h-[150px] rounded-lg cursor-pointer">
+                     <img
+                        src={`${CDN_URL}/${images[currentImage]}`}
+                        alt={postData.postTitle}
+                        className={`w-full max-h-80 min-w-[250px] min-h-[150px] rounded-lg cursor-pointer transition-all duration-500 ${isAnimating ? 'opacity-0 transform scale-0.95' : 'opacity-100 transform scale-1'}`}
+                        onClick={async () => {
+                           await incrementViewCount();
+                           navigate(`/game/${postData.game}/${postData.postTitle}`, {
+                              state: { postData },
+                           });
+                        }}
+                     />
+                  </div>
+               )}
             </div>
 
             <div className="flex items-start mt-4">
