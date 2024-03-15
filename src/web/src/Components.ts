@@ -46,3 +46,5 @@ export { default as ValorantMode } from './Components/upload/ValorantMode';
 export { default as CS2Mode } from './Components/upload/CS2Mode';
 export { default as Dot } from './Components/upload/Dot';
 export { default as GrenadeSelection } from './Components/game/cs2/GrenadeSelection';
+export { default as WidePosts } from './Components/post/WidePosts';
+export { default as Tooltip } from './Components/post/ToolTip';

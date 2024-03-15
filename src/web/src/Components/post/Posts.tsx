@@ -1,5 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { PostType, UserType, ValorantAgent } from '../../global.types';
+import { Tooltip } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
@@ -22,11 +23,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 
 interface PostsProps {
    postData: PostType;
-}
-
-interface TooltipProps {
-   text: string;
-   children: React.ReactNode;
 }
 
 const Posts: React.FC<PostsProps> = ({ postData }) => {
@@ -61,26 +57,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
          (ability) => ability.displayName === abilityName,
       );
       return ability?.displayIcon;
-   };
-
-   const Tooltip = ({ text, children }: TooltipProps) => {
-      const [showTooltip, setShowTooltip] = useState(false);
-
-      return (
-         <div className="relative flex items-center">
-            <div
-               onMouseEnter={() => setShowTooltip(true)}
-               onMouseLeave={() => setShowTooltip(false)}
-            >
-               {children}
-            </div>
-            {showTooltip && (
-               <div className="absolute top-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded-md z-10">
-                  {text}
-               </div>
-            )}
-         </div>
-      );
    };
 
    const abilityIcon = findAbilityIcon(

@@ -11,7 +11,6 @@ const postLimit = rateLimit({
 });
 
 const router = express.Router();
-
 const cloudinaryObject = cloudinary();
 
 // Find all post for a specific user

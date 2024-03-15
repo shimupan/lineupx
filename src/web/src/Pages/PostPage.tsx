@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Header, Footer, SideNavWrapper } from '../Components';
+import { useLocation, Link } from 'react-router-dom';
+import { Header, Footer, SideNavWrapper, WidePosts } from '../Components';
 import { CDN_URL } from '../Constants';
-import { PostType } from '../global.types';
+import { PostType, UserType } from '../global.types';
 import { AuthContext } from '../App';
+import { getUserByID } from '../util/getUser';
+import { getPostByMap } from '../util/getPost';
 import axios from 'axios';
 import gear from '../assets/svg/gear.svg';
 
@@ -29,6 +31,14 @@ const PostPage = () => {
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    const [viewMode, setViewMode] = useState('carousel');
    const [isPopupVisible, setPopupVisible] = useState(false);
+   const popupRef = useRef<HTMLDivElement>(null);
+
+   const [comments, setComments] = useState<Comment[]>([]);
+   const [userComments, setUserComments] = useState<Comment[]>([]);
+   const [newComment, setNewComment] = useState('');
+
+   const [user, setUser] = useState<UserType>();
+   const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
 
    const handleGearClick = () => {
       setPopupVisible(!isPopupVisible);
@@ -49,11 +59,6 @@ const PostPage = () => {
    const handleViewModeChange = () => {
       setViewMode(viewMode === 'carousel' ? 'all' : 'carousel');
    };
-   const popupRef = useRef<HTMLDivElement>(null);
-
-   const [comments, setComments] = useState<Comment[]>([]);
-   const [userComments, setUserComments] = useState<Comment[]>([]);
-   const [newComment, setNewComment] = useState('');
 
    const fetchComments = async () => {
       try {
@@ -127,6 +132,21 @@ const PostPage = () => {
          document.removeEventListener('mousedown', handleClickOutside);
       };
    }, []);
+
+   useEffect(() => {
+      if (postData.UserID) {
+         getUserByID(postData.UserID).then((user) => {
+            setUser(user);
+         });
+         getPostByMap(postData.game, postData.mapName).then((posts) => {
+            let filter: PostType[] = [];
+            for (let i = 0; i < posts.length; i++) {
+               filter.push(posts[i].post!);
+            }
+            setRelatedPosts(filter);
+         });
+      }
+   }, [postData.UserID]);
 
    return (
       <>
@@ -268,12 +288,12 @@ const PostPage = () => {
          </div>
          */}
          <div className="lg:flex">
-            <div className="md:ml-[70px] h-screen lg:w-3/4 bg-black">
+            <div className="md:ml-[70px] relative lg:w-3/4 bg-black pb-4">
                <div className="h-1/2 lg:h-3/4 object-cover">
                   <img
                      src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
                      alt={postData.postTitle}
-                     className="w-full h-full"
+                     className="w-full h-full rounded-r-xl"
                   />
                </div>
                <div className="flex justify-between w-full">
@@ -290,31 +310,86 @@ const PostPage = () => {
                      →
                   </button>
                </div>
-               <div className="ml-2 text-lg font-bold">
+               <div className="ml-2 text-lg font-bold text-center">
                   <p>{postData.postTitle}</p>
                </div>
                <div className="flex justify-between ml-2 mr-2">
                   <div className="flex">
                      <div className="flex">
                         <div>
-                           <p>PFP</p>
+                           <Link to={`/user/${postData.Username}`}>
+                              <img
+                                 className="rounded-full cursor-pointer"
+                                 src={`${user?.ProfilePicture}`}
+                              />
+                           </Link>
                         </div>
-                        <div className='flex flex-col'>
-                           <p>{postData.Username}</p>
-                           <p>Subscribers</p>
+                        <div className="flex flex-col ml-1">
+                           <Link to={`/user/${postData.Username}`}>
+                              <p className="cursor-pointer">
+                                 {postData.Username}
+                              </p>
+                           </Link>
+                           {/*
+                              <p>Subscribers</p>
+                              */}
                         </div>
                      </div>
-                     <div>Follow</div>
+                     {/*
+                        <div>Follow</div>
+                        */}
                   </div>
                   <div className="flex">
-                     <p>Like</p>
-                     <p>Dislike</p>
+                     <p className="mr-1">Like: {postData.likes.length}</p>
+                     <p className="ml-1">Dislike: {postData.dislikes.length}</p>
+                  </div>
+               </div>
+               <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
+                  <div className="flex flex-row space-x-2 font-bold">
+                     <p>{postData.views} views</p>
+                     <p>
+                        {new Date(postData.date).toLocaleDateString('en-US', {
+                           month: 'short',
+                           day: 'numeric',
+                           year: 'numeric',
+                        })}
+                     </p>
+                  </div>
+                  {postData.lineupDescription}
+               </div>
+            </div>
+            <div className="relative lg:flex-grow bg-black">
+               {relatedPosts.map((post, index) => {
+                  if (post._id !== postData._id) {
+                     return <WidePosts post={post} key={index} />;
+                  }
+               })}
+            </div>
+         </div>
+         <div className="bg-black h-screen ml-20 lg:w-3/4">
+            <div className="flex items-start space-x-3 mb-4">
+               <img
+                  className="w-10 h-10 rounded-full"
+                  src={`${user?.ProfilePicture}`}
+                  alt="PFP"
+               />
+               <div className="flex-1">
+                  <div className="flex items-center">
+                     <h4 className="text-sm font-bold">{user?.username}</h4>
+                  </div>
+                  <textarea
+                     className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
+                     placeholder="Add a public comment..."
+                  ></textarea>
+                  <div className="mt-2 flex justify-end space-x-2">
+                     <button className="text-sm text-gray-500">CANCEL</button>
+                     <button className="text-sm text-blue-500 font-semibold">
+                        COMMENT
+                     </button>
                   </div>
                </div>
             </div>
-            <div className="h-screen bg-white lg:flex-grow"></div>
          </div>
-
          <Footer />
       </>
    );
