@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Header, Footer, SideNavWrapper, Dot } from '../../../Components';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 import { Coordinate, ValorantMaps, ValorantAgent } from '../../../global.types';
+import { useValorant } from '../../../hooks/index';
 import axios from 'axios';
 
 import splitCoordinates from '../../../assets/valorantjsons/split.json';
@@ -56,6 +57,11 @@ const ValorantLineups: React.FC = () => {
       } else {
          setSelectedAbility(ability);
       }
+   };
+   const { allMaps } = useValorant();
+   const navigate = useNavigate();
+   const handleClick = (mapName: string) => {
+      navigate(`/game/Valorant/agents/${agentName}/lineups/${mapName}`);
    };
 
    useEffect(() => {
@@ -136,7 +142,7 @@ const ValorantLineups: React.FC = () => {
       <>
          <Header />
          <SideNavWrapper />
-         <div className="text-center pt-12">
+         <div className="text-center ">
             {!selectedDot && !selectedAbility ? (
                <>
                   <p>
@@ -155,7 +161,7 @@ const ValorantLineups: React.FC = () => {
                </p>
             )}
          </div>
-         <div className="flex flex-1">
+         <div className="flex flex-1 pb-48">
             <div className="flex-1 flex flex-col">
                <div className="flex justify-center items-center">
                   <div className="flex flex-col sm:flex-row justify-center items-center">
@@ -189,7 +195,8 @@ const ValorantLineups: React.FC = () => {
                                        display: 'block',
                                     }}
                                  />
-                                 {isMapLoaded && !selectedAbility &&
+                                 {isMapLoaded &&
+                                    !selectedAbility &&
                                     complementCoordinates &&
                                     coordinates.map((coordinate, index) => (
                                        <Dot
@@ -232,38 +239,72 @@ const ValorantLineups: React.FC = () => {
                      </div>
                   </div>
                </div>
-               {agent && (
-                  <div className="abilities flex flex-col sm:flex-row items-center justify-center gap-4 p-4">
-                     <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
-                        {agent.abilities.map((ability, index) => (
-                           <button
-                              key={index}
-                              className={`ability bg-1b2838 shadow-lg rounded-lg p-2 flex flex-col items-center justify-start w-full sm:w-48 ${
-                                 selectedAbility === ability ? 'bg-black' : ''
-                              }`}
-                              onClick={() => handleAbilityClick(ability)}
-                           >
-                              <img
-                                 src={ability.displayIcon}
-                                 alt={ability.displayName}
-                                 className={`ability-icon w-12 h-12 mb-2 ${
-                                    selectedAbility === ability
-                                       ? 'shadow-lg'
-                                       : ''
-                                 }`}
-                                 style={{
-                                    filter:
-                                       selectedAbility === ability
-                                          ? 'grayscale(100%)'
-                                          : 'none',
-                                 }}
-                              />
-                           </button>
-                        ))}
-                     </div>
-                  </div>
-               )}
             </div>
+
+         </div>
+         <div className="flex flex-row space-x-6 w-full h-16 overflow-auto bg-gray-900 pl-4 pr-4 pb-4 fixed bottom-0 ml-4">
+            <div className="flex flex-wrap justify-start ml-4">
+               {allMaps?.data
+                  .filter(
+                     (map) =>
+                        ![
+                           'The Range',
+                           'Kasbah',
+                           'District',
+                           'Piazza',
+                           'Drift',
+                        ].includes(map.displayName),
+                  )
+                  .map((map) => (
+                     <div
+                        key={map.uuid}
+                        className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer ml-4 w-1/2"
+                        onClick={() => handleClick(map.displayName)}
+                     >
+                        <img
+                           src={map.splash}
+                           alt={map.displayName}
+                           className="grid grid-cols-3 gap-4 w-full h-auto sm:h-16 object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
+                           <div className="font-bold text-xl mb-2 text-white text-center">
+                              {map.displayName}
+                           </div>
+                        </div>
+                     </div>
+                  ))}
+            </div>
+            {agent && (
+               <div className="abilities flex flex-col sm:flex-row items-center justify-center gap-4 p-4 ml-4">
+                  <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
+                     {agent.abilities.map((ability, index) => (
+                        <button
+                           key={index}
+                           className={`ability bg-1b2838 shadow-lg rounded-full p-2 flex flex-col items-center justify-start w-10 h-10 ${
+                              selectedAbility === ability ? 'bg-black' : ''
+                           }`}
+                           onClick={() => handleAbilityClick(ability)}
+                        >
+                           <img
+                              src={ability.displayIcon}
+                              alt={ability.displayName}
+                              className={`ability-icon w-full h-full ${
+                                 selectedAbility === ability
+                                    ? 'shadow-lg'
+                                    : ''
+                              }`}
+                              style={{
+                                 filter:
+                                    selectedAbility === ability
+                                       ? 'grayscale(100%)'
+                                       : 'none',
+                              }}
+                           />
+                        </button>
+                     ))}
+                  </div>
+               </div>
+            )}
          </div>
          <Footer />
       </>
