@@ -5,6 +5,7 @@ import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 import { Coordinate, ValorantMaps, ValorantAgent } from '../../../global.types';
 import { useValorant } from '../../../hooks/index';
+import Modal from 'react-modal';
 import axios from 'axios';
 
 import splitCoordinates from '../../../assets/valorantjsons/split.json';
@@ -58,12 +59,14 @@ const ValorantLineups: React.FC = () => {
          setSelectedAbility(ability);
       }
    };
-   const { allMaps } = useValorant();
+   const { allAgents, setAgentDetails, allMaps } = useValorant();
    const navigate = useNavigate();
    const handleClick = (mapName: string) => {
+      setSelectedDot('');
+      setSelectedAbility(null);
       navigate(`/game/Valorant/agents/${agentName}/lineups/${mapName}`);
    };
-
+   const [modalIsOpen, setModalIsOpen] = useState(false);
    useEffect(() => {
       const handleResize = () => {
          setIsMobile(window.innerWidth <= 768);
@@ -240,10 +243,9 @@ const ValorantLineups: React.FC = () => {
                   </div>
                </div>
             </div>
-
          </div>
-         <div className="flex flex-row space-x-6 w-full h-16 overflow-auto bg-gray-900 pl-4 pr-4 pb-4 fixed bottom-0 ml-4">
-            <div className="flex flex-wrap justify-start ml-4">
+         <div className="flex flex-row space-x-6 w-full h-48 overflow-auto bg-gray-900 pl-4 pr-4 pb-4 fixed bottom-0 ml-4">
+            <div className="pl-16 grid grid-cols-6 gap-4 ml-4 pt-5">
                {allMaps?.data
                   .filter(
                      (map) =>
@@ -258,13 +260,13 @@ const ValorantLineups: React.FC = () => {
                   .map((map) => (
                      <div
                         key={map.uuid}
-                        className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer ml-4 w-1/2"
+                        className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer"
                         onClick={() => handleClick(map.displayName)}
                      >
                         <img
                            src={map.splash}
                            alt={map.displayName}
-                           className="grid grid-cols-3 gap-4 w-full h-auto sm:h-16 object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
+                           className="w-full h-full object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
                         />
                         <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
                            <div className="font-bold text-xl mb-2 text-white text-center">
@@ -274,8 +276,9 @@ const ValorantLineups: React.FC = () => {
                      </div>
                   ))}
             </div>
+
             {agent && (
-               <div className="abilities flex flex-col sm:flex-row items-center justify-center gap-4 p-4 ml-4">
+               <div className="abilities flex flex-col sm:flex-row items-center justify-center gap-4 p-4 ml-4 pr-64">
                   <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
                      {agent.abilities.map((ability, index) => (
                         <button
@@ -289,9 +292,7 @@ const ValorantLineups: React.FC = () => {
                               src={ability.displayIcon}
                               alt={ability.displayName}
                               className={`ability-icon w-full h-full ${
-                                 selectedAbility === ability
-                                    ? 'shadow-lg'
-                                    : ''
+                                 selectedAbility === ability ? 'shadow-lg' : ''
                               }`}
                               style={{
                                  filter:
@@ -305,7 +306,87 @@ const ValorantLineups: React.FC = () => {
                   </div>
                </div>
             )}
+
+            <Modal
+               isOpen={modalIsOpen}
+               onRequestClose={() => setModalIsOpen(false)}
+               contentLabel="Agent Selector"
+               style={{
+                  content: {
+                     width: '30%', // Adjust as needed
+                     height: '30%', // Adjust as needed
+                     margin: 'auto', // Centers the modal
+                     backgroundColor: '#1f2937', // Adjust as needed
+                  },
+               }}
+            >
+               <div
+                  style={{
+                     display: 'grid',
+                     gridTemplateColumns: 'repeat(5, 1fr)',
+                  }}
+               >
+                  {allAgents?.data.map((agent) => (
+                     <div
+                        key={agent.displayName}
+                        style={{
+                           cursor: 'pointer',
+                           transition: '0.3s',
+                        }}
+                        onMouseOver={(e) => {
+                           e.currentTarget.style.transform = 'scale(1.1)';
+                        }}
+                        onMouseOut={(e) => {
+                           e.currentTarget.style.transform = 'scale(1)';
+                        }}
+                        onClick={() => {
+                           const selectedAgent = allAgents?.data.find(
+                              (a) => a.displayName === agent.displayName,
+                           );
+                           if (selectedAgent) {
+                              setAgentDetails((prevState) => ({
+                                 ...prevState,
+                                 currentAgent: selectedAgent.fullPortrait,
+                                 currentBackground: selectedAgent.background,
+                                 selectedAgentName: selectedAgent.displayName,
+                              }));
+                              navigate(
+                                 `/game/Valorant/agents/${selectedAgent.displayName}/lineups/${mapName}`,
+                              );
+                           }
+                           setModalIsOpen(false);
+                        }}
+                     >
+                        <img
+                           src={agent.displayIcon}
+                           alt={agent.displayName}
+                           style={{ width: '20px', marginRight: '10px' }}
+                        />
+                        {agent.displayName}
+                     </div>
+                  ))}
+               </div>
+            </Modal>
+            <button
+               onClick={() => setModalIsOpen(true)}
+               className="pb-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center space-x-2"
+            >
+               <span>Select Agent:</span>
+               {agent && (
+                  <div className="flex items-center space-x-2">
+                     <img
+                        src={agent.displayIcon}
+                        alt={agent.displayName}
+                        className="w-5 h-5 rounded-full"
+                     />
+                     <span className="font-semibold">{agent.displayName}</span>
+                  </div>
+               )}
+               {!agent && <span className="italic">None selected</span>}
+            </button>
          </div>
+         
+
          <Footer />
       </>
    );
