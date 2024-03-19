@@ -5,97 +5,49 @@ import HE from '../../../assets/svg/he.svg';
 import Flash from '../../../assets/svg/flash.svg';
 
 type GrenadeSelectionProps = {
-    isMobile: boolean;
-    activeButton: string | null;
-    setActiveButton: React.Dispatch<React.SetStateAction<string | null>>;
+   isMobile: boolean;
+   activeButton: string | null;
+   setActiveButton: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-const GrenadeSelection: React.FC<GrenadeSelectionProps> = ({isMobile, activeButton, setActiveButton }) => {
+const GrenadeSelection: React.FC<GrenadeSelectionProps> = ({
+   activeButton,
+   setActiveButton,
+}) => {
    return (
-      <div className="flex flex-row sm:flex-col">
-         <button
-            onClick={() =>
-               setActiveButton(activeButton === 'Decoy' ? '' : 'Decoy')
-            }
-         >
-            <img
-               src={Decoy}
-               alt="Decoy"
-               style={{
-                  width: isMobile ? '96px' : '70px',
-                  height: isMobile ? '96px' : '70px',
-                  opacity: activeButton === 'Decoy' ? 1 : 0.5,
-                  filter: activeButton === 'Decoy' ? 'invert(1)' : 'none',
-               }}
-            />
-            <p>Decoy</p>
-         </button>
-         <button
-            onClick={() =>
-               setActiveButton(activeButton === 'Smoke' ? '' : 'Smoke')
-            }
-         >
-            <img
-               src={Smoke}
-               alt="Smoke"
-               style={{
-                  width: isMobile ? '96px' : '70px',
-                  height: isMobile ? '96px' : '70px',
-                  opacity: activeButton === 'Smoke' ? 1 : 0.5,
-                  filter: activeButton === 'Smoke' ? 'invert(1)' : 'none',
-               }}
-            />
-            <p>Smoke</p>
-         </button>
-         <button
-            onClick={() =>
-               setActiveButton(activeButton === 'Molotov' ? '' : 'Molotov')
-            }
-         >
-            <img
-               src={Molotov}
-               alt="Molotov"
-               style={{
-                  width: isMobile ? '96px' : '70px',
-                  height: isMobile ? '96px' : '70px',
-                  opacity: activeButton === 'Molotov' ? 1 : 0.5,
-                  filter: activeButton === 'Molotov' ? 'invert(1)' : 'none',
-               }}
-            />
-            <p>Molotov</p>
-         </button>
-         <button
-            onClick={() => setActiveButton(activeButton === 'HE' ? '' : 'HE')}
-         >
-            <img
-               src={HE}
-               alt="HE"
-               style={{
-                  width: isMobile ? '96px' : '70px',
-                  height: isMobile ? '96px' : '70px',
-                  opacity: activeButton === 'HE' ? 1 : 0.5,
-                  filter: activeButton === 'HE' ? 'invert(1)' : 'none',
-               }}
-            />
-            <p>Smoke</p>
-         </button>
-         <button
-            onClick={() =>
-               setActiveButton(activeButton === 'Flash' ? '' : 'Flash')
-            }
-         >
-            <img
-               src={Flash}
-               alt="Flash"
-               style={{
-                  width: isMobile ? '96px' : '70px',
-                  height: isMobile ? '96px' : '70px',
-                  opacity: activeButton === 'Flash' ? 1 : 0.5,
-                  filter: activeButton === 'Flash' ? 'invert(1)' : 'none',
-               }}
-            />
-            <p>Flash</p>
-         </button>
+      <div className="abilities flex flex-row md:flex-row flex-wrap items-center justify-center gap-4 p-4">
+         <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
+            {[
+               { name: 'Decoy', src: Decoy },
+               { name: 'Smoke', src: Smoke },
+               { name: 'Molotov', src: Molotov },
+               { name: 'HE', src: HE },
+               { name: 'Flash', src: Flash },
+            ].map((grenade) => (
+               <button
+                  key={grenade.name}
+                  className={`ability bg-1b2838 shadow-lg rounded-full p-2 flex flex-col items-center justify-start w-10 h-10 ${
+                     activeButton === grenade.name ? 'bg-black' : ''
+                  }`}
+                  onClick={() =>
+                     setActiveButton(
+                        activeButton === grenade.name ? '' : grenade.name,
+                     )
+                  }
+               >
+                  <img
+                     src={grenade.src}
+                     alt={grenade.name}
+                     className={`ability-icon w-full h-full ${
+                        activeButton === grenade.name ? 'shadow-lg' : ''
+                     }`}
+                     style={{
+                        filter: 'brightness(0) invert(1)',
+                     }}
+                  />
+               </button>
+            ))}
+         </div>
       </div>
    );
 };

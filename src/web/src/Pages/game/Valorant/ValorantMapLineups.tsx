@@ -244,8 +244,8 @@ const ValorantLineups: React.FC = () => {
                </div>
             </div>
          </div>
-         <div className="flex flex-row space-x-6 w-full h-48 overflow-auto bg-gray-900 pl-4 pr-4 pb-4 fixed bottom-0 ml-4">
-            <div className="pl-16 grid grid-cols-6 gap-4 ml-4 pt-5">
+         <div className="flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
                {allMaps?.data
                   .filter(
                      (map) =>
@@ -278,7 +278,7 @@ const ValorantLineups: React.FC = () => {
             </div>
 
             {agent && (
-               <div className="abilities flex flex-col sm:flex-row items-center justify-center gap-4 p-4 ml-4 pr-64">
+               <div className="abilities flex flex-row md:flex-row flex-wrap items-center justify-center gap-4 p-4">
                   <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
                      {agent.abilities.map((ability, index) => (
                         <button
@@ -313,8 +313,8 @@ const ValorantLineups: React.FC = () => {
                contentLabel="Agent Selector"
                style={{
                   content: {
-                     width: '30%', // Adjust as needed
-                     height: '30%', // Adjust as needed
+                     width: window.innerWidth < 768 ? '70%' : '30%', 
+                     height: window.innerWidth < 768 ? '30%' : '30%', 
                      margin: 'auto', // Centers the modal
                      backgroundColor: '#1f2937', // Adjust as needed
                   },
@@ -324,6 +324,7 @@ const ValorantLineups: React.FC = () => {
                   style={{
                      display: 'grid',
                      gridTemplateColumns: 'repeat(5, 1fr)',
+                     gridGap : '10px',
                   }}
                >
                   {allAgents?.data.map((agent) => (
@@ -362,14 +363,14 @@ const ValorantLineups: React.FC = () => {
                            alt={agent.displayName}
                            style={{ width: '20px', marginRight: '10px' }}
                         />
-                        {agent.displayName}
+                        {window.innerWidth >= 768 && <p>{agent.displayName}</p>}
                      </div>
                   ))}
                </div>
             </Modal>
             <button
                onClick={() => setModalIsOpen(true)}
-               className="pb-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center space-x-2"
+               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center space-x-2 md:ml-auto"
             >
                <span>Select Agent:</span>
                {agent && (
