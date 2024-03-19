@@ -1,20 +1,31 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { Header, Footer, SideNavWrapper, WidePosts } from '../Components';
+import {
+   Header,
+   Footer,
+   SideNavWrapper,
+   WidePosts,
+   Comments,
+} from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
 import { AuthContext } from '../App';
+import {
+   incrementLikeCount,
+   incrementDislikeCount,
+} from '../Components/post/helper';
 import { getUserByID } from '../util/getUser';
 import { getPostByMap } from '../util/getPost';
 import axios from 'axios';
-import gear from '../assets/svg/gear.svg';
+import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+//import gear from '../assets/svg/gear.svg';
 
-interface Comment {
+export type Comment = {
    text: string;
    userId: string;
    username: string;
    createdAt: Date;
-}
+};
 
 const PostPage = () => {
    const location = useLocation();
@@ -29,20 +40,22 @@ const PostPage = () => {
    const verified = Auth?.Verified;
 
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+   /*
    const [viewMode, setViewMode] = useState('carousel');
    const [isPopupVisible, setPopupVisible] = useState(false);
    const popupRef = useRef<HTMLDivElement>(null);
-
+   */
    const [comments, setComments] = useState<Comment[]>([]);
    const [userComments, setUserComments] = useState<Comment[]>([]);
    const [newComment, setNewComment] = useState('');
 
    const [user, setUser] = useState<UserType>();
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
-
+   /*
    const handleGearClick = () => {
       setPopupVisible(!isPopupVisible);
    };
+   */
    const handleArrowClick = (direction: 'next' | 'prev') => {
       if (direction === 'next') {
          setCurrentImageIndex(
@@ -55,11 +68,11 @@ const PostPage = () => {
          );
       }
    };
-
+   /*
    const handleViewModeChange = () => {
       setViewMode(viewMode === 'carousel' ? 'all' : 'carousel');
    };
-
+   */
    const fetchComments = async () => {
       try {
          const postId = location.pathname.split('/')[2];
@@ -89,6 +102,7 @@ const PostPage = () => {
    const handleCommentSubmit = async () => {
       if (newComment.trim() && verified) {
          try {
+            console.log(newComment);
             const response = await axios.post(`/post/${postData._id}/comment`, {
                text: newComment,
                userId: user_Id,
@@ -118,19 +132,6 @@ const PostPage = () => {
 
    useEffect(() => {
       fetchComments();
-      function handleClickOutside(event: MouseEvent) {
-         if (
-            popupRef.current &&
-            !popupRef.current.contains(event.target as Node)
-         ) {
-            setPopupVisible(false);
-         }
-      }
-
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-         document.removeEventListener('mousedown', handleClickOutside);
-      };
    }, []);
 
    useEffect(() => {
@@ -340,8 +341,31 @@ const PostPage = () => {
                         */}
                   </div>
                   <div className="flex">
-                     <p className="mr-1">Like: {postData.likes.length}</p>
-                     <p className="ml-1">Dislike: {postData.dislikes.length}</p>
+                     <div className="flex">
+                        <span>
+                           <AiOutlineLike
+                              className={
+                                 'text-white h-5 w-5 cursor-pointer fill-white'
+                              }
+                              onClick={() => {
+                                 console.log(user_Id!);
+                                 incrementLikeCount(postData._id, user_Id!);
+                              }}
+                           />
+                        </span>
+                        <p className="mr-1">{postData.likes.length}</p>
+                     </div>
+                     <div className="flex">
+                        <span>
+                           <AiOutlineDislike
+                              className="text-white h-5 w-5 cursor-pointer"
+                              onClick={() => {
+                                 incrementDislikeCount(postData._id);
+                              }}
+                           />
+                        </span>
+                        <p className="ml-1">{postData.dislikes.length}</p>
+                     </div>
                   </div>
                </div>
                <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
@@ -366,7 +390,7 @@ const PostPage = () => {
                })}
             </div>
          </div>
-         <div className="bg-black h-screen ml-20 lg:w-3/4">
+         <div className="bg-black h-screen md:ml-[70px] pl-2">
             <div className="flex items-start space-x-3 mb-4">
                <img
                   className="w-10 h-10 rounded-full"
@@ -380,14 +404,26 @@ const PostPage = () => {
                   <textarea
                      className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
                      placeholder="Add a public comment..."
+                     onChange={(e) => {
+                        setNewComment(e.target.value);
+                        console.log(e.target.value);
+                     }}
                   ></textarea>
                   <div className="mt-2 flex justify-end space-x-2">
                      <button className="text-sm text-gray-500">CANCEL</button>
-                     <button className="text-sm text-blue-500 font-semibold">
+                     <button
+                        className="text-sm text-blue-500 font-semibold"
+                        onClick={handleCommentSubmit}
+                     >
                         COMMENT
                      </button>
                   </div>
                </div>
+            </div>
+            <div className="">
+               {comments.map((comment, index) => (
+                  <Comments className="mt-4" comment={comment} key={index} />
+               ))}
             </div>
          </div>
          <Footer />

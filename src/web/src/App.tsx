@@ -70,11 +70,11 @@ function App() {
    const [role, setRole] = useState<string>('');
    const [ProfilePicture, setProfilePicture] = useState<string>('');
    const [_id, setid] = useState<string>('');
-   const [accessTokenC] = useCookies("accessToken", "");
-   const [refreshTokenC] = useCookies("refreshToken", "");
+   const [accessTokenC] = useCookies('accessToken', '');
+   const [refreshTokenC] = useCookies('refreshToken', '');
 
    useEffect(() => {
-      console.log(accessTokenC, refreshTokenC)
+      console.log('HERE SOMEHOW WTF', accessTokenC);
       if (accessTokenC && !accessToken) {
          setAccessToken(accessTokenC);
       }
@@ -159,7 +159,10 @@ function App() {
                      path="/game/cs2/lineups/:mapName"
                      element={<CS2Maps />}
                   ></Route>
-                  <Route path="/search/:game/:query" element={<SearchResults />}></Route>
+                  <Route
+                     path="/search/:game/:query"
+                     element={<SearchResults />}
+                  ></Route>
                   <Route path="/user/:id" element={<ProfilePage />}></Route>
                   <Route path="/game/:game/:id" element={<PostPage />}></Route>
                   <Route path="/about" element={<About />}></Route>

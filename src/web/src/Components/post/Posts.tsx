@@ -12,13 +12,7 @@ import smoke from '../../assets/svg/smoke.svg';
 import molotov from '../../assets/svg/molotov.svg';
 import he from '../../assets/svg/he.svg';
 import flash from '../../assets/svg/flash.svg';
-/*
-import views from '../../assets/svg/views.svg';
-import like from '../../assets/svg/like.svg';
-import dislike from '../../assets/svg/dislike.svg';
-*/
 import { getUserByID } from '../../util/getUser';
-
 import { FaCheckCircle } from 'react-icons/fa';
 
 interface PostsProps {
@@ -94,42 +88,13 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             userId: user_Id,
          })
          .then((response) => {
-            console.error('Successfully incremented view count:', response);
+            console.log('Successfully incremented view count:', response);
          })
          .catch((error) => {
             console.error('Failed to increment view count:', error);
             // Handle error
          });
    };
-
-
-   /*
-   const incrementLikeCount = async () => {
-      axios
-         .post(`/post/${postData._id}/increment-like`, {
-            userId: user_Id,
-         })
-         .then((response) => {
-            console.log('Successfully incremented like count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment like count:', error);
-            // Handle error
-         });
-   };
-
-   const incrementDislikeCount = async () => {
-      axios
-         .post(`/post/${postData._id}/increment-dislike`)
-         .then((response) => {
-            console.log('Successfully incremented dislike count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment dislike count:', error);
-            // Handle error
-         });
-   };
-   */
 
    return (
       <>

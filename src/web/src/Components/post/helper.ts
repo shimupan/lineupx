@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { PostType } from '../../global.types';
+
 export function timeAgo(date: Date) {
    const now = new Date();
    const secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
@@ -14,3 +17,27 @@ export function timeAgo(date: Date) {
    if (monthsAgo < 12) return `${monthsAgo} months ago`;
    return `${yearsAgo} years ago`;
 }
+
+export const incrementLikeCount = async (postData: PostType, user_Id: string) => {
+   axios
+      .post(`/post/${postData._id}/increment-like`, {
+         userId: user_Id,
+      })
+      .then((response) => {
+         console.log('Successfully incremented like count:', response);
+      })
+      .catch((error) => {
+         console.error('Failed to increment like count:', error);
+      });
+};
+
+export const incrementDislikeCount = async (postData: PostType) => {
+   axios
+      .post(`/post/${postData._id}/increment-dislike`)
+      .then((response) => {
+         console.log('Successfully incremented dislike count:', response);
+      })
+      .catch((error) => {
+         console.error('Failed to increment dislike count:', error);
+      });
+};
