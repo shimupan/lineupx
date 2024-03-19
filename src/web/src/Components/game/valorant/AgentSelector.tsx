@@ -17,7 +17,11 @@ const AgentSelector: React.FC<AgentSelectorProps> = ({
 
    const handleAgentSelect = (agent: ValorantAgent['data'][number]) => {
       setSelectedAgent(agent);
-      onSelectAgent(agent);
+      const agentWithModifiedName = {
+         ...agent,
+         displayName: agent.displayName === "KAY/O" ? "KAYO" : agent.displayName,
+      };
+      onSelectAgent(agentWithModifiedName);
       setShowDropdown(false);
    };
 

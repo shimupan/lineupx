@@ -45,10 +45,11 @@ const ValorantLineups: React.FC = () => {
    >([]);
    const [selectedDot, setSelectedDot] = useState<string>('');
    const Auth = useContext(AuthContext);
-   const { agentName, mapName } = useParams<{
+   const { agentName: rawAgentName, mapName } = useParams<{
       agentName: string;
       mapName: string;
    }>();
+   const agentName = rawAgentName === "KAYO" ? "KAY/O" : rawAgentName;
    const [isMapLoaded, setIsMapLoaded] = useState(false);
    const handleAbilityClick = (
       ability: ValorantAgent['data'][0]['abilities'][0],
@@ -64,7 +65,8 @@ const ValorantLineups: React.FC = () => {
    const handleClick = (mapName: string) => {
       setSelectedDot('');
       setSelectedAbility(null);
-      navigate(`/game/Valorant/agents/${agentName}/lineups/${mapName}`);
+      const formattedAgentName = agentName === "KAY/O" ? "KAYO" : agentName;
+      navigate(`/game/Valorant/agents/${formattedAgentName}/lineups/${mapName}`);
    };
    const [modalIsOpen, setModalIsOpen] = useState(false);
    useEffect(() => {
@@ -281,27 +283,29 @@ const ValorantLineups: React.FC = () => {
                <div className="abilities flex flex-row md:flex-row flex-wrap items-center justify-center gap-4 p-4">
                   <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
                      {agent.abilities.map((ability, index) => (
-                        <button
-                           key={index}
-                           className={`ability bg-1b2838 shadow-lg rounded-full p-2 flex flex-col items-center justify-start w-10 h-10 ${
-                              selectedAbility === ability ? 'bg-black' : ''
-                           }`}
-                           onClick={() => handleAbilityClick(ability)}
-                        >
-                           <img
-                              src={ability.displayIcon}
-                              alt={ability.displayName}
-                              className={`ability-icon w-full h-full ${
-                                 selectedAbility === ability ? 'shadow-lg' : ''
+                        ability.slot !== 'Passive' && (
+                           <button
+                              key={index}
+                              className={`ability bg-1b2838 shadow-lg rounded-full p-2 flex flex-col items-center justify-start w-10 h-10 ${
+                                 selectedAbility === ability ? 'bg-black' : ''
                               }`}
-                              style={{
-                                 filter:
-                                    selectedAbility === ability
-                                       ? 'grayscale(100%)'
-                                       : 'none',
-                              }}
-                           />
-                        </button>
+                              onClick={() => handleAbilityClick(ability)}
+                           >
+                              <img
+                                 src={ability.displayIcon}
+                                 alt={ability.displayName}
+                                 className={`ability-icon w-full h-full ${
+                                    selectedAbility === ability ? 'shadow-lg' : ''
+                                 }`}
+                                 style={{
+                                    filter:
+                                       selectedAbility === ability
+                                          ? 'grayscale(100%)'
+                                          : 'none',
+                                 }}
+                              />
+                           </button>
+                        )
                      ))}
                   </div>
                </div>
@@ -351,8 +355,9 @@ const ValorantLineups: React.FC = () => {
                                  currentBackground: selectedAgent.background,
                                  selectedAgentName: selectedAgent.displayName,
                               }));
+                              
                               navigate(
-                                 `/game/Valorant/agents/${selectedAgent.displayName}/lineups/${mapName}`,
+                                 `/game/Valorant/agents/${selectedAgent.displayName.replace("/", "")}/lineups/${mapName}`,
                               );
                            }
                            setModalIsOpen(false);

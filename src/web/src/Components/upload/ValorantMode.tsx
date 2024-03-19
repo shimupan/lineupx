@@ -337,7 +337,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             disabled={state.selectedAgentAbilities.length === 0}
          >
             <option value="">--</option>
-            {state.selectedAgentAbilities.map((ability, index) => (
+            {(state.selectedAgentAbilities.length === 5 ? state.selectedAgentAbilities.slice(0, -1) : state.selectedAgentAbilities).map((ability, index) => (
                <option key={index} value={ability}>
                   {ability}
                </option>
