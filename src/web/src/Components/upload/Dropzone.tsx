@@ -7,19 +7,21 @@ type DropzoneProps = {
 };
 
 const baseStyle: React.CSSProperties = {
-   flex: 1,
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   padding: '20px',
-   borderWidth: 2,
-   borderRadius: 2,
-   borderColor: '#eeeeee',
-   borderStyle: 'dashed',
-   backgroundColor: '#fafafa',
-   color: '#bdbdbd',
-   outline: 'none',
-   transition: 'border .24s ease-in-out',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: '#eeeeee',
+    borderStyle: 'dashed',
+    backgroundColor: '#fafafa',
+    color: '#bdbdbd',
+    outline: 'none',
+    transition: 'border .24s ease-in-out',
+    width: '180px',
+    height: '140px', 
 };
 
 const focusedStyle = {
