@@ -1,5 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { PostType, UserType, ValorantAgent } from '../../global.types';
+import { Tooltip } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
@@ -11,22 +12,11 @@ import smoke from '../../assets/svg/smoke.svg';
 import molotov from '../../assets/svg/molotov.svg';
 import he from '../../assets/svg/he.svg';
 import flash from '../../assets/svg/flash.svg';
-/*
-import views from '../../assets/svg/views.svg';
-import like from '../../assets/svg/like.svg';
-import dislike from '../../assets/svg/dislike.svg';
-*/
 import { getUserByID } from '../../util/getUser';
-
 import { FaCheckCircle } from 'react-icons/fa';
 
 interface PostsProps {
    postData: PostType;
-}
-
-interface TooltipProps {
-   text: string;
-   children: React.ReactNode;
 }
 
 const Posts: React.FC<PostsProps> = ({ postData }) => {
@@ -87,26 +77,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       return ability?.displayIcon;
    };
 
-   const Tooltip = ({ text, children }: TooltipProps) => {
-      const [showTooltip, setShowTooltip] = useState(false);
-
-      return (
-         <div className="relative flex items-center">
-            <div
-               onMouseEnter={() => setShowTooltip(true)}
-               onMouseLeave={() => setShowTooltip(false)}
-            >
-               {children}
-            </div>
-            {showTooltip && (
-               <div className="absolute top-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded-md z-10">
-                  {text}
-               </div>
-            )}
-         </div>
-      );
-   };
-
    const abilityIcon = findAbilityIcon(
       postData.valorantAgent,
       postData.ability,
@@ -118,42 +88,13 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             userId: user_Id,
          })
          .then((response) => {
-            console.error('Successfully incremented view count:', response);
+            console.log('Successfully incremented view count:', response);
          })
          .catch((error) => {
             console.error('Failed to increment view count:', error);
             // Handle error
          });
    };
-
-
-   /*
-   const incrementLikeCount = async () => {
-      axios
-         .post(`/post/${postData._id}/increment-like`, {
-            userId: user_Id,
-         })
-         .then((response) => {
-            console.log('Successfully incremented like count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment like count:', error);
-            // Handle error
-         });
-   };
-
-   const incrementDislikeCount = async () => {
-      axios
-         .post(`/post/${postData._id}/increment-dislike`)
-         .then((response) => {
-            console.log('Successfully incremented dislike count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment dislike count:', error);
-            // Handle error
-         });
-   };
-   */
 
    return (
       <>
@@ -164,7 +105,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                className="relative"
             >
                <img
-                  className="w-full max-h-80 min-w-[250px] min-h-[150px] bg-gray-400 rounded-lg cursor-pointer"
+                  className="w-[640px] h-[240px] min-w-[250px] min-h-[150px] bg-gray-400 rounded-lg cursor-pointer"
                   src={`${CDN_URL}/${postData.landingPosition.public_id}`}
                   alt={postData.postTitle}
                   onClick={async () => {
