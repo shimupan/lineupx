@@ -61,26 +61,6 @@ const CS2: React.FC = () => {
 
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
-      /*
-      setSearchTerm(value);
-      let filtered = posts;
-
-      if (value) {
-         // Filter posts based on search term
-         filtered = posts.filter(
-            (post) =>
-               post.postTitle.toLowerCase().includes(value.toLowerCase()) ||
-               post.grenadeType.toLowerCase().includes(value.toLowerCase()) ||
-               post.mapName.toLowerCase().includes(value.toLowerCase()) ||
-               post.teamSide?.toLowerCase() === value.toLowerCase(),
-         );
-      } else {
-         // If search term is empty, only show the first 10 posts
-         filtered = posts.slice(0, 10);
-      }
-
-      setFilteredPosts(filtered);
-      */
    };
 
    return (

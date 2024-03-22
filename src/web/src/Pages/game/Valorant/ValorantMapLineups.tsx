@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 import { Coordinate, ValorantMaps, ValorantAgent } from '../../../global.types';
+import { MapInteractionCSS } from 'react-map-interaction';
 import { useValorant } from '../../../hooks/index';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -171,6 +172,80 @@ const ValorantLineups: React.FC = () => {
                <div className="flex justify-center items-center">
                   <div className="flex flex-col sm:flex-row justify-center items-center">
                      <div style={{ position: 'relative' }}>
+                        <MapInteractionCSS>
+                           {maps
+                              ?.filter((map) => map.displayName === mapName)
+                              .map((map) => (
+                                 <div
+                                    key={map.uuid}
+                                    className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5 map-container flex flex-col items-center justify-center m-auto"
+                                 >
+                                    <img
+                                       src={map.displayIcon}
+                                       alt={map.displayName}
+                                       onLoad={(event) => {
+                                          const target =
+                                             event.target as HTMLImageElement;
+                                          const {
+                                             naturalWidth: width,
+                                             naturalHeight: height,
+                                          } = target;
+                                          console.log(
+                                             `Image dimensions: ${width}x${height}`,
+                                          );
+                                          setIsMapLoaded(true);
+                                       }}
+                                       style={{
+                                          width: isMobile ? '100%' : '1000',
+                                          maxWidth: '700px',
+                                          margin: '0 auto',
+                                          display: 'block',
+                                       }}
+                                    />
+                                    {isMapLoaded &&
+                                       !selectedAbility &&
+                                       complementCoordinates &&
+                                       coordinates.map((coordinate, index) => (
+                                          <Dot
+                                             key={index}
+                                             coordinate={coordinate}
+                                             selectedDot={selectedDot}
+                                             setSelectedDot={setSelectedDot}
+                                             mode="ValorantLineups"
+                                          />
+                                       ))}
+                                 </div>
+                              ))}
+                           {isMapLoaded && selectedAbility
+                              ? complementCoordinates
+                                   .filter(
+                                      (coordinate) =>
+                                         coordinate.name ===
+                                         selectedAbility.displayName,
+                                   )
+                                   .map((coordinate, index) => (
+                                      <Dot
+                                         key={coordinate.name + index}
+                                         coordinate={coordinate}
+                                         selectedDot={selectedDot}
+                                         setSelectedDot={setSelectedDot}
+                                         mode="ValorantLineups"
+                                         special={coordinate.post}
+                                      />
+                                   ))
+                              : complementCoordinates.map(
+                                   (coordinate, index) => (
+                                      <Dot
+                                         key={coordinate.name + index}
+                                         coordinate={coordinate}
+                                         selectedDot={selectedDot}
+                                         setSelectedDot={setSelectedDot}
+                                         mode="CS2Lineups"
+                                         special={coordinate.post}
+                                      />
+                                   ),
+                                )}
+                        </MapInteractionCSS>
                         {maps
                            ?.filter((map) => map.displayName === mapName)
                            .map((map) => (

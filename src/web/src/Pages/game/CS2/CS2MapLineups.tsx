@@ -9,6 +9,7 @@ import {
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
+import { MapInteractionCSS } from 'react-map-interaction';
 
 import ancient from '../../../assets/cs2maps/ancientradar.webp';
 import anubis from '../../../assets/cs2maps/anubisradar.webp';
@@ -193,11 +194,11 @@ const CS2Lineups: React.FC = () => {
                </>
             )}
          </div>
-         <div className="flex flex-1 pb-48">
-            <div className="flex-1 flex flex-col">
-               <div className="flex justify-center items-center">
-                  <div className="flex flex-col sm:flex-row justify-center items-center">
-                     <div style={{ position: 'relative' }}>
+         <div className="flex flex-1">
+            <div className="flex-1 flex justify-center items-center">
+               <div className="flex flex-col sm:flex-row justify-center items-center">
+                  <div className="relative mb-12">
+                     <MapInteractionCSS>
                         <img
                            src={mapImage}
                            alt={mapName}
@@ -209,6 +210,7 @@ const CS2Lineups: React.FC = () => {
                               display: 'block',
                            }}
                         />
+
                         {/*
                         Bit confusing, but basically 
                         1) if there is no active button and no selected dot, then show all dots
@@ -255,11 +257,8 @@ const CS2Lineups: React.FC = () => {
                                    special={coordinate.post}
                                 />
                              ))}
-                     </div>
+                     </MapInteractionCSS>
                   </div>
-               </div>
-            </div>
-         </div>
 
          <div className="flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
