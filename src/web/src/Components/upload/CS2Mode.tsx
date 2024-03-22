@@ -173,7 +173,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             context.moveTo(selectedDot.x, selectedDot.y);
             context.lineTo(x, y);
             context.strokeStyle = 'black';
-            context.lineWidth = 2;
+            context.lineWidth = 10;
             context.setLineDash([5, 15]);
             context.stroke();
          }

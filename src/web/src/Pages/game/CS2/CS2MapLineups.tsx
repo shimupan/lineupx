@@ -20,6 +20,15 @@ import nuke from '../../../assets/cs2maps/nukeradar.webp';
 import overpass from '../../../assets/cs2maps/overpassradar.webp';
 import vertigo from '../../../assets/cs2maps/vertigoradar.webp';
 
+import ancientmap from '../../../assets/cs2maps/ancient.webp';
+import anubismap from '../../../assets/cs2maps/anubis.webp';
+import dust2map from '../../../assets/cs2maps/dust2.webp';
+import infernomap from '../../../assets/cs2maps/inferno.webp';
+import miragemap from '../../../assets/cs2maps/mirage.webp';
+import nukemap from '../../../assets/cs2maps/nuke.webp';
+import overpassmap from '../../../assets/cs2maps/overpass.webp';
+import vertigomap from '../../../assets/cs2maps/vertigo.webp';
+
 import dust2Coordinates from '../../../assets/cs2jsons/dust2.json';
 import anubisCoordinates from '../../../assets/cs2jsons/anubis.json';
 import vertigoCoordinates from '../../../assets/cs2jsons/vertigo.json';
@@ -39,6 +48,17 @@ const mapRadars = [
    { name: 'Nuke', image: nuke, coordinates: nukeCoordinates },
    { name: 'Overpass', image: overpass, coordinates: overpassCoordinates },
    { name: 'Vertigo', image: vertigo, coordinates: vertigoCoordinates },
+];
+
+const maps = [
+   { name: 'Ancient', image: ancientmap },
+   { name: 'Anubis', image: anubismap },
+   { name: 'Dust 2', image: dust2map },
+   { name: 'Inferno', image: infernomap },
+   { name: 'Mirage', image: miragemap },
+   { name: 'Nuke', image: nukemap },
+   { name: 'Overpass', image: overpassmap },
+   { name: 'Vertigo', image: vertigomap },
 ];
 
 const CS2Lineups: React.FC = () => {
@@ -74,8 +94,12 @@ const CS2Lineups: React.FC = () => {
       return () => {
          window.removeEventListener('resize', handleResize);
       };
-   }, [Auth?.username]);
+   }, [Auth?.username, mapName]);
 
+   const handleClick = (mapName: string) => {
+      setSelectedDot('');
+      navigate(`/game/CS2/lineups/${mapName}`);
+   };
    // Perform filter
    useEffect(() => {
       if (!activeButton && !selectedDot) {
@@ -235,15 +259,38 @@ const CS2Lineups: React.FC = () => {
                              ))}
                      </MapInteractionCSS>
                   </div>
-
-                  <GrenadeSelection
-                     isMobile={isMobile}
-                     activeButton={activeButton}
-                     setActiveButton={setActiveButton!}
-                  />
                </div>
             </div>
          </div>
+
+         <div className="flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+               {maps.map((map) => (
+                  <div
+                     key={map.name}
+                     className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer"
+                     onClick={() => handleClick(map.name)}
+                  >
+                     <img
+                        src={map.image}
+                        alt={map.name}
+                        className="w-full h-auto sm:h-48 object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
+                     />
+                     <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
+                        <div className="font-bold text-xl mb-2 text-white text-center">
+                           {map.name}
+                        </div>
+                     </div>
+                  </div>
+               ))}
+            </div>
+            <GrenadeSelection
+               isMobile={isMobile}
+               activeButton={activeButton}
+               setActiveButton={setActiveButton!}
+            />
+         </div>
+
          <Footer />
       </>
    );

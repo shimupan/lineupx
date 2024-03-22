@@ -186,7 +186,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             context.moveTo(selectedDot.x, selectedDot.y);
             context.lineTo(x, y);
             context.strokeStyle = 'black';
-            context.lineWidth = 2;
+            context.lineWidth = 10;
             context.setLineDash([5, 15]);
             context.stroke();
          }
@@ -337,7 +337,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             disabled={state.selectedAgentAbilities.length === 0}
          >
             <option value="">--</option>
-            {state.selectedAgentAbilities.map((ability, index) => (
+            {(state.selectedAgentAbilities.length === 5 ? state.selectedAgentAbilities.slice(0, -1) : state.selectedAgentAbilities).map((ability, index) => (
                <option key={index} value={ability}>
                   {ability}
                </option>

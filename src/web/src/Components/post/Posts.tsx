@@ -64,12 +64,12 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    }, [currentImage]);
 
    const valorantAgentIcon = valorantAgents.find(
-      (agent) => agent.displayName === postData.valorantAgent,
+      (agent) => agent.displayName === (postData.valorantAgent === "KAYO" ? "KAY/O" : postData.valorantAgent),
    )?.displayIcon;
 
    const findAbilityIcon = (agentName: string, abilityName: string) => {
       const agent = valorantAgents.find(
-         (agent) => agent.displayName === agentName,
+         (agent) => agent.displayName === (agentName === "KAYO" ? "KAY/O" : agentName),
       );
       const ability = agent?.abilities.find(
          (ability) => ability.displayName === abilityName,

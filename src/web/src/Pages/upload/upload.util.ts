@@ -73,7 +73,7 @@ export const handleSubmit = async (
          lineupPositionCoords: state.lineupPositionCoords,
       });
       toast.update(id, {
-         render: 'Post Uploaded Successfully!',
+         render: 'Post Uploaded Successfully!. Your Lineup will be reviewed by our admins',
          type: 'success',
          isLoading: false,
          autoClose: 1000,
