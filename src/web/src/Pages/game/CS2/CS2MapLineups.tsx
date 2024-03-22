@@ -259,6 +259,9 @@ const CS2Lineups: React.FC = () => {
                              ))}
                      </MapInteractionCSS>
                   </div>
+               </div>
+            </div>
+         </div>
 
          <div className="flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
