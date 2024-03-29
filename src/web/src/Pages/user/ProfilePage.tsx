@@ -65,7 +65,7 @@ const ProfilePage = () => {
          .finally(() => {
             setLoading(false);
          });
-   }, []);
+   }, [id]);
 
    function handleVerification() {
       const id = toast.loading('Sending verification email...');
@@ -113,7 +113,7 @@ const ProfilePage = () => {
                ...prevState,
                ProfilePicture: response.data.profilePicture,
             }));
-
+            Auth?.setProfilePicture(response.data.profilePicture);
             toast.success('Profile picture updated successfully');
          } catch (error) {
             console.error('Error uploading profile picture:', error);
