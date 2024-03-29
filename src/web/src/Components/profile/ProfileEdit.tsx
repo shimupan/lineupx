@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { UserType } from '../../global.types';
-import { IoMdClose } from 'react-icons/io';
+import { IoMdClose, IoMdArrowBack } from 'react-icons/io'; // Import the IoMdArrowBack icon
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
@@ -64,7 +64,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
                   onClick={() => setOpen(false)}
                />
             </div>
-            <button onClick={() => setOpen(false)} className="block text-sm font-medium text-gray-700">Back to Profile Page</button>
+            {/* Replace the button text with an arrow icon */}
+            <button onClick={() => setOpen(false)} className="block text-sm font-medium text-gray-700">
+               <IoMdArrowBack className="inline mr-2" />Back
+            </button>
             <form onSubmit={handleSubmit} className="mt-4">
                <div className="mb-4">
                   <label

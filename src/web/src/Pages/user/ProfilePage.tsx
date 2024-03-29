@@ -202,7 +202,7 @@ const ProfilePage = () => {
                   if (game === selectedGame) {
                      return (
                         <React.Fragment key={index}>
-                           <div className="text-center text-4xl">{game}</div>
+                           <div className="text-center text-4xl font-bold text-indigo-600 py-4">{game}</div>
                            <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
                               {posts[index].map((post) => {
                                  return (
