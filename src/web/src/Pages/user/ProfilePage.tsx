@@ -65,7 +65,7 @@ const ProfilePage = () => {
          .finally(() => {
             setLoading(false);
          });
-   }, []);
+   }, [id]);
 
    function handleVerification() {
       const id = toast.loading('Sending verification email...');
@@ -77,7 +77,7 @@ const ProfilePage = () => {
 
    const triggerFileInput = () => {
       // Trigger the file input when the avatar is clicked
-      if (fileInputRef.current) {
+      if (Auth?.username == user.username && fileInputRef.current) {
          fileInputRef.current.click();
       }
    };
@@ -113,7 +113,7 @@ const ProfilePage = () => {
                ...prevState,
                ProfilePicture: response.data.profilePicture,
             }));
-
+            Auth?.setProfilePicture(response.data.profilePicture);
             toast.success('Profile picture updated successfully');
          } catch (error) {
             console.error('Error uploading profile picture:', error);
@@ -163,7 +163,11 @@ const ProfilePage = () => {
                               user?.username ? user.username : ''
                            }`
                         }
-                        className="ml-[2px] rounded-md cursor-pointer absolute top-[275px] w-[100px]"
+                        className={`ml-[2px] rounded-md absolute top-[275px] w-[100px] ${
+                           Auth?.username == user.username
+                              ? 'cursor-pointer'
+                              : ''
+                        }`}
                         onClick={triggerFileInput}
                      />
                      <input
