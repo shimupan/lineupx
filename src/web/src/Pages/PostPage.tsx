@@ -156,11 +156,11 @@ const PostPage = () => {
          <SideNavWrapper />
          <div className="lg:flex">
             <div className="md:ml-[70px] relative lg:w-3/4 bg-black pb-4">
-               <div className="h-1/2 lg:h-3/4 object-cover">
+               <div className="">
                   <img
                      src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
                      alt={postData.postTitle}
-                     className="w-full h-full rounded-r-xl"
+                     className="rounded-r-xl"
                   />
                </div>
                <div className="flex justify-between w-full">
@@ -186,7 +186,7 @@ const PostPage = () => {
                         <div>
                            <Link to={`/user/${postData.Username}`}>
                               <img
-                                 className="rounded-full cursor-pointer"
+                                 className="rounded-full cursor-pointer w-10 h-10"
                                  src={`${user?.ProfilePicture}`}
                               />
                            </Link>
