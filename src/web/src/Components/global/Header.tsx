@@ -1,15 +1,18 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../App';
+import { useCookies } from '../../hooks';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 import logo from '../../assets/lineupx_compact.webp';
 
 const Header: React.FC = () => {
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
-   const cookies = new Cookies();
    const location = useLocation();
+   const [key, setKey] = useState(0);
+   const [, , deleteAccessCookie] = useCookies('accessToken', '');
+   const [, , deleteRefreshCookie] = useCookies('refreshToken', '');
+
    const logout = async () => {
       try {
          // Send a request to the server to invalidate the refresh token
@@ -19,19 +22,16 @@ const Header: React.FC = () => {
             });
          }
 
-         // Clear the tokens from cookies and context
-         cookies.remove('accessToken');
-         cookies.remove('refreshToken');
-         if (Auth) {
-            Auth.setAccessToken('');
-            Auth.setRefreshToken('');
-            Auth.setUsername('');
-            Auth.setEmail('');
-            Auth.setProfilePicture(''); 
-         }
+         deleteAccessCookie();
+         deleteRefreshCookie();
 
-         // Navigate to the login or home page after logout
-         navigate('/login');
+         Auth?.setAccessToken('');
+         Auth?.setRefreshToken('');
+         Auth?.setUsername('');
+         Auth?.setEmail('');
+         Auth?.setProfilePicture('');
+         setKey((prevKey) => prevKey + 1);
+         navigate('/');
       } catch (error) {
          console.error('Error during logout:', error);
       }

@@ -74,7 +74,6 @@ function App() {
    const [refreshTokenC] = useCookies('refreshToken', '');
 
    useEffect(() => {
-      console.log('HERE SOMEHOW WTF', accessTokenC);
       if (accessTokenC && !accessToken) {
          setAccessToken(accessTokenC);
       }
