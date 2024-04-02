@@ -231,6 +231,7 @@ const ValorantLineups: React.FC = () => {
                                          setSelectedDot={setSelectedDot}
                                          mode="ValorantLineups"
                                          special={coordinate.post}
+                                         abilityIconUrl={selectedAbility?.displayIcon}
                                       />
                                    ))
                               : complementCoordinates.map(
@@ -242,38 +243,12 @@ const ValorantLineups: React.FC = () => {
                                          setSelectedDot={setSelectedDot}
                                          mode="CS2Lineups"
                                          special={coordinate.post}
+                                         abilityIconUrl={selectedAbility?.displayIcon}
                                       />
                                    ),
                                 )}
                         </MapInteractionCSS>
                         
-                        {isMapLoaded && selectedAbility
-                           ? complementCoordinates
-                                .filter(
-                                   (coordinate) =>
-                                      coordinate.name ===
-                                      selectedAbility.displayName,
-                                )
-                                .map((coordinate, index) => (
-                                   <Dot
-                                      key={coordinate.name + index}
-                                      coordinate={coordinate}
-                                      selectedDot={selectedDot}
-                                      setSelectedDot={setSelectedDot}
-                                      mode="ValorantLineups"
-                                      special={coordinate.post}
-                                   />
-                                ))
-                           : complementCoordinates.map((coordinate, index) => (
-                                <Dot
-                                   key={coordinate.name + index}
-                                   coordinate={coordinate}
-                                   selectedDot={selectedDot}
-                                   setSelectedDot={setSelectedDot}
-                                   mode="CS2Lineups"
-                                   special={coordinate.post}
-                                />
-                             ))}
                      </div>
                   </div>
                </div>

@@ -474,7 +474,9 @@ router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
 
 // returns all post for a specific grenade
 router.get('/grenade/:map/:game/:grenade', async (req, res) => {
-   const { game, map, grenade } = req.params;
+   const { game, map } = req.params;
+   let { grenade } = req.params;
+   grenade = decodeURIComponent(grenade);
    const parsedMap = map.replace(/\s/g, '').toLowerCase();
    if (game === 'CS2') {
       const PostData = mongoose.model('PostData', PostDataSchema, game);
