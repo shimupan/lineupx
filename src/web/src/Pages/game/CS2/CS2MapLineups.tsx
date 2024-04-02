@@ -11,6 +11,12 @@ import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
 import { MapInteractionCSS } from 'react-map-interaction';
 
+import Decoy from '../../../assets/svg/decoy.svg';
+import Smoke from '../../../assets/svg/smoke.svg';
+import Molotov from '../../../assets/svg/molotov.svg';
+import HE from '../../../assets/svg/he.svg';
+import Flash from '../../../assets/svg/flash.svg';
+
 import ancient from '../../../assets/cs2maps/ancientradar.webp';
 import anubis from '../../../assets/cs2maps/anubisradar.webp';
 import dust2 from '../../../assets/cs2maps/dust2radar.webp';
@@ -61,6 +67,13 @@ const maps = [
    { name: 'Vertigo', image: vertigomap },
 ];
 
+const grenadeIcons = {
+   Decoy,
+   Smoke,
+   Molotov,
+   HE,
+   Flash,
+};
 const CS2Lineups: React.FC = () => {
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
@@ -245,6 +258,9 @@ const CS2Lineups: React.FC = () => {
                                       setSelectedDot={setSelectedDot}
                                       mode="CS2Lineups"
                                       special={coordinate.post}
+                                      abilityIconUrl={
+                                         grenadeIcons[activeButton as keyof typeof grenadeIcons]
+                                      }
                                    />
                                 ))
                            : complementCoordinates.map((coordinate, index) => (
