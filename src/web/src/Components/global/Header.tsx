@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../../App';
 import { useCookies } from '../../hooks';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -9,7 +9,6 @@ const Header: React.FC = () => {
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
    const location = useLocation();
-   const [key, setKey] = useState(0);
    const [, , deleteAccessCookie] = useCookies('accessToken', '');
    const [, , deleteRefreshCookie] = useCookies('refreshToken', '');
 
@@ -30,7 +29,9 @@ const Header: React.FC = () => {
          Auth?.setUsername('');
          Auth?.setEmail('');
          Auth?.setProfilePicture('');
-         setKey((prevKey) => prevKey + 1);
+         setTimeout(() => {
+            window.location.reload();
+         }, 100);
          navigate('/');
       } catch (error) {
          console.error('Error during logout:', error);
