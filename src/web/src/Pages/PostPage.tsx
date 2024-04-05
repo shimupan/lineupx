@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import {
    Header,
    Footer,
@@ -29,17 +29,23 @@ export type Comment = {
 
 const PostPage = () => {
    const location = useLocation();
-   const postData = location.state.postData;
+   const postData = location.state?.postData;
    const imagePositions = [
-      postData.landingPosition.public_id,
-      postData.standingPosition.public_id,
-      postData.aimingPosition.public_id,
+      postData?.landingPosition?.public_id,
+      postData?.standingPosition?.public_id,
+      postData?.aimingPosition?.public_id,
+   ].filter(Boolean); 
+
+   const imageTitles = [
+      'Landing Position',
+      'Standing Position',
+      'Aiming Position',
    ];
-   const imageTitles = ['Landing Position', 'Standing Position', 'Aiming Position'];
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
    const verified = Auth?.Verified;
-
+   const { postId } = useParams<{ postId: string }>();
+   const [currPostData, setcurrPostData] = useState<PostType | null>(null);
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    /*
    const [viewMode, setViewMode] = useState('carousel');
@@ -49,7 +55,7 @@ const PostPage = () => {
    const [comments, setComments] = useState<Comment[]>([]);
    const [userComments, setUserComments] = useState<Comment[]>([]);
    const [newComment, setNewComment] = useState('');
-   
+
    const [user, setUser] = useState<UserType>();
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
    /*
@@ -134,6 +140,17 @@ const PostPage = () => {
    useEffect(() => {
       fetchComments();
    }, []);
+
+   useEffect(() => {
+      axios
+         .get(`/post/${postId}`)
+         .then((response) => {
+            setcurrPostData(response.data);
+         })
+         .catch((error) => {
+            console.error('Failed to fetch post data:', error);
+         });
+   }, [postId]);
 
    useEffect(() => {
       if (postData.UserID) {

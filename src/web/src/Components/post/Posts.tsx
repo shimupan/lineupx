@@ -103,7 +103,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       // Construct the full URL you want to share, using template literals for dynamic parts
       const postUrl = `${window.location.origin}/game/${
          postData.game
-      }/${encodeURIComponent(postData.postTitle)}`;
+      }/${encodeURIComponent(postData._id)}`;
 
       try {
          await navigator.clipboard.writeText(postUrl);
@@ -127,7 +127,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   alt={postData.postTitle}
                   onClick={async () => {
                      await incrementViewCount();
-                     navigate(`/game/${postData.game}/${postData.postTitle}`, {
+                     navigate(`/game/${postData.game}/${postData._id}`, {
                         state: { postData },
                      });
                   }}
@@ -212,7 +212,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         onClick={async () => {
                            await incrementViewCount();
                            navigate(
-                              `/game/${postData.game}/${postData.postTitle}`,
+                              `/game/${postData.game}/${postData._id}`,
                               {
                                  state: { postData },
                               },
@@ -235,7 +235,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      <Link
                         className="text-lg font-bold m-0 no-underline"
                         to={`/game/${postData.game}/${encodeURIComponent(
-                           postData.postTitle,
+                           postData._id,
                         )}`}
                      >
                         {postData.postTitle.length > 23
