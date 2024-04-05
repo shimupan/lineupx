@@ -35,6 +35,7 @@ const PostPage = () => {
       postData.standingPosition.public_id,
       postData.aimingPosition.public_id,
    ];
+   const imageTitles = ['Landing Position', 'Standing Position', 'Aiming Position'];
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
    const verified = Auth?.Verified;
@@ -48,7 +49,7 @@ const PostPage = () => {
    const [comments, setComments] = useState<Comment[]>([]);
    const [userComments, setUserComments] = useState<Comment[]>([]);
    const [newComment, setNewComment] = useState('');
-
+   
    const [user, setUser] = useState<UserType>();
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
    /*
@@ -157,11 +158,26 @@ const PostPage = () => {
          <div className="lg:flex">
             <div className="md:ml-[70px] relative lg:w-3/4 bg-black pb-4">
                <div className="">
-                  <img
-                     src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
-                     alt={postData.postTitle}
-                     className="rounded-r-xl"
-                  />
+                  <div
+                     style={{
+                        position: 'relative',
+                        width: '100%',
+                        paddingTop: '56.25%',
+                     }}
+                  >
+                     <img
+                        src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
+                        alt={postData.postTitle}
+                        style={{
+                           position: 'absolute',
+                           top: 0,
+                           left: 0,
+                           width: '100%',
+                           height: '100%',
+                        }}
+                        className="rounded-r-xl"
+                     />
+                  </div>
                </div>
                <div className="flex justify-between w-full">
                   <button
@@ -170,6 +186,7 @@ const PostPage = () => {
                   >
                      ←
                   </button>
+                  {imageTitles[currentImageIndex]}
                   <button
                      onClick={() => handleArrowClick('next')}
                      className="text-2xl"
