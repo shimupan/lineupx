@@ -142,10 +142,6 @@ function App() {
                      element={<ValorantLineups />}
                   ></Route>
                   <Route
-                     path="/game/valorant/agents"
-                     element={<ValorantAgents />}
-                  ></Route>
-                  <Route
                      path="/game/valorant/lineups/:mapName"
                      element={<ValorantMaps />}
                   />

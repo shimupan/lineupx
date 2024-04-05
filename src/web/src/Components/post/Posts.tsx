@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../App';
 import { timeAgo } from './helper';
-
+import shareIcon from '../../assets/svg/share.svg';
 import decoy from '../../assets/svg/decoy.svg';
 import smoke from '../../assets/svg/smoke.svg';
 import molotov from '../../assets/svg/molotov.svg';
@@ -64,12 +64,15 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    }, [currentImage]);
 
    const valorantAgentIcon = valorantAgents.find(
-      (agent) => agent.displayName === (postData.valorantAgent === "KAYO" ? "KAY/O" : postData.valorantAgent),
+      (agent) =>
+         agent.displayName ===
+         (postData.valorantAgent === 'KAYO' ? 'KAY/O' : postData.valorantAgent),
    )?.displayIcon;
 
    const findAbilityIcon = (agentName: string, abilityName: string) => {
       const agent = valorantAgents.find(
-         (agent) => agent.displayName === (agentName === "KAYO" ? "KAY/O" : agentName),
+         (agent) =>
+            agent.displayName === (agentName === 'KAYO' ? 'KAY/O' : agentName),
       );
       const ability = agent?.abilities.find(
          (ability) => ability.displayName === abilityName,
@@ -96,6 +99,20 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
          });
    };
 
+   const copyPostLinkToClipboard = async () => {
+      // Construct the full URL you want to share, using template literals for dynamic parts
+      const postUrl = `${window.location.origin}/game/${
+         postData.game
+      }/${encodeURIComponent(postData.postTitle)}`;
+
+      try {
+         await navigator.clipboard.writeText(postUrl);
+         alert('Link copied to clipboard!'); // Consider a more user-friendly notification mechanism
+      } catch (err) {
+         console.error('Failed to copy: ', err);
+      }
+   };
+
    return (
       <>
          <div>
@@ -105,7 +122,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                className="relative"
             >
                <img
-                  className="w-[640px] h-[240px] min-w-[250px] min-h-[150px] bg-gray-400 rounded-lg cursor-pointer"
+                  className="w-[640px] h-[240px] bg-gray-400 rounded-lg cursor-pointer"
                   src={`${CDN_URL}/${postData.landingPosition.public_id}`}
                   alt={postData.postTitle}
                   onClick={async () => {
@@ -187,34 +204,53 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      <img
                         src={`${CDN_URL}/${images[currentImage]}`}
                         alt={postData.postTitle}
-                        className={`w-full max-h-80 min-w-[250px] min-h-[150px] rounded-lg cursor-pointer transition-all duration-500 ${isAnimating ? 'opacity-0 transform scale-0.95' : 'opacity-100 transform scale-1'}`}
+                        className={`w-full max-h-80 min-w-[250px] min-h-[150px] rounded-lg cursor-pointer transition-all duration-500 ${
+                           isAnimating
+                              ? 'opacity-0 transform scale-0.95'
+                              : 'opacity-100 transform scale-1'
+                        }`}
                         onClick={async () => {
                            await incrementViewCount();
-                           navigate(`/game/${postData.game}/${postData.postTitle}`, {
-                              state: { postData },
-                           });
+                           navigate(
+                              `/game/${postData.game}/${postData.postTitle}`,
+                              {
+                                 state: { postData },
+                              },
+                           );
                         }}
                      />
                   </div>
                )}
             </div>
 
-            <div className="flex items-start mt-4">
+            <div className="flex items-center mt-4">
                <Link to={`/user/${postData.Username}`}>
-                  <img
-                     src={user?.ProfilePicture}
-                     className="mr-3 rounded-full w-9 h-9 bg-gray-400"
-                  />
+               <img
+                  src={user?.ProfilePicture}
+                  className="mr-3 rounded-full w-9 h-9 bg-gray-400 mb-8"
+               />
                </Link>
-               <div className="flex flex-col">
-                  <Link
-                     className="text-lg font-bold m-0 no-underline"
-                     to={`/game/${postData.game}/${postData.postTitle}`}
-                  >
-                     {postData.postTitle.length > 23
-                        ? `${postData.postTitle.substring(0, 23)}...`
-                        : postData.postTitle}
-                  </Link>
+               <div className="flex flex-col flex-grow">
+                  <div className="flex justify-between">
+                     <Link
+                        className="text-lg font-bold m-0 no-underline"
+                        to={`/game/${postData.game}/${encodeURIComponent(
+                           postData.postTitle,
+                        )}`}
+                     >
+                        {postData.postTitle.length > 23
+                           ? `${postData.postTitle.substring(0, 23)}...`
+                           : postData.postTitle}
+                     </Link>
+                     <img
+                        src={shareIcon}
+                        alt="Share"
+                        className="ml-3 w-6 h-6 cursor-pointer"
+                        onClick={copyPostLinkToClipboard}
+                        title="Share"
+                        style={{ filter: 'invert(100%)' }} 
+                     />
+                  </div>
                   <div className="flex flex-row">
                      <Tooltip text={postData.Username}>
                         <Link
