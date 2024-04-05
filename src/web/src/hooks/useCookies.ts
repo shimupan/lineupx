@@ -6,7 +6,7 @@ export default function useCookie(name: string, defaultValue: any) {
    const [value, setValue] = useState(() => {
       const cookie = cookies.get(name);
       if (cookie) return cookie;
-      cookies.set(name, defaultValue);
+      cookies.set(name, defaultValue, { path: '/' });
       return defaultValue;
    });
 
@@ -19,7 +19,7 @@ export default function useCookie(name: string, defaultValue: any) {
    );
 
    const deleteCookie = useCallback(() => {
-      cookies.remove(name);
+      cookies.remove(name, {path: '/'});
       setValue(null);
    }, [name]);
 
