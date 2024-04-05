@@ -259,8 +259,11 @@ const CS2Lineups: React.FC = () => {
                                       mode="CS2Lineups"
                                       special={coordinate.post}
                                       abilityIconUrl={
-                                         grenadeIcons[activeButton as keyof typeof grenadeIcons]
+                                         grenadeIcons[
+                                            activeButton as keyof typeof grenadeIcons
+                                         ]
                                       }
+                                      onTouchEnd={() => setSelectedDot(coordinate.name)}
                                    />
                                 ))
                            : complementCoordinates.map((coordinate, index) => (
@@ -279,7 +282,7 @@ const CS2Lineups: React.FC = () => {
             </div>
          </div>
 
-         <div className="flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
+         <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
                {maps.map((map) => (
                   <div

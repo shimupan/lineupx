@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { PostType } from '../../global.types';
 
 type DotProps = {
-   coordinate: { x: number; y: number; name: string };
-   selectedDot: string;
-   setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
-   mode: string;
-   special?: PostType;
-   abilityIconUrl?: string;
+  coordinate: { x: number; y: number; name: string };
+  selectedDot: string;
+  setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
+  mode: string;
+  special?: PostType;
+  abilityIconUrl?: string;
+  onTouchEnd?: (event: React.TouchEvent) => void; // Added touch event handler
 };
 
 const Dot: React.FC<DotProps> = ({
@@ -68,6 +69,7 @@ const Dot: React.FC<DotProps> = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(selectedDot === coordinate.name)}
             onClick={changeDot}
+            onTouchEnd={changeDot} // Added touch event handler
             title={coordinate.name}
             className="absolute cursor-pointer transition duration-500 ease-in-out"
             style={{ top: `${top}px`, left: `${left}px` }}
