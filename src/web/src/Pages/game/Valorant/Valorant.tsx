@@ -146,8 +146,8 @@ const Valorant: React.FC = () => {
                      game={'Valorant'}
                   />
                </div>
-               <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
-                  <div className="w-1/2">
+               <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
+                  <div className="w-full sm:w-3/4 md:w-1/2 ">
                      <Carousel images={VALORANT_MAPS} />
                   </div>
                </div>
@@ -155,7 +155,7 @@ const Valorant: React.FC = () => {
                <h1 className="text-3xl font-bold text-center mt-10 mb-5">
                   Recently added Lineups
                </h1>
-               <article className="ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+               <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
                   {posts.map((post) => (
                      <React.Fragment key={post.landingPosition.public_id}>
                         <Posts postData={post} />

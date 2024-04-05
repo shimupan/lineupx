@@ -101,25 +101,68 @@ const Upload: React.FC = () => {
                         <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
                            Upload a New Post
                         </h3>
-                        <label
-                           htmlFor="postName"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Post Name*
-                        </label>
-                        <input
-                           id="postName"
-                           type="postName"
-                           placeholder="Enter a post name (please be descriptive)"
-                           value={state.postName}
-                           onChange={(e) =>
-                              dispatch({
-                                 type: 'setPostName',
-                                 payload: e.target.value,
-                              })
-                           }
-                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                        />
+                        <div className="flex space-x-4">
+                           <div className="flex-1">
+                              <label
+                                 htmlFor="postName"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Post Name*
+                              </label>
+                              <input
+                                 id="postName"
+                                 type="postName"
+                                 placeholder="Enter a post name (please be descriptive)"
+                                 value={state.postName}
+                                 onChange={(e) =>
+                                    dispatch({
+                                       type: 'setPostName',
+                                       payload: e.target.value,
+                                    })
+                                 }
+                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
+                              />
+                              <label
+                                 htmlFor="lineupLocation"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Lineup Location*
+                              </label>
+                              <input
+                                 id="lineupLocation"
+                                 type="lineupLocation"
+                                 placeholder="Enter the location of the lineup"
+                                 value={state.lineupLocation}
+                                 onChange={(e) =>
+                                    dispatch({
+                                       type: 'setLineupLocation',
+                                       payload: e.target.value,
+                                    })
+                                 }
+                                 className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
+                              />
+                           </div>
+                           <div className="flex-1">
+                              <label
+                                 htmlFor="lineupDescription"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Lineup Description*
+                              </label>
+                              <textarea
+                                 id="lineupDescription"
+                                 placeholder="Enter the description of the lineup"
+                                 value={state.lineupDescription}
+                                 onChange={(e) =>
+                                    dispatch({
+                                       type: 'setLineupDescription',
+                                       payload: e.target.value,
+                                    })
+                                 }
+                                 className="flex text-black items-center w-full px-5 py-4 h-40 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
+                              />
+                           </div>
+                        </div>
                         <label
                            htmlFor="mapName"
                            className="mb-2 text-sm text-start text-gray-900"
@@ -138,83 +181,82 @@ const Upload: React.FC = () => {
                         >
                            Is this a jump throw?
                         </label>
-                        <select
-                           id="jumpThrow"
-                           placeholder="Enter a map name"
-                           value={state.jumpThrow}
-                           onChange={(e) =>
-                              dispatch({
-                                 type: 'setJumpThrow',
-                                 payload: e.target.value,
-                              })
-                           }
-                           className="flex text-black items-center w-full px-5
-                           py-4 mb-5 mr-2 text-sm font-medium outline-none
-                           focus:bg-grey-400 placeholder:text-grey-700
-                           bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                        >
-                           <option value="">--</option>
-                           <option value="yes">Yes</option>
-                           <option value="no">No</option>
-                        </select>
-                        <label
-                           htmlFor="lineupDescription"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Lineup Description*
-                        </label>
-                        <textarea
-                           id="lineupDescription"
-                           placeholder="Enter the description of the lineup"
-                           value={state.lineupDescription}
-                           onChange={(e) =>
-                              dispatch({
-                                 type: 'setLineupDescription',
-                                 payload: e.target.value,
-                              })
-                           }
-                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                        />
-                        <label
-                           htmlFor="lineupLocation"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Lineup Location*
-                        </label>
-                        <input
-                           id="lineupLocation"
-                           type="lineupLocation"
-                           placeholder="Enter the location of the lineup"
-                           value={state.lineupLocation}
-                           onChange={(e) =>
-                              dispatch({
-                                 type: 'setLineupLocation',
-                                 payload: e.target.value,
-                              })
-                           }
-                           className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-                        />
-                        <label
-                           htmlFor="jumpThrow"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Upload the Grenade Landing Position
-                        </label>
-                        <Dropzone setFile={setLandingPosition} />
-                        <label
-                           htmlFor="jumpThrow"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Upload the Grenade Standing Position
-                        </label>
-                        <Dropzone setFile={setStandingPosition} />
-                        <label
-                           htmlFor="jumpThrow"
-                           className="mb-2 text-sm text-start text-gray-900"
-                        >
-                           Upload the Grenade Aiming Position
-                        </label>
-                        <Dropzone setFile={setAimingPosition} />
+
+                        <div className="flex space-x-4">
+                           <button
+                              type="button"
+                              onClick={() =>
+                                 dispatch({
+                                    type: 'setJumpThrow',
+                                    payload: 'Yes',
+                                 })
+                              }
+                              className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
+                                 state.jumpThrow === 'Yes'
+                                    ? 'bg-purple-200'
+                                    : 'bg-[#edf2f7]'
+                              } text-dark-grey-900 rounded-2xl`}
+                           >
+                              Yes
+                           </button>
+                           <button
+                              type="button"
+                              onClick={() =>
+                                 dispatch({
+                                    type: 'setJumpThrow',
+                                    payload: 'No',
+                                 })
+                              }
+                              className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
+                                 state.jumpThrow === 'No'
+                                    ? 'bg-purple-200'
+                                    : 'bg-[#edf2f7]'
+                              } text-dark-grey-900 rounded-2xl`}
+                           >
+                              No
+                           </button>
+                        </div>
+                        <div className={`flex flex-col sm:flex-row space-y-4 ${state.mapName ? 'sm:space-x-8' : 'sm:space-x-4'} sm:space-y-0`}>
+                           <div>
+                              <label
+                                 htmlFor="jumpThrow"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Upload the Grenade
+                                 <br />
+                                 Landing Position
+                              </label>
+                              <div className="flex justify-center items-center">
+                                 <Dropzone setFile={setLandingPosition} />
+                              </div>
+                           </div>
+                           <div>
+                              <label
+                                 htmlFor="jumpThrow"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Upload the Grenade
+                                 <br />
+                                 Standing Position
+                              </label>
+                              <div className="flex justify-center items-center">
+                                 <Dropzone setFile={setStandingPosition} />
+                              </div>
+                           </div>
+                           <div>
+                              <label
+                                 htmlFor="jumpThrow"
+                                 className="mb-2 text-sm text-start text-gray-900"
+                              >
+                                 Upload the Grenade
+                                 <br />
+                                 Aiming Position
+                              </label>
+                              <div className="flex justify-center items-center">
+                                 <Dropzone setFile={setAimingPosition} />
+                              </div>
+                           </div>
+                        </div>
                         <button
                            type="submit"
                            className="w-full px-6 py-5 mb-5 mt-5 text-sm font-bold leading-none text-white transition duration-300 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900"

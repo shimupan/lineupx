@@ -186,7 +186,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             context.moveTo(selectedDot.x, selectedDot.y);
             context.lineTo(x, y);
             context.strokeStyle = 'black';
-            context.lineWidth = 2;
+            context.lineWidth = 10;
             context.setLineDash([5, 15]);
             context.stroke();
          }
@@ -276,7 +276,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
                <label className="mb-2 text-sm text-start text-gray-900">
                   Select the position on the map of where your lineup lands.
                   After you click on it select the position of where you stand
-                  at to throw the lineup
+                  at to throw the lineup. Blue dots are the lineup positions and green dot is the position where you stand at.
                </label>
                <canvas
                   ref={canvasRef}
@@ -337,7 +337,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             disabled={state.selectedAgentAbilities.length === 0}
          >
             <option value="">--</option>
-            {state.selectedAgentAbilities.map((ability, index) => (
+            {(state.selectedAgentAbilities.length === 5 ? state.selectedAgentAbilities.slice(0, -1) : state.selectedAgentAbilities).map((ability, index) => (
                <option key={index} value={ability}>
                   {ability}
                </option>
@@ -350,24 +350,36 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
          >
             Team Side*
          </label>
-         <select
-            id="teamSide"
-            value={state.teamSide}
-            onChange={(e) =>
-               dispatch({
-                  type: 'setTeamSide',
-                  payload: e.target.value,
-               })
-            }
-            className="flex text-black items-center w-full px-5
-                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
-                                    focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-         >
-            <option value="">--</option>
-            <option value="Defender">Defender</option>
-            <option value="Attacker">Attacker</option>
-         </select>
+         <div className="flex space-x-4">
+            <button
+               type="button"
+               onClick={() =>
+                  dispatch({
+                     type: 'setTeamSide',
+                     payload: 'Defender',
+                  })
+               }
+               className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
+                  state.teamSide === 'Defender' ? 'bg-purple-200' : 'bg-[#edf2f7]'
+               } text-dark-grey-900 rounded-2xl`}
+            >
+               Defender
+            </button>
+            <button
+               type="button"
+               onClick={() =>
+                  dispatch({
+                     type: 'setTeamSide',
+                     payload: 'Attacker',
+                  })
+               }
+               className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
+                  state.teamSide === 'Attacker' ? 'bg-purple-200' : 'bg-[#edf2f7]'
+               } text-dark-grey-900 rounded-2xl`}
+            >
+               Attacker
+            </button>
+         </div>
       </>
    );
 };

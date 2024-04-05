@@ -173,7 +173,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
             context.moveTo(selectedDot.x, selectedDot.y);
             context.lineTo(x, y);
             context.strokeStyle = 'black';
-            context.lineWidth = 2;
+            context.lineWidth = 10;
             context.setLineDash([5, 15]);
             context.stroke();
          }
@@ -260,7 +260,7 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                <label className="mb-2 text-sm text-start text-gray-900">
                   Select the position on the map of where your lineup lands.
                   After you click on it select the position of where you stand
-                  at to throw the lineup
+                  at to throw the lineup. Blue dots are the lineup positions and green dot is the position where you stand at.
                </label>
                <canvas
                   ref={canvasRef}
@@ -303,24 +303,36 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
          >
             Team Side*
          </label>
-         <select
-            id="teamSide"
-            value={state.teamSide}
-            onChange={(e) =>
-               dispatch({
-                  type: 'setTeamSide',
-                  payload: e.target.value,
-               })
-            }
-            className="flex text-black items-center w-full px-5
-                                    py-4 mb-5 mr-2 text-sm font-medium outline-none
-                                    focus:bg-grey-400 placeholder:text-grey-700
-                                    bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
-         >
-            <option value="">--</option>
-            <option value="CT">Counter Terrorist</option>
-            <option value="T">Terrorist</option>
-         </select>
+         <div className="flex space-x-4">
+            <button
+               type="button"
+               onClick={() =>
+                  dispatch({
+                     type: 'setTeamSide',
+                     payload: 'CT',
+                  })
+               }
+               className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
+                  state.teamSide === 'CT' ? 'bg-purple-200' : 'bg-[#edf2f7]'
+               } text-dark-grey-900 rounded-2xl`}
+            >
+               CT
+            </button>
+            <button
+               type="button"
+               onClick={() =>
+                  dispatch({
+                     type: 'setTeamSide',
+                     payload: 'T',
+                  })
+               }
+               className={`flex-1 text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 ${
+                  state.teamSide === 'T' ? 'bg-purple-200' : 'bg-[#edf2f7]'
+               } text-dark-grey-900 rounded-2xl`}
+            >
+               T
+            </button>
+         </div>
       </>
    );
 };

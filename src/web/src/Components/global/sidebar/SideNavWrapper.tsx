@@ -4,8 +4,8 @@ import { SideNav, SideNavItems } from '../../../Components';
 import { AuthContext } from '../../../App';
 import { MdOutlineSettings, MdHome } from 'react-icons/md';
 import { RiAdminFill } from 'react-icons/ri';
-import cs2Logo from '../../../assets/cs2logo.webp';
-import valorantLogo from '../../../assets/valorantlogo.webp';
+import cs2Logo from '../../../assets/svg/csgo.svg';
+import valorantLogo from '../../../assets/svg/valorant.svg';
 import questionMark from '../../../assets/svg/questionmark.svg';
 
 type SideNavWrapperProps = {
@@ -36,7 +36,7 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                />
                <SideNavItems
                   icon={<img src={cs2Logo} alt="CS2" width={25} />}
-                  text="CS 2"
+                  text="CS2"
                   active={activeItem === '/game/CS2'}
                   onClick={() => handleClick('/game/CS2')}
                />

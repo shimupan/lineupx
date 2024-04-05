@@ -7,7 +7,8 @@ const ValorantAgents: React.FC = () => {
    const navigate = useNavigate();
 
    const handleClick = (agentName: string) => {
-      navigate(`/game/Valorant/agents/${agentName}/lineups`);
+      const formattedAgentName = agentName.replace("KAY/O", "KAYO");
+      navigate(`/game/Valorant/agents/${formattedAgentName}/lineups`);
    };
 
    return (
@@ -53,39 +54,41 @@ const ValorantAgents: React.FC = () => {
                         </div>
                      ))}
                   </div>
-                  {allAgents?.data
-                     .filter(
+                {allAgents?.data
+                    .filter(
                         (agent) =>
-                           agent.displayName === agentDetails.selectedAgentName,
-                     )
-                     .map((agent) => (
+                            agent.displayName === agentDetails.selectedAgentName,
+                    )
+                    .map((agent) => (
                         <div
-                           className="abilities flex flex-wrap justify-center items-start gap-4 p-4"
-                           key={agent.displayName}
+                            className="abilities flex flex-wrap justify-center items-start gap-4 p-4"
+                            key={agent.displayName}
                         >
-                           <div className="flex flex-row flex-wrap justify-center">
-                              {agent.abilities.map((ability, index) => (
-                                 <div
-                                    key={index}
-                                    className="ability bg-1b2838 shadow-lg rounded-lg p-2 flex flex-col items-center justify-start w-48 m-2"
-                                 >
-                                    <img
-                                       src={ability.displayIcon}
-                                       alt={ability.displayName}
-                                       className="ability-icon w-12 h-12 mb-2"
-                                       loading="lazy"
-                                    />
-                                    <div className="ability-name font-semibold text-center">
-                                       {ability.displayName}
-                                    </div>
-                                    <div className="ability-description text-sm text-gray-600 overflow-auto max-h-24 p-2">
-                                       {ability.description}
-                                    </div>
-                                 </div>
-                              ))}
-                           </div>
+                            <div className="flex flex-row flex-wrap justify-center">
+                                {agent.abilities.map((ability, index) => (
+                                    ability.slot !== 'Passive' && (
+                                        <div
+                                            key={index}
+                                            className="ability bg-1b2838 shadow-lg rounded-lg p-2 flex flex-col items-center justify-start w-48 m-2"
+                                        >
+                                            <img
+                                                src={ability.displayIcon}
+                                                alt={ability.displayName}
+                                                className="ability-icon w-12 h-12 mb-2"
+                                                loading="lazy"
+                                            />
+                                            <div className="ability-name font-semibold text-center">
+                                                {ability.displayName}
+                                            </div>
+                                            <div className="ability-description text-sm text-gray-600 overflow-auto max-h-24 p-2">
+                                                {ability.description}
+                                            </div>
+                                        </div>
+                                    )
+                                ))}
+                            </div>
                         </div>
-                     ))}
+                    ))}
                </div>
             </div>
          </div>

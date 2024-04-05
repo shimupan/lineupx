@@ -61,26 +61,6 @@ const CS2: React.FC = () => {
 
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
-      /*
-      setSearchTerm(value);
-      let filtered = posts;
-
-      if (value) {
-         // Filter posts based on search term
-         filtered = posts.filter(
-            (post) =>
-               post.postTitle.toLowerCase().includes(value.toLowerCase()) ||
-               post.grenadeType.toLowerCase().includes(value.toLowerCase()) ||
-               post.mapName.toLowerCase().includes(value.toLowerCase()) ||
-               post.teamSide?.toLowerCase() === value.toLowerCase(),
-         );
-      } else {
-         // If search term is empty, only show the first 10 posts
-         filtered = posts.slice(0, 10);
-      }
-
-      setFilteredPosts(filtered);
-      */
    };
 
    return (
@@ -107,8 +87,8 @@ const CS2: React.FC = () => {
                   game={'CS2'}
                />
             </div>
-            <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md">
-               <div className="w-1/2">
+            <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
+               <div className="w-full sm:w-3/4 md:w-1/2 ">
                   <Carousel images={CS2_MAPS} />
                </div>
             </div>
