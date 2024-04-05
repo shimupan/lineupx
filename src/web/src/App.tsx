@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import {
    Page,
    ProfilePage,
@@ -102,26 +102,25 @@ function App() {
 
    return (
       <>
-         <AuthContext.Provider
-            value={{
-               _id,
-               accessToken,
-               refreshToken,
-               email,
-               role,
-               username,
-               ProfilePicture,
-               Verified,
-               setAccessToken,
-               setRefreshToken,
-               setEmail,
-               setUsername,
-               setVerified,
-               setid,
-               setProfilePicture,
-            }}
-         >
-            <BrowserRouter>
+            <AuthContext.Provider
+               value={{
+                  _id,
+                  accessToken,
+                  refreshToken,
+                  email,
+                  role,
+                  username,
+                  ProfilePicture,
+                  Verified,
+                  setAccessToken,
+                  setRefreshToken,
+                  setEmail,
+                  setUsername,
+                  setVerified,
+                  setid,
+                  setProfilePicture,
+               }}
+            >
                <Routes>
                   <Route path="/" element={<Page />}></Route>
                   <Route path="/game/valorant" element={<Valorant />}></Route>
@@ -211,8 +210,7 @@ function App() {
                   <Route path="/verifyemail" element={<VerifyEmail />} />
                   <Route path="*" element={<PageNotFound />}></Route>
                </Routes>
-            </BrowserRouter>
-         </AuthContext.Provider>
+            </AuthContext.Provider>
       </>
    );
 }
