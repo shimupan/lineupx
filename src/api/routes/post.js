@@ -30,19 +30,16 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
-router.get('/post/:id', async (req, res) => {
+router.get('/post/detail/:id', async (req, res) => {
+   const PostData = mongoose.model('PostData', PostDataSchema);
    const { id } = req.params;
 
    try {
-      const post = await mongoose
-         .model('PostData', PostDataSchema)
-         .findById(id);
-
+      const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');
       }
-      console.log(post);
-      res.status(200).send(post);
+      res.send(post);
    } catch (error) {
       console.error('Error fetching post:', error);
       res.status(500).send({ error: 'Internal Server Error' });

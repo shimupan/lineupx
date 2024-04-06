@@ -146,10 +146,10 @@ const PostPage = () => {
    }, []);
 
    useEffect(() => {
+      console.log(id);
       const fetchPostData = async () => {
          try {
-            console.log(id);
-            const response = await axios.get(`/post/${id}`);
+            const response = await axios.get(`/post/detail/${id}`);
             setcurrPostData(response.data);
             console.log(response.data); // Update your state with the fetched post data
          } catch (error) {
