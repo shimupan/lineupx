@@ -34,7 +34,7 @@ const PostPage = () => {
       postData?.landingPosition?.public_id,
       postData?.standingPosition?.public_id,
       postData?.aimingPosition?.public_id,
-   ].filter(Boolean); 
+   ].filter(Boolean);
 
    const imageTitles = [
       'Landing Position',
@@ -44,7 +44,7 @@ const PostPage = () => {
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
    const verified = Auth?.Verified;
-   const { postId } = useParams<{ postId: string }>();
+   const { id } = useParams<{ id: string }>();
    const [currPostData, setcurrPostData] = useState<PostType | null>(null);
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    /*
@@ -88,7 +88,8 @@ const PostPage = () => {
          const response = await axios.get(commentsUrl);
 
          const specificPost = response.data.find(
-            (post: PostType) => post._id === postData._id,
+            (post: PostType) =>
+               post._id === (postData?._id || currPostData?._id),
          );
          if (specificPost) {
             specificPost.comments.sort(
@@ -110,15 +111,18 @@ const PostPage = () => {
       if (newComment.trim() && verified) {
          try {
             console.log(newComment);
-            const response = await axios.post(`/post/${postData._id}/comment`, {
-               text: newComment,
-               userId: user_Id,
-               username: Auth?.username,
-            });
+            const response = await axios.post(
+               `/post/${postData?._id || currPostData?._id}/comment`,
+               {
+                  text: newComment,
+                  userId: user_Id,
+                  username: Auth?.username,
+               },
+            );
             const userResponse = await axios.post(`/user/${user_Id}/comment`, {
                text: newComment,
                user: user_Id,
-               post: postData._id,
+               post: postData?._id || currPostData?._id,
             });
 
             const newCommentWithDate = {
@@ -142,18 +146,24 @@ const PostPage = () => {
    }, []);
 
    useEffect(() => {
-      axios
-         .get(`/post/${postId}`)
-         .then((response) => {
+      const fetchPostData = async () => {
+         try {
+            console.log(id);
+            const response = await axios.get(`/post/${id}`);
             setcurrPostData(response.data);
-         })
-         .catch((error) => {
+            console.log(response.data); // Update your state with the fetched post data
+         } catch (error) {
             console.error('Failed to fetch post data:', error);
-         });
-   }, [postId]);
+            // Handle the error (e.g., set an error state, show a notification)
+         }
+      };
+      if (id) {
+         fetchPostData();
+      }
+   }, [id]);
 
    useEffect(() => {
-      if (postData.UserID) {
+      if (postData) {
          getUserByID(postData.UserID).then((user) => {
             setUser(user);
          });
@@ -164,8 +174,22 @@ const PostPage = () => {
             }
             setRelatedPosts(filter);
          });
+      } else {
+         getUserByID(currPostData?.UserID ?? '').then((user) => {
+            setUser(user);
+         });
+         getPostByMap(
+            currPostData?.game ?? '',
+            currPostData?.mapName ?? '',
+         ).then((posts) => {
+            let filter: PostType[] = [];
+            for (let i = 0; i < posts.length; i++) {
+               filter.push(posts[i].post!);
+            }
+            setRelatedPosts(filter);
+         });
       }
-   }, [postData.UserID]);
+   }, [postData?.UserID || currPostData?.UserID]);
 
    return (
       <>
@@ -184,7 +208,7 @@ const PostPage = () => {
                   >
                      <img
                         src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
-                        alt={postData.postTitle}
+                        alt={postData?.postTitle || currPostData?.postTitle}
                         style={{
                            position: 'absolute',
                            top: 0,
@@ -212,13 +236,17 @@ const PostPage = () => {
                   </button>
                </div>
                <div className="ml-2 text-lg font-bold text-center">
-                  <p>{postData.postTitle}</p>
+                  <p>{postData?.postTitle || currPostData?.postTitle}</p>
                </div>
                <div className="flex justify-between ml-2 mr-2">
                   <div className="flex">
                      <div className="flex">
                         <div>
-                           <Link to={`/user/${postData.Username}`}>
+                           <Link
+                              to={`/user/${
+                                 postData?.Username || currPostData?.Username
+                              }`}
+                           >
                               <img
                                  className="rounded-full cursor-pointer w-10 h-10"
                                  src={`${user?.ProfilePicture}`}
@@ -226,9 +254,13 @@ const PostPage = () => {
                            </Link>
                         </div>
                         <div className="flex flex-col ml-1">
-                           <Link to={`/user/${postData.Username}`}>
+                           <Link
+                              to={`/user/${
+                                 postData?.Username || currPostData?.Username
+                              }`}
+                           >
                               <p className="cursor-pointer">
-                                 {postData.Username}
+                                 {postData?.Username || currPostData?.Username}
                               </p>
                            </Link>
                            {/*
@@ -249,42 +281,56 @@ const PostPage = () => {
                               }
                               onClick={() => {
                                  console.log(user_Id!);
-                                 incrementLikeCount(postData._id, user_Id!);
+                                 incrementLikeCount(
+                                    postData?._id || currPostData?._id,
+                                    user_Id!,
+                                 );
                               }}
                            />
                         </span>
-                        <p className="mr-1">{postData.likes.length}</p>
+                        <p className="mr-1">
+                           {(postData?.likes?.length ?? 0) ||
+                              (currPostData?.likes?.length ?? 0)}
+                        </p>
                      </div>
                      <div className="flex">
                         <span>
                            <AiOutlineDislike
                               className="text-white h-5 w-5 cursor-pointer"
                               onClick={() => {
-                                 incrementDislikeCount(postData._id);
+                                 incrementDislikeCount(
+                                    postData?._id || currPostData?._id,
+                                 );
                               }}
                            />
                         </span>
-                        <p className="ml-1">{postData.dislikes.length}</p>
+                        <p className="mr-1">
+                           {(postData?.dislikes?.length ?? 0) ||
+                              (currPostData?.dislikes?.length ?? 0)}
+                        </p>
                      </div>
                   </div>
                </div>
                <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
                   <div className="flex flex-row space-x-2 font-bold">
-                     <p>{postData.views} views</p>
+                     <p>{postData?.views || currPostData?.views} views</p>
                      <p>
-                        {new Date(postData.date).toLocaleDateString('en-US', {
+                        {new Date(
+                           postData?.date || currPostData?.date,
+                        ).toLocaleDateString('en-US', {
                            month: 'short',
                            day: 'numeric',
                            year: 'numeric',
                         })}
                      </p>
                   </div>
-                  {postData.lineupDescription}
+                  {postData?.lineupDescription ||
+                     currPostData?.lineupDescription}
                </div>
             </div>
             <div className="relative lg:flex-grow bg-black">
                {relatedPosts.map((post, index) => {
-                  if (post._id !== postData._id) {
+                  if (post._id !== (postData?._id || currPostData?._id)) {
                      return <WidePosts post={post} key={index} />;
                   }
                })}

@@ -30,6 +30,25 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
+router.get('/post/:id', async (req, res) => {
+   const { id } = req.params;
+
+   try {
+      const post = await mongoose
+         .model('PostData', PostDataSchema)
+         .findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+      console.log(post);
+      res.status(200).send(post);
+   } catch (error) {
+      console.error('Error fetching post:', error);
+      res.status(500).send({ error: 'Internal Server Error' });
+   }
+});
+
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
@@ -87,6 +106,7 @@ router.get('/post/:game', (req, res) => {
          });
    }
 });
+
 
 // Allow authorized users to get all unapproved posts
 router.post('/post/check', async (req, res) => {
