@@ -30,10 +30,11 @@ export type Comment = {
 const PostPage = () => {
    const location = useLocation();
    const postData = location.state?.postData;
+   const [currPostData, setcurrPostData] = useState<PostType | null>(null); 
    const imagePositions = [
-      postData?.landingPosition?.public_id,
-      postData?.standingPosition?.public_id,
-      postData?.aimingPosition?.public_id,
+      postData?.landingPosition?.public_id || currPostData?.landingPosition?.public_id,
+      postData?.standingPosition?.public_id || currPostData?.standingPosition?.public_id,
+      postData?.aimingPosition?.public_id || currPostData?.aimingPosition?.public_id,
    ].filter(Boolean);
 
    const imageTitles = [
@@ -45,7 +46,6 @@ const PostPage = () => {
    const user_Id = Auth?._id;
    const verified = Auth?.Verified;
    const { game, id } = useParams<{ game: string; id: string }>();
-   const [currPostData, setcurrPostData] = useState<PostType | null>(null);
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    /*
    const [viewMode, setViewMode] = useState('carousel');
