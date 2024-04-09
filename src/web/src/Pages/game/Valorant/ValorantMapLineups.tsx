@@ -50,7 +50,7 @@ const ValorantLineups: React.FC = () => {
       agentName: string;
       mapName: string;
    }>();
-   const agentName = rawAgentName === "KAYO" ? "KAY/O" : rawAgentName;
+   const agentName = rawAgentName === 'KAYO' ? 'KAY/O' : rawAgentName;
    const [isMapLoaded, setIsMapLoaded] = useState(false);
    const handleAbilityClick = (
       ability: ValorantAgent['data'][0]['abilities'][0],
@@ -66,8 +66,10 @@ const ValorantLineups: React.FC = () => {
    const handleClick = (mapName: string) => {
       setSelectedDot('');
       setSelectedAbility(null);
-      const formattedAgentName = agentName === "KAY/O" ? "KAYO" : agentName;
-      navigate(`/game/Valorant/agents/${formattedAgentName}/lineups/${mapName}`);
+      const formattedAgentName = agentName === 'KAY/O' ? 'KAYO' : agentName;
+      navigate(
+         `/game/Valorant/agents/${formattedAgentName}/lineups/${mapName}`,
+      );
    };
    const [modalIsOpen, setModalIsOpen] = useState(false);
    useEffect(() => {
@@ -231,6 +233,12 @@ const ValorantLineups: React.FC = () => {
                                          setSelectedDot={setSelectedDot}
                                          mode="ValorantLineups"
                                          special={coordinate.post}
+                                         abilityIconUrl={
+                                            selectedAbility?.displayIcon
+                                         }
+                                         onTouchEnd={() =>
+                                            setSelectedDot(coordinate.name)
+                                         }
                                       />
                                    ))
                               : complementCoordinates.map(
@@ -242,44 +250,22 @@ const ValorantLineups: React.FC = () => {
                                          setSelectedDot={setSelectedDot}
                                          mode="CS2Lineups"
                                          special={coordinate.post}
+                                         abilityIconUrl={
+                                            selectedAbility?.displayIcon
+                                         }
+                                         onTouchEnd={() =>
+                                            setSelectedDot(coordinate.name)
+                                         }
                                       />
                                    ),
                                 )}
                         </MapInteractionCSS>
-                        
-                        {isMapLoaded && selectedAbility
-                           ? complementCoordinates
-                                .filter(
-                                   (coordinate) =>
-                                      coordinate.name ===
-                                      selectedAbility.displayName,
-                                )
-                                .map((coordinate, index) => (
-                                   <Dot
-                                      key={coordinate.name + index}
-                                      coordinate={coordinate}
-                                      selectedDot={selectedDot}
-                                      setSelectedDot={setSelectedDot}
-                                      mode="ValorantLineups"
-                                      special={coordinate.post}
-                                   />
-                                ))
-                           : complementCoordinates.map((coordinate, index) => (
-                                <Dot
-                                   key={coordinate.name + index}
-                                   coordinate={coordinate}
-                                   selectedDot={selectedDot}
-                                   setSelectedDot={setSelectedDot}
-                                   mode="CS2Lineups"
-                                   special={coordinate.post}
-                                />
-                             ))}
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div className="flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
+         <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
                {allMaps?.data
                   .filter(
@@ -315,31 +301,36 @@ const ValorantLineups: React.FC = () => {
             {agent && (
                <div className="abilities flex flex-row md:flex-row flex-wrap items-center justify-center gap-4 p-4">
                   <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
-                     {agent.abilities.map((ability, index) => (
-                        ability.slot !== 'Passive' && (
-                           <button
-                              key={index}
-                              className={`ability bg-1b2838 shadow-lg rounded-full p-2 flex flex-col items-center justify-start w-10 h-10 ${
-                                 selectedAbility === ability ? 'bg-black' : ''
-                              }`}
-                              onClick={() => handleAbilityClick(ability)}
-                           >
-                              <img
-                                 src={ability.displayIcon}
-                                 alt={ability.displayName}
-                                 className={`ability-icon w-full h-full ${
-                                    selectedAbility === ability ? 'shadow-lg' : ''
+                     {agent.abilities.map(
+                        (ability, index) =>
+                           ability.slot !== 'Passive' && (
+                              <button
+                                 key={index}
+                                 className={`ability bg-1b2838 shadow-lg rounded-full p-2 flex flex-col items-center justify-start w-10 h-10 ${
+                                    selectedAbility === ability
+                                       ? 'bg-black'
+                                       : ''
                                  }`}
-                                 style={{
-                                    filter:
+                                 onClick={() => handleAbilityClick(ability)}
+                              >
+                                 <img
+                                    src={ability.displayIcon}
+                                    alt={ability.displayName}
+                                    className={`ability-icon w-full h-full ${
                                        selectedAbility === ability
-                                          ? 'grayscale(100%)'
-                                          : 'none',
-                                 }}
-                              />
-                           </button>
-                        )
-                     ))}
+                                          ? 'shadow-lg'
+                                          : ''
+                                    }`}
+                                    style={{
+                                       filter:
+                                          selectedAbility === ability
+                                             ? 'grayscale(100%)'
+                                             : 'none',
+                                    }}
+                                 />
+                              </button>
+                           ),
+                     )}
                   </div>
                </div>
             )}
@@ -350,8 +341,8 @@ const ValorantLineups: React.FC = () => {
                contentLabel="Agent Selector"
                style={{
                   content: {
-                     width: window.innerWidth < 768 ? '70%' : '30%', 
-                     height: window.innerWidth < 768 ? '30%' : '30%', 
+                     width: window.innerWidth < 768 ? '70%' : '30%',
+                     height: window.innerWidth < 768 ? '30%' : '30%',
                      margin: 'auto', // Centers the modal
                      backgroundColor: '#1f2937', // Adjust as needed
                   },
@@ -361,7 +352,7 @@ const ValorantLineups: React.FC = () => {
                   style={{
                      display: 'grid',
                      gridTemplateColumns: 'repeat(5, 1fr)',
-                     gridGap : '10px',
+                     gridGap: '10px',
                   }}
                >
                   {allAgents?.data.map((agent) => (
@@ -388,9 +379,12 @@ const ValorantLineups: React.FC = () => {
                                  currentBackground: selectedAgent.background,
                                  selectedAgentName: selectedAgent.displayName,
                               }));
-                              
+
                               navigate(
-                                 `/game/Valorant/agents/${selectedAgent.displayName.replace("/", "")}/lineups/${mapName}`,
+                                 `/game/Valorant/agents/${selectedAgent.displayName.replace(
+                                    '/',
+                                    '',
+                                 )}/lineups/${mapName}`,
                               );
                            }
                            setModalIsOpen(false);
@@ -424,7 +418,6 @@ const ValorantLineups: React.FC = () => {
                {!agent && <span className="italic">None selected</span>}
             </button>
          </div>
-         
 
          <Footer />
       </>

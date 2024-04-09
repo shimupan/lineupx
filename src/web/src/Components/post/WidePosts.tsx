@@ -24,7 +24,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
 
    return (
       <div className="w-full md:ml-[70px] lg:ml-0 rounded-xl flex pl-2 pb-2">
-         <Link to={`/game/${post.game}/${post.postTitle}`}>
+         <Link to={`/game/${post.game}/${post._id}`}>
             <img
                src={`${CDN_URL}/${post.landingPosition.public_id}`}
                className="h-24 w-34 rounded-xl"
@@ -33,7 +33,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
          <div className="flex flex-col pl-2">
             <Link
                className="text-lg font-bold m-0 no-underline"
-               to={`/game/${post.game}/${post.postTitle}`}
+               to={`/game/${post.game}/${post._id}`}
             >
                {post.postTitle.length > 23
                   ? `${post.postTitle.substring(0, 23)}...`

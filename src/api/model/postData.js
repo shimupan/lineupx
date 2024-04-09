@@ -17,14 +17,6 @@ const PostDataSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
-   lineupLocation: {
-      type: String,
-      required: false,
-   },
-   lineupDescription: {
-      type: String,
-      required: false,
-   },
    teamSide: {
       type: String,
       required: false,

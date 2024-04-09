@@ -11,6 +11,12 @@ import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
 import { MapInteractionCSS } from 'react-map-interaction';
 
+import Decoy from '../../../assets/svg/decoy.svg';
+import Smoke from '../../../assets/svg/smoke.svg';
+import Molotov from '../../../assets/svg/molotov.svg';
+import HE from '../../../assets/svg/he.svg';
+import Flash from '../../../assets/svg/flash.svg';
+
 import ancient from '../../../assets/cs2maps/ancientradar.webp';
 import anubis from '../../../assets/cs2maps/anubisradar.webp';
 import dust2 from '../../../assets/cs2maps/dust2radar.webp';
@@ -61,6 +67,13 @@ const maps = [
    { name: 'Vertigo', image: vertigomap },
 ];
 
+const grenadeIcons = {
+   Decoy,
+   Smoke,
+   Molotov,
+   HE,
+   Flash,
+};
 const CS2Lineups: React.FC = () => {
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
@@ -245,6 +258,12 @@ const CS2Lineups: React.FC = () => {
                                       setSelectedDot={setSelectedDot}
                                       mode="CS2Lineups"
                                       special={coordinate.post}
+                                      abilityIconUrl={
+                                         grenadeIcons[
+                                            activeButton as keyof typeof grenadeIcons
+                                         ]
+                                      }
+                                      onTouchEnd={() => setSelectedDot(coordinate.name)}
                                    />
                                 ))
                            : complementCoordinates.map((coordinate, index) => (
@@ -263,7 +282,7 @@ const CS2Lineups: React.FC = () => {
             </div>
          </div>
 
-         <div className="flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
+         <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
                {maps.map((map) => (
                   <div

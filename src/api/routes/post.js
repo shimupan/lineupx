@@ -30,6 +30,22 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
+router.get('/post/detail/:game/:id', async (req, res) => {
+   const { game, id } = req.params;
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+      res.send(post);
+   } catch (error) {
+      console.error('Error fetching post:', error);
+      res.status(500).send({ error: 'Internal Server Error' });
+   }
+});
+
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
@@ -474,7 +490,9 @@ router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
 
 // returns all post for a specific grenade
 router.get('/grenade/:map/:game/:grenade', async (req, res) => {
-   const { game, map, grenade } = req.params;
+   const { game, map } = req.params;
+   let { grenade } = req.params;
+   grenade = decodeURIComponent(grenade);
    const parsedMap = map.replace(/\s/g, '').toLowerCase();
    if (game === 'CS2') {
       const PostData = mongoose.model('PostData', PostDataSchema, game);

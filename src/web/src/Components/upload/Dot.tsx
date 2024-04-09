@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { PostType } from '../../global.types';
 
 type DotProps = {
-   coordinate: { x: number; y: number; name: string };
-   selectedDot: string;
-   setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
-   mode: string;
-   special?: PostType;
+  coordinate: { x: number; y: number; name: string };
+  selectedDot: string;
+  setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
+  mode: string;
+  special?: PostType;
+  abilityIconUrl?: string;
+  onTouchEnd?: (event: React.TouchEvent) => void; // Added touch event handler
 };
 
 const Dot: React.FC<DotProps> = ({
@@ -16,15 +18,20 @@ const Dot: React.FC<DotProps> = ({
    setSelectedDot,
    mode,
    special,
+   abilityIconUrl,
 }) => {
    const [isHovered, setIsHovered] = useState(false);
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
    const navigate = useNavigate();
+
    useEffect(() => {
-      window.addEventListener('resize', () => {
+      const handleResize = () => {
          setIsMobile(window.innerWidth <= 768);
-      });
+      };
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
    }, []);
+
    let top, left;
    const screenWidth = window.innerWidth;
    const screenHeight = window.innerHeight;
@@ -42,22 +49,16 @@ const Dot: React.FC<DotProps> = ({
    }
 
    function handleRedirect() {
-      navigate(`/game/${special?.game}/${special?.postTitle}`, {
+      navigate(`/game/${special?.game}/${special?._id}`, {
          state: { postData: special },
       });
-      return;
    }
 
    function changeDot() {
       if (special) {
          handleRedirect();
-         return;
-      }
-
-      if (selectedDot === coordinate.name) {
-         setSelectedDot('');
       } else {
-         setSelectedDot(coordinate.name);
+         setSelectedDot(selectedDot === coordinate.name ? '' : coordinate.name);
          setIsHovered(true);
       }
    }
@@ -66,19 +67,25 @@ const Dot: React.FC<DotProps> = ({
       (selectedDot === coordinate.name || selectedDot === '' || special) && (
          <div
             onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => {
-               if (selectedDot !== coordinate.name) {
-                  setIsHovered(false);
-               }
-            }}
+            onMouseLeave={() => setIsHovered(selectedDot === coordinate.name)}
             onClick={changeDot}
+            onTouchEnd={changeDot} // Added touch event handler
             title={coordinate.name}
-            className="absolute bg-blue-500 rounded-full w-2.5 h-2.5 hover:ring-4 hover:ring-blue-300 cursor-pointer transition duration-500 ease-in-out"
+            className="absolute cursor-pointer transition duration-500 ease-in-out"
             style={{ top: `${top}px`, left: `${left}px` }}
          >
+            {abilityIconUrl ? (
+               <img
+                  src={abilityIconUrl}
+                  alt="Ability Icon"
+                  className="w-6 h-6"
+               /> // Adjust the size as needed
+            ) : (
+               <div className="bg-blue-500 rounded-full w-2.5 h-2.5 hover:ring-4 hover:ring-blue-300"></div>
+            )}
             {isHovered && (
                <div
-                  className="absolute bg-white text-black p-2 mt-2 rounded shadow-lg transition duration-500 ease-in-out z-50"
+                  className="absolute bg-white text-black p-2 mt-2 rounded shadow-lg z-50"
                   style={{
                      bottom: '100%',
                      left: '50%',
