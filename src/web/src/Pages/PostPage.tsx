@@ -44,7 +44,7 @@ const PostPage = () => {
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
    const verified = Auth?.Verified;
-   const { id } = useParams<{ id: string }>();
+   const { game, id } = useParams<{ game: string; id: string }>();
    const [currPostData, setcurrPostData] = useState<PostType | null>(null);
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    /*
@@ -146,10 +146,9 @@ const PostPage = () => {
    }, []);
 
    useEffect(() => {
-      console.log(id);
       const fetchPostData = async () => {
          try {
-            const response = await axios.get(`/post/detail/${id}`);
+            const response = await axios.get(`/post/detail/${game}/${id}`);
             setcurrPostData(response.data);
             console.log(response.data); // Update your state with the fetched post data
          } catch (error) {

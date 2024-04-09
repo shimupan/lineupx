@@ -30,9 +30,9 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
-router.get('/post/detail/:id', async (req, res) => {
-   const PostData = mongoose.model('PostData', PostDataSchema);
-   const { id } = req.params;
+router.get('/post/detail/:game/:id', async (req, res) => {
+   const { game, id } = req.params;
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
 
    try {
       const post = await PostData.findById(id);
@@ -45,7 +45,6 @@ router.get('/post/detail/:id', async (req, res) => {
       res.status(500).send({ error: 'Internal Server Error' });
    }
 });
-
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
@@ -103,7 +102,6 @@ router.get('/post/:game', (req, res) => {
          });
    }
 });
-
 
 // Allow authorized users to get all unapproved posts
 router.post('/post/check', async (req, res) => {

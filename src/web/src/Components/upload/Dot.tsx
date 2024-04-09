@@ -49,7 +49,7 @@ const Dot: React.FC<DotProps> = ({
    }
 
    function handleRedirect() {
-      navigate(`/game/${special?.game}/${special?.postTitle}`, {
+      navigate(`/game/${special?.game}/${special?._id}`, {
          state: { postData: special },
       });
    }
