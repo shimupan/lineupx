@@ -45,6 +45,7 @@ router.get('/post/detail/:game/:id', async (req, res) => {
       res.status(500).send({ error: 'Internal Server Error' });
    }
 });
+
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;

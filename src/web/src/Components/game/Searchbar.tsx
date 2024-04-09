@@ -1,5 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
-import {  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Fuse from 'fuse.js';
 
 interface SearchBarProps {
@@ -22,7 +22,7 @@ const SearchBar = ({
    const [searchTerm, setSearchTerm] = useState('');
    const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
    const [isFocused, setIsFocused] = useState(false);
-   const navigate = ();
+   const navigate = useNavigate();
    const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
       onSearch(searchTerm);
