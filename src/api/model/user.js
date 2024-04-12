@@ -69,6 +69,20 @@ const UserSchema = new mongoose.Schema({
          },
       },
    ],
+   followers: [
+   {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: false,
+   },
+],
+following: [
+   {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: false,
+   },
+],
    resetPasswordToken: {
       type: String,
    },
