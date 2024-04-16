@@ -19,7 +19,6 @@ const AgentSelector: React.FC<AgentSelectorProps> = ({
       setSelectedAgent(agent);
       const agentWithModifiedName = {
          ...agent,
-         displayName: agent.displayName === "KAY/O" ? "KAYO" : agent.displayName,
       };
       onSelectAgent(agentWithModifiedName);
       setShowDropdown(false);

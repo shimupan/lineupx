@@ -28,6 +28,7 @@ app.use(
       saveUninitialized: false,
    }),
 );
+
 app.use(auth);
 app.use(user);
 app.use(post);
