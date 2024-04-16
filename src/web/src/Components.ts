@@ -49,3 +49,4 @@ export { default as GrenadeSelection } from './Components/game/cs2/GrenadeSelect
 export { default as WidePosts } from './Components/post/WidePosts';
 export { default as Tooltip } from './Components/post/Tooltip';
 export { default as Comments } from './Components/post/Comments';
+export { default as ScrollToTop } from './Components/global/ScrollToTop';
