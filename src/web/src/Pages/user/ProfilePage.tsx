@@ -9,6 +9,7 @@ import {
    ProfileEdit,
 } from '../../Components';
 import { getUserByUsername } from '../../util/getUser';
+import { follow } from '../../util/followStatus';
 import { GAMES } from '../../Constants';
 import { AuthContext } from '../../App';
 import { UserType, PostType } from '../../global.types';
@@ -16,6 +17,8 @@ import { sendVerificationEmail } from '../../util/sendVerificationEmail';
 import { CiEdit } from 'react-icons/ci';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { RiUserFollowLine } from 'react-icons/ri';
+import { RiUserUnfollowFill } from 'react-icons/ri';
 const ProfilePage = () => {
    const { id } = useParams<{ id: string }>();
    const [user, setUser] = useState<UserType>({
@@ -26,8 +29,24 @@ const ProfilePage = () => {
       password: '',
       Verified: false,
       ProfilePicture: '',
+      verificationCode: '',
+      likes: [''],
+      dislikes: [''],
+      saved: [''],
+      comments: [
+         {
+            text: '',
+            createdAt: new Date(),
+            post: '',
+         },
+      ],
+      followers: [''],
+      following: [''],
+      resetPasswordToken: '',
+      resetPasswordExpires: new Date(),
    });
    const [loading, setLoading] = useState(true);
+   const [followers, setFollowers] = useState<Set<string>>();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const [open, setOpen] = useState(false);
    const Auth = useContext(AuthContext);
@@ -37,7 +56,9 @@ const ProfilePage = () => {
       0,
    );
    const [selectedGame, setSelectedGame] = useState('Valorant');
-   const totalViews = posts.flat().reduce((total, post) => total + post.views, 0);
+   const totalViews = posts
+      .flat()
+      .reduce((total, post) => total + post.views, 0);
    // Gets called twice during dev mode
    // So there should be 2 error messages
    // If you search for an non exisitant user
@@ -46,6 +67,8 @@ const ProfilePage = () => {
       getUserByUsername(id!)
          .then((response) => {
             setUser(response);
+            setFollowers(new Set(response.followers));
+            console.log(response.followers, Auth?._id);
             // Fetch User Posts
             // For each game that we currently support
             const postsPromises = GAMES.map((game) =>
@@ -73,6 +96,24 @@ const ProfilePage = () => {
          toast.update(id, response);
       });
    }
+
+   const handleFollowers = async () => {
+      follow(user._id, Auth?._id!).then((response) => {
+         if (response === 200) {
+            setFollowers((prevState) => {
+               if (prevState?.has(Auth?._id!)) {
+                  prevState.delete(Auth?._id!);
+               } else {
+                  prevState?.add(Auth?._id!);
+               }
+               return new Set(prevState);
+            });
+         } else {
+            toast.error('Error following user');
+         }
+      });
+   };
+
    const fileInputRef = useRef<HTMLInputElement>(null);
 
    const triggerFileInput = () => {
@@ -154,13 +195,17 @@ const ProfilePage = () => {
 
                      <div className="flex flex-col items-center md:pl-64">
                         <img
-                            src={
-                                user.ProfilePicture ||
-                                `https://ui-avatars.com/api/?background=random&color=fff&name=${user.username}`
-                            }
-                            className={`mt-4 rounded-full w-32 h-32 shadow-lg ${Auth?.username === user.username ? 'cursor-pointer hover:opacity-50' : ''}`}
-                            alt="Profile"
-                            onClick={triggerFileInput}
+                           src={
+                              user.ProfilePicture ||
+                              `https://ui-avatars.com/api/?background=random&color=fff&name=${user.username}`
+                           }
+                           className={`mt-4 rounded-full w-32 h-32 shadow-lg ${
+                              Auth?.username === user.username
+                                 ? 'cursor-pointer hover:opacity-50'
+                                 : ''
+                           }`}
+                           alt="Profile"
+                           onClick={triggerFileInput}
                         />
                         <input
                            type="file"
@@ -169,9 +214,34 @@ const ProfilePage = () => {
                            className="hidden"
                         />
                         <div className="mt-4">
-                           <h1 className="text-4xl font-bold">
-                              {user.username}
-                           </h1>
+                           <div className="flex flex-row items-center justify-center">
+                              <h1 className="text-4xl font-bold">
+                                 {user.username}
+                              </h1>
+                              {Auth?.username !== user.username && (
+                                 <button
+                                    className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
+                                    onClick={handleFollowers}
+                                 >
+                                    <div className="flex text-center items-center gap-x-1">
+                                       {followers?.has(Auth?._id!) ? (
+                                          <>
+                                             <RiUserUnfollowFill />
+                                             <p>Unfollow</p>
+                                          </>
+                                       ) : (
+                                          <>
+                                             <RiUserFollowLine />
+                                             <p>Follow</p>
+                                          </>
+                                       )}
+                                    </div>
+                                 </button>
+                              )}
+                           </div>
+                           <p className="mt-2">
+                              {user.followers.length} followers
+                           </p>
                            <p className="mt-2">{postCount} posts</p>
                            <p className="mt-2">{totalViews} views</p>
                            {Auth?.username === user.username && (
@@ -202,7 +272,9 @@ const ProfilePage = () => {
                   if (game === selectedGame) {
                      return (
                         <React.Fragment key={index}>
-                           <div className="text-center text-4xl font-bold text-indigo-600 py-4">{game}</div>
+                           <div className="text-center text-4xl font-bold text-indigo-600 py-4">
+                              {game}
+                           </div>
                            <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
                               {posts[index].map((post) => {
                                  return (

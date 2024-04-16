@@ -6,6 +6,19 @@ export type UserType = {
    password: string;
    Verified: boolean;
    ProfilePicture: string;
+   verificationCode?: string;
+   likes: string[];
+   dislikes: string[];
+   saved: string[];
+   comments: {
+      text: string;
+      createdAt: Date;
+      post?: string;
+   }[];
+   followers: string[];
+   following: string[];
+   resetPasswordToken?: string;
+   resetPasswordExpires?: Date;
 };
 
 export type PostType = {
@@ -20,11 +33,11 @@ export type PostType = {
       x: number;
       y: number;
       name: string;
-   }
+   };
    lineupPositionCoords: {
       x: number;
       y: number;
-   }
+   };
    teamSide?: string;
    likes: string[];
    dislikes: string[];

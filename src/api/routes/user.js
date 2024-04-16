@@ -190,30 +190,32 @@ router.post('/user/:id/follow', async (req, res) => {
    }
 
    try {
-      const user = await User.findById(id);
-      const userToFollow = await User.findById(userIdToFollow);
+      const userToFollow = await User.findById(id);
+      const user = await User.findById(userIdToFollow);
 
       if (!user || !userToFollow) {
          return res.status(404).send('User not found');
       }
 
-      // check if the user is already following the userToFollow
       const isFollowing = user.following.some(
-         (followingId) => followingId.toString() === userIdToFollow,
+         (followingId) =>
+            followingId.toString() === userToFollow._id.toString(),
       );
-
       if (isFollowing) {
          // unfollow the user
          user.following = user.following.filter(
-            (followingId) => followingId.toString() !== userIdToFollow,
+            (followingId) =>
+               followingId &&
+               followingId.toString() !== userToFollow._id.toString(),
          );
          userToFollow.followers = userToFollow.followers.filter(
-            (followerId) => followerId.toString() !== id,
+            (followerId) =>
+               followerId && followerId.toString() !== user._id.toString(),
          );
       } else {
          // follow the user
-         user.following.push(userIdToFollow);
-         userToFollow.followers.push(id);
+         user.following.push(id);
+         userToFollow.followers.push(userIdToFollow);
       }
 
       await user.save();
