@@ -128,6 +128,7 @@ const PostPage = () => {
             console.error('Error following user');
          }
       });
+      window.location.reload();
    };
 
    useEffect(() => {
