@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
@@ -14,54 +14,79 @@ import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
+   const [page, setPage] = useState(1);
+   const [hasMore, setHasMore] = useState(true);
+
    /*
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
    */
    const [suggestions, setSuggestions] = useState<string[]>([]);
+   const pageRef = useRef(page);
+   useEffect(() => {
+      pageRef.current = page; 
+   }, [page]);
+
+   const fetchData = () => {
+      const currentPage = pageRef.current;
+      axios
+         .get(`/post/CS2?page=${currentPage}&limit=20&recent=true`)
+         .then((res) => {
+            if (res.data.length > 0) {
+               setPosts((prevPosts) => [...prevPosts, ...res.data]);
+               setPage((prevPage) => prevPage + 1);
+            } else {
+               setHasMore(false);
+            }
+            const titles = res.data.map((post: PostType) => post.postTitle);
+            const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
+            const maps = [
+               'Dust2',
+               'Inferno',
+               'Mirage',
+               'Nuke',
+               'Ancient',
+               'Anubis',
+               'Vertigo',
+               'Overpass',
+            ];
+            setSuggestions((prevSuggestions) => [
+               ...new Set([
+                  ...titles,
+                  ...prevSuggestions,
+                  ...nades,
+                  ...maps,
+               ]),
+            ]);
+         })
+         .catch((err) => {
+            console.log(err);
+            setHasMore(false);
+         });
+   };
 
    useEffect(() => {
       document.title = 'CS2';
-
-      // Function to fetch data
-      const fetchData = () => {
-         axios
-            .get('/post/CS2?page=1?recent=true')
-            .then((res) => {
-               setPosts(res.data);
-               const titles = res.data.map((post: PostType) => post.postTitle);
-               const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
-               const maps = [
-                  'Dust2',
-                  'Inferno',
-                  'Mirage',
-                  'Nuke',
-                  'Ancient',
-                  'Anubis',
-                  'Vertigo',
-                  'Overpass',
-               ];
-               setSuggestions((prevSuggestions) => [
-                  ...new Set([
-                     ...titles,
-                     ...prevSuggestions,
-                     ...nades,
-                     ...maps,
-                  ]),
-               ]);
-            })
-            .catch((err) => {
-               console.log(err);
-            });
-      };
-
-      fetchData();
-      return () => {};
-   }, []);
-
+      setPosts([]); // Reset posts when component mounts
+      setPage(1);   // Reset to first page
+      setHasMore(true); // Reset loading state
+  }, []);
+  
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
    };
+
+   useEffect(() => {
+      const handleScroll = () => {
+          if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || !hasMore) return;
+          fetchData();
+      };
+  
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasMore, page]); // Include page in the dependency array
+  
+  
 
    return (
       <div className="flex flex-col min-h-screen">
