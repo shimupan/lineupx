@@ -16,75 +16,83 @@ import { useLocalStorage } from '../../../hooks';
 const Valorant: React.FC = () => {
    const [open, setOpen] = useState<boolean>(true);
    const [posts, setPosts] = useState<PostType[]>([]);
-   const [currentPage, setCurrentPage] = useState(1);
-   const [hasMore, setHasMore] = useState(true);
-   const [isLoading, setIsLoading] = useState(false);
    const [value, setValue] = useLocalStorage('valorantPopup', true);
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
    const [suggestions, setSuggestions] = useState<string[]>([]);
    console.log(filteredPosts);
    console.log(searchTerm);
-    const fetchData = () => {
-      if (!hasMore || isLoading) return;
-      setIsLoading(true);
+   useEffect(() => {
+      document.title = 'Valorant';
 
-      axios
-         .get(`/post/CS2?page=${currentPage}&recent=true`)
-         .then((res) => {
-            setCurrentPage((prevPage) => prevPage + 1); // Increment the page number first
-            setHasMore(res.data.hasMore);
-            setPosts((prevPosts) => [...prevPosts, ...res.data.data]);
-
-            const titles = res.data.data.map(
-               (post: PostType) => post.postTitle,
+      // Function to fetch data
+      const fetchData = async () => {
+         try {
+            const postsResponse = await axios.get('/post/Valorant');
+            setPosts(postsResponse.data);
+            const titles = postsResponse.data.map(
+               (post: PostType) => `${post.postTitle}`,
             );
-            const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
-            const maps = [
-               'Dust2',
-               'Inferno',
-               'Mirage',
-               'Nuke',
-               'Ancient',
-               'Anubis',
-               'Vertigo',
-               'Overpass',
-            ];
+
+            const agentsResponse = await axios.get(
+               'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
+            );
+
+            const mapsResponse = await fetch(
+               'https://valorant-api.com/v1/maps',
+            );
+            const mapsData = await mapsResponse.json();
+            const mapTitles = mapsData.data.map(
+               (map: { displayName: string }) => `${map.displayName}`,
+            );
+
+            // Extract displayNames for suggestions
+            const displayNames = agentsResponse.data.data.map(
+               (agent: { displayName: string }) => `${agent.displayName}`,
+            );
+
+            const abilities = agentsResponse.data.data.flatMap(
+               (agent: {
+                  displayName: string;
+                  abilities: {
+                     displayName: string;
+                  }[];
+               }) => {
+                  return agent.abilities.map(
+                     (ability) => `${ability.displayName}`,
+                  );
+               },
+            );
+
+            const itemsToRemove = [
+               'The Range',
+               'Kasbah',
+               'District',
+               'Piazza',
+               'Drift',
+            ].map((item) => item.toLowerCase().trim());
+            const filteredSuggestions = suggestions.filter(
+               (suggestion) =>
+                  !itemsToRemove.includes(suggestion.toLowerCase().trim()),
+            );
             setSuggestions((prevSuggestions) => [
-               ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
+               ...new Set([
+                  ...titles,
+                  ...prevSuggestions,
+                  ...mapTitles,
+                  ...displayNames,
+                  ...abilities,
+                  ...filteredSuggestions,
+               ]),
             ]);
-         })
-         .catch((err) => {
-            console.error('Failed to fetch posts:', err);
-         })
-         .finally(() => {
-            setIsLoading(false);
-         });
-   };
-
-   useEffect(() => {
-      fetchData();
-   }, []);
-
-   useEffect(() => {
-      const observer = new IntersectionObserver(
-         (entries) => {
-            if (entries[0].isIntersecting && hasMore && !isLoading) {
-               fetchData();
-            }
-         },
-         {
-            threshold: 0.1,
-         },
-      );
-
-      const footer = document.querySelector('#footer');
-      if (footer) observer.observe(footer);
-
-      return () => {
-         if (footer) observer.unobserve(footer);
+         } catch (err) {
+            console.log(err);
+         }
       };
-   }, [hasMore, isLoading]);
+
+      fetchData();
+      return () => {};
+   }, []);
 
    const handleSearch = (value: string) => {
       setSearchTerm(value);
@@ -107,7 +115,6 @@ const Valorant: React.FC = () => {
 
       setFilteredPosts(filtered);
    };
-
 
    return (
       <>

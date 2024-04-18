@@ -14,76 +14,50 @@ import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
-   const [currentPage, setCurrentPage] = useState(1);
-   const [hasMore, setHasMore] = useState(true);
-   const [isLoading, setIsLoading] = useState(false);
-
    /*
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
    */
    const [suggestions, setSuggestions] = useState<string[]>([]);
 
-   const fetchData = () => {
-      if (!hasMore || isLoading) return;
-      setIsLoading(true);
-
-      axios
-         .get(`/post/CS2?page=${currentPage}&recent=true`)
-         .then((res) => {
-            setCurrentPage((prevPage) => prevPage + 1); // Increment the page number first
-            setHasMore(res.data.hasMore);
-            setPosts((prevPosts) => [...prevPosts, ...res.data.data]);
-
-            const titles = res.data.data.map(
-               (post: PostType) => post.postTitle,
-            );
-            const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
-            const maps = [
-               'Dust2',
-               'Inferno',
-               'Mirage',
-               'Nuke',
-               'Ancient',
-               'Anubis',
-               'Vertigo',
-               'Overpass',
-            ];
-            setSuggestions((prevSuggestions) => [
-               ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
-            ]);
-         })
-         .catch((err) => {
-            console.error('Failed to fetch posts:', err);
-         })
-         .finally(() => {
-            setIsLoading(false);
-         });
-   };
-
    useEffect(() => {
-      fetchData();
-   }, []);
+      document.title = 'CS2';
 
-   useEffect(() => {
-      const observer = new IntersectionObserver(
-         (entries) => {
-            if (entries[0].isIntersecting && hasMore && !isLoading) {
-               fetchData();
-            }
-         },
-         {
-            threshold: 0.1,
-         },
-      );
-
-      const footer = document.querySelector('#footer');
-      if (footer) observer.observe(footer);
-
-      return () => {
-         if (footer) observer.unobserve(footer);
+      // Function to fetch data
+      const fetchData = () => {
+         axios
+            .get('/post/CS2?page=1?recent=true')
+            .then((res) => {
+               setPosts(res.data);
+               const titles = res.data.map((post: PostType) => post.postTitle);
+               const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
+               const maps = [
+                  'Dust2',
+                  'Inferno',
+                  'Mirage',
+                  'Nuke',
+                  'Ancient',
+                  'Anubis',
+                  'Vertigo',
+                  'Overpass',
+               ];
+               setSuggestions((prevSuggestions) => [
+                  ...new Set([
+                     ...titles,
+                     ...prevSuggestions,
+                     ...nades,
+                     ...maps,
+                  ]),
+               ]);
+            })
+            .catch((err) => {
+               console.log(err);
+            });
       };
-   }, [hasMore, isLoading]);
+
+      fetchData();
+      return () => {};
+   }, []);
 
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
@@ -129,8 +103,6 @@ const CS2: React.FC = () => {
                   </React.Fragment>
                ))}
             </article>
-            {isLoading && <p>Loading more posts...</p>}
-            <div id="footer"></div> {/* Used for triggering infinite scroll */}
          </main>
          <Footer className="mt-auto" />
       </div>

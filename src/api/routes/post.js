@@ -56,36 +56,52 @@ router.get('/post/:game', (req, res) => {
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
    const pageSize = 20;
-   let query = { approved: true };
-
    if (recent) {
-      query = { ...query };
+      PostData.find({ approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
    } else if (map) {
       const parsedMap = map.replace(/\s/g, '').toLowerCase();
-      query = { ...query, mapName: parsedMap };
+      PostData.find({ mapName: parsedMap, approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
    } else if (search) {
       const reg = new RegExp(search.split(' ').join('.*'), 'i');
-      query = {
-         ...query,
+      PostData.find({
          $or: [{ postTitle: { $regex: reg } }, { mapName: { $regex: reg } }],
-      };
-   }
-
-   PostData.find(query)
-      .sort({ _id: -1 })
-      .skip((page - 1) * pageSize)
-      .limit(pageSize + 1) // Fetch one more post than needed
-      .then((data) => {
-         const hasMore = data.length > pageSize;
-         if (hasMore) {
-            // If there are more posts, remove the extra post from the data
-            data.pop();
-         }
-         res.send({ data, hasMore });
+         approved: true,
       })
-      .catch((err) => {
-         res.send(err);
-      });
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   } else {
+      PostData.find({ approved: true })
+         .skip((page - 1) * pageSize)
+         .limit(pageSize)
+         .then((data) => {
+            res.send(data);
+         })
+         .catch((err) => {
+            res.send(err);
+         });
+   }
 });
 
 // Allow authorized users to get all unapproved posts
