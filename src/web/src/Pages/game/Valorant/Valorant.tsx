@@ -26,14 +26,16 @@ const Valorant: React.FC = () => {
    console.log(searchTerm);
    const pageRef = useRef(page);
    useEffect(() => {
-      pageRef.current = page; 
+      pageRef.current = page;
    }, [page]);
 
    // Function to fetch data
    const fetchData = async () => {
       const currentPage = pageRef.current;
       try {
-         const postsResponse = await axios.get(`/post/Valorant?page=${currentPage}&limit=20&recent=true`)
+         const postsResponse = await axios.get(
+            `/post/Valorant?page=${currentPage}&limit=20&recent=true`,
+         );
          if (postsResponse.data.length > 0) {
             setPosts((prevPosts) => [...prevPosts, ...postsResponse.data]);
             setPage((prevPage) => prevPage + 1);
@@ -48,9 +50,7 @@ const Valorant: React.FC = () => {
             'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
          );
 
-         const mapsResponse = await fetch(
-            'https://valorant-api.com/v1/maps',
-         );
+         const mapsResponse = await fetch('https://valorant-api.com/v1/maps');
          const mapsData = await mapsResponse.json();
          const mapTitles = mapsData.data.map(
             (map: { displayName: string }) => `${map.displayName}`,
@@ -103,9 +103,9 @@ const Valorant: React.FC = () => {
    useEffect(() => {
       document.title = 'Valorant';
       setPosts([]); // Reset posts when component mounts
-      setPage(1);   // Reset to first page
+      setPage(1); // Reset to first page
       setHasMore(true); // Reset loading state
-  }, []);
+   }, []);
 
    const handleSearch = (value: string) => {
       setSearchTerm(value);
@@ -131,13 +131,19 @@ const Valorant: React.FC = () => {
 
    useEffect(() => {
       const handleScroll = () => {
-          if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || !hasMore) return;
-          fetchData();
+         const threshold = 10;
+         if (
+            window.innerHeight + document.documentElement.scrollTop <
+               document.documentElement.offsetHeight - threshold ||
+            !hasMore
+         )
+            return;
+         fetchData();
       };
-  
+
       window.addEventListener('scroll', handleScroll);
       return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasMore, page]); 
+   }, [hasMore, page]);
 
    return (
       <>

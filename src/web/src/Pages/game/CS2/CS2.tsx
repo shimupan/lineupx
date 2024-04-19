@@ -24,7 +24,7 @@ const CS2: React.FC = () => {
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const pageRef = useRef(page);
    useEffect(() => {
-      pageRef.current = page; 
+      pageRef.current = page;
    }, [page]);
 
    const fetchData = () => {
@@ -51,12 +51,7 @@ const CS2: React.FC = () => {
                'Overpass',
             ];
             setSuggestions((prevSuggestions) => [
-               ...new Set([
-                  ...titles,
-                  ...prevSuggestions,
-                  ...nades,
-                  ...maps,
-               ]),
+               ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
             ]);
          })
          .catch((err) => {
@@ -68,25 +63,29 @@ const CS2: React.FC = () => {
    useEffect(() => {
       document.title = 'CS2';
       setPosts([]); // Reset posts when component mounts
-      setPage(1);   // Reset to first page
+      setPage(1); // Reset to first page
       setHasMore(true); // Reset loading state
-  }, []);
-  
+   }, []);
+
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
    };
 
    useEffect(() => {
       const handleScroll = () => {
-          if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || !hasMore) return;
-          fetchData();
+         const threshold = 10;
+         if (
+            window.innerHeight + document.documentElement.scrollTop <
+               document.documentElement.offsetHeight - threshold ||
+            !hasMore
+         )
+            return;
+         fetchData();
       };
-  
+
       window.addEventListener('scroll', handleScroll);
       return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasMore, page]); // Include page in the dependency array
-  
-  
+   }, [hasMore, page]);
 
    return (
       <div className="flex flex-col min-h-screen">
