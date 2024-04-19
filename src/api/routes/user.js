@@ -180,6 +180,54 @@ router.post('/user/:id/pfp', (req, res) => {
    });
 });
 
+// follow/unfollow a user
+router.post('/user/:id/follow', async (req, res) => {
+   const { id } = req.params; // id of the user who wants to follow/unfollow someone
+   const { userIdToFollow } = req.body; // id of the user who is to be followed/unfollowed
+
+   if (!userIdToFollow) {
+      return res.status(400).send('User ID to follow/unfollow is required');
+   }
+
+   try {
+      const userToFollow = await User.findById(id);
+      const user = await User.findById(userIdToFollow);
+
+      if (!user || !userToFollow) {
+         return res.status(404).send('User not found');
+      }
+
+      const isFollowing = user.following.some(
+         (followingId) =>
+            followingId.toString() === userToFollow._id.toString(),
+      );
+      if (isFollowing) {
+         // unfollow the user
+         user.following = user.following.filter(
+            (followingId) =>
+               followingId &&
+               followingId.toString() !== userToFollow._id.toString(),
+         );
+         userToFollow.followers = userToFollow.followers.filter(
+            (followerId) =>
+               followerId && followerId.toString() !== user._id.toString(),
+         );
+      } else {
+         // follow the user
+         user.following.push(id);
+         userToFollow.followers.push(userIdToFollow);
+      }
+
+      await user.save();
+      await userToFollow.save();
+
+      res.status(200).send(user);
+   } catch (error) {
+      console.error('Failed to follow/unfollow user:', error);
+      res.status(500).send('Server error');
+   }
+});
+
 router.post('/user/update', async (req, res) => {
    const { user, newUsername, newEmail } = req.body;
 
