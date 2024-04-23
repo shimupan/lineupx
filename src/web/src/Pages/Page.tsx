@@ -5,7 +5,7 @@ import { AuthContext } from '../App';
 import { ToastContainer, toast } from 'react-toastify';
 
 import cs2 from '../assets/csgo2.webp';
-import valorant from '../assets/valorant.jpg';
+import valorant from '../assets/valorant.webp';
 
 const GREETINGS = [
    'Welcome ',

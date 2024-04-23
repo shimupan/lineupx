@@ -50,12 +50,12 @@ router.get('/post/detail/:game/:id', async (req, res) => {
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
    const page = Number(req.query.page) || 1;
+   const pageSize = Number(req.query.limit) || 20;
    const recent = req.query.recent || false;
    const map = req.query.map || null;
    const search = req.query.search || null;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
-   const pageSize = 20;
    if (recent) {
       PostData.find({ approved: true })
          .skip((page - 1) * pageSize)

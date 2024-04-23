@@ -28,6 +28,7 @@ import {
    PageNotFound,
    SearchResults,
    About,
+   ScrollToTop,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -121,6 +122,7 @@ function App() {
                   setProfilePicture,
                }}
             >
+               <ScrollToTop />
                <Routes>
                   <Route path="/" element={<Page />}></Route>
                   <Route path="/game/valorant" element={<Valorant />}></Route>

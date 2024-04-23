@@ -16,8 +16,11 @@ import {
 } from '../Components/post/helper';
 import { getUserByID } from '../util/getUser';
 import { getPostByMap } from '../util/getPost';
+import { follow } from '../util/followStatus';
 import axios from 'axios';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import { RiUserFollowLine } from 'react-icons/ri';
+import { RiUserUnfollowFill } from 'react-icons/ri';
 //import gear from '../assets/svg/gear.svg';
 
 export type Comment = {
@@ -30,11 +33,14 @@ export type Comment = {
 const PostPage = () => {
    const location = useLocation();
    const postData = location.state?.postData;
-   const [currPostData, setcurrPostData] = useState<PostType | null>(null); 
+   const [currPostData, setcurrPostData] = useState<PostType | null>(null);
    const imagePositions = [
-      postData?.landingPosition?.public_id || currPostData?.landingPosition?.public_id,
-      postData?.standingPosition?.public_id || currPostData?.standingPosition?.public_id,
-      postData?.aimingPosition?.public_id || currPostData?.aimingPosition?.public_id,
+      postData?.landingPosition?.public_id ||
+         currPostData?.landingPosition?.public_id,
+      postData?.standingPosition?.public_id ||
+         currPostData?.standingPosition?.public_id,
+      postData?.aimingPosition?.public_id ||
+         currPostData?.aimingPosition?.public_id,
    ].filter(Boolean);
 
    const imageTitles = [
@@ -47,6 +53,7 @@ const PostPage = () => {
    const verified = Auth?.Verified;
    const { game, id } = useParams<{ game: string; id: string }>();
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+   const [followers, setFollowers] = useState<Set<string>>();
    /*
    const [viewMode, setViewMode] = useState('carousel');
    const [isPopupVisible, setPopupVisible] = useState(false);
@@ -105,6 +112,28 @@ const PostPage = () => {
          console.error('Failed to fetch post data:', error);
       }
    };
+
+   const handleFollowers = async () => {
+      follow(user?._id!, Auth?._id!).then((response) => {
+         if (response === 200) {
+            setFollowers((prevState) => {
+               if (prevState?.has(Auth?._id!)) {
+                  prevState.delete(Auth?._id!);
+               } else {
+                  prevState?.add(Auth?._id!);
+               }
+               return new Set(prevState);
+            });
+         } else {
+            console.error('Error following user');
+         }
+      });
+      window.location.reload();
+   };
+
+   useEffect(() => {
+      console.log(followers);
+   }, [followers]);
 
    // Handle the submission of a new comment
    const handleCommentSubmit = async () => {
@@ -165,6 +194,7 @@ const PostPage = () => {
       if (postData) {
          getUserByID(postData.UserID).then((user) => {
             setUser(user);
+            setFollowers(new Set(user.followers));
          });
          getPostByMap(postData.game, postData.mapName).then((posts) => {
             let filter: PostType[] = [];
@@ -258,18 +288,33 @@ const PostPage = () => {
                                  postData?.Username || currPostData?.Username
                               }`}
                            >
-                              <p className="cursor-pointer">
+                              <p className="cursor-pointer font-bold">
                                  {postData?.Username || currPostData?.Username}
                               </p>
                            </Link>
-                           {/*
-                              <p>Subscribers</p>
-                              */}
+                           <p>{user?.followers.length} followers</p>
                         </div>
                      </div>
-                     {/*
-                        <div>Follow</div>
-                        */}
+                     {Auth?.username !== user?.username && (
+                        <button
+                           className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
+                           onClick={handleFollowers}
+                        >
+                           <div className="flex text-center items-center gap-x-1">
+                              {followers?.has(Auth?._id!) ? (
+                                 <>
+                                    <RiUserUnfollowFill />
+                                    <p>Unfollow</p>
+                                 </>
+                              ) : (
+                                 <>
+                                    <RiUserFollowLine />
+                                    <p>Follow</p>
+                                 </>
+                              )}
+                           </div>
+                        </button>
+                     )}
                   </div>
                   <div className="flex">
                      <div className="flex">

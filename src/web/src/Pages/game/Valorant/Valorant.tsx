@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
@@ -20,78 +20,91 @@ const Valorant: React.FC = () => {
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
    const [suggestions, setSuggestions] = useState<string[]>([]);
+   const [page, setPage] = useState(1);
+   const [hasMore, setHasMore] = useState(true);
    console.log(filteredPosts);
    console.log(searchTerm);
+   const pageRef = useRef(page);
+   useEffect(() => {
+      pageRef.current = page;
+   }, [page]);
+
+   // Function to fetch data
+   const fetchData = async () => {
+      const currentPage = pageRef.current;
+      try {
+         const postsResponse = await axios.get(
+            `/post/Valorant?page=${currentPage}&limit=20&recent=true`,
+         );
+         if (postsResponse.data.length > 0) {
+            setPosts((prevPosts) => [...prevPosts, ...postsResponse.data]);
+            setPage((prevPage) => prevPage + 1);
+         } else {
+            setHasMore(false);
+         }
+         const titles = postsResponse.data.map(
+            (post: PostType) => `${post.postTitle}`,
+         );
+
+         const agentsResponse = await axios.get(
+            'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
+         );
+
+         const mapsResponse = await fetch('https://valorant-api.com/v1/maps');
+         const mapsData = await mapsResponse.json();
+         const mapTitles = mapsData.data.map(
+            (map: { displayName: string }) => `${map.displayName}`,
+         );
+
+         // Extract displayNames for suggestions
+         const displayNames = agentsResponse.data.data.map(
+            (agent: { displayName: string }) => `${agent.displayName}`,
+         );
+
+         const abilities = agentsResponse.data.data.flatMap(
+            (agent: {
+               displayName: string;
+               abilities: {
+                  displayName: string;
+               }[];
+            }) => {
+               return agent.abilities.map(
+                  (ability) => `${ability.displayName}`,
+               );
+            },
+         );
+
+         const itemsToRemove = [
+            'The Range',
+            'Kasbah',
+            'District',
+            'Piazza',
+            'Drift',
+         ].map((item) => item.toLowerCase().trim());
+         const filteredSuggestions = suggestions.filter(
+            (suggestion) =>
+               !itemsToRemove.includes(suggestion.toLowerCase().trim()),
+         );
+         setSuggestions((prevSuggestions) => [
+            ...new Set([
+               ...titles,
+               ...prevSuggestions,
+               ...mapTitles,
+               ...displayNames,
+               ...abilities,
+               ...filteredSuggestions,
+            ]),
+         ]);
+      } catch (err) {
+         console.log(err);
+         setHasMore(false);
+      }
+   };
    useEffect(() => {
       document.title = 'Valorant';
-
-      // Function to fetch data
-      const fetchData = async () => {
-         try {
-            const postsResponse = await axios.get('/post/Valorant');
-            setPosts(postsResponse.data);
-            const titles = postsResponse.data.map(
-               (post: PostType) => `${post.postTitle}`,
-            );
-
-            const agentsResponse = await axios.get(
-               'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
-            );
-
-            const mapsResponse = await fetch(
-               'https://valorant-api.com/v1/maps',
-            );
-            const mapsData = await mapsResponse.json();
-            const mapTitles = mapsData.data.map(
-               (map: { displayName: string }) => `${map.displayName}`,
-            );
-
-            // Extract displayNames for suggestions
-            const displayNames = agentsResponse.data.data.map(
-               (agent: { displayName: string }) => `${agent.displayName}`,
-            );
-
-            const abilities = agentsResponse.data.data.flatMap(
-               (agent: {
-                  displayName: string;
-                  abilities: {
-                     displayName: string;
-                  }[];
-               }) => {
-                  return agent.abilities.map(
-                     (ability) => `${ability.displayName}`,
-                  );
-               },
-            );
-
-            const itemsToRemove = [
-               'The Range',
-               'Kasbah',
-               'District',
-               'Piazza',
-               'Drift',
-            ].map((item) => item.toLowerCase().trim());
-            const filteredSuggestions = suggestions.filter(
-               (suggestion) =>
-                  !itemsToRemove.includes(suggestion.toLowerCase().trim()),
-            );
-            setSuggestions((prevSuggestions) => [
-               ...new Set([
-                  ...titles,
-                  ...prevSuggestions,
-                  ...mapTitles,
-                  ...displayNames,
-                  ...abilities,
-                  ...filteredSuggestions,
-               ]),
-            ]);
-         } catch (err) {
-            console.log(err);
-         }
-      };
-
-      fetchData();
-      return () => {};
+      setPosts([]); // Reset posts when component mounts
+      setPage(1); // Reset to first page
+      setHasMore(true); // Reset loading state
    }, []);
 
    const handleSearch = (value: string) => {
@@ -115,6 +128,22 @@ const Valorant: React.FC = () => {
 
       setFilteredPosts(filtered);
    };
+
+   useEffect(() => {
+      const handleScroll = () => {
+         const threshold = 10;
+         if (
+            window.innerHeight + document.documentElement.scrollTop <
+               document.documentElement.offsetHeight - threshold ||
+            !hasMore
+         )
+            return;
+         fetchData();
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, [hasMore, page]);
 
    return (
       <>
