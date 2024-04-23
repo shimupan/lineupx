@@ -16,7 +16,7 @@ const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
-
+   const [isLoading, setIsLoading] = useState(false);
    /*
    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
    const [searchTerm, setSearchTerm] = useState('');
@@ -28,6 +28,7 @@ const CS2: React.FC = () => {
    }, [page]);
 
    const fetchData = () => {
+      setIsLoading(true);
       const currentPage = pageRef.current;
       axios
          .get(`/post/CS2?page=${currentPage}&limit=20&recent=true`)
@@ -38,6 +39,7 @@ const CS2: React.FC = () => {
             } else {
                setHasMore(false);
             }
+            setIsLoading(false);
             const titles = res.data.map((post: PostType) => post.postTitle);
             const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
             const maps = [
@@ -57,6 +59,7 @@ const CS2: React.FC = () => {
          .catch((err) => {
             console.log(err);
             setHasMore(false);
+            setIsLoading(false);
          });
    };
 
@@ -77,15 +80,16 @@ const CS2: React.FC = () => {
          if (
             window.innerHeight + document.documentElement.scrollTop <
                document.documentElement.offsetHeight - threshold ||
-            !hasMore
+            !hasMore ||
+            isLoading
          )
             return;
          fetchData();
       };
-
+   
       window.addEventListener('scroll', handleScroll);
       return () => window.removeEventListener('scroll', handleScroll);
-   }, [hasMore, page]);
+   }, [hasMore, page, isLoading]);
 
    return (
       <div className="flex flex-col min-h-screen">
