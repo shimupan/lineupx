@@ -22,6 +22,7 @@ const Valorant: React.FC = () => {
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
+   const [isLoading, setIsLoading] = useState(false);
    console.log(filteredPosts);
    console.log(searchTerm);
    const pageRef = useRef(page);
@@ -31,6 +32,7 @@ const Valorant: React.FC = () => {
 
    // Function to fetch data
    const fetchData = async () => {
+      setIsLoading(true);
       const currentPage = pageRef.current;
       try {
          const postsResponse = await axios.get(
@@ -42,6 +44,7 @@ const Valorant: React.FC = () => {
          } else {
             setHasMore(false);
          }
+         setIsLoading(true);
          const titles = postsResponse.data.map(
             (post: PostType) => `${post.postTitle}`,
          );
@@ -98,6 +101,7 @@ const Valorant: React.FC = () => {
       } catch (err) {
          console.log(err);
          setHasMore(false);
+         setIsLoading(false);
       }
    };
    useEffect(() => {
@@ -135,15 +139,16 @@ const Valorant: React.FC = () => {
          if (
             window.innerHeight + document.documentElement.scrollTop <
                document.documentElement.offsetHeight - threshold ||
-            !hasMore
+            !hasMore ||
+            isLoading
          )
             return;
          fetchData();
       };
-
+   
       window.addEventListener('scroll', handleScroll);
       return () => window.removeEventListener('scroll', handleScroll);
-   }, [hasMore, page]);
+   }, [hasMore, page, isLoading]);
 
    return (
       <>
