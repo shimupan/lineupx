@@ -46,6 +46,7 @@ const ProfilePage = () => {
       resetPasswordExpires: new Date(),
    });
    const [loading, setLoading] = useState(true);
+   const [followerCount, setFollowerCount] = useState(0);
    const [followers, setFollowers] = useState<Set<string>>();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const [open, setOpen] = useState(false);
@@ -68,13 +69,13 @@ const ProfilePage = () => {
          .then((response) => {
             setUser(response);
             setFollowers(new Set(response.followers));
+            setFollowerCount(response.followers.length);
             console.log(response.followers, Auth?._id);
             // Fetch User Posts
             // For each game that we currently support
             const postsPromises = GAMES.map((game) =>
                axios.get(`/post/${game}/${response._id}`),
             );
-
             return Promise.all(postsPromises);
          })
          .then((responses) => {
@@ -89,7 +90,6 @@ const ProfilePage = () => {
             setLoading(false);
          });
    }, [id]);
-
    function handleVerification() {
       const id = toast.loading('Sending verification email...');
       sendVerificationEmail(user).then((response) => {
@@ -101,12 +101,20 @@ const ProfilePage = () => {
       follow(user._id, Auth?._id!).then((response) => {
          if (response === 200) {
             setFollowers((prevState) => {
-               if (prevState?.has(Auth?._id!)) {
-                  prevState.delete(Auth?._id!);
+               const newFollowerSet = new Set(prevState);
+               const isFollowing = newFollowerSet.has(Auth?._id!);
+
+               if (isFollowing) {
+                  newFollowerSet.delete(Auth?._id!);
                } else {
-                  prevState?.add(Auth?._id!);
+                  newFollowerSet.add(Auth?._id!);
                }
-               return new Set(prevState);
+
+               setFollowerCount((prevCount) =>
+                  isFollowing ? prevCount - 1 : prevCount + 1,
+               );
+
+               return newFollowerSet;
             });
          } else {
             toast.error('Error following user');
@@ -218,30 +226,29 @@ const ProfilePage = () => {
                               <h1 className="text-4xl font-bold">
                                  {user.username}
                               </h1>
-                              {Auth?.username !== user.username && (
-                                 <button
-                                    className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
-                                    onClick={handleFollowers}
-                                 >
-                                    <div className="flex text-center items-center gap-x-1">
-                                       {followers?.has(Auth?._id!) ? (
-                                          <>
-                                             <RiUserUnfollowFill />
-                                             <p>Unfollow</p>
-                                          </>
-                                       ) : (
-                                          <>
-                                             <RiUserFollowLine />
-                                             <p>Follow</p>
-                                          </>
-                                       )}
-                                    </div>
-                                 </button>
-                              )}
+                              {Auth?.username &&
+                                 Auth?.username !== user.username && (
+                                    <button
+                                       className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
+                                       onClick={handleFollowers}
+                                    >
+                                       <div className="flex text-center items-center gap-x-1">
+                                          {followers?.has(Auth?._id!) ? (
+                                             <>
+                                                <RiUserUnfollowFill />
+                                                <p>Unfollow</p>
+                                             </>
+                                          ) : (
+                                             <>
+                                                <RiUserFollowLine />
+                                                <p>Follow</p>
+                                             </>
+                                          )}
+                                       </div>
+                                    </button>
+                                 )}
                            </div>
-                           <p className="mt-2">
-                              {user.followers.length} followers
-                           </p>
+                           <p className="mt-2">{followerCount} followers</p>
                            <p className="mt-2">{postCount} posts</p>
                            <p className="mt-2">{totalViews} views</p>
                            {Auth?.username === user.username && (

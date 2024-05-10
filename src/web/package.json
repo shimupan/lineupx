@@ -16,6 +16,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.6.2",
     "cors": "^2.8.5",
+    "debounce": "^2.0.0",
     "express-session": "^1.17.3",
     "fuse.js": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
     "@types/jsonwebtoken": "^9.0.5",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/react-modal": "^3.16.3",

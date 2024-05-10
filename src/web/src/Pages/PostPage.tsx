@@ -53,6 +53,7 @@ const PostPage = () => {
    const verified = Auth?.Verified;
    const { game, id } = useParams<{ game: string; id: string }>();
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+   const [followerCount, setFollowerCount] = useState(0);
    const [followers, setFollowers] = useState<Set<string>>();
    /*
    const [viewMode, setViewMode] = useState('carousel');
@@ -117,17 +118,26 @@ const PostPage = () => {
       follow(user?._id!, Auth?._id!).then((response) => {
          if (response === 200) {
             setFollowers((prevState) => {
-               if (prevState?.has(Auth?._id!)) {
-                  prevState.delete(Auth?._id!);
+               const newFollowerSet = new Set(prevState);
+               const isFollowing = newFollowerSet.has(Auth?._id!);
+
+               if (isFollowing) {
+                  newFollowerSet.delete(Auth?._id!);
                } else {
-                  prevState?.add(Auth?._id!);
+                  newFollowerSet.add(Auth?._id!);
                }
-               return new Set(prevState);
+
+               setFollowerCount((prevCount) =>
+                  isFollowing ? prevCount - 1 : prevCount + 1,
+               );
+
+               return newFollowerSet;
             });
          } else {
             console.error('Error following user');
          }
       });
+
       window.location.reload();
    };
 
@@ -195,6 +205,7 @@ const PostPage = () => {
          getUserByID(postData.UserID).then((user) => {
             setUser(user);
             setFollowers(new Set(user.followers));
+            setFollowerCount(user.followers.length);
          });
          getPostByMap(postData.game, postData.mapName).then((posts) => {
             let filter: PostType[] = [];
@@ -292,10 +303,12 @@ const PostPage = () => {
                                  {postData?.Username || currPostData?.Username}
                               </p>
                            </Link>
-                           <p>{user?.followers.length} followers</p>
+                           <p className="text-sm text-gray-500">
+                              {followerCount} followers
+                           </p>
                         </div>
                      </div>
-                     {Auth?.username !== user?.username && (
+                     {Auth?.username && Auth?.username !== user?.username && (
                         <button
                            className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
                            onClick={handleFollowers}
@@ -380,35 +393,44 @@ const PostPage = () => {
                })}
             </div>
          </div>
+
          <div className="bg-black h-screen md:ml-[70px] pl-2">
             <div className="flex items-start space-x-3 mb-4">
-               <img
-                  className="w-10 h-10 rounded-full"
-                  src={`${user?.ProfilePicture}`}
-                  alt="PFP"
-               />
-               <div className="flex-1">
-                  <div className="flex items-center">
-                     <h4 className="text-sm font-bold">{user?.username}</h4>
-                  </div>
-                  <textarea
-                     className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
-                     placeholder="Add a public comment..."
-                     onChange={(e) => {
-                        setNewComment(e.target.value);
-                        console.log(e.target.value);
-                     }}
-                  ></textarea>
-                  <div className="mt-2 flex justify-end space-x-2">
-                     <button className="text-sm text-gray-500">CANCEL</button>
-                     <button
-                        className="text-sm text-blue-500 font-semibold"
-                        onClick={handleCommentSubmit}
-                     >
-                        COMMENT
-                     </button>
-                  </div>
-               </div>
+               {Auth?.username && (
+                  <>
+                     <img
+                        className="w-10 h-10 rounded-full"
+                        src={`${user?.ProfilePicture}`}
+                        alt="PFP"
+                     />
+                     <div className="flex-1">
+                        <div className="flex items-center">
+                           <h4 className="text-sm font-bold">
+                              {user?.username}
+                           </h4>
+                        </div>
+                        <textarea
+                           className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
+                           placeholder="Add a public comment..."
+                           onChange={(e) => {
+                              setNewComment(e.target.value);
+                              console.log(e.target.value);
+                           }}
+                        ></textarea>
+                        <div className="mt-2 flex justify-end space-x-2">
+                           <button className="text-sm text-gray-500">
+                              CANCEL
+                           </button>
+                           <button
+                              className="text-sm text-blue-500 font-semibold"
+                              onClick={handleCommentSubmit}
+                           >
+                              COMMENT
+                           </button>
+                        </div>
+                     </div>
+                  </>
+               )}
             </div>
             <div className="">
                {comments.map((comment, index) => (
