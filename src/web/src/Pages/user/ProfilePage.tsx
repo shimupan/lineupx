@@ -7,6 +7,8 @@ import {
    Loading,
    Posts,
    ProfileEdit,
+   FollowerPopup,
+   FollowingPopup,
 } from '../../Components';
 import { getUserByUsername } from '../../util/getUser';
 import { follow } from '../../util/followStatus';
@@ -46,6 +48,10 @@ const ProfilePage = () => {
       resetPasswordExpires: new Date(),
    });
    const [loading, setLoading] = useState(true);
+   const [showFollowerPopup, setShowFollowerPopup] = useState(false);
+   const [showFollowingPopup, setShowFollowingPopup] = useState(false);
+   const [followingCount, setFollowingCount] = useState(0);
+   const [following, setFollowing] = useState<Set<string>>();
    const [followerCount, setFollowerCount] = useState(0);
    const [followers, setFollowers] = useState<Set<string>>();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
@@ -60,6 +66,7 @@ const ProfilePage = () => {
    const totalViews = posts
       .flat()
       .reduce((total, post) => total + post.views, 0);
+
    // Gets called twice during dev mode
    // So there should be 2 error messages
    // If you search for an non exisitant user
@@ -70,6 +77,8 @@ const ProfilePage = () => {
             setUser(response);
             setFollowers(new Set(response.followers));
             setFollowerCount(response.followers.length);
+            setFollowing(new Set(response.following));
+            setFollowingCount(response.following.length);
             console.log(response.followers, Auth?._id);
             // Fetch User Posts
             // For each game that we currently support
@@ -120,6 +129,11 @@ const ProfilePage = () => {
             toast.error('Error following user');
          }
       });
+
+      if (Auth?.username === user.username) {
+         setShowFollowerPopup(true);
+         setShowFollowingPopup(true);
+      }
    };
 
    const fileInputRef = useRef<HTMLInputElement>(null);
@@ -248,7 +262,26 @@ const ProfilePage = () => {
                                     </button>
                                  )}
                            </div>
-                           <p className="mt-2">{followerCount} followers</p>
+                           <p
+                              className="mt-2 cursor-pointer"
+                              onClick={() => {
+                                 if (Auth?.username === user.username) {
+                                    setShowFollowerPopup(true);
+                                 }
+                              }}
+                           >
+                              {followerCount} followers
+                           </p>
+                           <p
+                              className="mt-2 cursor-pointer"
+                              onClick={() => {
+                                 if (Auth?.username === user.username) {
+                                    setShowFollowingPopup(true);
+                                 }
+                              }}
+                           >
+                              {followingCount} following
+                           </p>
                            <p className="mt-2">{postCount} posts</p>
                            <p className="mt-2">{totalViews} views</p>
                            {Auth?.username === user.username && (
@@ -301,6 +334,20 @@ const ProfilePage = () => {
          <Footer />
 
          <ToastContainer position="top-center" />
+         {showFollowerPopup && (
+               <FollowerPopup
+                  followerIds={Array.from(followers || [])}
+                  onClose={() => setShowFollowerPopup(false)}
+                  user={user}
+               />
+         )}
+         {showFollowingPopup && (
+            <FollowingPopup
+               following={Array.from(following || [])}
+               onClose={() => setShowFollowingPopup(false)}
+               curruser={user}
+            />
+         )}
       </>
    );
 };

@@ -285,4 +285,24 @@ router.post('/user/update', async (req, res) => {
    }
 });
 
+// getting multiple users by ids
+router.post('/users/multiple', async (req, res) => {
+   const ids = req.body.ids;
+   if (!Array.isArray(ids)) {
+      return res.status(400).send('Invalid request');
+   }
+   try {
+      const users = await User.find({
+         '_id': { $in: ids }
+      });
+      if (!users.length) {
+         return res.status(404).send('Users not found');
+      }
+      return res.send(users);
+   } catch (error) {
+      console.error(error);
+      return res.status(500).send('Server error');
+   }
+});
+
 export default router;

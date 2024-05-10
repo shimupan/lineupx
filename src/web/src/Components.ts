@@ -50,3 +50,5 @@ export { default as WidePosts } from './Components/post/WidePosts';
 export { default as Tooltip } from './Components/post/Tooltip';
 export { default as Comments } from './Components/post/Comments';
 export { default as ScrollToTop } from './Components/global/ScrollToTop';
+export { default as FollowerPopup } from './Components/profile/FollowerPopup';
+export { default as FollowingPopup } from './Components/profile/FollowingPopup';
