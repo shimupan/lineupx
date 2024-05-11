@@ -100,14 +100,14 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    };
 
    const copyPostLinkToClipboard = async () => {
-      // Construct the full URL you want to share, using template literals for dynamic parts
+
       const postUrl = `${window.location.origin}/game/${
          postData.game
       }/${encodeURIComponent(postData._id)}`;
 
       try {
          await navigator.clipboard.writeText(postUrl);
-         alert('Link copied to clipboard!'); // Consider a more user-friendly notification mechanism
+         alert('Link copied to clipboard!'); 
       } catch (err) {
          console.error('Failed to copy: ', err);
       }
@@ -121,17 +121,19 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                onMouseLeave={handleMouseLeave}
                className="relative"
             >
-               <img
-                  className="w-[640px] h-[240px] bg-gray-400 rounded-lg cursor-pointer"
-                  src={`${CDN_URL}/${postData.landingPosition.public_id}`}
-                  alt={postData.postTitle}
-                  onClick={async () => {
-                     await incrementViewCount();
-                     navigate(`/game/${postData.game}/${postData._id}`, {
-                        state: { postData },
-                     });
-                  }}
-               />
+               <div style={{ paddingBottom: '56.25%', position: 'relative' }}>
+                  <img
+                     className="absolute top-0 left-0 w-full h-full object-cover bg-gray-400 rounded-lg cursor-pointer"
+                     src={`${CDN_URL}/${postData.landingPosition.public_id}`}
+                     alt={postData.postTitle}
+                     onClick={async () => {
+                        await incrementViewCount();
+                        navigate(`/game/${postData.game}/${postData._id}`, {
+                           state: { postData },
+                        });
+                     }}
+                  />
+               </div>
                <div className="">
                   {postData.game === 'Valorant' ? (
                      <>
@@ -211,12 +213,9 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         }`}
                         onClick={async () => {
                            await incrementViewCount();
-                           navigate(
-                              `/game/${postData.game}/${postData._id}`,
-                              {
-                                 state: { postData },
-                              },
-                           );
+                           navigate(`/game/${postData.game}/${postData._id}`, {
+                              state: { postData },
+                           });
                         }}
                      />
                   </div>
@@ -225,10 +224,10 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
 
             <div className="flex items-center mt-4">
                <Link to={`/user/${postData.Username}`}>
-               <img
-                  src={user?.ProfilePicture}
-                  className="mr-3 rounded-full w-9 h-9 bg-gray-400 mb-8"
-               />
+                  <img
+                     src={user?.ProfilePicture}
+                     className="mr-3 rounded-full w-9 h-9 bg-gray-400 mb-8"
+                  />
                </Link>
                <div className="flex flex-col flex-grow">
                   <div className="flex justify-between">
@@ -248,7 +247,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         className="ml-3 w-6 h-6 cursor-pointer"
                         onClick={copyPostLinkToClipboard}
                         title="Share"
-                        style={{ filter: 'invert(100%)' }} 
+                        style={{ filter: 'invert(100%)' }}
                      />
                   </div>
                   <div className="flex flex-row">

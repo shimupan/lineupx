@@ -63,7 +63,8 @@ const PostPage = () => {
    const [comments, setComments] = useState<Comment[]>([]);
    const [userComments, setUserComments] = useState<Comment[]>([]);
    const [newComment, setNewComment] = useState('');
-
+   const [isLiked, setIsLiked] = useState(false);
+   const [isDisliked, setIsDisliked] = useState(false);
    const [user, setUser] = useState<UserType>();
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
    /*
@@ -189,16 +190,27 @@ const PostPage = () => {
          try {
             const response = await axios.get(`/post/detail/${game}/${id}`);
             setcurrPostData(response.data);
-            console.log(response.data); // Update your state with the fetched post data
+            console.log(response.data.likes);
+
+            // Check if the user has already liked or disliked the post
+
+            setIsLiked(
+               response.data.likes.some((like: any) => like.userId === user_Id),
+            );
+            setIsDisliked(
+               response.data.dislikes.some(
+                  (dislike: any) => dislike.userId === user_Id,
+               ),
+            );
          } catch (error) {
             console.error('Failed to fetch post data:', error);
-            // Handle the error (e.g., set an error state, show a notification)
          }
       };
+
       if (id) {
          fetchPostData();
       }
-   }, [id]);
+   }, [id, user_Id]);
 
    useEffect(() => {
       if (postData) {
@@ -333,15 +345,19 @@ const PostPage = () => {
                      <div className="flex">
                         <span>
                            <AiOutlineLike
-                              className={
-                                 'text-white h-5 w-5 cursor-pointer fill-white'
-                              }
+                              className={`text-white h-5 w-5 cursor-pointer ${
+                                 isLiked
+                                    ? 'animate-pulse text-yellow-500'
+                                    : 'fill-white'
+                              }`}
                               onClick={() => {
                                  console.log(user_Id!);
                                  incrementLikeCount(
                                     postData?._id || currPostData?._id,
                                     user_Id!,
                                  );
+                                 setIsLiked(true);
+                                 setIsDisliked(false);
                               }}
                            />
                         </span>
@@ -353,11 +369,18 @@ const PostPage = () => {
                      <div className="flex">
                         <span>
                            <AiOutlineDislike
-                              className="text-white h-5 w-5 cursor-pointer"
+                              className={`text-white h-5 w-5 cursor-pointer ${
+                                 isDisliked
+                                    ? 'animate-pulse text-yellow-500'
+                                    : ''
+                              }`}
                               onClick={() => {
                                  incrementDislikeCount(
                                     postData?._id || currPostData?._id,
+                                    user_Id!,
                                  );
+                                 setIsDisliked(true);
+                                 setIsLiked(false);
                               }}
                            />
                         </span>
@@ -400,21 +423,20 @@ const PostPage = () => {
                   <>
                      <img
                         className="w-10 h-10 rounded-full"
-                        src={`${user?.ProfilePicture}`}
+                        src={`${Auth?.ProfilePicture}`}
                         alt="PFP"
                      />
                      <div className="flex-1">
                         <div className="flex items-center">
                            <h4 className="text-sm font-bold">
-                              {user?.username}
+                              {Auth?.username}
                            </h4>
                         </div>
                         <textarea
-                           className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
+                           className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500 pr-4"
                            placeholder="Add a public comment..."
                            onChange={(e) => {
                               setNewComment(e.target.value);
-                              console.log(e.target.value);
                            }}
                         ></textarea>
                         <div className="mt-2 flex justify-end space-x-2">
