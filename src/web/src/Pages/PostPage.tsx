@@ -18,7 +18,7 @@ import { getUserByID } from '../util/getUser';
 import { getPostByMap } from '../util/getPost';
 import { follow } from '../util/followStatus';
 import axios from 'axios';
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 //import gear from '../assets/svg/gear.svg';
@@ -67,6 +67,7 @@ const PostPage = () => {
    const [isDisliked, setIsDisliked] = useState(false);
    const [user, setUser] = useState<UserType>();
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
+   const [isSaved, setIsSaved] = useState(false);
    /*
    const handleGearClick = () => {
       setPopupVisible(!isPopupVisible);
@@ -89,6 +90,17 @@ const PostPage = () => {
       setViewMode(viewMode === 'carousel' ? 'all' : 'carousel');
    };
    */
+   const savePost = async () => {
+      try {
+         await axios.post(`/user/${user_Id}/save-post`, {
+            postId: postData?._id || currPostData?._id,
+         });
+         setIsSaved(!isSaved);
+         console.log('Post saved successfully');
+      } catch (error) {
+         console.error('Error saving post:', error);
+      }
+   };
    const fetchComments = async () => {
       try {
          const postId = location.pathname.split('/')[2];
@@ -138,18 +150,12 @@ const PostPage = () => {
             console.error('Error following user');
          }
       });
-
    };
-
-   useEffect(() => {
-      console.log(followers);
-   }, [followers]);
 
    // Handle the submission of a new comment
    const handleCommentSubmit = async () => {
       if (newComment.trim() && verified) {
          try {
-            console.log(newComment);
             const response = await axios.post(
                `/post/${postData?._id || currPostData?._id}/comment`,
                {
@@ -179,7 +185,6 @@ const PostPage = () => {
          }
       }
    };
-
    useEffect(() => {
       fetchComments();
    }, []);
@@ -205,7 +210,9 @@ const PostPage = () => {
             console.error('Failed to fetch post data:', error);
          }
       };
-
+      if (Auth?.saved.includes(postData?._id || currPostData?._id)) {
+         setIsSaved(true);
+     }
       if (id) {
          fetchPostData();
       }
@@ -388,6 +395,13 @@ const PostPage = () => {
                               (currPostData?.dislikes?.length ?? 0)}
                         </p>
                      </div>
+<button
+   className={`flex mt-[-2px] ${isSaved ? 'animate-pulse text-yellow-500' : ''}`}
+   onClick={() => savePost()}
+>
+   <AiOutlineStar className="text-2xl" />
+   <p>Save</p>
+</button>
                   </div>
                </div>
                <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">

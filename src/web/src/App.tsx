@@ -54,6 +54,8 @@ type AuthContextType = {
    role: string;
    ProfilePicture: string;
    setProfilePicture: React.Dispatch<React.SetStateAction<string>>;
+   saved: string[];
+   setSaved: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -71,6 +73,7 @@ function App() {
    const [role, setRole] = useState<string>('');
    const [ProfilePicture, setProfilePicture] = useState<string>('');
    const [_id, setid] = useState<string>('');
+   const [saved, setSaved] = useState<string[]>([]);
    const [accessTokenC] = useCookies('accessToken', '');
    const [refreshTokenC] = useCookies('refreshToken', '');
 
@@ -94,6 +97,7 @@ function App() {
                setVerified(response.data.Verified);
                setid(response.data._id);
                setProfilePicture(response.data.ProfilePicture);
+               setSaved(response.data.saved);
             })
             .catch((error) => {
                return error;
@@ -120,6 +124,8 @@ function App() {
                   setVerified,
                   setid,
                   setProfilePicture,
+                  saved,
+                  setSaved,
                }}
             >
                <ScrollToTop />
