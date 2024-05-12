@@ -139,7 +139,6 @@ const PostPage = () => {
          }
       });
 
-      window.location.reload();
    };
 
    useEffect(() => {
