@@ -52,3 +52,7 @@ export { default as Comments } from './Components/post/Comments';
 export { default as ScrollToTop } from './Components/global/ScrollToTop';
 export { default as FollowerPopup } from './Components/profile/FollowerPopup';
 export { default as FollowingPopup } from './Components/profile/FollowingPopup';
+export { default as UnapprovedPostsPopup } from './Components/profile/UnapprovedPostsPopup';
+export { default as PreviewImage } from './Components/post/PreviewImage';
+export { default as DefaultPost } from './Components/post/DefaultPost';
+

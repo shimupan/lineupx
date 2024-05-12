@@ -9,6 +9,7 @@ import {
    ProfileEdit,
    FollowerPopup,
    FollowingPopup,
+   UnapprovedPostsPopup,
 } from '../../Components';
 import { getUserByUsername } from '../../util/getUser';
 import { follow } from '../../util/followStatus';
@@ -62,7 +63,9 @@ const ProfilePage = () => {
       (total, current) => total + current.length,
       0,
    );
+   const [showUnapprovedPostsPopup, setUnapprovedPostsPopup] = useState(false);
    const [selectedGame, setSelectedGame] = useState('Valorant');
+   const [unapprovedPosts, setUnapprovedPosts] = useState<PostType[]>([]);
    const totalViews = posts
       .flat()
       .reduce((total, post) => total + post.views, 0);
@@ -85,11 +88,19 @@ const ProfilePage = () => {
             const postsPromises = GAMES.map((game) =>
                axios.get(`/post/${game}/${response._id}`),
             );
-            return Promise.all(postsPromises);
+            // Fetch Unapproved Posts
+            const unapprovedPostsPromise = axios.get(
+               `/post/unapproved/${selectedGame}/${response._id}`,
+            );
+            return Promise.all([...postsPromises, unapprovedPostsPromise]);
          })
          .then((responses) => {
-            const allPosts = responses.map((response) => response.data);
+            const allPosts = responses
+               .slice(0, -1)
+               .map((response) => response.data);
+            const unapprovedPosts = responses[responses.length - 1].data;
             setPosts(allPosts);
+            setUnapprovedPosts(unapprovedPosts);
          })
          .catch((error) => {
             toast.error('Error Fetching Data');
@@ -298,6 +309,16 @@ const ProfilePage = () => {
                   </div>
                </div>
                <div className="flex space-x-4 justify-center">
+                  {Auth?.username === user.username &&
+                     unapprovedPosts.length > 0 && (
+                        <button onClick={() => setUnapprovedPostsPopup(true)}>
+                           {unapprovedPosts.length} Unapproved Posts. Please
+                           wait for an admin to approve them (Click to view)
+                        </button>
+                     )}
+               </div>
+
+               <div className="flex space-x-4 justify-center">
                   {['Valorant', 'CS2'].map((game) => (
                      <button
                         key={game}
@@ -334,18 +355,27 @@ const ProfilePage = () => {
          <Footer />
 
          <ToastContainer position="top-center" />
+
          {showFollowerPopup && (
-               <FollowerPopup
-                  followerIds={Array.from(followers || [])}
-                  onClose={() => setShowFollowerPopup(false)}
-                  user={user}
-               />
+            <FollowerPopup
+               followerIds={Array.from(followers || [])}
+               onClose={() => setShowFollowerPopup(false)}
+               user={user}
+            />
          )}
          {showFollowingPopup && (
             <FollowingPopup
                following={Array.from(following || [])}
                onClose={() => setShowFollowingPopup(false)}
                curruser={user}
+            />
+         )}
+
+         {showUnapprovedPostsPopup && (
+            <UnapprovedPostsPopup
+               show={showUnapprovedPostsPopup}
+               posts={unapprovedPosts}
+               onClose={() => setUnapprovedPostsPopup(false)}
             />
          )}
       </>

@@ -30,6 +30,23 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
+// Find all unapproved posts for a specific user
+router.get('/post/unapproved/:game/:id', (req, res) => {
+   const { game, id } = req.params;
+
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find({
+      UserID: new mongoose.Types.ObjectId(id),
+      approved: false,
+   })
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
+
 router.get('/post/detail/:game/:id', async (req, res) => {
    const { game, id } = req.params;
    const PostData = mongoose.model('PostData', PostDataSchema, game);
