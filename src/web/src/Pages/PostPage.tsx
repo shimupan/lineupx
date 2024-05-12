@@ -212,7 +212,7 @@ const PostPage = () => {
       };
       if (Auth?.saved.includes(postData?._id || currPostData?._id)) {
          setIsSaved(true);
-     }
+      }
       if (id) {
          fetchPostData();
       }
@@ -395,13 +395,15 @@ const PostPage = () => {
                               (currPostData?.dislikes?.length ?? 0)}
                         </p>
                      </div>
-<button
-   className={`flex mt-[-2px] ${isSaved ? 'animate-pulse text-yellow-500' : ''}`}
-   onClick={() => savePost()}
->
-   <AiOutlineStar className="text-2xl" />
-   <p>Save</p>
-</button>
+                     <button
+                        className={`flex mt-[-2px] ${
+                           isSaved ? 'animate-pulse text-yellow-500' : ''
+                        }`}
+                        onClick={() => savePost()}
+                     >
+                        <AiOutlineStar className="text-2xl" />
+                        <p>Save</p>
+                     </button>
                   </div>
                </div>
                <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
