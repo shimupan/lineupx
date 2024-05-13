@@ -22,6 +22,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
+import { FaRegSave, FaRegNewspaper } from 'react-icons/fa';
 const ProfilePage = () => {
    const { id } = useParams<{ id: string }>();
    const [user, setUser] = useState<UserType>({
@@ -67,6 +68,7 @@ const ProfilePage = () => {
    const [showUnapprovedPostsPopup, setUnapprovedPostsPopup] = useState(false);
    const [selectedGame, setSelectedGame] = useState('Valorant');
    const [unapprovedPosts, setUnapprovedPosts] = useState<PostType[]>([]);
+   const [savedPosts, setSavedPosts] = useState<PostType[]>([]);
 
    const totalViews = posts
       .flat()
@@ -84,25 +86,40 @@ const ProfilePage = () => {
             setFollowerCount(response.followers.length);
             setFollowing(new Set(response.following));
             setFollowingCount(response.following.length);
-            console.log(response.followers, Auth?._id);
             // Fetch User Posts
             // For each game that we currently support
             const postsPromises = GAMES.map((game) =>
                axios.get(`/post/${game}/${response._id}`),
             );
             // Fetch Unapproved Posts
-            const unapprovedPostsPromise = GAMES.map((game) =>
+            const unapprovedPostsPromises = GAMES.map((game) =>
                axios.get(`/post/unapproved/${game}/${response._id}`),
             );
-            return Promise.all([...postsPromises, ...unapprovedPostsPromise]);
+            // Fetch Saved Posts
+            const postsByIdsPromises = GAMES.map((game) =>
+               axios.get(`/posts?postIds=${response.saved}&game=${game}`),
+            );
+            return Promise.all([
+               ...postsPromises,
+               ...unapprovedPostsPromises,
+               ...postsByIdsPromises,
+            ]);
          })
          .then((responses) => {
+            const numGames = GAMES.length;
             const allPosts = responses
-               .slice(0, -1)
+               .slice(0, numGames)
                .map((response) => response.data);
-            const unapprovedPosts = responses[responses.length - 1].data;
+            const unapprovedPosts = responses
+               .slice(numGames, 2 * numGames)
+               .map((response) => response.data);
+            const savedPosts = responses
+               .slice(2 * numGames)
+               .map((response) => response.data);
+
             setPosts(allPosts);
-            setUnapprovedPosts(unapprovedPosts);
+            setUnapprovedPosts(unapprovedPosts.flat());
+            setSavedPosts(savedPosts.flat());
          })
          .catch((error) => {
             toast.error('Error Fetching Data');
@@ -320,17 +337,43 @@ const ProfilePage = () => {
                      )}
                </div>
                <div>
-                  {Auth?._id === user._id && (
-                     <div className="flex justify-center space-x-4">
-                        <button onClick={() => setSelectedTab('Posts')}>
-                           Posts
-                        </button>
-                        <button onClick={() => setSelectedTab('Saved')}>
-                           Saved
-                        </button>
-                     </div>
-                  )}
-                  
+                  <div>
+                     {Auth?._id === user._id && (
+                        <div className="flex justify-center">
+                           <div className="inline-flex rounded-lg p-1 relative">
+                              <button
+                                 onClick={() => setSelectedTab('Posts')}
+                                 className={`px-4 py-2 rounded-lg focus:outline-none flex items-center text-xs ${
+                                    selectedTab === 'Posts'
+                                       ? 'text-white '
+                                       : 'text-gray-600'
+                                 }`}
+                              >
+                                 <FaRegNewspaper />
+                                 <span className="pl-2">POSTS</span>
+                              </button>
+                              <button
+                                 onClick={() => setSelectedTab('Saved')}
+                                 className={`px-4 py-2 rounded-lg focus:outline-none flex items-center text-xs ${
+                                    selectedTab === 'Saved'
+                                       ? 'text-white'
+                                       : 'text-gray-600'
+                                 }`}
+                              >
+                                 <FaRegSave />
+                                 <span className="pl-2">SAVED</span>
+                              </button>
+                              <div
+                                 className={`absolute top-0 left-0 h-1 bg-white rounded-full transition-all duration-300 ${
+                                    selectedTab === 'Posts'
+                                       ? 'w-1/2'
+                                       : 'w-1/2 translate-x-full'
+                                 }`}
+                              ></div>
+                           </div>
+                        </div>
+                     )}
+                  </div>
                </div>
                {selectedTab === 'Posts' && (
                   <>
@@ -368,11 +411,15 @@ const ProfilePage = () => {
                      })}
                   </>
                )}
-               {
-                  selectedTab === 'Saved' &&
-                     // Render saved items here
-                     null // Add a placeholder expression inside the parentheses
-               }
+               {selectedTab === 'Saved' && (
+                  <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+                     {savedPosts.map((post) => (
+                        <div key={post.landingPosition.public_id}>
+                           <Posts postData={post} />
+                        </div>
+                     ))}
+                  </div>
+               )}
             </div>
          )}
 

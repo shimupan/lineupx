@@ -63,11 +63,14 @@ router.get('/post/detail/:game/:id', async (req, res) => {
    }
 });
 
+//Find all posts given an array of postIds
 router.get('/posts', async (req, res) => {
    const { game, postIds } = req.query;
 
-   // Convert postIds from string to array
-   const postIdsArray = postIds.split(',');
+   let postIdsArray = postIds.split(',');
+
+   postIdsArray = [...new Set(postIdsArray)];
+   console.log(postIdsArray);
 
    try {
       const PostData = mongoose.model('PostData', PostDataSchema, game);
@@ -78,6 +81,7 @@ router.get('/posts', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
    }
 });
+
 
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
