@@ -57,6 +57,7 @@ const ProfilePage = () => {
    const [followers, setFollowers] = useState<Set<string>>();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const [open, setOpen] = useState(false);
+   const [selectedTab, setSelectedTab] = useState('Posts');
    const Auth = useContext(AuthContext);
    const verified = Auth?.Verified;
    const postCount = posts.reduce(
@@ -66,6 +67,7 @@ const ProfilePage = () => {
    const [showUnapprovedPostsPopup, setUnapprovedPostsPopup] = useState(false);
    const [selectedGame, setSelectedGame] = useState('Valorant');
    const [unapprovedPosts, setUnapprovedPosts] = useState<PostType[]>([]);
+
    const totalViews = posts
       .flat()
       .reduce((total, post) => total + post.views, 0);
@@ -89,10 +91,10 @@ const ProfilePage = () => {
                axios.get(`/post/${game}/${response._id}`),
             );
             // Fetch Unapproved Posts
-            const unapprovedPostsPromise = axios.get(
-               `/post/unapproved/${selectedGame}/${response._id}`,
+            const unapprovedPostsPromise = GAMES.map((game) =>
+               axios.get(`/post/unapproved/${game}/${response._id}`),
             );
-            return Promise.all([...postsPromises, unapprovedPostsPromise]);
+            return Promise.all([...postsPromises, ...unapprovedPostsPromise]);
          })
          .then((responses) => {
             const allPosts = responses
@@ -317,38 +319,60 @@ const ProfilePage = () => {
                         </button>
                      )}
                </div>
-
-               <div className="flex space-x-4 justify-center">
-                  {['Valorant', 'CS2'].map((game) => (
-                     <button
-                        key={game}
-                        onClick={() => setSelectedGame(game)}
-                        className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4  origin-left hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border text-left p-3 text-gray-50 text-base font-bold rounded-lg  overflow-hidden  before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg  after:absolute after:z-10 after:w-20 after:h-20 after:content['']  after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg"
-                     >
-                        {game}
-                     </button>
-                  ))}
+               <div>
+                  {Auth?._id === user._id && (
+                     <div className="flex justify-center space-x-4">
+                        <button onClick={() => setSelectedTab('Posts')}>
+                           Posts
+                        </button>
+                        <button onClick={() => setSelectedTab('Saved')}>
+                           Saved
+                        </button>
+                     </div>
+                  )}
+                  
                </div>
-               {GAMES.map((game, index) => {
-                  if (game === selectedGame) {
-                     return (
-                        <React.Fragment key={index}>
-                           <div className="text-center text-4xl font-bold text-indigo-600 py-4">
+               {selectedTab === 'Posts' && (
+                  <>
+                     <div className="flex space-x-4 justify-center">
+                        {['Valorant', 'CS2'].map((game) => (
+                           <button
+                              key={game}
+                              onClick={() => setSelectedGame(game)}
+                              className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4 origin-left hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border text-left p-3 text-gray-50 text-base font-bold rounded-lg overflow-hidden before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg after:absolute after:z-10 after:w-20 after:h-20 after:content[''] after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg"
+                           >
                               {game}
-                           </div>
-                           <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
-                              {posts[index].map((post) => {
-                                 return (
-                                    <div key={post.landingPosition.public_id}>
-                                       <Posts postData={post} />
-                                    </div>
-                                 );
-                              })}
-                           </div>
-                        </React.Fragment>
-                     );
-                  }
-               })}
+                           </button>
+                        ))}
+                     </div>
+                     {GAMES.map((game, index) => {
+                        if (game === selectedGame) {
+                           return (
+                              <React.Fragment key={index}>
+                                 <div className="text-center text-4xl font-bold text-indigo-600 py-4">
+                                    {game}
+                                 </div>
+                                 <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+                                    {posts[index].map((post) => (
+                                       <div
+                                          key={post.landingPosition.public_id}
+                                       >
+                                          <Posts postData={post} />
+                                       </div>
+                                    ))}
+                                 </div>
+                              </React.Fragment>
+                           );
+                        }
+                        return null;
+                     })}
+                  </>
+               )}
+               {
+                  selectedTab === 'Saved' &&
+                     // Render saved items here
+                     null // Add a placeholder expression inside the parentheses
+               }
             </div>
          )}
 
