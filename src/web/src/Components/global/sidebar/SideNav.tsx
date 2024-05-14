@@ -114,7 +114,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                >
                   <div style={{ position: 'absolute', top: '5', left: '10' }}>
                      {' '}
-                     <Link to={`/user/${Auth?.username ? Auth?.username : 1}`}>
+                     <Link to={`/user/${Auth?.username ? Auth?.username : "Guest"}`}>
                         <img
                            src={
                               Auth?.ProfilePicture
@@ -141,15 +141,17 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                            {Auth?.username ? Auth?.username : 'Guest'}
                         </h4>
                         <span className="text-xs text-gray-600">
-                           {Auth?.email ? Auth?.email : 'Guest@Mail.com'}
+                           {Auth?.email ? Auth?.email : ''}
                         </span>
                      </div>
-                     <IoLogOut
-                        size={25}
-                        className="text-black mt-[-45px]"
-                        style={{ cursor: 'pointer' }}
-                        onClick={logout}
-                     />
+                     {Auth?.email && (
+                        <IoLogOut
+                           size={25}
+                           className="text-black mt-[-45px]"
+                           style={{ cursor: 'pointer' }}
+                           onClick={logout}
+                        />
+                     )}
                   </div>
                </div>
                <SideNavContext.Provider value={expanded}>

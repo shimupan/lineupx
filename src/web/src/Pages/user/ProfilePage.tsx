@@ -96,9 +96,15 @@ const ProfilePage = () => {
                axios.get(`/post/unapproved/${game}/${response._id}`),
             );
             // Fetch Saved Posts
-            const postsByIdsPromises = GAMES.map((game) =>
-               axios.get(`/posts?postIds=${response.saved}&game=${game}`),
-            );
+
+            const postsByIdsPromises =
+               response.saved && response.saved.length > 0
+                  ? GAMES.map((game) =>
+                       axios.get(
+                          `/posts?postIds=${response.saved}&game=${game}`,
+                       ),
+                    )
+                  : [];
             return Promise.all([
                ...postsPromises,
                ...unapprovedPostsPromises,
@@ -229,21 +235,6 @@ const ProfilePage = () => {
             <div className="min-h-screen pb-40 bg-gray-900 text-white">
                <div className="pt-20 pb-12 bg-gradient-to-b from-gray-800 to-gray-900">
                   <div className="container mx-auto px-4">
-                     {!verified && Auth?.username === user.username && (
-                        <div className="max-w-2xl mx-auto bg-red-600 text-white shadow-lg rounded-lg p-4">
-                           <p className="font-bold">Verification Needed</p>
-                           <p>
-                              Your account is not verified. Please check your
-                              email to verify your account.
-                           </p>
-                           <button
-                              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                              onClick={handleVerification}
-                           >
-                              Send Verification Email
-                           </button>
-                        </div>
-                     )}
 
                      <div className="flex flex-col items-center md:pl-64">
                         <img
@@ -325,6 +316,21 @@ const ProfilePage = () => {
                            )}
                         </div>
                      </div>
+                     {!verified && Auth?.username === user.username && (
+                        <div className="max-w-2xl mx-auto bg-red-600 text-white shadow-lg rounded-lg p-4">
+                           <p className="font-bold">Verification Needed</p>
+                           <p>
+                              Your account is not verified. Please check your
+                              email to verify your account.
+                           </p>
+                           <button
+                              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                              onClick={handleVerification}
+                           >
+                              Send Verification Email
+                           </button>
+                        </div>
+                     )}
                   </div>
                </div>
                <div className="flex space-x-4 justify-center">
@@ -395,15 +401,35 @@ const ProfilePage = () => {
                                  <div className="text-center text-4xl font-bold text-indigo-600 py-4">
                                     {game}
                                  </div>
-                                 <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
-                                    {posts[index].map((post) => (
-                                       <div
-                                          key={post.landingPosition.public_id}
-                                       >
-                                          <Posts postData={post} />
+                                 {posts[index].length > 0 ? (
+                                    <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+                                       {posts[index].map((post) => (
+                                          <div
+                                             key={
+                                                post.landingPosition.public_id
+                                             }
+                                          >
+                                             <Posts postData={post} />
+                                          </div>
+                                       ))}
+                                    </div>
+                                 ) : (
+                                    <div className="flex flex-col items-center justify-center h-screen">
+                                       <div className="text-center">
+                                          <h2 className="text-2xl font-semibold mb-4">
+                                             No Posts Available
+                                          </h2>
+                                          <p className="text-gray-500">
+                                             You currently have zero approved lineups for {' '}
+                                             {game}.
+                                          </p>
+                                          <p className="text-gray-500">
+                                             Please check back later or select a
+                                             different game.
+                                          </p>
                                        </div>
-                                    ))}
-                                 </div>
+                                    </div>
+                                 )}
                               </React.Fragment>
                            );
                         }
@@ -412,13 +438,33 @@ const ProfilePage = () => {
                   </>
                )}
                {selectedTab === 'Saved' && (
-                  <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
-                     {savedPosts.map((post) => (
-                        <div key={post.landingPosition.public_id}>
-                           <Posts postData={post} />
+                  <>
+                     {savedPosts.length > 0 ? (
+                        <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+                           {savedPosts.map((post) => (
+                              <div key={post.landingPosition.public_id}>
+                                 <Posts postData={post} />
+                              </div>
+                           ))}
                         </div>
-                     ))}
-                  </div>
+                     ) : (
+                        <div className="flex flex-col items-center justify-center h-screen">
+                           <div className="text-center">
+                              <h2 className="text-2xl font-semibold mb-4">
+                                 Save
+                              </h2>
+                              <p className="text-gray-500">
+                                 Save lineups that you want to view
+                                 again.
+                              </p>
+                              <p className="text-gray-500">
+                                 No one is notified, and only you can see what
+                                 you've saved.
+                              </p>
+                           </div>
+                        </div>
+                     )}
+                  </>
                )}
             </div>
          )}

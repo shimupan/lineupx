@@ -31,6 +31,7 @@ import {
    SearchResults,
    About,
    ScrollToTop,
+   GuestPage,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -178,6 +179,7 @@ function App() {
                   element={<SearchResults />}
                ></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
+               <Route path="/user/guest" element={<GuestPage />} />
                <Route path="/game/:game/:id" element={<PostPage />}></Route>
                <Route path="/post/:game/:id" element={<PostPage />}></Route>
                <Route path="/about" element={<About />}></Route>
