@@ -21,6 +21,8 @@ import axios from 'axios';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
+import { CgMaximize, CgMinimize } from 'react-icons/cg';
+
 //import gear from '../assets/svg/gear.svg';
 
 export type Comment = {
@@ -73,16 +75,27 @@ const PostPage = () => {
       setPopupVisible(!isPopupVisible);
    };
    */
-   const handleArrowClick = (direction: 'next' | 'prev') => {
-      if (direction === 'next') {
-         setCurrentImageIndex(
-            (prevIndex) => (prevIndex + 1) % imagePositions.length,
-         );
-      } else {
-         setCurrentImageIndex(
-            (prevIndex) =>
-               (prevIndex - 1 + imagePositions.length) % imagePositions.length,
-         );
+   const handleArrowClick = (direction: 'prev' | 'next') => {
+      let newIndex = currentImageIndex;
+
+      if (direction === 'prev') {
+         newIndex =
+            currentImageIndex > 0
+               ? currentImageIndex - 1
+               : imagePositions.length - 1;
+      } else if (direction === 'next') {
+         newIndex =
+            currentImageIndex < imagePositions.length - 1
+               ? currentImageIndex + 1
+               : 0;
+      }
+
+      setCurrentImageIndex(newIndex);
+
+      const fullScreenImage = document.getElementById('full-screen-image');
+      if (fullScreenImage) {
+         (fullScreenImage as HTMLImageElement).src =
+            `${CDN_URL}/${imagePositions[newIndex]}`;
       }
    };
    /*
@@ -90,6 +103,56 @@ const PostPage = () => {
       setViewMode(viewMode === 'carousel' ? 'all' : 'carousel');
    };
    */
+
+   const handleFullScreenToggle = (imageSrc: string) => {
+      const fullScreenContainer = document.getElementById(
+         'full-screen-container',
+      );
+      const fullScreenImage = document.getElementById('full-screen-image');
+
+      if (fullScreenImage) {
+         (fullScreenImage as HTMLImageElement).src = `${CDN_URL}/${imageSrc}`;
+      }
+
+      if (fullScreenContainer) {
+         if (fullScreenContainer.classList.contains('hidden')) {
+            fullScreenContainer.classList.remove('hidden');
+            if (fullScreenContainer.requestFullscreen) {
+               fullScreenContainer.requestFullscreen();
+            } else if ((fullScreenContainer as any).mozRequestFullScreen) {
+               /* Firefox */
+               (fullScreenContainer as any).mozRequestFullScreen();
+            } else if ((fullScreenContainer as any).webkitRequestFullscreen) {
+               /* Chrome, Safari and Opera */
+               (fullScreenContainer as any).webkitRequestFullscreen();
+            } else if ((fullScreenContainer as any).msRequestFullscreen) {
+               /* IE/Edge */
+               (fullScreenContainer as any).msRequestFullscreen();
+            }
+
+            // Add fullscreenchange event listener
+            document.addEventListener('fullscreenchange', () => {
+               if (!document.fullscreenElement) {
+                  fullScreenContainer.classList.add('hidden');
+               }
+            });
+         } else {
+            if (document.exitFullscreen) {
+               document.exitFullscreen();
+            } else if ((document as any).mozCancelFullScreen) {
+               /* Firefox */
+               (document as any).mozCancelFullScreen();
+            } else if ((document as any).webkitExitFullscreen) {
+               /* Chrome, Safari and Opera */
+               (document as any).webkitExitFullscreen();
+            } else if ((document as any).msExitFullscreen) {
+               /* IE/Edge */
+               (document as any).msExitFullscreen();
+            }
+            fullScreenContainer.classList.add('hidden');
+         }
+      }
+   };
    const savePost = async () => {
       try {
          await axios.post(`/user/${user_Id}/save-post`, {
@@ -263,6 +326,29 @@ const PostPage = () => {
                         width: '100%',
                         paddingTop: '56.25%',
                      }}
+                     onMouseEnter={() =>
+                        document
+                           .getElementById('fullscreen-button')
+                           ?.classList.remove('hidden')
+                     }
+                     onMouseLeave={() =>
+                        document
+                           .getElementById('fullscreen-button')
+                           ?.classList.add('hidden')
+                     }
+                     onTouchStart={() => {
+                        const fullscreenButton =
+                           document.getElementById('fullscreen-button');
+                        fullscreenButton?.classList.remove('hidden');
+                        setTimeout(() => {
+                           fullscreenButton?.classList.add('hidden');
+                        }, 3000);
+                     }}
+                     onTouchEnd={() =>
+                        document
+                           .getElementById('fullscreen-button')
+                           ?.classList.add('hidden')
+                     }
                   >
                      <img
                         src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
@@ -274,8 +360,63 @@ const PostPage = () => {
                            width: '100%',
                            height: '100%',
                         }}
-                        className="rounded-r-xl"
+                        className="rounded-r-xl cursor-pointer"
                      />
+                     <button
+                        id="fullscreen-button"
+                        className="hidden absolute bottom-0 right-0 mb-2 mr-2 text-white p-2 rounded transform transition-transform duration-500 hover:scale-110"
+                        onClick={() =>
+                           handleFullScreenToggle(
+                              imagePositions[currentImageIndex],
+                           )
+                        }
+                     >
+                        <CgMaximize size={24} />
+                     </button>
+
+                     <div
+                        id="full-screen-container"
+                        className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 z-50 hidden flex justify-center items-center"
+                     >
+                        <div className="max-w-[90%] max-h-[90%] flex justify-center items-center">
+                           <img
+                              id="full-screen-image"
+                              className="max-w-full max-h-full object-contain"
+                              src=""
+                              alt="Full-screen image"
+                           />
+                           <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-between items-center p-4">
+                              <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-center items-center p-4 space-x-4">
+                                 <button
+                                    onClick={() => handleArrowClick('prev')}
+                                    className="text-2xl text-white"
+                                 >
+                                    ←
+                                 </button>
+                                 <div
+                                    style={{
+                                       width: '200px',
+                                       textAlign: 'center',
+                                    }}
+                                 >
+                                    {imageTitles[currentImageIndex]}
+                                 </div>
+                                 <button
+                                    onClick={() => handleArrowClick('next')}
+                                    className="text-2xl text-white"
+                                 >
+                                    →
+                                 </button>
+                              </div>
+                              <button
+                                 onClick={() => handleFullScreenToggle('')}
+                                 className="absolute top-0 right-0 m-4 text-2xl text-white"
+                              >
+                                 <CgMinimize size={24} />
+                              </button>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
                <div className="flex justify-between w-full">
