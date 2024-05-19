@@ -64,29 +64,30 @@ const ValorantAgents: React.FC = () => {
                             className="abilities flex flex-wrap justify-center items-start gap-4 p-4"
                             key={agent.displayName}
                         >
-                            <div className="flex flex-row flex-wrap justify-center">
-                                {agent.abilities.map((ability, index) => (
+                            <div className="grid grid-cols-2 gap-4 justify-items-center sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
+                              {agent.abilities.map(
+                                 (ability, index) =>
                                     ability.slot !== 'Passive' && (
-                                        <div
-                                            key={index}
-                                            className="ability bg-1b2838 shadow-lg rounded-lg p-2 flex flex-col items-center justify-start w-48 m-2"
-                                        >
-                                            <img
-                                                src={ability.displayIcon}
-                                                alt={ability.displayName}
-                                                className="ability-icon w-12 h-12 mb-2"
-                                                loading="lazy"
-                                            />
-                                            <div className="ability-name font-semibold text-center">
-                                                {ability.displayName}
-                                            </div>
-                                            <div className="ability-description text-sm text-gray-600 overflow-auto max-h-24 p-2">
-                                                {ability.description}
-                                            </div>
-                                        </div>
-                                    )
-                                ))}
-                            </div>
+                                       <div
+                                          key={index}
+                                          className="ability bg-1b2838 shadow-lg rounded-lg p-2 flex flex-col items-center justify-start w-24 sm:w-36 m-2"
+                                       >
+                                          <img
+                                             src={ability.displayIcon}
+                                             alt={ability.displayName}
+                                             className="ability-icon w-8 sm:w-10 h-8 sm:h-10 mb-2"
+                                             loading="lazy"
+                                          />
+                                          <div className="ability-name font-semibold text-center">
+                                             {ability.displayName}
+                                          </div>
+                                          <div className="ability-description text-sm text-gray-600 overflow-auto max-h-24 p-2">
+                                             {ability.description}
+                                          </div>
+                                       </div>
+                                    ),
+                              )}
+                           </div>
                         </div>
                     ))}
                </div>
