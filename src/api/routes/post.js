@@ -82,7 +82,6 @@ router.get('/posts', async (req, res) => {
    }
 });
 
-
 // Find all post for a specific game
 router.get('/post/:game', (req, res) => {
    const { game } = req.params;
