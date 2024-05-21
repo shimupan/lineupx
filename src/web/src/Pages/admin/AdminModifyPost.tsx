@@ -22,19 +22,19 @@ const AdminModifyPost = () => {
          <Header />
          <SideNavWrapper />
 
-         <div className="container mx-auto px-4 py-8">
+         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
             <button
-               className="flex items-center mb-4 text-blue-500 hover:text-blue-700 cursor-pointer"
+               className="flex items-center mb-6 sm:mb-8 text-blue-500 hover:text-blue-700 cursor-pointer"
                onClick={() => navigate(-1)}
             >
                <IoIosArrowBack size={24} />
-               <span className="ml-2">Back</span>
+               <span className="ml-2 text-sm sm:text-base">Back</span>
             </button>
 
-            <h1 className="text-2xl font-bold text-center mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8">
                Title: {post?.postTitle}
             </h1>
-            <div className="flex flex-wrap gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center">
                <img
                   className="w-full sm:max-w-md h-auto shadow-lg rounded mb-4"
                   src={`${CDN_URL}/${post?.landingPosition.public_id}`}
@@ -54,18 +54,20 @@ const AdminModifyPost = () => {
                   loading="lazy"
                />
             </div>
-            <MdCancel
-               className="cursor-pointer text-red-500 hover:text-red-700 mx-auto mt-8"
-               size={128}
-               onClick={() =>
-                  approveRejectPosts(
-                     post?._id!,
-                     'reject',
-                     post?.game!,
-                     Auth?.role!,
-                  ).then(() => navigate(-1))
-               }
-            />
+            <div className="flex justify-center mt-8 sm:mt-12">
+               <MdCancel
+                  className="cursor-pointer text-red-500 hover:text-red-700"
+                  size={128}
+                  onClick={() =>
+                     approveRejectPosts(
+                        post?._id!,
+                        'reject',
+                        post?.game!,
+                        Auth?.role!,
+                     ).then(() => navigate(-1))
+                  }
+               />
+            </div>
          </div>
 
          <Footer />
