@@ -29,18 +29,25 @@ const SearchBar = ({
    };
 
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
+      const value = event.target.value;
+      setSearchTerm(value);
       onChange(event);
+
+      if (value.trim() === '') {
+         setFilteredSuggestions([]);
+         return;
+      }
 
       // Setup Fuse.js
       const fuse = new Fuse(suggestions, {
          keys: ['text'],
          includeScore: true,
          threshold: 0.3,
+         isCaseSensitive: false,
       });
 
       // Use Fuse.js to search the suggestions
-      const result = fuse.search(event.target.value);
+      const result = fuse.search(value);
 
       // Extract the item from each result
       const filtered = result.map(({ item }) => item);
@@ -67,6 +74,7 @@ const SearchBar = ({
       setSearchTerm(suggestion);
       onSearch(suggestion);
    };
+
    const renderSuggestions = () => {
       if (filteredSuggestions.length === 0) {
          return null;
@@ -86,6 +94,7 @@ const SearchBar = ({
          </ul>
       );
    };
+
    return (
       <div className="relative w-full md:w-1/4 lg:w-1/4 xl:w-2/3 2xl:w-1/2 mx-auto">
          <form
