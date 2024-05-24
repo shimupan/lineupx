@@ -1,19 +1,14 @@
-import { useNavigate, Link } from 'react-router-dom';
 import { PostType, UserType, ValorantAgent } from '../../global.types';
-import { Tooltip, PreviewImage } from '../../Components';
+import { Tooltip } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
-import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../App';
-import { timeAgo } from './helper';
-import shareIcon from '../../assets/svg/share.svg';
+import { useState, useEffect } from 'react';
 import decoy from '../../assets/svg/decoy.svg';
 import smoke from '../../assets/svg/smoke.svg';
 import molotov from '../../assets/svg/molotov.svg';
 import he from '../../assets/svg/he.svg';
 import flash from '../../assets/svg/flash.svg';
 import { getUserByID } from '../../util/getUser';
-import { FaCheckCircle } from 'react-icons/fa';
 
 interface PostsProps {
    postData: PostType;
@@ -24,16 +19,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       [],
    );
    const [user, setUser] = useState<UserType>();
-   const navigate = useNavigate();
-   const Auth = useContext(AuthContext);
-   const user_Id = Auth?._id;
-   const [isHovering, setIsHovering] = useState(false);
-   const handleMouseEnter = () => {
-      setIsHovering(true);
-   };
-   const handleMouseLeave = () => {
-      setIsHovering(false);
-   };
    const [currentImage, setCurrentImage] = useState(0);
    const images = [
       postData.landingPosition.public_id,
@@ -80,52 +65,15 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       postData.ability,
    );
 
-   const incrementViewCount = async () => {
-      axios
-         .post(`/post/${postData._id}/increment-view-count`, {
-            userId: user_Id,
-         })
-         .then((response) => {
-            console.log('Successfully incremented view count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment view count:', error);
-            // Handle error
-         });
-   };
-
-   const copyPostLinkToClipboard = async () => {
-      const postUrl = `${window.location.origin}/game/${
-         postData.game
-      }/${encodeURIComponent(postData._id)}`;
-
-      try {
-         await navigator.clipboard.writeText(postUrl);
-         alert('Link copied to clipboard!');
-      } catch (err) {
-         console.error('Failed to copy: ', err);
-      }
-   };
-
    return (
       <>
          <div>
-            <div
-               onMouseEnter={handleMouseEnter}
-               onMouseLeave={handleMouseLeave}
-               className="relative"
-            >
+            <div className="relative">
                <div style={{ paddingBottom: '56.25%', position: 'relative' }}>
                   <img
                      className="absolute top-0 left-0 w-full h-full object-cover bg-gray-400 rounded-lg cursor-pointer"
                      src={`${CDN_URL}/${postData.landingPosition.public_id}`}
                      alt={postData.postTitle}
-                     onClick={async () => {
-                        await incrementViewCount();
-                        navigate(`/game/${postData.game}/${postData._id}`, {
-                           state: { postData },
-                        });
-                     }}
                   />
                </div>
                <div className="">
@@ -195,74 +143,24 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      'Unknown'
                   )}
                </div>
-               {isHovering && (
-                  <PreviewImage
-                     images={images}
-                     currentImage={currentImage}
-                     onClick={async () => {
-                        await incrementViewCount();
-                        navigate(`/game/${postData.game}/${postData._id}`, {
-                           state: { postData },
-                        });
-                     }}
-                  />
-               )}
             </div>
 
             <div className="flex items-center mt-4">
-               <Link to={`/user/${postData.Username}`}>
-                  <img
-                     src={user?.ProfilePicture}
-                     className="mr-3 rounded-full w-9 h-9 bg-gray-400 mb-8"
-                  />
-               </Link>
+               <img
+                  src={user?.ProfilePicture}
+                  className="mr-3 rounded-full w-9 h-9 bg-gray-400 mb-8"
+               />
+
                <div className="flex flex-col flex-grow">
                   <div className="flex justify-between">
-                     <Link
-                        className="text-lg font-bold m-0 no-underline"
-                        to={`/game/${postData.game}/${encodeURIComponent(
-                           postData._id,
-                        )}`}
+                     <p
+                        className="text-lg font-bold m-0"
+                        style={{ color: 'black' }}
                      >
                         {postData.postTitle.length > 23
                            ? `${postData.postTitle.substring(0, 23)}...`
                            : postData.postTitle}
-                     </Link>
-                     <img
-                        src={shareIcon}
-                        alt="Share"
-                        className="ml-3 w-6 h-6 cursor-pointer"
-                        onClick={copyPostLinkToClipboard}
-                        title="Share"
-                        style={{ filter: 'invert(100%)' }}
-                     />
-                  </div>
-                  <div className="flex flex-row">
-                     <Tooltip text={postData.Username}>
-                        <Link
-                           className="no-underline m-0 transition-colors duration-150 text-gray-300 hover:text-white"
-                           to={`/user/${postData.Username}`}
-                        >
-                           {postData.Username}
-                        </Link>
-                     </Tooltip>
-                     {user?.role == 'admin' && (
-                        <Tooltip text={user?.role}>
-                           <span className="flex justify-center items-center ml-1 mt-0.2">
-                              <FaCheckCircle size={13} />
-                           </span>
-                        </Tooltip>
-                     )}
-                  </div>
-
-                  <div>
-                     <span className="text-gray-300">
-                        {postData.views} views
-                     </span>
-                     <span className="ml-1 mr-1 text-gray-300">•</span>
-                     <span className="text-gray-300">
-                        {timeAgo(new Date(postData.date))}
-                     </span>
+                     </p>
                   </div>
                </div>
             </div>

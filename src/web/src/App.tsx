@@ -1,5 +1,7 @@
 import { useState, useEffect, createContext } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 import {
    Page,
    ProfilePage,
@@ -29,6 +31,7 @@ import {
    SearchResults,
    About,
    ScrollToTop,
+   GuestPage,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -54,6 +57,8 @@ type AuthContextType = {
    role: string;
    ProfilePicture: string;
    setProfilePicture: React.Dispatch<React.SetStateAction<string>>;
+   saved: string[];
+   setSaved: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -71,8 +76,10 @@ function App() {
    const [role, setRole] = useState<string>('');
    const [ProfilePicture, setProfilePicture] = useState<string>('');
    const [_id, setid] = useState<string>('');
+   const [saved, setSaved] = useState<string[]>([]);
    const [accessTokenC] = useCookies('accessToken', '');
    const [refreshTokenC] = useCookies('refreshToken', '');
+   const location = useLocation();
 
    useEffect(() => {
       if (accessTokenC && !accessToken) {
@@ -94,6 +101,7 @@ function App() {
                setVerified(response.data.Verified);
                setid(response.data._id);
                setProfilePicture(response.data.ProfilePicture);
+               setSaved(response.data.saved);
             })
             .catch((error) => {
                return error;
@@ -101,115 +109,124 @@ function App() {
       }
    }, [accessToken, refreshToken]);
 
+   useEffect(() => {
+      NProgress.start();
+
+      // Simulate a data fetching delay or perform actual data fetching
+      setTimeout(() => {
+         NProgress.done();
+         // Add the fade-out class to the NProgress bar
+         const nprogressElements = document.querySelectorAll('#nprogress');
+         nprogressElements.forEach((el) => el.classList.add('fade-out'));
+      }, 200);
+   }, [location]);
+
    return (
       <>
-            <AuthContext.Provider
-               value={{
-                  _id,
-                  accessToken,
-                  refreshToken,
-                  email,
-                  role,
-                  username,
-                  ProfilePicture,
-                  Verified,
-                  setAccessToken,
-                  setRefreshToken,
-                  setEmail,
-                  setUsername,
-                  setVerified,
-                  setid,
-                  setProfilePicture,
-               }}
-            >
-               <ScrollToTop />
-               <Routes>
-                  <Route path="/" element={<Page />}></Route>
-                  <Route path="/game/valorant" element={<Valorant />}></Route>
-                  <Route
-                     path="/game/valorant/agents/:agentName/lineups"
-                     element={<ValorantLineups />}
-                  ></Route>
-                  <Route
-                     path="/game/valorant/agents"
-                     element={<ValorantAgents />}
-                  ></Route>
-                  <Route
-                     path="/game/valorant/agents/:agentName/lineups/:mapName"
-                     element={<ValorantMaps />}
-                  />
-                  <Route
-                     path="/game/valorant/lineups"
-                     element={<ValorantLineups />}
-                  ></Route>
-                  <Route
-                     path="/game/valorant/lineups/:mapName"
-                     element={<ValorantMaps />}
-                  />
-                  <Route path="/game/cs2" element={<CS2 />}></Route>
-                  <Route
-                     path="/game/cs2/lineups"
-                     element={<CS2Lineups />}
-                  ></Route>
-                  <Route
-                     path="/game/cs2/lineups/:mapName"
-                     element={<CS2Maps />}
-                  ></Route>
-                  <Route
-                     path="/search/:game/:query"
-                     element={<SearchResults />}
-                  ></Route>
-                  <Route path="/user/:id" element={<ProfilePage />}></Route>
-                  <Route path="/game/:game/:id" element={<PostPage />}></Route>
-                  <Route path="/post/:game/:id" element={<PostPage />}></Route>
-                  <Route path="/about" element={<About />}></Route>
-                  {/* Auth Routes */}
-                  <Route path="/register" element={<Register />}></Route>
-                  <Route path="/login" element={<Login />}></Route>
-                  <Route
-                     path="/forgotpassword"
-                     element={<ForgotPassword />}
-                  ></Route>
-                  <Route
-                     path="/resetpassword"
-                     element={<ResetPassword />}
-                  ></Route>
-                  {/* Protected Routes */}
-                  {role === 'admin' && Verified && (
-                     <Route element={<RequireAuth allowedRoles={['admin']} />}>
-                        <Route path="/admin" element={<AdminHome />}></Route>
-                        <Route
-                           path="/admin/users"
-                           element={<AdminUsers />}
-                        ></Route>
-                        <Route
-                           path="/admin/posts"
-                           element={<AdminPosts />}
-                        ></Route>
-                        <Route
-                           path="/admin/check"
-                           element={<AdminCheck />}
-                        ></Route>
-                        <Route
-                           path="/admin/user/:id"
-                           element={<AdminModifyUser />}
-                        ></Route>
-                        <Route
-                           path="/admin/post/:id"
-                           element={<AdminModifyPost />}
-                        ></Route>
-                     </Route>
-                  )}
-                  <Route
-                     element={<RequireAuth allowedRoles={['user', 'admin']} />}
-                  >
-                     <Route path="/upload" element={<Upload />}></Route>
+         <AuthContext.Provider
+            value={{
+               _id,
+               accessToken,
+               refreshToken,
+               email,
+               role,
+               username,
+               ProfilePicture,
+               Verified,
+               setAccessToken,
+               setRefreshToken,
+               setEmail,
+               setUsername,
+               setVerified,
+               setid,
+               setProfilePicture,
+               saved,
+               setSaved,
+            }}
+         >
+            <ScrollToTop />
+            <Routes>
+               <Route path="/" element={<Page />}></Route>
+               <Route path="/game/valorant" element={<Valorant />}></Route>
+               <Route
+                  path="/game/valorant/agents/:agentName/lineups"
+                  element={<ValorantLineups />}
+               ></Route>
+               <Route
+                  path="/game/valorant/agents"
+                  element={<ValorantAgents />}
+               ></Route>
+               <Route
+                  path="/game/valorant/agents/:agentName/lineups/:mapName"
+                  element={<ValorantMaps />}
+               />
+               <Route
+                  path="/game/valorant/lineups"
+                  element={<ValorantLineups />}
+               ></Route>
+               <Route
+                  path="/game/valorant/lineups/:mapName"
+                  element={<ValorantMaps />}
+               />
+               <Route path="/game/cs2" element={<CS2 />}></Route>
+               <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
+               <Route
+                  path="/game/cs2/lineups/:mapName"
+                  element={<CS2Maps />}
+               ></Route>
+               <Route
+                  path="/search/:game/:query"
+                  element={<SearchResults />}
+               ></Route>
+               <Route path="/user/:id" element={<ProfilePage />}></Route>
+               <Route path="/user/guest" element={<GuestPage />} />
+               <Route path="/game/:game/:id" element={<PostPage />}></Route>
+               <Route path="/post/:game/:id" element={<PostPage />}></Route>
+               <Route path="/about" element={<About />}></Route>
+               {/* Auth Routes */}
+               <Route path="/register" element={<Register />}></Route>
+               <Route path="/login" element={<Login />}></Route>
+               <Route
+                  path="/forgotpassword"
+                  element={<ForgotPassword />}
+               ></Route>
+               <Route path="/resetpassword" element={<ResetPassword />}></Route>
+               {/* Protected Routes */}
+               {role === 'admin' && Verified && (
+                  <Route element={<RequireAuth allowedRoles={['admin']} />}>
+                     <Route path="/admin" element={<AdminHome />}></Route>
+                     <Route
+                        path="/admin/users"
+                        element={<AdminUsers />}
+                     ></Route>
+                     <Route
+                        path="/admin/posts"
+                        element={<AdminPosts />}
+                     ></Route>
+                     <Route
+                        path="/admin/check"
+                        element={<AdminCheck />}
+                     ></Route>
+                     <Route
+                        path="/admin/user/:id"
+                        element={<AdminModifyUser />}
+                     ></Route>
+                     <Route
+                        path="/admin/post/:id"
+                        element={<AdminModifyPost />}
+                     ></Route>
                   </Route>
-                  <Route path="/google-callback" element={<GoogleCallBack />} />
-                  <Route path="/verifyemail" element={<VerifyEmail />} />
-                  <Route path="*" element={<PageNotFound />}></Route>
-               </Routes>
-            </AuthContext.Provider>
+               )}
+               <Route
+                  element={<RequireAuth allowedRoles={['user', 'admin']} />}
+               >
+                  <Route path="/upload" element={<Upload />}></Route>
+               </Route>
+               <Route path="/google-callback" element={<GoogleCallBack />} />
+               <Route path="/verifyemail" element={<VerifyEmail />} />
+               <Route path="*" element={<PageNotFound />}></Route>
+            </Routes>
+         </AuthContext.Provider>
       </>
    );
 }

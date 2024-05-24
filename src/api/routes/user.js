@@ -228,6 +228,38 @@ router.post('/user/:id/follow', async (req, res) => {
    }
 });
 
+// Save a post for a user
+router.post('/user/:userId/save-post', async (req, res) => {
+   const { userId } = req.params;
+   const { postId } = req.body;
+
+   try {
+      const user = await User.findById(userId);
+
+      if (!user) {
+         return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Check if the post is already saved
+      const postIndex = user.saved.indexOf(postId);
+
+      if (postIndex !== -1) {
+         // If the post is already saved, remove it
+         user.saved.splice(postIndex, 1);
+         await user.save();
+         return res.status(200).json({ message: 'Post removed from saved' });
+      } else {
+         // If the post is not saved, add it
+         user.saved.push(postId);
+         await user.save();
+         return res.status(200).json({ message: 'Post saved successfully' });
+      }
+   } catch (error) {
+      console.error('Failed to save or remove post:', error);
+      res.status(500).json({ message: 'Server error' });
+   }
+});
+
 router.post('/user/update', async (req, res) => {
    const { user, newUsername, newEmail } = req.body;
 
@@ -282,6 +314,26 @@ router.post('/user/update', async (req, res) => {
          message: 'Error updating user',
          type: 'error',
       });
+   }
+});
+
+// getting multiple users by ids
+router.post('/users/multiple', async (req, res) => {
+   const ids = req.body.ids;
+   if (!Array.isArray(ids)) {
+      return res.status(400).send('Invalid request');
+   }
+   try {
+      const users = await User.find({
+         _id: { $in: ids },
+      });
+      if (!users.length) {
+         return res.status(404).send('Users not found');
+      }
+      return res.send(users);
+   } catch (error) {
+      console.error(error);
+      return res.status(500).send('Server error');
    }
 });
 

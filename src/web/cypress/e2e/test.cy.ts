@@ -20,7 +20,4 @@ describe('template spec', () => {
   it('renders the Signup page', () => {
     cy.visit('http://localhost:5173/register');
   });
-  it('renders the occupate user page', () => {
-    cy.visit('http://localhost:5173/user/ooccupate');
-  });
 });

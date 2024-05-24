@@ -57,8 +57,15 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                <SideNavItems
                   icon={<MdOutlineSettings size={25} />}
                   text="Profile"
-                  active={activeItem === '/user/ooccupate'}
-                  onClick={() => handleClick('/user/ooccupate')}
+                  active={
+                     activeItem ===
+                     `/user/${Auth?.username ? Auth?.username : 'Guest'}`
+                  }
+                  onClick={() =>
+                     handleClick(
+                        `/user/${Auth?.username ? Auth?.username : 'Guest'}`,
+                     )
+                  }
                   alert
                />
                <SideNavItems

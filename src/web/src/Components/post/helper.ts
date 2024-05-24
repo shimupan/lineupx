@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { PostType } from '../../global.types';
 
 export function timeAgo(date: Date) {
    const now = new Date();
@@ -18,9 +17,9 @@ export function timeAgo(date: Date) {
    return `${yearsAgo} years ago`;
 }
 
-export const incrementLikeCount = async (postData: PostType, user_Id: string) => {
+export const incrementLikeCount = async (postId: string, user_Id: string) => {
    axios
-      .post(`/post/${postData._id}/increment-like`, {
+      .post(`/post/${postId}/increment-like`, {
          userId: user_Id,
       })
       .then((response) => {
@@ -31,9 +30,11 @@ export const incrementLikeCount = async (postData: PostType, user_Id: string) =>
       });
 };
 
-export const incrementDislikeCount = async (postData: PostType) => {
+export const incrementDislikeCount = async (postId: string, user_Id: string) => {
    axios
-      .post(`/post/${postData._id}/increment-dislike`)
+      .post(`/post/${postId}/increment-dislike`, {
+         userId: user_Id,
+      })
       .then((response) => {
          console.log('Successfully incremented dislike count:', response);
       })

@@ -30,6 +30,23 @@ router.get('/post/:game/:id', (req, res) => {
       });
 });
 
+// Find all unapproved posts for a specific user
+router.get('/post/unapproved/:game/:id', (req, res) => {
+   const { game, id } = req.params;
+
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   PostData.find({
+      UserID: new mongoose.Types.ObjectId(id),
+      approved: false,
+   })
+      .then((data) => {
+         res.send(data);
+      })
+      .catch((err) => {
+         res.send(err);
+      });
+});
+
 router.get('/post/detail/:game/:id', async (req, res) => {
    const { game, id } = req.params;
    const PostData = mongoose.model('PostData', PostDataSchema, game);
@@ -43,6 +60,25 @@ router.get('/post/detail/:game/:id', async (req, res) => {
    } catch (error) {
       console.error('Error fetching post:', error);
       res.status(500).send({ error: 'Internal Server Error' });
+   }
+});
+
+//Find all posts given an array of postIds
+router.get('/posts', async (req, res) => {
+   const { game, postIds } = req.query;
+
+   let postIdsArray = postIds.split(',');
+
+   postIdsArray = [...new Set(postIdsArray)];
+   console.log(postIdsArray);
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const posts = await PostData.find({ _id: { $in: postIdsArray } });
+      res.status(200).json(posts);
+   } catch (error) {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
    }
 });
 

@@ -25,6 +25,7 @@ export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
 export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
 export { default as PageNotFound } from './Pages/auth/PageNotFound';
 export { default as SearchResults } from './Pages/SearchResults/SearchResults';
+export { default as GuestPage } from './Pages/user/GuestProfilePage';
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';
@@ -50,3 +51,9 @@ export { default as WidePosts } from './Components/post/WidePosts';
 export { default as Tooltip } from './Components/post/Tooltip';
 export { default as Comments } from './Components/post/Comments';
 export { default as ScrollToTop } from './Components/global/ScrollToTop';
+export { default as FollowerPopup } from './Components/profile/FollowerPopup';
+export { default as FollowingPopup } from './Components/profile/FollowingPopup';
+export { default as UnapprovedPostsPopup } from './Components/profile/UnapprovedPostsPopup';
+export { default as PreviewImage } from './Components/post/PreviewImage';
+export { default as DefaultPost } from './Components/post/DefaultPost';
+

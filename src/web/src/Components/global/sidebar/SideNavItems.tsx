@@ -29,7 +29,9 @@ const SideNavItems: React.FC<SideNavItemsProps> = ({
             }`}
             onClick={onClick}
          >
-            {icon}
+            <span className="w-6 h-6 flex items-center justify-center">
+               {icon}
+            </span>
             <span
                className={`overflow-hidden transition-all ${
                   expanded ? 'w-32 ml-3' : 'w-0'

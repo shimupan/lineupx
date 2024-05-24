@@ -111,16 +111,19 @@ router.delete('/logout', async (req, res, next) => {
 router.post('/register', authLimit, async (req, res) => {
    const { userName, email, password } = req.body;
 
-   const existingEmailUser = await User.findOne({ email });
+   const existingEmailUser = await User.findOne({
+      email: { $regex: new RegExp(`^${email}$`, 'i') },
+   });
    if (existingEmailUser) {
       return res.status(400).send({ message: 'Email already in use' });
    }
 
-   const existingUsernameUser = await User.findOne({ username: userName });
+   const existingUsernameUser = await User.findOne({
+      username: { $regex: new RegExp(`^${userName}$`, 'i') },
+   });
    if (existingUsernameUser) {
       return res.status(400).send({ message: 'Username already in use' });
    }
-
    try {
       // Generate a verification code
       const verificationCode = Math.floor(100000 + Math.random() * 900000);

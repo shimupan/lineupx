@@ -18,9 +18,11 @@ import { getUserByID } from '../util/getUser';
 import { getPostByMap } from '../util/getPost';
 import { follow } from '../util/followStatus';
 import axios from 'axios';
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
+import { CgMaximize, CgMinimize } from 'react-icons/cg';
+
 //import gear from '../assets/svg/gear.svg';
 
 export type Comment = {
@@ -53,6 +55,7 @@ const PostPage = () => {
    const verified = Auth?.Verified;
    const { game, id } = useParams<{ game: string; id: string }>();
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+   const [followerCount, setFollowerCount] = useState(0);
    const [followers, setFollowers] = useState<Set<string>>();
    /*
    const [viewMode, setViewMode] = useState('carousel');
@@ -62,24 +65,37 @@ const PostPage = () => {
    const [comments, setComments] = useState<Comment[]>([]);
    const [userComments, setUserComments] = useState<Comment[]>([]);
    const [newComment, setNewComment] = useState('');
-
+   const [isLiked, setIsLiked] = useState(false);
+   const [isDisliked, setIsDisliked] = useState(false);
    const [user, setUser] = useState<UserType>();
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
+   const [isSaved, setIsSaved] = useState(false);
    /*
    const handleGearClick = () => {
       setPopupVisible(!isPopupVisible);
    };
    */
-   const handleArrowClick = (direction: 'next' | 'prev') => {
-      if (direction === 'next') {
-         setCurrentImageIndex(
-            (prevIndex) => (prevIndex + 1) % imagePositions.length,
-         );
-      } else {
-         setCurrentImageIndex(
-            (prevIndex) =>
-               (prevIndex - 1 + imagePositions.length) % imagePositions.length,
-         );
+   const handleArrowClick = (direction: 'prev' | 'next') => {
+      let newIndex = currentImageIndex;
+
+      if (direction === 'prev') {
+         newIndex =
+            currentImageIndex > 0
+               ? currentImageIndex - 1
+               : imagePositions.length - 1;
+      } else if (direction === 'next') {
+         newIndex =
+            currentImageIndex < imagePositions.length - 1
+               ? currentImageIndex + 1
+               : 0;
+      }
+
+      setCurrentImageIndex(newIndex);
+
+      const fullScreenImage = document.getElementById('full-screen-image');
+      if (fullScreenImage) {
+         (fullScreenImage as HTMLImageElement).src =
+            `${CDN_URL}/${imagePositions[newIndex]}`;
       }
    };
    /*
@@ -87,6 +103,67 @@ const PostPage = () => {
       setViewMode(viewMode === 'carousel' ? 'all' : 'carousel');
    };
    */
+
+   const handleFullScreenToggle = (imageSrc: string) => {
+      const fullScreenContainer = document.getElementById(
+         'full-screen-container',
+      );
+      const fullScreenImage = document.getElementById('full-screen-image');
+
+      if (fullScreenImage) {
+         (fullScreenImage as HTMLImageElement).src = `${CDN_URL}/${imageSrc}`;
+      }
+
+      if (fullScreenContainer) {
+         if (fullScreenContainer.classList.contains('hidden')) {
+            fullScreenContainer.classList.remove('hidden');
+            if (fullScreenContainer.requestFullscreen) {
+               fullScreenContainer.requestFullscreen();
+            } else if ((fullScreenContainer as any).mozRequestFullScreen) {
+               /* Firefox */
+               (fullScreenContainer as any).mozRequestFullScreen();
+            } else if ((fullScreenContainer as any).webkitRequestFullscreen) {
+               /* Chrome, Safari and Opera */
+               (fullScreenContainer as any).webkitRequestFullscreen();
+            } else if ((fullScreenContainer as any).msRequestFullscreen) {
+               /* IE/Edge */
+               (fullScreenContainer as any).msRequestFullscreen();
+            }
+
+            // Add fullscreenchange event listener
+            document.addEventListener('fullscreenchange', () => {
+               if (!document.fullscreenElement) {
+                  fullScreenContainer.classList.add('hidden');
+               }
+            });
+         } else {
+            if (document.exitFullscreen) {
+               document.exitFullscreen();
+            } else if ((document as any).mozCancelFullScreen) {
+               /* Firefox */
+               (document as any).mozCancelFullScreen();
+            } else if ((document as any).webkitExitFullscreen) {
+               /* Chrome, Safari and Opera */
+               (document as any).webkitExitFullscreen();
+            } else if ((document as any).msExitFullscreen) {
+               /* IE/Edge */
+               (document as any).msExitFullscreen();
+            }
+            fullScreenContainer.classList.add('hidden');
+         }
+      }
+   };
+   const savePost = async () => {
+      try {
+         await axios.post(`/user/${user_Id}/save-post`, {
+            postId: postData?._id || currPostData?._id,
+         });
+         setIsSaved(!isSaved);
+         console.log('Post saved successfully');
+      } catch (error) {
+         console.error('Error saving post:', error);
+      }
+   };
    const fetchComments = async () => {
       try {
          const postId = location.pathname.split('/')[2];
@@ -117,29 +194,31 @@ const PostPage = () => {
       follow(user?._id!, Auth?._id!).then((response) => {
          if (response === 200) {
             setFollowers((prevState) => {
-               if (prevState?.has(Auth?._id!)) {
-                  prevState.delete(Auth?._id!);
+               const newFollowerSet = new Set(prevState);
+               const isFollowing = newFollowerSet.has(Auth?._id!);
+
+               if (isFollowing) {
+                  newFollowerSet.delete(Auth?._id!);
                } else {
-                  prevState?.add(Auth?._id!);
+                  newFollowerSet.add(Auth?._id!);
                }
-               return new Set(prevState);
+
+               setFollowerCount((prevCount) =>
+                  isFollowing ? prevCount - 1 : prevCount + 1,
+               );
+
+               return newFollowerSet;
             });
          } else {
             console.error('Error following user');
          }
       });
-      window.location.reload();
    };
-
-   useEffect(() => {
-      console.log(followers);
-   }, [followers]);
 
    // Handle the submission of a new comment
    const handleCommentSubmit = async () => {
       if (newComment.trim() && verified) {
          try {
-            console.log(newComment);
             const response = await axios.post(
                `/post/${postData?._id || currPostData?._id}/comment`,
                {
@@ -169,7 +248,6 @@ const PostPage = () => {
          }
       }
    };
-
    useEffect(() => {
       fetchComments();
    }, []);
@@ -179,22 +257,36 @@ const PostPage = () => {
          try {
             const response = await axios.get(`/post/detail/${game}/${id}`);
             setcurrPostData(response.data);
-            console.log(response.data); // Update your state with the fetched post data
+            console.log(response.data.likes);
+
+            // Check if the user has already liked or disliked the post
+
+            setIsLiked(
+               response.data.likes.some((like: any) => like.userId === user_Id),
+            );
+            setIsDisliked(
+               response.data.dislikes.some(
+                  (dislike: any) => dislike.userId === user_Id,
+               ),
+            );
          } catch (error) {
             console.error('Failed to fetch post data:', error);
-            // Handle the error (e.g., set an error state, show a notification)
          }
       };
+      if (Auth?.saved.includes(postData?._id || currPostData?._id)) {
+         setIsSaved(true);
+      }
       if (id) {
          fetchPostData();
       }
-   }, [id]);
+   }, [id, user_Id]);
 
    useEffect(() => {
       if (postData) {
          getUserByID(postData.UserID).then((user) => {
             setUser(user);
             setFollowers(new Set(user.followers));
+            setFollowerCount(user.followers.length);
          });
          getPostByMap(postData.game, postData.mapName).then((posts) => {
             let filter: PostType[] = [];
@@ -234,6 +326,29 @@ const PostPage = () => {
                         width: '100%',
                         paddingTop: '56.25%',
                      }}
+                     onMouseEnter={() =>
+                        document
+                           .getElementById('fullscreen-button')
+                           ?.classList.remove('hidden')
+                     }
+                     onMouseLeave={() =>
+                        document
+                           .getElementById('fullscreen-button')
+                           ?.classList.add('hidden')
+                     }
+                     onTouchStart={() => {
+                        const fullscreenButton =
+                           document.getElementById('fullscreen-button');
+                        fullscreenButton?.classList.remove('hidden');
+                        setTimeout(() => {
+                           fullscreenButton?.classList.add('hidden');
+                        }, 3000);
+                     }}
+                     onTouchEnd={() =>
+                        document
+                           .getElementById('fullscreen-button')
+                           ?.classList.add('hidden')
+                     }
                   >
                      <img
                         src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
@@ -245,8 +360,63 @@ const PostPage = () => {
                            width: '100%',
                            height: '100%',
                         }}
-                        className="rounded-r-xl"
+                        className="rounded-r-xl cursor-pointer"
                      />
+                     <button
+                        id="fullscreen-button"
+                        className="hidden absolute bottom-0 right-0 mb-2 mr-2 text-white p-2 rounded transform transition-transform duration-500 hover:scale-110"
+                        onClick={() =>
+                           handleFullScreenToggle(
+                              imagePositions[currentImageIndex],
+                           )
+                        }
+                     >
+                        <CgMaximize size={24} />
+                     </button>
+
+                     <div
+                        id="full-screen-container"
+                        className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 z-50 hidden flex justify-center items-center"
+                     >
+                        <div className="max-w-[90%] max-h-[90%] flex justify-center items-center">
+                           <img
+                              id="full-screen-image"
+                              className="max-w-full max-h-full object-contain"
+                              src=""
+                              alt="Full-screen image"
+                           />
+                           <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-between items-center p-4">
+                              <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-center items-center p-4 space-x-4">
+                                 <button
+                                    onClick={() => handleArrowClick('prev')}
+                                    className="text-2xl text-white"
+                                 >
+                                    ←
+                                 </button>
+                                 <div
+                                    style={{
+                                       width: '200px',
+                                       textAlign: 'center',
+                                    }}
+                                 >
+                                    {imageTitles[currentImageIndex]}
+                                 </div>
+                                 <button
+                                    onClick={() => handleArrowClick('next')}
+                                    className="text-2xl text-white"
+                                 >
+                                    →
+                                 </button>
+                              </div>
+                              <button
+                                 onClick={() => handleFullScreenToggle('')}
+                                 className="absolute top-0 right-0 m-4 text-2xl text-white"
+                              >
+                                 <CgMinimize size={24} />
+                              </button>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
                <div className="flex justify-between w-full">
@@ -292,10 +462,12 @@ const PostPage = () => {
                                  {postData?.Username || currPostData?.Username}
                               </p>
                            </Link>
-                           <p>{user?.followers.length} followers</p>
+                           <p className="text-sm text-gray-500">
+                              {followerCount} followers
+                           </p>
                         </div>
                      </div>
-                     {Auth?.username !== user?.username && (
+                     {Auth?.username && Auth?.username !== user?.username && (
                         <button
                            className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
                            onClick={handleFollowers}
@@ -320,15 +492,19 @@ const PostPage = () => {
                      <div className="flex">
                         <span>
                            <AiOutlineLike
-                              className={
-                                 'text-white h-5 w-5 cursor-pointer fill-white'
-                              }
+                              className={`text-white h-5 w-5 cursor-pointer ${
+                                 isLiked
+                                    ? 'animate-pulse text-yellow-500'
+                                    : 'fill-white'
+                              }`}
                               onClick={() => {
                                  console.log(user_Id!);
                                  incrementLikeCount(
                                     postData?._id || currPostData?._id,
                                     user_Id!,
                                  );
+                                 setIsLiked(true);
+                                 setIsDisliked(false);
                               }}
                            />
                         </span>
@@ -340,11 +516,18 @@ const PostPage = () => {
                      <div className="flex">
                         <span>
                            <AiOutlineDislike
-                              className="text-white h-5 w-5 cursor-pointer"
+                              className={`text-white h-5 w-5 cursor-pointer ${
+                                 isDisliked
+                                    ? 'animate-pulse text-yellow-500'
+                                    : ''
+                              }`}
                               onClick={() => {
                                  incrementDislikeCount(
                                     postData?._id || currPostData?._id,
+                                    user_Id!,
                                  );
+                                 setIsDisliked(true);
+                                 setIsLiked(false);
                               }}
                            />
                         </span>
@@ -353,6 +536,15 @@ const PostPage = () => {
                               (currPostData?.dislikes?.length ?? 0)}
                         </p>
                      </div>
+                     <button
+                        className={`flex mt-[-2px] ${
+                           isSaved ? 'animate-pulse text-yellow-500' : ''
+                        }`}
+                        onClick={() => savePost()}
+                     >
+                        <AiOutlineStar className="text-2xl" />
+                        <p>Save</p>
+                     </button>
                   </div>
                </div>
                <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
@@ -380,35 +572,43 @@ const PostPage = () => {
                })}
             </div>
          </div>
+
          <div className="bg-black h-screen md:ml-[70px] pl-2">
             <div className="flex items-start space-x-3 mb-4">
-               <img
-                  className="w-10 h-10 rounded-full"
-                  src={`${user?.ProfilePicture}`}
-                  alt="PFP"
-               />
-               <div className="flex-1">
-                  <div className="flex items-center">
-                     <h4 className="text-sm font-bold">{user?.username}</h4>
-                  </div>
-                  <textarea
-                     className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
-                     placeholder="Add a public comment..."
-                     onChange={(e) => {
-                        setNewComment(e.target.value);
-                        console.log(e.target.value);
-                     }}
-                  ></textarea>
-                  <div className="mt-2 flex justify-end space-x-2">
-                     <button className="text-sm text-gray-500">CANCEL</button>
-                     <button
-                        className="text-sm text-blue-500 font-semibold"
-                        onClick={handleCommentSubmit}
-                     >
-                        COMMENT
-                     </button>
-                  </div>
-               </div>
+               {Auth?.username && (
+                  <>
+                     <img
+                        className="w-10 h-10 rounded-full"
+                        src={`${Auth?.ProfilePicture}`}
+                        alt="PFP"
+                     />
+                     <div className="flex-1">
+                        <div className="flex items-center">
+                           <h4 className="text-sm font-bold">
+                              {Auth?.username}
+                           </h4>
+                        </div>
+                        <textarea
+                           className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500 pr-4"
+                           placeholder="Add a public comment..."
+                           onChange={(e) => {
+                              setNewComment(e.target.value);
+                           }}
+                        ></textarea>
+                        <div className="mt-2 flex justify-end space-x-2">
+                           <button className="text-sm text-gray-500">
+                              CANCEL
+                           </button>
+                           <button
+                              className="text-sm text-blue-500 font-semibold"
+                              onClick={handleCommentSubmit}
+                           >
+                              COMMENT
+                           </button>
+                        </div>
+                     </div>
+                  </>
+               )}
             </div>
             <div className="">
                {comments.map((comment, index) => (

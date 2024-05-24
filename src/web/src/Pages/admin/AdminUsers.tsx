@@ -24,89 +24,66 @@ const AdminUsers: React.FC = () => {
       <>
          <Header />
          <SideNavWrapper />
-         <div className="ml-2 sm:ml-10 md:ml-20 font-extrabold text-xl sm:text-3xl md:text-4xl mb-4">
+         <div className="mt-8 mb-6 ml-2 sm:ml-10 md:ml-20 text-2xl sm:text-4xl md:text-5xl font-bold text-white">
             Click on a User to get more actions.
          </div>
-         <div className="flex flex-col overflow-x-auto ml-2 sm:ml-10 md:ml-20">
-            <div className="-mx-2 sm:-mx-6 lg:-mx-8">
-               <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                  <div className="overflow-x-auto">
-                     <table className="min-w-full text-left text-xs sm:text-sm md:text-base font-light pl-2 sm:pl-16 md:pl-32">
-                        <thead className="border-b font-medium dark:border-neutral-500">
-                           <tr>
-                              <th
-                                 scope="col"
-                                 className="px-6 py-4 border-r dark:border-neutral-500"
-                              >
-                                 #
-                              </th>
-                              <th
-                                 scope="col"
-                                 className="px-6 py-4 border-r dark:border-neutral-500"
-                              >
-                                 ID
-                              </th>
-                              <th
-                                 scope="col"
-                                 className="px-6 py-4 border-r dark:border-neutral-500"
-                              >
-                                 Role
-                              </th>
-                              <th
-                                 scope="col"
-                                 className="px-6 py-4 border-r dark:border-neutral-500"
-                              >
-                                 Username
-                              </th>
-                              <th
-                                 scope="col"
-                                 className="px-6 py-4 border-r dark:border-neutral-500"
-                              >
-                                 Email
-                              </th>
-                              <th scope="col" className="px-6 py-4">
-                                 Verified Status
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody className="cursor-pointer">
-                           {users.map((user, index) => (
-                              <tr
-                                 className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                                 onClick={() => {
-                                    navigate(`/admin/user/${user.username}`, {
-                                       state: user,
-                                    });
-                                 }}
-                                 key={user._id}
-                              >
-                                 <td className="whitespace-nowrap px-6 py-4 font-medium border-r dark:border-neutral-500">
-                                    {index}
-                                 </td>
-                                 <td className="whitespace-nowrap px-6 py-4 border-r dark:border-neutral-500">
-                                    {user._id}
-                                 </td>
-                                 <td className="whitespace-nowrap px-6 py-4 border-r dark:border-neutral-500">
-                                    {user.role}
-                                 </td>
-                                 <td className="whitespace-nowrap px-6 py-4 border-r dark:border-neutral-500">
-                                    {user.username}
-                                 </td>
-                                 <td className="whitespace-nowrap px-6 py-4 border-r dark:border-neutral-500">
-                                    {user.email}
-                                 </td>
-                                 <td className="whitespace-nowrap px-6 py-4 border-r dark:border-neutral-500">
-                                    {user.Verified
-                                       ? 'Verified'
-                                       : 'Not Verified'}
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-            </div>
+         <div className="mx-2 sm:mx-10 md:mx-20 overflow-x-auto">
+            <table className="w-full table-auto border-collapse text-white">
+               <thead className="bg-gray-700">
+                  <tr>
+                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
+                        #
+                     </th>
+                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
+                        ID
+                     </th>
+                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
+                        Role
+                     </th>
+                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
+                        Username
+                     </th>
+                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
+                        Email
+                     </th>
+                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
+                        Verified Status
+                     </th>
+                  </tr>
+               </thead>
+               <tbody className="cursor-pointer">
+                  {users.map((user, index) => (
+                     <tr
+                        className="border-b border-gray-600 transition duration-300 ease-in-out hover:bg-gray-600"
+                        onClick={() => {
+                           navigate(`/admin/user/${user.username}`, {
+                              state: user,
+                           });
+                        }}
+                        key={user._id}
+                     >
+                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
+                           {index}
+                        </td>
+                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
+                           {user._id}
+                        </td>
+                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
+                           {user.role}
+                        </td>
+                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
+                           {user.username}
+                        </td>
+                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
+                           {user.email}
+                        </td>
+                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
+                           {user.Verified ? 'Verified' : 'Not Verified'}
+                        </td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
          </div>
          <Footer />
       </>
