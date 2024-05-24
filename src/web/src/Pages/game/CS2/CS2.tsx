@@ -55,6 +55,7 @@ const CS2: React.FC = () => {
             setSuggestions((prevSuggestions) => [
                ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
             ]);
+            console.log(suggestions);
          })
          .catch((err) => {
             console.log(err);
@@ -63,8 +64,35 @@ const CS2: React.FC = () => {
          });
    };
 
+   const getSuggestions = () => {
+      axios
+         .get(`/post/CS2`)
+         .then((res) => {
+            setIsLoading(false);
+            const titles = res.data.map((post: PostType) => post.postTitle);
+            const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
+            const maps = [
+               'Dust2',
+               'Inferno',
+               'Mirage',
+               'Nuke',
+               'Ancient',
+               'Anubis',
+               'Vertigo',
+               'Overpass',
+            ];
+            setSuggestions((prevSuggestions) => [
+               ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
+            ]);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   };
+
    useEffect(() => {
       document.title = 'CS2';
+      getSuggestions();
       setPosts([]); // Reset posts when component mounts
       setPage(1); // Reset to first page
       setHasMore(true); // Reset loading state
@@ -86,7 +114,7 @@ const CS2: React.FC = () => {
             return;
          fetchData();
       };
-   
+
       window.addEventListener('scroll', handleScroll);
       return () => window.removeEventListener('scroll', handleScroll);
    }, [hasMore, page, isLoading]);

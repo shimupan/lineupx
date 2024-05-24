@@ -10,6 +10,9 @@ import { PostType } from '../../global.types';
 import axios from 'axios';
 
 export const SearchResults = () => {
+
+   // NEED TO IMPLEMENT FILTER BUTTON
+
    const { game, query } = useParams<{ game: string; query: string }>();
    const location = useLocation();
    const searchParams = new URLSearchParams(location.search);
@@ -79,8 +82,8 @@ export const SearchResults = () => {
       } else {
          // normal search
          console.log("searching")
-         axios.get(`/post/CS2?page=1&search=${query}`).then((res) => {
-            setPosts(res.data);
+         axios.get(`/post/${game}?page=1&search=${query}`).then((res) => {
+         setPosts(res.data);
          });
       }
    }, [filter]);

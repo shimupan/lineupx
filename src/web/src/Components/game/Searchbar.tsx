@@ -26,6 +26,7 @@ const SearchBar = ({
    const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
       onSearch(searchTerm);
+      navigate(`/search/${game}/${searchTerm}`);
    };
 
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +74,7 @@ const SearchBar = ({
    const handleSuggestionClick = (suggestion: string) => {
       setSearchTerm(suggestion);
       onSearch(suggestion);
+      navigate(`/search/${game}/${suggestion}`);
    };
 
    const renderSuggestions = () => {
