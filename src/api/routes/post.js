@@ -114,9 +114,46 @@ router.get('/post/:game', (req, res) => {
             res.send(err);
          });
    } else if (search) {
-      const reg = new RegExp(search.split(' ').join('.*'), 'i');
+      const words = search.split(' ');
+      const regexes = words.map((word) => new RegExp(word, 'i'));
+
+      let searchFields = [
+         { postTitle: { $regex: search, $options: 'i' } },
+         { mapName: { $regex: search, $options: 'i' } },
+      ];
+
+      if (game === 'Valorant') {
+         searchFields.push(
+            { lineupLocation: { $regex: search, $options: 'i' } },
+            { valorantAgent: { $regex: search, $options: 'i' } },
+            { ability: { $regex: search, $options: 'i' } }, 
+         );
+      } else if (game === 'CS2') {
+         searchFields.push({ grenadeType: { $regex: search, $options: 'i' } });
+      }
+
       PostData.find({
-         $or: [{ postTitle: { $regex: reg } }, { mapName: { $regex: reg } }],
+         $or: [
+            ...searchFields,
+            {
+               $and: regexes.map((regex) => ({
+                  $or: [
+                     { postTitle: { $regex: regex } },
+                     { mapName: { $regex: regex } },
+                     ...(game === 'Valorant'
+                        ? [
+                             { lineupLocation: { $regex: regex } },
+                             { valorantAgent: { $regex: regex } },
+                             { ability: { $regex: regex } },
+                          ]
+                        : []),
+                     ...(game === 'CS2'
+                        ? [{ grenadeType: { $regex: regex } }]
+                        : []),
+                  ],
+               })),
+            },
+         ],
          approved: true,
       })
          .skip((page - 1) * pageSize)
@@ -125,7 +162,7 @@ router.get('/post/:game', (req, res) => {
             res.send(data);
          })
          .catch((err) => {
-            res.send(err);
+            res.status(500).send(err);
          });
    } else {
       PostData.find({ approved: true })
