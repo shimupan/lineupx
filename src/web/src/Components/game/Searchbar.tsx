@@ -26,8 +26,10 @@ const SearchBar = ({
    const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
       onSearch(searchTerm);
-      navigate(`/search/${game}/${searchTerm}`);
+      const sanitizedSearchTerm = searchTerm.replace(/\//g, '');
+      navigate(`/search/${game}/${sanitizedSearchTerm}`);
    };
+   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
@@ -74,7 +76,26 @@ const SearchBar = ({
    const handleSuggestionClick = (suggestion: string) => {
       setSearchTerm(suggestion);
       onSearch(suggestion);
-      navigate(`/search/${game}/${suggestion}`);
+      const sanitizedSuggestion = suggestion.replace(/\//g, '');
+      navigate(`/search/${game}/${sanitizedSuggestion}`);
+   };
+
+   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'ArrowUp') {
+         event.preventDefault();
+         setSelectedSuggestionIndex((prevIndex) =>
+            prevIndex > 0 ? prevIndex - 1 : filteredSuggestions.length - 1,
+         );
+      } else if (event.key === 'ArrowDown') {
+         event.preventDefault();
+         setSelectedSuggestionIndex((prevIndex) =>
+            prevIndex < filteredSuggestions.length - 1 ? prevIndex + 1 : 0,
+         );
+      } else if (event.key === 'Enter' && selectedSuggestionIndex !== -1) {
+         const selectedSuggestion =
+            filteredSuggestions[selectedSuggestionIndex];
+         handleSuggestionClick(selectedSuggestion);
+      }
    };
 
    const renderSuggestions = () => {
@@ -88,7 +109,9 @@ const SearchBar = ({
                <li
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="text-black px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  className={`text-black px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                     index === selectedSuggestionIndex ? 'bg-gray-100' : ''
+                  }`}
                >
                   {suggestion}
                </li>
@@ -134,11 +157,7 @@ const SearchBar = ({
                onChange={handleChange}
                onFocus={handleFocus}
                onBlur={handleBlur}
-               onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                     navigate(`/search/${game}/${searchTerm}`);
-                  }
-               }}
+               onKeyDown={handleKeyDown}
                aria-label="Search"
                className="flex-grow text-black rounded-full focus:outline-none text-lg pl-2 pr-10 w-full bg-white"
                autoComplete="on"

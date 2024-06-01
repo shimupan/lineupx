@@ -114,8 +114,12 @@ router.get('/post/:game', (req, res) => {
             res.send(err);
          });
    } else if (search) {
+      // Escape special characters for use in a regular expression
+      const escapeRegExp = (string) =>
+         string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
       const words = search.split(' ');
-      const regexes = words.map((word) => new RegExp(word, 'i'));
+      const regexes = words.map((word) => new RegExp(escapeRegExp(word), 'i'));
 
       let searchFields = [
          { postTitle: { $regex: search, $options: 'i' } },
@@ -126,29 +130,62 @@ router.get('/post/:game', (req, res) => {
          searchFields.push(
             { lineupLocation: { $regex: search, $options: 'i' } },
             { valorantAgent: { $regex: search, $options: 'i' } },
-            { ability: { $regex: search, $options: 'i' } }, 
+            { ability: { $regex: search, $options: 'i' } },
          );
       } else if (game === 'CS2') {
          searchFields.push({ grenadeType: { $regex: search, $options: 'i' } });
       }
 
+      
       PostData.find({
          $or: [
             ...searchFields,
             {
                $and: regexes.map((regex) => ({
                   $or: [
-                     { postTitle: { $regex: regex } },
-                     { mapName: { $regex: regex } },
+                     {
+                        postTitle: {
+                           $regex: `\\b${regex.source}\\b`,
+                           $options: 'i',
+                        },
+                     },
+                     {
+                        mapName: {
+                           $regex: `\\b${regex.source}\\b`,
+                           $options: 'i',
+                        },
+                     },
                      ...(game === 'Valorant'
                         ? [
-                             { lineupLocation: { $regex: regex } },
-                             { valorantAgent: { $regex: regex } },
-                             { ability: { $regex: regex } },
+                             {
+                                lineupLocation: {
+                                   $regex: `\\b${regex.source}\\b`,
+                                   $options: 'i',
+                                },
+                             },
+                             {
+                                valorantAgent: {
+                                   $regex: `\\b${regex.source}\\b`,
+                                   $options: 'i',
+                                },
+                             },
+                             {
+                                ability: {
+                                   $regex: `\\b${regex.source}\\b`,
+                                   $options: 'i',
+                                },
+                             },
                           ]
                         : []),
                      ...(game === 'CS2'
-                        ? [{ grenadeType: { $regex: regex } }]
+                        ? [
+                             {
+                                grenadeType: {
+                                   $regex: `\\b${regex.source}\\b`,
+                                   $options: 'i',
+                                },
+                             },
+                          ]
                         : []),
                   ],
                })),
