@@ -56,4 +56,5 @@ export { default as FollowingPopup } from './Components/profile/FollowingPopup';
 export { default as UnapprovedPostsPopup } from './Components/profile/UnapprovedPostsPopup';
 export { default as PreviewImage } from './Components/post/PreviewImage';
 export { default as DefaultPost } from './Components/post/DefaultPost';
+export { default as FilterMenu } from './Components/post/filter/FilterMenu';
 

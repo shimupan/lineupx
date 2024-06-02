@@ -90,6 +90,7 @@ router.get('/post/:game', (req, res) => {
    const recent = req.query.recent || false;
    const map = req.query.map || null;
    const search = req.query.search || null;
+   const filter = req.query.filter || null;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
    if (recent) {
@@ -136,7 +137,6 @@ router.get('/post/:game', (req, res) => {
          searchFields.push({ grenadeType: { $regex: search, $options: 'i' } });
       }
 
-      
       PostData.find({
          $or: [
             ...searchFields,
@@ -193,6 +193,7 @@ router.get('/post/:game', (req, res) => {
          ],
          approved: true,
       })
+         .sort(filter === 'view_count' ? { views: -1 } : {})
          .skip((page - 1) * pageSize)
          .limit(pageSize)
          .then((data) => {
