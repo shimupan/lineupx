@@ -9,6 +9,7 @@ const FilterMenu = ({
 }) => {
    const [showFilterMenu, setShowFilterMenu] = useState(false);
    const [openSection, setOpenSection] = useState<string | null>(null);
+   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
    const { game } = useParams<{ game: string }>();
 
    const toggleFilterMenu = () => {
@@ -17,6 +18,16 @@ const FilterMenu = ({
 
    const toggleSection = (section: string) => {
       setOpenSection(openSection === section ? null : section);
+   };
+
+   const handleFilterChange = (filter: string) => {
+      if (selectedFilter === filter) {
+         setSelectedFilter(null);
+         onFilterChange('');
+      } else {
+         setSelectedFilter(filter);
+         onFilterChange(filter);
+      }
    };
 
    const gameFilters = {
@@ -86,7 +97,7 @@ const FilterMenu = ({
                                     href="#"
                                     className="block py-2 text-sm hover:bg-gray-800"
                                     role="menuitem"
-                                    onClick={() => onFilterChange('today')}
+                                    onClick={() => handleFilterChange('today')}
                                  >
                                     Today
                                  </a>
@@ -94,7 +105,7 @@ const FilterMenu = ({
                                     href="#"
                                     className="block py-2 text-sm hover:bg-gray-800"
                                     role="menuitem"
-                                    onClick={() => onFilterChange('this_week')}
+                                    onClick={() => handleFilterChange('this_week')}
                                  >
                                     This Week
                                  </a>
@@ -102,9 +113,17 @@ const FilterMenu = ({
                                     href="#"
                                     className="block py-2 text-sm hover:bg-gray-800"
                                     role="menuitem"
-                                    onClick={() => onFilterChange('this_month')}
+                                    onClick={() => handleFilterChange('this_month')}
                                  >
                                     This Month
+                                 </a>
+                                 <a
+                                    href="#"
+                                    className="block py-2 text-sm hover:bg-gray-800"
+                                    role="menuitem"
+                                    onClick={() => handleFilterChange('this_year')}
+                                 >
+                                    This Year
                                  </a>
                               </div>
                            )}
@@ -114,7 +133,7 @@ const FilterMenu = ({
                               href="#"
                               className="block px-4 py-2 text-sm hover:bg-gray-800"
                               role="menuitem"
-                              onClick={() => onFilterChange('today')}
+                              onClick={() => handleFilterChange('today')}
                            >
                               Today
                            </a>
@@ -122,7 +141,7 @@ const FilterMenu = ({
                               href="#"
                               className="block px-4 py-2 text-sm hover:bg-gray-800"
                               role="menuitem"
-                              onClick={() => onFilterChange('this_week')}
+                              onClick={() => handleFilterChange('this_week')}
                            >
                               This Week
                            </a>
@@ -130,9 +149,17 @@ const FilterMenu = ({
                               href="#"
                               className="block px-4 py-2 text-sm hover:bg-gray-800"
                               role="menuitem"
-                              onClick={() => onFilterChange('this_month')}
+                              onClick={() => handleFilterChange('this_month')}
                            >
                               This Month
+                           </a>
+                           <a
+                              href="#"
+                              className="block px-4 py-2 text-sm hover:bg-gray-800"
+                              role="menuitem"
+                              onClick={() => handleFilterChange('this_year')}
+                           >
+                              This Year
                            </a>
                         </div>
                      </div>
@@ -206,16 +233,16 @@ const FilterMenu = ({
                                     href="#"
                                     className="block py-2 text-sm hover:bg-gray-800"
                                     role="menuitem"
-                                    onClick={() => onFilterChange('relevance')}
+                                    onClick={() => handleFilterChange('rating')}
                                  >
-                                    Relevance
+                                    Rating
                                  </a>
                                  <a
                                     href="#"
                                     className="block py-2 text-sm hover:bg-gray-800"
                                     role="menuitem"
                                     onClick={() =>
-                                       onFilterChange('upload_date')
+                                       handleFilterChange('upload_date')
                                     }
                                  >
                                     Upload Date
@@ -224,7 +251,7 @@ const FilterMenu = ({
                                     href="#"
                                     className="block py-2 text-sm hover:bg-gray-800"
                                     role="menuitem"
-                                    onClick={() => onFilterChange('view_count')}
+                                    onClick={() => handleFilterChange('view_count')}
                                  >
                                     View Count
                                  </a>
@@ -236,15 +263,15 @@ const FilterMenu = ({
                               href="#"
                               className="block px-4 py-2 text-sm hover:bg-gray-800"
                               role="menuitem"
-                              onClick={() => onFilterChange('relevance')}
+                              onClick={() => handleFilterChange('rating')}
                            >
-                              Relevance
+                              Rating
                            </a>
                            <a
                               href="#"
                               className="block px-4 py-2 text-sm hover:bg-gray-800"
                               role="menuitem"
-                              onClick={() => onFilterChange('upload_date')}
+                              onClick={() => handleFilterChange('upload_date')}
                            >
                               Upload Date
                            </a>
@@ -252,7 +279,7 @@ const FilterMenu = ({
                               href="#"
                               className="block px-4 py-2 text-sm hover:bg-gray-800"
                               role="menuitem"
-                              onClick={() => onFilterChange('view_count')}
+                              onClick={() => handleFilterChange('view_count')}
                            >
                               View Count
                            </a>

@@ -122,78 +122,142 @@ router.get('/post/:game', (req, res) => {
       const words = search.split(' ');
       const regexes = words.map((word) => new RegExp(escapeRegExp(word), 'i'));
 
-      let searchFields = [
-         { postTitle: { $regex: search, $options: 'i' } },
-         { mapName: { $regex: search, $options: 'i' } },
-      ];
+      let searchFields = [];
 
       if (game === 'Valorant') {
-         searchFields.push(
-            { lineupLocation: { $regex: search, $options: 'i' } },
-            { valorantAgent: { $regex: search, $options: 'i' } },
-            { ability: { $regex: search, $options: 'i' } },
-         );
+         if (filter === 'agent') {
+            searchFields.push({
+               valorantAgent: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'postname') {
+            searchFields.push({ postTitle: { $regex: search, $options: 'i' } });
+         } else if (filter === 'location') {
+            searchFields.push({
+               lineupLocation: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'ability') {
+            searchFields.push({ ability: { $regex: search, $options: 'i' } });
+         } else if (filter === 'map') {
+            searchFields.push({ mapName: { $regex: search, $options: 'i' } });
+         } else {
+            searchFields.push(
+               { lineupLocation: { $regex: search, $options: 'i' } },
+               { valorantAgent: { $regex: search, $options: 'i' } },
+               { ability: { $regex: search, $options: 'i' } },
+               { mapName: { $regex: search, $options: 'i' } },
+               { postTitle: { $regex: search, $options: 'i' } },
+            );
+         }
       } else if (game === 'CS2') {
-         searchFields.push({ grenadeType: { $regex: search, $options: 'i' } });
+         console.log(23232);
+         if (filter === 'postname') {
+            searchFields.push({ postTitle: { $regex: search, $options: 'i' } });
+         } else if (filter === 'location') {
+            searchFields.push({
+               lineupLocation: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'grenade') {
+            searchFields.push({
+               grenadeType: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'map') {
+            searchFields.push({ mapName: { $regex: search, $options: 'i' } });
+         } else {
+            searchFields.push(
+               { grenadeType: { $regex: search, $options: 'i' } },
+               { mapName: { $regex: search, $options: 'i' } },
+               { postTitle: { $regex: search, $options: 'i' } },
+               { lineupLocation: { $regex: search, $options: 'i' } },
+            );
+         }
+      }
+
+      let dateFilter = {};
+
+      if (filter === 'today') {
+         dateFilter = { date: { $gte: new Date().setHours(0, 0, 0, 0) } };
+      } else if (filter === 'this_week') {
+         const startOfWeek = new Date();
+         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+         dateFilter = { date: { $gte: startOfWeek } };
+      } else if (filter === 'this_month') {
+         const startOfMonth = new Date();
+         startOfMonth.setDate(1);
+         dateFilter = { date: { $gte: startOfMonth } };
+      } else if (filter === 'this_year') {
+         const startOfYear = new Date();
+         startOfYear.setMonth(0, 1);
+         dateFilter = { date: { $gte: startOfYear } };
       }
 
       PostData.find({
-         $or: [
-            ...searchFields,
+         $and: [
             {
-               $and: regexes.map((regex) => ({
-                  $or: [
-                     {
-                        postTitle: {
-                           $regex: `\\b${regex.source}\\b`,
-                           $options: 'i',
-                        },
-                     },
-                     {
-                        mapName: {
-                           $regex: `\\b${regex.source}\\b`,
-                           $options: 'i',
-                        },
-                     },
-                     ...(game === 'Valorant'
-                        ? [
-                             {
-                                lineupLocation: {
-                                   $regex: `\\b${regex.source}\\b`,
-                                   $options: 'i',
-                                },
-                             },
-                             {
-                                valorantAgent: {
-                                   $regex: `\\b${regex.source}\\b`,
-                                   $options: 'i',
-                                },
-                             },
-                             {
-                                ability: {
-                                   $regex: `\\b${regex.source}\\b`,
-                                   $options: 'i',
-                                },
-                             },
-                          ]
-                        : []),
-                     ...(game === 'CS2'
-                        ? [
-                             {
-                                grenadeType: {
-                                   $regex: `\\b${regex.source}\\b`,
-                                   $options: 'i',
-                                },
-                             },
-                          ]
-                        : []),
-                  ],
-               })),
+               $or: [
+                  ...searchFields,
+                  {
+                     $and: regexes.map((regex) => ({
+                        $or: [
+                           {
+                              postTitle: {
+                                 $regex: `\\b${regex.source}\\b`,
+                                 $options: 'i',
+                              },
+                           },
+                           {
+                              mapName: {
+                                 $regex: `\\b${regex.source}\\b`,
+                                 $options: 'i',
+                              },
+                           },
+                           ...(game === 'Valorant'
+                              ? [
+                                   {
+                                      lineupLocation: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                   {
+                                      valorantAgent: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                   {
+                                      ability: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                ]
+                              : []),
+                           ...(game === 'CS2'
+                              ? [
+                                   {
+                                      grenadeType: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                ]
+                              : []),
+                        ],
+                     })),
+                  },
+               ],
             },
+            dateFilter,
          ],
          approved: true,
       })
-         .sort(filter === 'view_count' ? { views: -1 } : {})
+         .sort(
+            filter === 'view_count'
+               ? { views: -1 }
+               : filter === 'upload_date'
+               ? { date: -1 }
+               : {},
+         )
          .skip((page - 1) * pageSize)
          .limit(pageSize)
          .then((data) => {
