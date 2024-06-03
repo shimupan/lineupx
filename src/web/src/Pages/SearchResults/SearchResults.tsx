@@ -120,7 +120,7 @@ export const SearchResults = () => {
                <FilterMenu onFilterChange={handleFilterChange} />
             </div>
          </div>
-         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 md:pl-20 justify-items-center md:justify-items-start sm:justify-center">
+         <article className="pt-4 pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
             {!posts ? (
                <p className="text-lg mt-2">
                   Sorry, we couldn't find any results for your search.
@@ -132,7 +132,7 @@ export const SearchResults = () => {
                   </div>
                ))
             )}
-         </div>
+         </article>
 
          <Footer />
       </>
