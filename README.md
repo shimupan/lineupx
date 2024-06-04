@@ -73,13 +73,21 @@ Home Page
 <img src="./public/HomeScreen.png" />
 
 CS 2
-<img src="./public/CS2.png" />
+![image](https://github.com/shimupan/lineupx/assets/37049496/5c93db5e-6f00-4ee4-8e8d-2a8faf0e185b)
 
 Valorant
-<img src="./public/VALORANT.png" />
+![image](https://github.com/shimupan/lineupx/assets/37049496/b6de2bb1-bf36-4524-b447-b5cd050fc077)
 
 Profile Page
-<img src="./public/PROFILE.png" />
+![image](https://github.com/shimupan/lineupx/assets/37049496/8bacb242-071a-424a-9b94-650a493609a9)
+
+Map Page
+![image](https://github.com/shimupan/lineupx/assets/37049496/fbde73e1-3551-459d-b541-5bc20d2986e3)
+
+Post Page
+![image](https://github.com/shimupan/lineupx/assets/37049496/0e34de0d-b14b-4ee9-8dfa-7afe5e3dc31a)
+
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
