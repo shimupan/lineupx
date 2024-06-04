@@ -149,7 +149,6 @@ router.get('/post/:game', (req, res) => {
             );
          }
       } else if (game === 'CS2') {
-         console.log(23232);
          if (filter === 'postname') {
             searchFields.push({ postTitle: { $regex: search, $options: 'i' } });
          } else if (filter === 'location') {
