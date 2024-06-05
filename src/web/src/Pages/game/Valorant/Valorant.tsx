@@ -17,14 +17,11 @@ const Valorant: React.FC = () => {
    const [open, setOpen] = useState<boolean>(true);
    const [posts, setPosts] = useState<PostType[]>([]);
    const [value, setValue] = useLocalStorage('valorantPopup', true);
-   const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
-   const [searchTerm, setSearchTerm] = useState('');
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
    const [isLoading, setIsLoading] = useState(false);
-   console.log(filteredPosts);
-   console.log(searchTerm);
+
    const pageRef = useRef(page);
    useEffect(() => {
       pageRef.current = page;
@@ -174,26 +171,9 @@ const Valorant: React.FC = () => {
    }, []);
 
    const handleSearch = (value: string) => {
-      setSearchTerm(value);
-      let filtered = posts;
-
-      if (value) {
-         // Filter posts based on search term
-         filtered = posts.filter(
-            (post) =>
-               post.postTitle.toLowerCase().includes(value.toLowerCase()) ||
-               post.valorantAgent.toLowerCase().includes(value.toLowerCase()) ||
-               post.mapName.toLowerCase().includes(value.toLowerCase()) ||
-               post.ability.toLowerCase().includes(value.toLowerCase()) ||
-               post.teamSide?.toLowerCase().includes(value.toLowerCase()),
-         );
-      } else {
-         // If search term is empty, only show the first 10 posts
-         filtered = posts.slice(0, 10);
-      }
-
-      setFilteredPosts(filtered);
+      value = value.toLowerCase();
    };
+
 
    useEffect(() => {
       const handleScroll = () => {
