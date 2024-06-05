@@ -14,6 +14,7 @@ import he from '../../assets/svg/he.svg';
 import flash from '../../assets/svg/flash.svg';
 import { getUserByID } from '../../util/getUser';
 import { FaCheckCircle } from 'react-icons/fa';
+import { CiDesktopMouse2 } from 'react-icons/ci';
 
 interface PostsProps {
    postData: PostType;
@@ -129,6 +130,14 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   />
                </div>
                <div className="">
+                  <Tooltip text={'Lineup requires a jump throw'}>
+                     {postData.jumpThrow && (
+                        <CiDesktopMouse2
+                           size={20}
+                           className="svg-icon absolute bottom-0 left-0 w-8 h-8 mt-[-25px] filter invert"
+                        />
+                     )}
+                  </Tooltip>
                   {postData.game === 'Valorant' ? (
                      <>
                         <Tooltip text={postData.ability}>
