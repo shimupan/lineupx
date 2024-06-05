@@ -41,7 +41,7 @@ const Valorant: React.FC = () => {
          } else {
             setHasMore(false);
          }
-         setIsLoading(true);
+         setIsLoading(false);
          const titles = postsResponse.data.map(
             (post: PostType) => `${post.postTitle}`,
          );

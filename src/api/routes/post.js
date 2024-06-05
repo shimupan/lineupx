@@ -321,7 +321,6 @@ router.post('/post/:status', async (req, res) => {
                ],
                { type: 'upload', resource_type: 'image' },
             );
-            console.log(deletePosts);
 
             PostData.findByIdAndDelete(id)
                .then((data) => {
