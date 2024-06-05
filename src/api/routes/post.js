@@ -189,6 +189,13 @@ router.get('/post/:game', (req, res) => {
          dateFilter = { date: { $gte: startOfYear } };
       }
 
+      let sortOption = {};
+      if (filter === 'view_count') {
+         sortOption = { views: -1 };
+      } else if (filter === 'upload_date') {
+         sortOption = { date: -1 };
+      }
+
       PostData.find({
          $and: [
             {
@@ -250,13 +257,7 @@ router.get('/post/:game', (req, res) => {
          ],
          approved: true,
       })
-         .sort(
-            filter === 'view_count'
-               ? { views: -1 }
-               : filter === 'upload_date'
-               ? { date: -1 }
-               : {},
-         )
+         .sort(sortOption)
          .skip((page - 1) * pageSize)
          .limit(pageSize)
          .then((data) => {
