@@ -90,6 +90,7 @@ router.get('/post/:game', (req, res) => {
    const recent = req.query.recent || false;
    const map = req.query.map || null;
    const search = req.query.search || null;
+   const filter = req.query.filter || null;
 
    const PostData = mongoose.model('PostData', PostDataSchema, game);
    if (recent) {
@@ -114,18 +115,156 @@ router.get('/post/:game', (req, res) => {
             res.send(err);
          });
    } else if (search) {
-      const reg = new RegExp(search.split(' ').join('.*'), 'i');
+      // Escape special characters for use in a regular expression
+      const escapeRegExp = (string) =>
+         string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      const words = search.split(' ');
+      const regexes = words.map((word) => new RegExp(escapeRegExp(word), 'i'));
+
+      let searchFields = [];
+
+      if (game === 'Valorant') {
+         if (filter === 'agent') {
+            searchFields.push({
+               valorantAgent: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'postname') {
+            searchFields.push({ postTitle: { $regex: search, $options: 'i' } });
+         } else if (filter === 'location') {
+            searchFields.push({
+               lineupLocation: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'ability') {
+            searchFields.push({ ability: { $regex: search, $options: 'i' } });
+         } else if (filter === 'map') {
+            searchFields.push({ mapName: { $regex: search, $options: 'i' } });
+         } else {
+            searchFields.push(
+               { lineupLocation: { $regex: search, $options: 'i' } },
+               { valorantAgent: { $regex: search, $options: 'i' } },
+               { ability: { $regex: search, $options: 'i' } },
+               { mapName: { $regex: search, $options: 'i' } },
+               { postTitle: { $regex: search, $options: 'i' } },
+            );
+         }
+      } else if (game === 'CS2') {
+         if (filter === 'postname') {
+            searchFields.push({ postTitle: { $regex: search, $options: 'i' } });
+         } else if (filter === 'location') {
+            searchFields.push({
+               lineupLocation: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'grenade') {
+            searchFields.push({
+               grenadeType: { $regex: search, $options: 'i' },
+            });
+         } else if (filter === 'map') {
+            searchFields.push({ mapName: { $regex: search, $options: 'i' } });
+         } else {
+            searchFields.push(
+               { grenadeType: { $regex: search, $options: 'i' } },
+               { mapName: { $regex: search, $options: 'i' } },
+               { postTitle: { $regex: search, $options: 'i' } },
+               { lineupLocation: { $regex: search, $options: 'i' } },
+            );
+         }
+      }
+
+      let dateFilter = {};
+
+      if (filter === 'today') {
+         dateFilter = { date: { $gte: new Date().setHours(0, 0, 0, 0) } };
+      } else if (filter === 'this_week') {
+         const startOfWeek = new Date();
+         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+         dateFilter = { date: { $gte: startOfWeek } };
+      } else if (filter === 'this_month') {
+         const startOfMonth = new Date();
+         startOfMonth.setDate(1);
+         dateFilter = { date: { $gte: startOfMonth } };
+      } else if (filter === 'this_year') {
+         const startOfYear = new Date();
+         startOfYear.setMonth(0, 1);
+         dateFilter = { date: { $gte: startOfYear } };
+      }
+
+      let sortOption = {};
+      if (filter === 'view_count') {
+         sortOption = { views: -1 };
+      } else if (filter === 'upload_date') {
+         sortOption = { date: -1 };
+      }
+
       PostData.find({
-         $or: [{ postTitle: { $regex: reg } }, { mapName: { $regex: reg } }],
+         $and: [
+            {
+               $or: [
+                  ...searchFields,
+                  {
+                     $and: regexes.map((regex) => ({
+                        $or: [
+                           {
+                              postTitle: {
+                                 $regex: `\\b${regex.source}\\b`,
+                                 $options: 'i',
+                              },
+                           },
+                           {
+                              mapName: {
+                                 $regex: `\\b${regex.source}\\b`,
+                                 $options: 'i',
+                              },
+                           },
+                           ...(game === 'Valorant'
+                              ? [
+                                   {
+                                      lineupLocation: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                   {
+                                      valorantAgent: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                   {
+                                      ability: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                ]
+                              : []),
+                           ...(game === 'CS2'
+                              ? [
+                                   {
+                                      grenadeType: {
+                                         $regex: `\\b${regex.source}\\b`,
+                                         $options: 'i',
+                                      },
+                                   },
+                                ]
+                              : []),
+                        ],
+                     })),
+                  },
+               ],
+            },
+            dateFilter,
+         ],
          approved: true,
       })
+         .sort(sortOption)
          .skip((page - 1) * pageSize)
          .limit(pageSize)
          .then((data) => {
             res.send(data);
          })
          .catch((err) => {
-            res.send(err);
+            res.status(500).send(err);
          });
    } else {
       PostData.find({ approved: true })
@@ -183,7 +322,6 @@ router.post('/post/:status', async (req, res) => {
                ],
                { type: 'upload', resource_type: 'image' },
             );
-            console.log(deletePosts);
 
             PostData.findByIdAndDelete(id)
                .then((data) => {

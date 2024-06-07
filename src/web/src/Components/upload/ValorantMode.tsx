@@ -255,6 +255,8 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
                   payload: mapName,
                });
                setCoordinates(mapData[mapName].coordinates);
+               setSelectedDot(null); 
+               setPlacedDot(null);
             }}
             className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
          >

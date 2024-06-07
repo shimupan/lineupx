@@ -26,21 +26,31 @@ const SearchBar = ({
    const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
       onSearch(searchTerm);
+      const sanitizedSearchTerm = searchTerm.replace(/\//g, '');
+      navigate(`/search/${game}/${sanitizedSearchTerm}`);
    };
+   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
+      const value = event.target.value;
+      setSearchTerm(value);
       onChange(event);
+
+      if (value.trim() === '') {
+         setFilteredSuggestions([]);
+         return;
+      }
 
       // Setup Fuse.js
       const fuse = new Fuse(suggestions, {
          keys: ['text'],
          includeScore: true,
          threshold: 0.3,
+         isCaseSensitive: false,
       });
 
       // Use Fuse.js to search the suggestions
-      const result = fuse.search(event.target.value);
+      const result = fuse.search(value);
 
       // Extract the item from each result
       const filtered = result.map(({ item }) => item);
@@ -66,7 +76,28 @@ const SearchBar = ({
    const handleSuggestionClick = (suggestion: string) => {
       setSearchTerm(suggestion);
       onSearch(suggestion);
+      const sanitizedSuggestion = suggestion.replace(/\//g, '');
+      navigate(`/search/${game}/${sanitizedSuggestion}`);
    };
+
+   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'ArrowUp') {
+         event.preventDefault();
+         setSelectedSuggestionIndex((prevIndex) =>
+            prevIndex > 0 ? prevIndex - 1 : filteredSuggestions.length - 1,
+         );
+      } else if (event.key === 'ArrowDown') {
+         event.preventDefault();
+         setSelectedSuggestionIndex((prevIndex) =>
+            prevIndex < filteredSuggestions.length - 1 ? prevIndex + 1 : 0,
+         );
+      } else if (event.key === 'Enter' && selectedSuggestionIndex !== -1) {
+         const selectedSuggestion =
+            filteredSuggestions[selectedSuggestionIndex];
+         handleSuggestionClick(selectedSuggestion);
+      }
+   };
+
    const renderSuggestions = () => {
       if (filteredSuggestions.length === 0) {
          return null;
@@ -78,7 +109,9 @@ const SearchBar = ({
                <li
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="text-black px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  className={`text-black px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                     index === selectedSuggestionIndex ? 'bg-gray-100' : ''
+                  }`}
                >
                   {suggestion}
                </li>
@@ -86,6 +119,7 @@ const SearchBar = ({
          </ul>
       );
    };
+
    return (
       <div className="relative w-full md:w-1/4 lg:w-1/4 xl:w-2/3 2xl:w-1/2 mx-auto">
          <form
@@ -123,11 +157,7 @@ const SearchBar = ({
                onChange={handleChange}
                onFocus={handleFocus}
                onBlur={handleBlur}
-               onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                     navigate(`/search/${game}/${searchTerm}`);
-                  }
-               }}
+               onKeyDown={handleKeyDown}
                aria-label="Search"
                className="flex-grow text-black rounded-full focus:outline-none text-lg pl-2 pr-10 w-full bg-white"
                autoComplete="on"

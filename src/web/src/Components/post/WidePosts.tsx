@@ -23,7 +23,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
    }, [post.UserID]);
 
    return (
-      <div className="w-full md:ml-[70px] lg:ml-0 rounded-xl flex pl-2 pb-2">
+      <div className="w-full md:ml-[70px] lg:ml-0 rounded-xl flex pl-2 pb-2 post-width">
          <Link to={`/game/${post.game}/${post._id}`}>
             <img
                src={`${CDN_URL}/${post.landingPosition.public_id}`}
