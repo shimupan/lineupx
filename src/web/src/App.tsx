@@ -35,6 +35,7 @@ import {
    AdsRedirect,
    PrivatePolicy,
    TOS,
+   RiotRedirect,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -229,6 +230,7 @@ function App() {
                <Route path="/verifyemail" element={<VerifyEmail />} />
                <Route path="*" element={<PageNotFound />}></Route>
                <Route path="/ads.txt" element={<AdsRedirect />} />
+               <Route path="/riot.txt" element={<RiotRedirect />} />
                <Route path="/tos" element={<TOS />} />
             </Routes>
          </AuthContext.Provider>

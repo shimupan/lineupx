@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const AdsRedirect = () => {
-  const navigate = useNavigate();
-
   useEffect(() => {
-    navigate('/ads.txt');
-  }, [navigate]);
+    window.location.href = 'https://lineupx.net/ads.txt';
+  }, []);
 
   return null;
 };
