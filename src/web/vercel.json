@@ -1,11 +1,9 @@
 {
-   "rewrites":  [
-     {"source": "/(.*)", "destination": "/"}
-   ]
-   "routes": [
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+  "routes": [
     {
       "src": "/ads.txt",
       "dest": "/src/web/ads.txt"
     }
   ]
- }
+}
