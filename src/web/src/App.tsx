@@ -32,7 +32,6 @@ import {
    About,
    ScrollToTop,
    GuestPage,
-   AdsRedirect,
    PrivatePolicy,
    TOS,
 } from './Components';
@@ -228,7 +227,6 @@ function App() {
                <Route path="/google-callback" element={<GoogleCallBack />} />
                <Route path="/verifyemail" element={<VerifyEmail />} />
                <Route path="*" element={<PageNotFound />}></Route>
-               <Route path="/ads.txt" element={<AdsRedirect />} />
                <Route path="/tos" element={<TOS />} />
             </Routes>
          </AuthContext.Provider>
