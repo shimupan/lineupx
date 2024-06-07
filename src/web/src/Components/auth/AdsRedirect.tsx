@@ -4,7 +4,6 @@ const AdsRedirect = () => {
   useEffect(() => {
     window.location.href = 'https://lineupx.net/ads.txt';
   }, []);
-
   return null;
 };
 
