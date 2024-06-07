@@ -32,10 +32,8 @@ import {
    About,
    ScrollToTop,
    GuestPage,
-   AdsRedirect,
    PrivatePolicy,
    TOS,
-   RiotRedirect,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
