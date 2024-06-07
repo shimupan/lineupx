@@ -26,6 +26,7 @@ export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
 export { default as PageNotFound } from './Pages/auth/PageNotFound';
 export { default as SearchResults } from './Pages/SearchResults/SearchResults';
 export { default as GuestPage } from './Pages/user/GuestProfilePage';
+export { default as PrivatePolicy } from './Pages/policies/PrivatePolicy';
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';
@@ -57,4 +58,5 @@ export { default as UnapprovedPostsPopup } from './Components/profile/Unapproved
 export { default as PreviewImage } from './Components/post/PreviewImage';
 export { default as DefaultPost } from './Components/post/DefaultPost';
 export { default as FilterMenu } from './Components/post/filter/FilterMenu';
+export { default as AdsRedirect } from './Components/auth/AdsRedirect';
 

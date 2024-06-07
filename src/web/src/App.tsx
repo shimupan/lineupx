@@ -32,6 +32,8 @@ import {
    About,
    ScrollToTop,
    GuestPage,
+   AdsRedirect,
+   PrivatePolicy,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -191,7 +193,7 @@ function App() {
                   element={<ForgotPassword />}
                ></Route>
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
-               {/* Protected Routes */}
+               <Route path="/privatepolicy" element={<PrivatePolicy />}></Route> 
                {role === 'admin' && Verified && (
                   <Route element={<RequireAuth allowedRoles={['admin']} />}>
                      <Route path="/admin" element={<AdminHome />}></Route>
@@ -225,6 +227,7 @@ function App() {
                <Route path="/google-callback" element={<GoogleCallBack />} />
                <Route path="/verifyemail" element={<VerifyEmail />} />
                <Route path="*" element={<PageNotFound />}></Route>
+               <Route path="/ads.txt" element={<AdsRedirect />} />
             </Routes>
          </AuthContext.Provider>
       </>
