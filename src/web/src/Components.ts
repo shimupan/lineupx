@@ -60,4 +60,5 @@ export { default as PreviewImage } from './Components/post/PreviewImage';
 export { default as DefaultPost } from './Components/post/DefaultPost';
 export { default as FilterMenu } from './Components/post/filter/FilterMenu';
 export { default as AdsRedirect } from './Components/auth/AdsRedirect';
+export { default as RiotRedirect } from './Components/auth/RiotRedirect';
 
