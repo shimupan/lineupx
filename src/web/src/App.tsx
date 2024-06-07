@@ -34,6 +34,7 @@ import {
    GuestPage,
    AdsRedirect,
    PrivatePolicy,
+   TOS,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -228,6 +229,7 @@ function App() {
                <Route path="/verifyemail" element={<VerifyEmail />} />
                <Route path="*" element={<PageNotFound />}></Route>
                <Route path="/ads.txt" element={<AdsRedirect />} />
+               <Route path="/tos" element={<TOS />} />
             </Routes>
          </AuthContext.Provider>
       </>
