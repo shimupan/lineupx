@@ -248,9 +248,18 @@ const PostPage = () => {
          }
       }
    };
+
    useEffect(() => {
       fetchComments();
    }, []);
+
+   useEffect(() => {
+      if(!currPostData && postData) {
+         document.title = postData.postTitle;
+      } else if(!postData && currPostData) {
+         document.title = currPostData.postTitle;
+      }
+   }, [postData, currPostData]);
 
    useEffect(() => {
       const fetchPostData = async () => {
@@ -258,9 +267,7 @@ const PostPage = () => {
             const response = await axios.get(`/post/detail/${game}/${id}`);
             setcurrPostData(response.data);
             console.log(response.data.likes);
-
             // Check if the user has already liked or disliked the post
-
             setIsLiked(
                response.data.likes.some((like: any) => like.userId === user_Id),
             );
@@ -269,6 +276,7 @@ const PostPage = () => {
                   (dislike: any) => dislike.userId === user_Id,
                ),
             );
+
          } catch (error) {
             console.error('Failed to fetch post data:', error);
          }
