@@ -218,47 +218,67 @@ const ValorantLineups: React.FC = () => {
                                        ))}
                                  </div>
                               ))}
-                           {isMapLoaded && selectedAbility
-                              ? complementCoordinates
-                                   .filter(
-                                      (coordinate) =>
-                                         coordinate.name ===
-                                         selectedAbility.displayName,
-                                   )
-                                   .map((coordinate, index) => (
-                                      <Dot
-                                         key={coordinate.name + index}
-                                         coordinate={coordinate}
-                                         selectedDot={selectedDot}
-                                         setSelectedDot={setSelectedDot}
-                                         mode="ValorantLineups"
-                                         special={coordinate.post}
-                                         abilityIconUrl={
-                                            selectedAbility?.displayIcon
-                                         }
-                                         onTouchEnd={() =>
-                                            setSelectedDot(coordinate.name)
-                                         }
-                                      />
-                                   ))
-                              : complementCoordinates.map(
-                                   (coordinate, index) => (
-                                      <Dot
-                                         key={coordinate.name + index}
-                                         coordinate={coordinate}
-                                         selectedDot={selectedDot}
-                                         setSelectedDot={setSelectedDot}
-                                         mode="CS2Lineups"
-                                         special={coordinate.post}
-                                         abilityIconUrl={
-                                            selectedAbility?.displayIcon
-                                         }
-                                         onTouchEnd={() =>
-                                            setSelectedDot(coordinate.name)
-                                         }
-                                      />
-                                   ),
-                                )}
+                           {isMapLoaded && selectedAbility ? (
+                              <>
+                                 {complementCoordinates
+                                    .filter(
+                                       (coordinate) =>
+                                          coordinate.name ===
+                                          selectedAbility.displayName,
+                                    )
+                                    .map((coordinate, index) => (
+                                       <Dot
+                                          key={coordinate.name + index}
+                                          coordinate={coordinate}
+                                          selectedDot={selectedDot}
+                                          setSelectedDot={setSelectedDot}
+                                          mode="ValorantLineups"
+                                          special={coordinate.post}
+                                          abilityIconUrl={
+                                             selectedAbility?.displayIcon
+                                          }
+                                          onTouchEnd={() =>
+                                             setSelectedDot(coordinate.name)
+                                          }
+                                       />
+                                    ))}
+                              </>
+                           ) : (
+                              agent?.abilities
+                                 ?.filter(
+                                    (ability) => ability.slot !== 'Passive',
+                                 )
+                                 ?.map((ability) =>
+                                    complementCoordinates
+                                       .filter(
+                                          (coordinate) =>
+                                             coordinate.name ===
+                                             ability.displayName,
+                                       )
+                                       .map((coordinate, coordIndex) => (
+                                          <>
+                                             <Dot
+                                                key={
+                                                   coordinate.name + coordIndex
+                                                }
+                                                coordinate={coordinate}
+                                                selectedDot={selectedDot}
+                                                setSelectedDot={setSelectedDot}
+                                                mode="CS2Lineups"
+                                                special={coordinate.post}
+                                                abilityIconUrl={
+                                                   ability.displayIcon
+                                                }
+                                                onTouchEnd={() =>
+                                                   setSelectedDot(
+                                                      coordinate.name,
+                                                   )
+                                                }
+                                             />
+                                          </>
+                                       )),
+                                 )
+                           )}
                         </MapInteractionCSS>
                      </div>
                   </div>
