@@ -34,7 +34,7 @@ const CS2: React.FC = () => {
          .get(`/post/CS2?page=${currentPage}&limit=20&recent=true`)
          .then((res) => {
             if (res.data.length > 0) {
-               setPosts((prevPosts) => [...prevPosts, ...res.data]);
+               setPosts((prevPosts) => [...prevPosts, ...res.data].reverse());
                setPage((prevPage) => prevPage + 1);
             } else {
                setHasMore(false);
@@ -125,7 +125,7 @@ const CS2: React.FC = () => {
          <main className="flex-1">
             <SideNavWrapper />
             <div
-               className="flex flex-col items-center h-72 relative bg-center bg-no-repeat"
+               className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
                style={{
                   backgroundImage: `url(${CS2_BANNER})`,
                   backgroundSize: '100%',
@@ -154,9 +154,7 @@ const CS2: React.FC = () => {
             </h1>
             <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
                {posts.map((post) => (
-                  <React.Fragment key={post.landingPosition.public_id}>
-                     <Posts postData={post} />
-                  </React.Fragment>
+                  <Posts postData={post} key={post.landingPosition.asset_id}/>
                ))}
             </article>
          </main>

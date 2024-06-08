@@ -21,6 +21,7 @@ const GREETINGS = [
 ];
 
 const Page: React.FC = () => {
+   document.title = 'LineupX - Find the best lineups for your favorite games!';
    const Auth = useContext(AuthContext);
    const initialRender = useRef(true);
    useEffect(() => {
