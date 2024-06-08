@@ -259,7 +259,6 @@ const PostPage = () => {
       } else if(!postData && currPostData) {
          document.title = currPostData.postTitle;
       }
-      console.log(currPostData);
    }, [postData, currPostData]);
 
    useEffect(() => {
