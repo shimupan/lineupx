@@ -9,7 +9,11 @@ const FilterMenu = ({
 }) => {
    const [showFilterMenu, setShowFilterMenu] = useState(false);
    const [openSection, setOpenSection] = useState<string | null>(null);
-   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+   const urlParams = new URLSearchParams(window.location.search);
+   const initialFilter = urlParams.get('filter');
+   const [selectedFilter, setSelectedFilter] = useState<string | null>(
+      initialFilter,
+   );
    const { game } = useParams<{ game: string }>();
 
    const toggleFilterMenu = () => {
@@ -24,10 +28,21 @@ const FilterMenu = ({
       if (selectedFilter === filter) {
          setSelectedFilter(null);
          onFilterChange('');
+         window.history.pushState(null, '', window.location.pathname);
       } else {
          setSelectedFilter(filter);
          onFilterChange(filter);
+         window.history.pushState(
+            null,
+            '',
+            `${window.location.pathname}?filter=${filter}`,
+         );
       }
+   };
+
+   const isFilterSelected = (filter: string) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('filter') === filter;
    };
 
    const gameFilters = {
@@ -94,7 +109,11 @@ const FilterMenu = ({
                               <div className="mt-2 pl-4">
                                  <a
                                     href="#"
-                                    className="block py-2 text-sm hover:bg-gray-800"
+                                    className={`block py-2 text-sm hover:bg-gray-800 ${
+                                       isFilterSelected('today')
+                                          ? 'bg-gray-700'
+                                          : ''
+                                    }`}
                                     role="menuitem"
                                     onClick={() => handleFilterChange('today')}
                                  >
@@ -102,7 +121,11 @@ const FilterMenu = ({
                                  </a>
                                  <a
                                     href="#"
-                                    className="block py-2 text-sm hover:bg-gray-800"
+                                    className={`block py-2 text-sm hover:bg-gray-800 ${
+                                       isFilterSelected('this_week')
+                                          ? 'bg-gray-700'
+                                          : ''
+                                    }`}
                                     role="menuitem"
                                     onClick={() =>
                                        handleFilterChange('this_week')
@@ -112,7 +135,11 @@ const FilterMenu = ({
                                  </a>
                                  <a
                                     href="#"
-                                    className="block py-2 text-sm hover:bg-gray-800"
+                                    className={`block py-2 text-sm hover:bg-gray-800 ${
+                                       isFilterSelected('this_month')
+                                          ? 'bg-gray-700'
+                                          : ''
+                                    }`}
                                     role="menuitem"
                                     onClick={() =>
                                        handleFilterChange('this_month')
@@ -122,7 +149,11 @@ const FilterMenu = ({
                                  </a>
                                  <a
                                     href="#"
-                                    className="block py-2 text-sm hover:bg-gray-800"
+                                    className={`block py-2 text-sm hover:bg-gray-800 ${
+                                       isFilterSelected('this_year')
+                                          ? 'bg-gray-700'
+                                          : ''
+                                    }`}
                                     role="menuitem"
                                     onClick={() =>
                                        handleFilterChange('this_year')
@@ -136,7 +167,9 @@ const FilterMenu = ({
                         <div className="hidden md:block">
                            <a
                               href="#"
-                              className="block px-4 py-2 text-sm hover:bg-gray-800"
+                              className={`block px-4 py-2 text-sm hover:bg-gray-800 ${
+                                 isFilterSelected('today') ? 'bg-gray-700' : ''
+                              }`}
                               role="menuitem"
                               onClick={() => handleFilterChange('today')}
                            >
@@ -144,7 +177,11 @@ const FilterMenu = ({
                            </a>
                            <a
                               href="#"
-                              className="block px-4 py-2 text-sm hover:bg-gray-800"
+                              className={`block px-4 py-2 text-sm hover:bg-gray-800 ${
+                                 isFilterSelected('this_week')
+                                    ? 'bg-gray-700'
+                                    : ''
+                              }`}
                               role="menuitem"
                               onClick={() => handleFilterChange('this_week')}
                            >
@@ -152,7 +189,11 @@ const FilterMenu = ({
                            </a>
                            <a
                               href="#"
-                              className="block px-4 py-2 text-sm hover:bg-gray-800"
+                              className={`block px-4 py-2 text-sm hover:bg-gray-800 ${
+                                 isFilterSelected('this_month')
+                                    ? 'bg-gray-700'
+                                    : ''
+                              }`}
                               role="menuitem"
                               onClick={() => handleFilterChange('this_month')}
                            >
@@ -160,7 +201,11 @@ const FilterMenu = ({
                            </a>
                            <a
                               href="#"
-                              className="block px-4 py-2 text-sm hover:bg-gray-800"
+                              className={`block px-4 py-2 text-sm hover:bg-gray-800 ${
+                                 isFilterSelected('this_year')
+                                    ? 'bg-gray-700'
+                                    : ''
+                              }`}
                               role="menuitem"
                               onClick={() => handleFilterChange('this_year')}
                            >
@@ -173,43 +218,47 @@ const FilterMenu = ({
                            Type
                         </p>
                         <div className="md:hidden">
-                           <div className="md:hidden">
-                              <div
-                                 className="flex justify-between items-center cursor-pointer"
-                                 onClick={() => toggleSection('type')}
-                              >
-                                 <p className="block text-sm font-medium">
-                                    Type
-                                 </p>
-                                 {openSection === 'type' ? (
-                                    <FiChevronUp className="h-5 w-5" />
-                                 ) : (
-                                    <FiChevronDown className="h-5 w-5" />
-                                 )}
-                              </div>
-                              {openSection === 'type' && (
-                                 <div className="mt-2 pl-4">
-                                    {filters.map((filter) => (
-                                       <a
-                                          href="#"
-                                          className="block py-2 text-sm hover:bg-gray-800"
-                                          role="menuitem"
-                                          onClick={() =>
-                                             handleFilterChange(filter.value)
-                                          }
-                                       >
-                                          {filter.label}
-                                       </a>
-                                    ))}
-                                 </div>
+                           <div
+                              className="flex justify-between items-center cursor-pointer"
+                              onClick={() => toggleSection('type')}
+                           >
+                              <p className="block text-sm font-medium">Type</p>
+                              {openSection === 'type' ? (
+                                 <FiChevronUp className="h-5 w-5" />
+                              ) : (
+                                 <FiChevronDown className="h-5 w-5" />
                               )}
                            </div>
+                           {openSection === 'type' && (
+                              <div className="mt-2 pl-4">
+                                 {filters.map((filter) => (
+                                    <a
+                                       href="#"
+                                       className={`block py-2 text-sm hover:bg-gray-800 ${
+                                          isFilterSelected(filter.value)
+                                             ? 'bg-gray-700'
+                                             : ''
+                                       }`}
+                                       role="menuitem"
+                                       onClick={() =>
+                                          handleFilterChange(filter.value)
+                                       }
+                                    >
+                                       {filter.label}
+                                    </a>
+                                 ))}
+                              </div>
+                           )}
                         </div>
                         <div className="hidden md:block">
                            {filters.map((filter) => (
                               <a
                                  href="#"
-                                 className="block px-4 py-2 text-sm hover:bg-gray-800"
+                                 className={`block px-4 py-2 text-sm hover:bg-gray-800 ${
+                                    isFilterSelected(filter.value)
+                                       ? 'bg-gray-700'
+                                       : ''
+                                 }`}
                                  role="menuitem"
                                  onClick={() =>
                                     handleFilterChange(filter.value)
@@ -242,7 +291,11 @@ const FilterMenu = ({
                               <div className="mt-2 pl-4">
                                  <a
                                     href="#"
-                                    className="block py-2 text-sm hover:bg-gray-800"
+                                    className={`block py-2 text-sm hover:bg-gray-800 ${
+                                       isFilterSelected('rating')
+                                          ? 'bg-gray-700'
+                                          : ''
+                                    }`}
                                     role="menuitem"
                                     onClick={() => handleFilterChange('rating')}
                                  >
@@ -250,23 +303,15 @@ const FilterMenu = ({
                                  </a>
                                  <a
                                     href="#"
-                                    className="block py-2 text-sm hover:bg-gray-800 whitespace-nowrap"
+                                    className={`block py-2 text-sm hover:bg-gray-800 whitespace-nowrap ${
+                                       isFilterSelected('recent')
+                                          ? 'bg-gray-700'
+                                          : ''
+                                    }`}
                                     role="menuitem"
-                                    onClick={() =>
-                                       handleFilterChange('upload_date')
-                                    }
+                                    onClick={() => handleFilterChange('recent')}
                                  >
-                                    Upload Date
-                                 </a>
-                                 <a
-                                    href="#"
-                                    className="block py-2 text-sm hover:bg-gray-800"
-                                    role="menuitem"
-                                    onClick={() =>
-                                       handleFilterChange('view_count')
-                                    }
-                                 >
-                                    View Count
+                                    Most Recent
                                  </a>
                               </div>
                            )}
@@ -274,7 +319,9 @@ const FilterMenu = ({
                         <div className="hidden md:block">
                            <a
                               href="#"
-                              className="block px-4 py-2 text-sm hover:bg-gray-800 whitespace-nowrap"
+                              className={`block px-4 py-2 text-sm hover:bg-gray-800 ${
+                                 isFilterSelected('rating') ? 'bg-gray-700' : ''
+                              }`}
                               role="menuitem"
                               onClick={() => handleFilterChange('rating')}
                            >
@@ -282,19 +329,13 @@ const FilterMenu = ({
                            </a>
                            <a
                               href="#"
-                              className="block px-4 py-2 text-sm hover:bg-gray-800 whitespace-nowrap"
+                              className={`block px-4 py-2 text-sm hover:bg-gray-800 whitespace-nowrap ${
+                                 isFilterSelected('recent') ? 'bg-gray-700' : ''
+                              }`}
                               role="menuitem"
-                              onClick={() => handleFilterChange('upload_date')}
+                              onClick={() => handleFilterChange('recent')}
                            >
-                              Upload Date
-                           </a>
-                           <a
-                              href="#"
-                              className="block px-4 py-2 text-sm hover:bg-gray-800 whitespace-nowrap"
-                              role="menuitem"
-                              onClick={() => handleFilterChange('view_count')}
-                           >
-                              View Count
+                              Most Recent
                            </a>
                         </div>
                      </div>
@@ -305,4 +346,5 @@ const FilterMenu = ({
       </div>
    );
 };
+
 export default FilterMenu;
