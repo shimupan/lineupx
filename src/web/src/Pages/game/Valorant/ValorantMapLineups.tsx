@@ -19,6 +19,7 @@ import ascentCoordinates from '../../../assets/valorantjsons/ascent.json';
 import pearlCoordinates from '../../../assets/valorantjsons/pearl.json';
 import havenCoordinates from '../../../assets/valorantjsons/haven.json';
 import iceboxCoordinates from '../../../assets/valorantjsons/icebox.json';
+import abyssCoordinates from '../../../assets/valorantjsons/abyss.json';
 
 const mapRadars = [
    { name: 'Split', coordinates: splitCoordinates.coordinates },
@@ -31,6 +32,7 @@ const mapRadars = [
    { name: 'Sunset', coordinates: sunsetCoordinates.coordinates },
    { name: 'Lotus', coordinates: lotusCoordinates.coordinates },
    { name: 'Pearl', coordinates: pearlCoordinates.coordinates },
+   { name: 'Abyss', coordinates: abyssCoordinates.coordinates },
 ];
 
 const ValorantLineups: React.FC = () => {

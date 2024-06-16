@@ -12,6 +12,7 @@ import ascentCoordinates from '../../assets/valorantjsons/ascent.json';
 import pearlCoordinates from '../../assets/valorantjsons/pearl.json';
 import havenCoordinates from '../../assets/valorantjsons/haven.json';
 import iceboxCoordinates from '../../assets/valorantjsons/icebox.json';
+import abyssCoordinates from '../../assets/valorantjsons/abyss.json';
 
 const mapData = {
    split: { name: 'Split', coordinates: splitCoordinates.coordinates },
@@ -24,6 +25,7 @@ const mapData = {
    sunset: { name: 'Sunset', coordinates: sunsetCoordinates.coordinates },
    lotus: { name: 'Lotus', coordinates: lotusCoordinates.coordinates },
    pearl: { name: 'Pearl', coordinates: pearlCoordinates.coordinates },
+   abyss: { name: 'Abyss', coordinates: abyssCoordinates.coordinates },
 };
 
 type ValorantModeProps = {
@@ -271,6 +273,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             <option value="pearl">Pearl</option>
             <option value="lotus">Lotus</option>
             <option value="sunset">Sunset</option>
+            <option value="abyss">Abyss</option>
          </select>
 
          {selectedMap && (
