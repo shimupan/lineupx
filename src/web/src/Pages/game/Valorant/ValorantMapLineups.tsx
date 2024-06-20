@@ -19,6 +19,7 @@ import ascentCoordinates from '../../../assets/valorantjsons/ascent.json';
 import pearlCoordinates from '../../../assets/valorantjsons/pearl.json';
 import havenCoordinates from '../../../assets/valorantjsons/haven.json';
 import iceboxCoordinates from '../../../assets/valorantjsons/icebox.json';
+import abyssCoordinates from '../../../assets/valorantjsons/abyss.json';
 
 const mapRadars = [
    { name: 'Split', coordinates: splitCoordinates.coordinates },
@@ -31,6 +32,7 @@ const mapRadars = [
    { name: 'Sunset', coordinates: sunsetCoordinates.coordinates },
    { name: 'Lotus', coordinates: lotusCoordinates.coordinates },
    { name: 'Pearl', coordinates: pearlCoordinates.coordinates },
+   { name: 'Abyss', coordinates: abyssCoordinates.coordinates },
 ];
 
 const ValorantLineups: React.FC = () => {
@@ -218,47 +220,67 @@ const ValorantLineups: React.FC = () => {
                                        ))}
                                  </div>
                               ))}
-                           {isMapLoaded && selectedAbility
-                              ? complementCoordinates
-                                   .filter(
-                                      (coordinate) =>
-                                         coordinate.name ===
-                                         selectedAbility.displayName,
-                                   )
-                                   .map((coordinate, index) => (
-                                      <Dot
-                                         key={coordinate.name + index}
-                                         coordinate={coordinate}
-                                         selectedDot={selectedDot}
-                                         setSelectedDot={setSelectedDot}
-                                         mode="ValorantLineups"
-                                         special={coordinate.post}
-                                         abilityIconUrl={
-                                            selectedAbility?.displayIcon
-                                         }
-                                         onTouchEnd={() =>
-                                            setSelectedDot(coordinate.name)
-                                         }
-                                      />
-                                   ))
-                              : complementCoordinates.map(
-                                   (coordinate, index) => (
-                                      <Dot
-                                         key={coordinate.name + index}
-                                         coordinate={coordinate}
-                                         selectedDot={selectedDot}
-                                         setSelectedDot={setSelectedDot}
-                                         mode="CS2Lineups"
-                                         special={coordinate.post}
-                                         abilityIconUrl={
-                                            selectedAbility?.displayIcon
-                                         }
-                                         onTouchEnd={() =>
-                                            setSelectedDot(coordinate.name)
-                                         }
-                                      />
-                                   ),
-                                )}
+                           {isMapLoaded && selectedAbility ? (
+                              <>
+                                 {complementCoordinates
+                                    .filter(
+                                       (coordinate) =>
+                                          coordinate.name ===
+                                          selectedAbility.displayName,
+                                    )
+                                    .map((coordinate, index) => (
+                                       <Dot
+                                          key={coordinate.name + index}
+                                          coordinate={coordinate}
+                                          selectedDot={selectedDot}
+                                          setSelectedDot={setSelectedDot}
+                                          mode="ValorantLineups"
+                                          special={coordinate.post}
+                                          abilityIconUrl={
+                                             selectedAbility?.displayIcon
+                                          }
+                                          onTouchEnd={() =>
+                                             setSelectedDot(coordinate.name)
+                                          }
+                                       />
+                                    ))}
+                              </>
+                           ) : (
+                              agent?.abilities
+                                 ?.filter(
+                                    (ability) => ability.slot !== 'Passive',
+                                 )
+                                 ?.map((ability) =>
+                                    complementCoordinates
+                                       .filter(
+                                          (coordinate) =>
+                                             coordinate.name ===
+                                             ability.displayName,
+                                       )
+                                       .map((coordinate, coordIndex) => (
+                                          <>
+                                             <Dot
+                                                key={
+                                                   coordinate.name + coordIndex
+                                                }
+                                                coordinate={coordinate}
+                                                selectedDot={selectedDot}
+                                                setSelectedDot={setSelectedDot}
+                                                mode="CS2Lineups"
+                                                special={coordinate.post}
+                                                abilityIconUrl={
+                                                   ability.displayIcon
+                                                }
+                                                onTouchEnd={() =>
+                                                   setSelectedDot(
+                                                      coordinate.name,
+                                                   )
+                                                }
+                                             />
+                                          </>
+                                       )),
+                                 )
+                           )}
                         </MapInteractionCSS>
                      </div>
                   </div>

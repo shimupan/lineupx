@@ -13,7 +13,14 @@ const AdminPosts: React.FC = () => {
    useEffect(() => {
       if (Auth?.role) {
          const requests = GAMES.map((game) =>
-            axios.get(`/post/${game}`).then((response) => response.data),
+            axios
+               .get(`/post/${game}`, {
+                  params: {
+                     page: 1, // specify the page number
+                     limit: 1000, // specify the limit
+                  },
+               })
+               .then((response) => response.data),
          );
 
          Promise.all(requests)

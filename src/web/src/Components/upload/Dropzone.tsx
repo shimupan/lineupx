@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 type DropzoneProps = {
@@ -7,38 +7,37 @@ type DropzoneProps = {
 };
 
 const baseStyle: React.CSSProperties = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: '#eeeeee',
-    borderStyle: 'dashed',
-    backgroundColor: '#fafafa',
-    color: '#bdbdbd',
-    outline: 'none',
-    transition: 'border .24s ease-in-out',
-    width: '180px',
-    height: '140px', 
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   justifyContent: 'center',
+   padding: '20px',
+   borderWidth: 2,
+   borderRadius: 8,
+   borderColor: '#E2E8F0',
+   borderStyle: 'dashed',
+   backgroundColor: '#F7FAFC',
+   color: '#718096',
+   outline: 'none',
+   transition: 'border .24s ease-in-out',
+   cursor: 'pointer',
+   height: '150px',
 };
 
 const focusedStyle = {
-   borderColor: '#2196f3',
+   borderColor: '#3B82F6',
 };
 
 const acceptStyle = {
-   borderColor: '#00e676',
+   borderColor: '#38A169',
 };
 
 const rejectStyle = {
-   borderColor: '#ff1744',
+   borderColor: '#E53E3E',
 };
 
 const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
    const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
-   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 640);
    const onDrop = useCallback((acceptedFiles: File[]) => {
       const file = new FileReader();
       file.readAsDataURL(acceptedFiles[0]);
@@ -77,52 +76,45 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
       [isFocused, isDragAccept, isDragReject],
    );
 
-   useEffect(() => {
-      const handleResize = () => {
-         setIsMobileView(window.innerWidth <= 640);
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-         window.removeEventListener('resize', handleResize);
-      };
-   }, []);
-
-   const styles = isMobileView
-      ? {}
-      : {
-           width: '10vw', // 50% of the viewport width
-           height: '15vh', // 50% of the viewport height
-        };
-
    return (
-      <>
-         <div>
-            <div {...getRootProps({ style: { ...style, ...styles } })}>
-               <input {...getInputProps()} />
-               {isDragActive ? (
-                  <p>Drop the files here ...</p>
-               ) : (
-                  <p>
-                     Drag 'n' drop pictures here
-                  </p>
-               )}
-            </div>
-            {preview && (
-               <div className="text-black mb-5" style={styles}>
-                  <div>
-                     <h4>Accepted files</h4>
-                     <img
-                        src={preview as string}
-                        alt="Upload preview"
-                        style={styles}
+      <div className="w-full">
+         <div {...getRootProps({ style })}>
+            <input {...getInputProps()} />
+            {isDragActive ? (
+               <p className="text-sm">Drop the files here ...</p>
+            ) : (
+               <div className="flex flex-col items-center">
+                  <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     className="w-8 h-8 mb-2 text-gray-500"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                      />
-                  </div>
+                  </svg>
+                  <p className="mb-2 text-sm text-gray-500">
+                     <span className="font-semibold">Click to upload</span> or
+                     drag and drop
+                  </p>
                </div>
             )}
          </div>
-      </>
+         {preview && (
+            <div className="mt-4">
+               <img
+                  src={preview as string}
+                  alt="Upload preview"
+                  className="object-contain w-full h-40 rounded-md"
+               />
+            </div>
+         )}
+      </div>
    );
 };
 

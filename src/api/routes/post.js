@@ -364,8 +364,7 @@ router.post('/post', postLimit, async (req, res) => {
    const createModel = (collectionName) =>
       mongoose.model('PostData', PostDataSchema, collectionName);
    const postData = createModel(game);
-
-   const JumpThrow = jumpThrow == 'true' ? true : false;
+   const JumpThrow = jumpThrow == 'Yes' ? true : false;
 
    try {
       // Add valo support later

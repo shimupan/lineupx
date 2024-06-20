@@ -9,6 +9,7 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backdropBlur: ['responsive'],
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
       },

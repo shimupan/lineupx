@@ -226,7 +226,6 @@ const Valorant: React.FC = () => {
                      <Carousel images={VALORANT_MAPS} />
                   </div>
                </div>
-               {/* TODO: STYLING BELOW */}
                <h1 className="text-3xl font-bold text-center mt-10 mb-5">
                   Recently added Lineups
                </h1>
