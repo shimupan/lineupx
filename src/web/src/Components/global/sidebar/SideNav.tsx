@@ -74,9 +74,10 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    return (
       <>
          <aside
-            className={`${
-               expanded ? 'h-full' : ''
-            } md:h-screen fixed ${topPosition} bottom-0 z-10 transition-all duration-700`}
+            className={`fixed ${topPosition} bottom-0 z-10 transition-all duration-700 w-full md:w-auto ${
+               expanded ? 'w-screen' : 'w-[50px] md:w-[70px]'
+            }`}
+            style={{ height: '100vh' }} 
             onMouseEnter={() => window.innerWidth > 768 && setExpanded(true)}
             onMouseLeave={() => window.innerWidth > 768 && setExpanded(false)}
          >
@@ -88,8 +89,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      ? 'transition-all w-screen md:w-[300px]'
                      : 'transition-all w-[50px] md:w-[70px]'
                } h-full flex flex-col ${
-                  expanded ? 'bg-white' : 'bg-transparent'
-               } md:bg-white md:border-r shadow-sm transition-width duration-500`}
+                  expanded ? 'bg-[#1d0532]' : 'bg-transparent'
+               } md:bg-[#1d0532] shadow-sm transition-width duration-500`}
+               style={{ height: '100vh' }}
             >
                <div
                   className={`md:p-4 pb-2 flex ${
@@ -97,7 +99,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                   } items-center`}
                >
                   <button
-                     className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-black text-2xl block md:hidden"
+                     className="p-1.5 rounded-lg bg-gray-300 hover:bg-gray-300 text-white text-2xl block md:hidden"
                      onClick={() => {
                         setExpanded((curr) => !curr);
                         console.log(expanded);
@@ -114,7 +116,11 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                >
                   <div style={{ position: 'absolute', top: '5', left: '10' }}>
                      {' '}
-                     <Link to={`/user/${Auth?.username ? Auth?.username : "Guest"}`}>
+                     <Link
+                        to={`/user/${
+                           Auth?.username ? Auth?.username : 'Guest'
+                        }`}
+                     >
                         <img
                            src={
                               Auth?.ProfilePicture
@@ -137,7 +143,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                            expanded ? 'w-52 ml-10 mt-[-45px]' : 'hidden'
                         }`}
                      >
-                        <h4 className="font-semibold text-black">
+                        <h4 className="font-semibold text-white">
                            {Auth?.username ? Auth?.username : 'Guest'}
                         </h4>
                         <span className="text-xs text-gray-600">
@@ -147,7 +153,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      {Auth?.email && (
                         <IoLogOut
                            size={25}
-                           className="text-black mt-[-45px]"
+                           className="text-white mt-[-45px]"
                            style={{ cursor: 'pointer' }}
                            onClick={logout}
                         />
