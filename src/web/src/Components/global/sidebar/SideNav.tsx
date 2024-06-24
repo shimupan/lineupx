@@ -146,7 +146,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                         <h4 className="font-semibold text-white">
                            {Auth?.username ? Auth?.username : 'Guest'}
                         </h4>
-                        <span className="text-xs text-gray-600">
+                        <span className="text-xs text-white-600">
                            {Auth?.email ? Auth?.email : ''}
                         </span>
                      </div>
