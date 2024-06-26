@@ -74,10 +74,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    return (
       <>
          <aside
-            className={`fixed ${topPosition} bottom-0 z-10 transition-all duration-700 w-full md:w-auto ${
-               expanded ? 'w-screen' : 'w-[50px] md:w-[70px]'
-            }`}
-            style={{ height: '100vh' }} 
+            className={`${
+               expanded ? 'h-full' : ''
+            } md:h-screen fixed ${topPosition} bottom-0 z-20 transition-all duration-700`}
             onMouseEnter={() => window.innerWidth > 768 && setExpanded(true)}
             onMouseLeave={() => window.innerWidth > 768 && setExpanded(false)}
          >

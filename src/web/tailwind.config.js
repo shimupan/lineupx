@@ -17,9 +17,10 @@ module.exports = {
         '25': '.25',
       },
       scrollbar: {
-        width: '8px', 
-        track: 'rgba(0, 0, 0, 0.1)', 
-        thumb: 'rgba(0, 0, 0, 0.4)', 
+        width: '12px', 
+        track: 'rgba(255, 255, 255, 0.1)', 
+        thumb: 'rgba(67, 56, 202)', 
+        rounded: '8px',
       },
       spacing: {
         '64': '16rem', 
