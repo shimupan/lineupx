@@ -36,6 +36,7 @@ const mapRadars = [
 ];
 
 const ValorantLineups: React.FC = () => {
+   const [isMapLoading, setIsMapLoading] = useState(true);
    const [maps, setMaps] = useState<ValorantMaps['data']>();
    const [agent, setAgent] = useState<ValorantAgent['data'][0] | null>(null);
    const [selectedAbility, setSelectedAbility] = useState<
@@ -83,6 +84,7 @@ const ValorantLineups: React.FC = () => {
          .then((response) => response.json())
          .then((data) => {
             setMaps(data.data);
+            setIsMapLoading(false);
          });
       if (agentName) {
          axios.get(`https://valorant-api.com/v1/agents`).then((response) => {
@@ -177,7 +179,11 @@ const ValorantLineups: React.FC = () => {
                   <div className="flex flex-col sm:flex-row justify-center items-center">
                      <div style={{ position: 'relative' }}>
                         <MapInteractionCSS>
-                           {maps
+                        {isMapLoading ? (
+                              <div className="flex justify-center items-center h-full">
+                                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-75"></div> {/* Loading spinner */}
+                              </div>
+                           ) : ( maps
                               ?.filter((map) => map.displayName === mapName)
                               .map((map) => (
                                  <div
@@ -219,7 +225,8 @@ const ValorantLineups: React.FC = () => {
                                           />
                                        ))}
                                  </div>
-                              ))}
+                              ))
+                           )}
                            {isMapLoaded && selectedAbility ? (
                               <>
                                  {complementCoordinates
