@@ -603,6 +603,33 @@ router.post('/save-coordinates', (req, res) => {
 });
 */
 
+router.post('/post/report', async (req, res) => {
+   const { postId, userId, reason } = req.body;
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const post = await PostData.findById(postId);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const report = {
+         userId,
+         reason,
+         createdAt: new Date(),
+      };
+
+      post.reports.push(report);
+      await post.save();
+
+      res.status(200).send('Report submitted successfully');
+   } catch (error) {
+      console.error('Error reporting post:', error);
+      res.status(500).send({ error: 'Internal Server Error' });
+   }
+});
+
 router.post('/resize-image', async (req, res) => {
    const { imageUrl } = req.body;
 

@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { PostType, UserType, ValorantAgent } from '../../global.types';
-import { Tooltip, PreviewImage } from '../../Components';
+import { Tooltip, PreviewImage, ReportPopup} from '../../Components';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
@@ -14,6 +14,7 @@ import he from '../../assets/svg/he.svg';
 import flash from '../../assets/svg/flash.svg';
 import { getUserByID } from '../../util/getUser';
 import { FaCheckCircle } from 'react-icons/fa';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import { CiDesktopMouse2 } from 'react-icons/ci';
 
 interface PostsProps {
@@ -21,6 +22,7 @@ interface PostsProps {
 }
 
 const Posts: React.FC<PostsProps> = ({ postData }) => {
+   const [showReportPopup, setShowReportPopup] = useState(false);
    const [valorantAgents, setValorantAgents] = useState<ValorantAgent['data']>(
       [],
    );
@@ -245,6 +247,11 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         title="Share"
                         style={{ filter: 'invert(100%)' }}
                      />
+                     <BsThreeDotsVertical
+                        onClick={() => {
+                           setShowReportPopup(true);
+                        }}
+                     />
                   </div>
                   <div className="flex flex-row">
                      <Tooltip text={postData.Username}>
@@ -276,6 +283,13 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                </div>
             </div>
          </div>
+         {showReportPopup && user_Id && (
+            <ReportPopup
+               postId={postData._id}
+               userId={user_Id}
+               onClose={() => setShowReportPopup(false)}
+            />
+         )}
       </>
    );
 };
