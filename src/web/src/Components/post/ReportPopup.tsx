@@ -16,10 +16,9 @@ const ReportPopup: React.FC<ReportPopupProps> = ({
 
    const handleReportSubmit = async () => {
       try {
-         axios.post('/post/report', {
-            postId,
-            userId,
-            reason,
+         await axios.post(`/post/${postId}/report`, {
+            userId: userId,
+            reason: reason,
          });
          alert('Report submitted successfully');
          onClose();

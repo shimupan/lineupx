@@ -1,12 +1,16 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { PostType, UserType, ValorantAgent } from '../../global.types';
-import { Tooltip, PreviewImage, ReportPopup} from '../../Components';
+import {
+   Tooltip,
+   PreviewImage,
+   ReportPopup,
+   OptionBar,
+} from '../../Components';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../App';
 import { timeAgo } from './helper';
-import shareIcon from '../../assets/svg/share.svg';
 import decoy from '../../assets/svg/decoy.svg';
 import smoke from '../../assets/svg/smoke.svg';
 import molotov from '../../assets/svg/molotov.svg';
@@ -22,6 +26,19 @@ interface PostsProps {
 }
 
 const Posts: React.FC<PostsProps> = ({ postData }) => {
+   const [optionsBarPosition, setOptionsBarPosition] = useState({
+      top: 0,
+      left: 0,
+   });
+   const [showOptions, setShowOptions] = useState(false);
+   const onShare = () => {
+      copyPostLinkToClipboard();
+      setShowOptions(false);
+   };
+   const onReport = () => {
+      setShowReportPopup(true);
+      setShowOptions(false);
+   };
    const [showReportPopup, setShowReportPopup] = useState(false);
    const [valorantAgents, setValorantAgents] = useState<ValorantAgent['data']>(
       [],
@@ -239,19 +256,46 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                            ? `${postData.postTitle.substring(0, 23)}...`
                            : postData.postTitle}
                      </Link>
-                     <img
-                        src={shareIcon}
-                        alt="Share"
-                        className="ml-3 w-6 h-6 cursor-pointer"
-                        onClick={copyPostLinkToClipboard}
-                        title="Share"
-                        style={{ filter: 'invert(100%)' }}
-                     />
-                     <BsThreeDotsVertical
-                        onClick={() => {
-                           setShowReportPopup(true);
-                        }}
-                     />
+                     <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2">
+                           <BsThreeDotsVertical
+                              className="cursor-pointer"
+                              onClick={(event) => {
+                                 const rect =
+                                    event.currentTarget.getBoundingClientRect();
+                                 const top = rect.top + window.scrollY;
+                                 const left = rect.left + window.scrollX;
+                                 const optionBarWidth = 200;
+                                 const optionBarHeight = 100;
+                                 const windowWidth = window.innerWidth;
+                                 const windowHeight = window.innerHeight;
+
+                                 let adjustedLeft = left;
+                                 let adjustedTop = top + rect.height;
+
+                                 if (left + optionBarWidth > windowWidth) {
+                                    adjustedLeft = windowWidth - optionBarWidth;
+                                 }else{
+                                    adjustedLeft += 25;
+                                 }
+
+                                 if (
+                                    top + rect.height + optionBarHeight >
+                                    windowHeight
+                                 ) {
+                                    adjustedTop = top - optionBarHeight;
+                                 }
+
+                                 setOptionsBarPosition({
+                                    top: adjustedTop+85,
+                                    left: adjustedLeft,
+                                 });
+                                 setShowOptions(true);
+                              }}
+                              size="24"
+                           />
+                        </div>
+                     </div>
                   </div>
                   <div className="flex flex-row">
                      <Tooltip text={postData.Username}>
@@ -288,6 +332,18 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                postId={postData._id}
                userId={user_Id}
                onClose={() => setShowReportPopup(false)}
+            />
+         )}
+         {showOptions && (
+            <OptionBar
+               onClose={() => setShowOptions(false)}
+               onShare={onShare}
+               onReport={onReport}
+               style={{
+                  position: 'absolute',
+                  top: optionsBarPosition.top,
+                  left: optionsBarPosition.left,
+               }}
             />
          )}
       </>

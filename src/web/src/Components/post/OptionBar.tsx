@@ -1,23 +1,53 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { MdOutlineFlag } from 'react-icons/md';
+import shareIcon from '../../assets/svg/share.svg';
 
 interface OptionBarProps {
+   onClose: () => void;
    onShare: () => void;
    onReport: () => void;
+   style?: React.CSSProperties;
 }
 
-const OptionBar: React.FC<OptionBarProps> = ({ onShare, onReport }) => {
+const OptionBar: React.FC<OptionBarProps> = ({ onClose, onReport, onShare, style }) => {
+   const ref = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+         if (ref.current && !ref.current.contains(event.target as Node)) {
+            onClose();
+         }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+         document.removeEventListener('mousedown', handleClickOutside);
+      };
+   }, [onClose]);
+
    return (
-      <div className="absolute right-0 top-full mt-2 bg-white border border-gray-300 rounded shadow-md z-10">
+      <div
+         ref={ref}
+         className="absolute bg-[#181818] rounded-md shadow-md z-10 overflow-hidden"
+         style={style}
+      >
          <button
-            className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
+            className="flex items-center w-full text-white px-3 py-2 text-left text-sm hover:bg-gray-800 transition-colors duration-200"
             onClick={onShare}
          >
+            <img
+               src={shareIcon}
+               alt="Share"
+               className="w-4 h-4 mr-2"
+               style={{ filter: 'invert(100%)' }}
+            />
             Share
          </button>
          <button
-            className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
+            className="flex items-center w-full text-white px-3 py-2 text-left text-sm hover:bg-gray-800 transition-colors duration-200"
             onClick={onReport}
          >
+            <MdOutlineFlag className="w-4 h-4 mr-2" />
             Report
          </button>
       </div>

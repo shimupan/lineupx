@@ -463,6 +463,38 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
    }
 });
 
+//endpoint to report a post
+router.post('/post/:id/report', async (req, res) => {
+   const { id } = req.params;
+   const { userId, reason } = req.body;
+   if (!reason) {
+      return res.status(400).send('Reason is required');
+   }
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const report = {
+         userId: userId,
+         reason: reason,
+         createdAt: new Date(),
+      };
+
+      post.reports.push(report);
+      await post.save();
+
+      res.status(200).send('Report submitted successfully');
+   } catch (error) {
+      console.error('Error reporting post:', error);
+      res.status(500).send({ error: 'Server Error' });
+   }
+});
+
 // Endpoint to add a comment to a post
 router.post('/post/:id/comment', async (req, res) => {
    const { id } = req.params;
@@ -602,33 +634,6 @@ router.post('/save-coordinates', (req, res) => {
    });
 });
 */
-
-router.post('/post/report', async (req, res) => {
-   const { postId, userId, reason } = req.body;
-
-   try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
-      const post = await PostData.findById(postId);
-
-      if (!post) {
-         return res.status(404).send('Post not found');
-      }
-
-      const report = {
-         userId,
-         reason,
-         createdAt: new Date(),
-      };
-
-      post.reports.push(report);
-      await post.save();
-
-      res.status(200).send('Report submitted successfully');
-   } catch (error) {
-      console.error('Error reporting post:', error);
-      res.status(500).send({ error: 'Internal Server Error' });
-   }
-});
 
 router.post('/resize-image', async (req, res) => {
    const { imageUrl } = req.body;
