@@ -54,6 +54,34 @@ router.get('/user/id/:id', async (req, res) => {
    }
 });
 
+// Update user information
+router.patch('/user/:id', async (req, res) => {
+   const { id } = req.params;
+   const updateData = req.body;
+
+   try {
+      const user = await User.findById(id);
+
+      if (!user) {
+         return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Update only the fields that are provided in the request body
+      Object.keys(updateData).forEach((key) => {
+         if (user[key] !== undefined) {
+            user[key] = updateData[key];
+         }
+      });
+
+      await user.save();
+
+      res.status(200).json({ message: 'User updated successfully', user });
+   } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ message: 'Server error' });
+   }
+});
+
 // getting all users
 router.post('/user', async (req, res) => {
    const { role } = req.body;
