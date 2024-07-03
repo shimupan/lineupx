@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ReportPopupProps {
    postId: string;
@@ -15,21 +17,25 @@ const ReportPopup: React.FC<ReportPopupProps> = ({
    const [reason, setReason] = useState('');
 
    const handleReportSubmit = async () => {
+      if (!reason.trim()) {
+         toast.error('Please provide a reason for the report.');
+         return;
+      }
       try {
          await axios.post(`/post/${postId}/report`, {
             userId: userId,
             reason: reason,
          });
-         alert('Report submitted successfully');
          onClose();
       } catch (error) {
          console.error('Error reporting post:', error);
-         alert('Failed to submit report');
+         toast.error('Failed to submit report');
       }
    };
 
    return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+         <ToastContainer />
          <div className="bg-[#181818] rounded-lg shadow-lg w-96">
             <div className="p-6">
                <h2 className="text-2xl font-bold mb-4">Report Post</h2>
