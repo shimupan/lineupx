@@ -76,6 +76,9 @@ const AdminModifyPost = () => {
                      <strong>User ID:</strong> {post?.UserID}
                   </p>
                   <p>
+                     <strong>Username:</strong> {post?.Username}
+                  </p>
+                  <p>
                      <strong>Created At:</strong>{' '}
                      {post?.date ? new Date(post.date).toLocaleString() : 'N/A'}
                   </p>

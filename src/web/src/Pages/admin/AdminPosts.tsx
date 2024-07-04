@@ -71,10 +71,23 @@ const AdminPosts: React.FC = () => {
                                  />
                                  <div>
                                     <h3 className="font-medium">
-                                       {p.postTitle}
+                                       Post Title: {p.postTitle}
                                     </h3>
                                     <p className="text-sm text-gray-400">
-                                       {p.game}
+                                       Game: {p.game}
+                                    </p>
+                                    <p className="text-sm text-gray-400">
+                                       Date Uploaded: {new Date(p.date).toLocaleDateString(
+                                          'en-US',
+                                          {
+                                             year: 'numeric',
+                                             month: 'long',
+                                             day: 'numeric',
+                                          },
+                                       )}
+                                    </p>
+                                    <p className="text-sm text-gray-400">
+                                       By: {p.Username}
                                     </p>
                                  </div>
                               </div>

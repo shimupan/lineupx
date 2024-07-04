@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { MdOutlineFlag } from 'react-icons/md';
 import shareIcon from '../../assets/svg/share.svg';
+import { AuthContext } from '../../App'; // Adjust the import path as necessary
 
 interface OptionBarProps {
    onClose: () => void;
@@ -11,6 +12,7 @@ interface OptionBarProps {
 
 const OptionBar: React.FC<OptionBarProps> = ({ onClose, onReport, onShare, style }) => {
    const ref = useRef<HTMLDivElement>(null);
+   const Auth = useContext(AuthContext); // Use AuthContext to get the authentication status
 
    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -43,13 +45,15 @@ const OptionBar: React.FC<OptionBarProps> = ({ onClose, onReport, onShare, style
             />
             Share
          </button>
-         <button
-            className="flex items-center w-full text-white px-3 py-2 text-left text-sm hover:bg-gray-800 transition-colors duration-200"
-            onClick={onReport}
-         >
-            <MdOutlineFlag className="w-4 h-4 mr-2" />
-            Report
-         </button>
+         {Auth?.accessToken && (
+            <button
+               className="flex items-center w-full text-white px-3 py-2 text-left text-sm hover:bg-gray-800 transition-colors duration-200"
+               onClick={onReport}
+            >
+               <MdOutlineFlag className="w-4 h-4 mr-2" />
+               Report
+            </button>
+         )}
       </div>
    );
 };

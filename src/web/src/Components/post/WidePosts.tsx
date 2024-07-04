@@ -22,20 +22,20 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
       left: 0,
    });
    const [showOptions, setShowOptions] = useState(false);
+   const [showReportPopup, setShowReportPopup] = useState(false);
+
    const onShare = () => {
       copyPostLinkToClipboard();
       setShowOptions(false);
    };
+
    const onReport = () => {
       setShowReportPopup(true);
       setShowOptions(false);
    };
-   const [showReportPopup, setShowReportPopup] = useState(false);
-   const copyPostLinkToClipboard = async () => {
-      const postUrl = `${window.location.origin}/game/${
-         post.game
-      }/${encodeURIComponent(post._id)}`;
 
+   const copyPostLinkToClipboard = async () => {
+      const postUrl = `${window.location.origin}/game/${post.game}/${encodeURIComponent(post._id)}`;
       try {
          await navigator.clipboard.writeText(postUrl);
          alert('Link copied to clipboard!');
@@ -87,15 +87,20 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
                   size="24"
                />
             </div>
-            <Link to={`/game/${post.game}/${post._id}`}>
-               <img
-                  src={`${CDN_URL}/${post.landingPosition.public_id}`}
-                  className="h-24 w-34 rounded-xl"
-               />
+            <Link to={`/game/${post.game}/${post._id}`} className="flex-shrink-0">
+               <div className="w-[180px] h-[101px] bg-gray-800 rounded-xl overflow-hidden">
+                  <div className="w-full h-full relative">
+                     <img
+                        src={`${CDN_URL}/${post.landingPosition.public_id}`}
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
+                        alt={post.postTitle}
+                     />
+                  </div>
+               </div>
             </Link>
-            <div className="flex flex-col pl-2">
+            <div className="flex flex-col pl-2 flex-grow">
                <Link
-                  className="text-lg font-bold m-0 no-underline"
+                  className="text-md font-bold m-0 no-underline"
                   to={`/game/${post.game}/${post._id}`}
                >
                   {post.postTitle.length > 23
