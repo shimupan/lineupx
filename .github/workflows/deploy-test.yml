@@ -14,6 +14,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-          touch success.txt
-          echo "Deployed successfully" > success.txt
-          cat success.txt
+            touch success.txt
+            echo "Deployed successfully" > success.txt
+            cat success.txt
