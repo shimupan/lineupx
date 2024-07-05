@@ -1,18 +1,10 @@
-const requiredLabelPrefixes = {
-   A: 'Area',
-   D: 'Difficulty',
-   P: 'Priority',
-   S: 'Status',
-   T: 'Type',
-};
-
 // Fetch current labels
 const {
    data: { labels },
 } = await github.rest.issues.listLabelsOnIssue({
-   owner,
-   repo,
-   issue_number: number,
+   owner: context.repo.owner,
+   repo: context.repo.repo,
+   issue_number: context.issue.number,
 });
 
 let hasArea = false;
