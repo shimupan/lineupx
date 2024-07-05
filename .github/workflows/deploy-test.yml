@@ -1,14 +1,9 @@
 name: Deploy
 
-on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Deploy using ssh
@@ -18,9 +13,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-          script: |
-            cd api
-            git pull origin main
-            git status
-            npm install
-            pm2 restart Lineupx
+          script: whoami
