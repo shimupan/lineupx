@@ -17,5 +17,10 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          dry: True
           prettier_options: "--write src/**/*.{js,jsx,ts,tsx,json,css,md}"
+      
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply formatting changes
+          branch: ${{ github.head_ref }}
