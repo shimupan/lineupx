@@ -1,0 +1,24 @@
+name: Check Labels
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled]
+  pull_request:
+    types: [opened, labeled, unlabeled]
+
+jobs:
+  check-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read script file
+        id: read-script
+        run: |
+          echo "SCRIPT=$(cat .github/scripts/check-label.js)" >> $GITHUB_ENV
+
+      - name: Check labels
+        uses: actions/github-script@v6
+        with:
+          script: ${{ env.SCRIPT }}
