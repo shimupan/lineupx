@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Server
 
 on:
   pull_request:
@@ -20,7 +20,8 @@ jobs:
           port: 22
           script: |
             cd api
+            git reset --hard
             git pull origin main
             git status
             npm install
-            pm2 restart Lineupx
+            pm2 restart LineupX
