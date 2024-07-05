@@ -114,7 +114,9 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                >
                   <div style={{ position: 'absolute', top: '5', left: '10' }}>
                      {' '}
-                     <Link to={`/user/${Auth?.username ? Auth?.username : "Guest"}`}>
+                     <Link
+                        to={`/user/${Auth?.username ? Auth?.username : 'Guest'}`}
+                     >
                         <img
                            src={
                               Auth?.ProfilePicture
