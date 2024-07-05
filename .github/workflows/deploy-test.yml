@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Deploy using ssh
@@ -14,6 +15,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            touch success.txt
-            echo "Deployed successfully" > success.txt
-            cat success.txt
+            cd api
+            git pull origin main
+            git status
+            npm install
+            pm2 restart Lineupx
