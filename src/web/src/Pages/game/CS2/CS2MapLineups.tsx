@@ -263,7 +263,9 @@ const CS2Lineups: React.FC = () => {
                                             activeButton as keyof typeof grenadeIcons
                                          ]
                                       }
-                                      onTouchEnd={() => setSelectedDot(coordinate.name)}
+                                      onTouchEnd={() =>
+                                         setSelectedDot(coordinate.name)
+                                      }
                                    />
                                 ))
                            : complementCoordinates.map((coordinate, index) => (

@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
 const RiotRedirect = () => {
-  useEffect(() => {
-    window.location.href = 'https://lineupx.net//riot.txt';
-  }, []);
+   useEffect(() => {
+      window.location.href = 'https://lineupx.net//riot.txt';
+   }, []);
 
-  return null;
+   return null;
 };
 
 export default RiotRedirect;

@@ -254,9 +254,9 @@ const PostPage = () => {
    }, []);
 
    useEffect(() => {
-      if(!currPostData && postData) {
+      if (!currPostData && postData) {
          document.title = postData.postTitle;
-      } else if(!postData && currPostData) {
+      } else if (!postData && currPostData) {
          document.title = currPostData.postTitle;
       }
    }, [postData, currPostData]);
@@ -276,7 +276,6 @@ const PostPage = () => {
                   (dislike: any) => dislike.userId === user_Id,
                ),
             );
-
          } catch (error) {
             console.error('Failed to fetch post data:', error);
          }

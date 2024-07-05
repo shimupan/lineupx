@@ -45,7 +45,11 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
             >
                {images.map((image, index) => (
                   <SwiperSlide key={index}>
-                     <img src={image} alt="slide_image" className="rounded-md" />
+                     <img
+                        src={image}
+                        alt="slide_image"
+                        className="rounded-md"
+                     />
                   </SwiperSlide>
                ))}
                <div className="slider-controler">

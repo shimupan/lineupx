@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { PostType } from '../../global.types';
 
 type DotProps = {
-  coordinate: { x: number; y: number; name: string };
-  selectedDot: string;
-  setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
-  mode: string;
-  special?: PostType;
-  abilityIconUrl?: string;
-  onTouchEnd?: (event: React.TouchEvent) => void; // Added touch event handler
+   coordinate: { x: number; y: number; name: string };
+   selectedDot: string;
+   setSelectedDot: React.Dispatch<React.SetStateAction<string>>;
+   mode: string;
+   special?: PostType;
+   abilityIconUrl?: string;
+   onTouchEnd?: (event: React.TouchEvent) => void; // Added touch event handler
 };
 
 const Dot: React.FC<DotProps> = ({

@@ -36,7 +36,9 @@ const Valorant: React.FC = () => {
             `/post/Valorant?page=${currentPage}&limit=20&recent=true`,
          );
          if (postsResponse.data.length > 0) {
-            setPosts((prevPosts) => [...prevPosts, ...postsResponse.data].reverse());
+            setPosts((prevPosts) =>
+               [...prevPosts, ...postsResponse.data].reverse(),
+            );
             setPage((prevPage) => prevPage + 1);
          } else {
             setHasMore(false);
@@ -174,7 +176,6 @@ const Valorant: React.FC = () => {
       value = value.toLowerCase();
    };
 
-
    useEffect(() => {
       const handleScroll = () => {
          const threshold = 10;
@@ -231,7 +232,10 @@ const Valorant: React.FC = () => {
                </h1>
                <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
                   {posts.map((post) => (
-                     <Posts postData={post} key={post.landingPosition.public_id} />
+                     <Posts
+                        postData={post}
+                        key={post.landingPosition.public_id}
+                     />
                   ))}
                </article>
             </main>

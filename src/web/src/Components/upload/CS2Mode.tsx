@@ -114,7 +114,9 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
       mapImage,
       clickPosition,
       setClickPosition,
-      hoverPosition, dispatch, placedDot,
+      hoverPosition,
+      dispatch,
+      placedDot,
       placedDot,
       dispatch,
    ]);
@@ -242,8 +244,8 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                });
                setMapImage(mapData[mapName].image);
                setCoordinates(mapData[mapName].coordinates.coordinates);
-               setSelectedDot(null); 
-               setPlacedDot(null); 
+               setSelectedDot(null);
+               setPlacedDot(null);
             }}
             className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
          >
@@ -262,7 +264,8 @@ const CS2Mode: React.FC<CS2ModeProps> = ({ state, dispatch }) => {
                <label className="mb-2 text-sm text-start text-gray-900">
                   Select the position on the map of where your lineup lands.
                   After you click on it select the position of where you stand
-                  at to throw the lineup. Blue dots are the lineup positions and green dot is the position where you stand at.
+                  at to throw the lineup. Blue dots are the lineup positions and
+                  green dot is the position where you stand at.
                </label>
                <canvas
                   ref={canvasRef}

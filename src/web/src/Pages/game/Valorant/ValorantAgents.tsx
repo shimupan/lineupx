@@ -7,7 +7,7 @@ const ValorantAgents: React.FC = () => {
    const navigate = useNavigate();
 
    const handleClick = (agentName: string) => {
-      const formattedAgentName = agentName.replace("KAY/O", "KAYO");
+      const formattedAgentName = agentName.replace('KAY/O', 'KAYO');
       navigate(`/game/Valorant/agents/${formattedAgentName}/lineups`);
    };
 
@@ -54,17 +54,17 @@ const ValorantAgents: React.FC = () => {
                         </div>
                      ))}
                   </div>
-                {allAgents?.data
-                    .filter(
+                  {allAgents?.data
+                     .filter(
                         (agent) =>
-                            agent.displayName === agentDetails.selectedAgentName,
-                    )
-                    .map((agent) => (
+                           agent.displayName === agentDetails.selectedAgentName,
+                     )
+                     .map((agent) => (
                         <div
-                            className="abilities flex flex-wrap justify-center items-start gap-4 p-4"
-                            key={agent.displayName}
+                           className="abilities flex flex-wrap justify-center items-start gap-4 p-4"
+                           key={agent.displayName}
                         >
-                            <div className="grid grid-cols-2 gap-4 justify-items-center sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
+                           <div className="grid grid-cols-2 gap-4 justify-items-center sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
                               {agent.abilities.map(
                                  (ability, index) =>
                                     ability.slot !== 'Passive' && (
@@ -89,7 +89,7 @@ const ValorantAgents: React.FC = () => {
                               )}
                            </div>
                         </div>
-                    ))}
+                     ))}
                </div>
             </div>
          </div>
