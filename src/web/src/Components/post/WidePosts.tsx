@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Tooltip, OptionBar, ReportPopup } from '../../Components';
 import { timeAgo } from './helper';
@@ -23,25 +23,66 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
    });
    const [showOptions, setShowOptions] = useState(false);
    const [showReportPopup, setShowReportPopup] = useState(false);
+   const threeDotsRef = useRef<HTMLDivElement>(null);
 
    const onShare = () => {
       copyPostLinkToClipboard();
-      setShowOptions(false);
+      closeOptionBar();
    };
 
    const onReport = () => {
       setShowReportPopup(true);
-      setShowOptions(false);
+      closeOptionBar();
    };
 
    const copyPostLinkToClipboard = async () => {
-      const postUrl = `${window.location.origin}/game/${post.game}/${encodeURIComponent(post._id)}`;
+      const postUrl = `${window.location.origin}/game/${
+         post.game
+      }/${encodeURIComponent(post._id)}`;
       try {
          await navigator.clipboard.writeText(postUrl);
          alert('Link copied to clipboard!');
       } catch (err) {
          console.error('Failed to copy: ', err);
       }
+   };
+
+   const handleOptionsClick = (event: React.MouseEvent<SVGElement>) => {
+      event.stopPropagation();
+      if (threeDotsRef.current) {
+         const rect = threeDotsRef.current.getBoundingClientRect();
+         const optionBarWidth = 200;
+         const optionBarHeight = 100; 
+         const windowWidth = window.innerWidth;
+         const windowHeight = window.innerHeight;
+
+         let adjustedLeft = rect.left - optionBarWidth / 2 + rect.width / 2;
+         let adjustedTop = rect.bottom;
+
+         if (adjustedLeft + optionBarWidth > windowWidth) {
+            adjustedLeft = windowWidth - optionBarWidth;
+         }
+
+         if (adjustedLeft < 0) {
+            adjustedLeft = 0;
+         }
+
+         if (rect.bottom + optionBarHeight > windowHeight) {
+            adjustedTop = rect.top - optionBarHeight;
+         }
+
+         setOptionsBarPosition({
+            top: adjustedTop,
+            left: adjustedLeft + 80,
+         });
+         setShowOptions(true);
+         document.body.style.overflow = 'hidden';
+      }
+   };
+
+   const closeOptionBar = () => {
+      setShowOptions(false);
+      document.body.style.overflow = '';
    };
 
    useEffect(() => {
@@ -52,42 +93,36 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
       }
    }, [post.UserID]);
 
+   useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+         if (
+            showOptions &&
+            !threeDotsRef.current?.contains(event.target as Node)
+         ) {
+            closeOptionBar();
+         }
+      };
+
+      document.addEventListener('click', handleClickOutside);
+      return () => {
+         document.removeEventListener('click', handleClickOutside);
+      };
+   }, [showOptions]);
+
    return (
       <>
          <div className="relative w-full md:ml-[70px] lg:ml-0 rounded-xl flex pl-2 pb-2 post-width">
-            <div className="absolute top-0 right-0 p-2">
+            <div className="absolute top-0 right-0 p-2" ref={threeDotsRef}>
                <BsThreeDotsVertical
                   className="cursor-pointer"
-                  onClick={(event) => {
-                     const rect = event.currentTarget.getBoundingClientRect();
-                     const top = rect.top + window.scrollY;
-                     const left = rect.left + window.scrollX;
-                     const optionBarWidth = 200;
-                     const optionBarHeight = 100;
-                     const windowWidth = window.innerWidth;
-                     const windowHeight = window.innerHeight;
-
-                     let adjustedLeft = left;
-                     let adjustedTop = top + rect.height;
-
-                     if (left + optionBarWidth > windowWidth) {
-                        adjustedLeft = windowWidth - optionBarWidth;
-                     }
-
-                     if (top + rect.height + optionBarHeight > windowHeight) {
-                        adjustedTop = top - optionBarHeight;
-                     }
-
-                     setOptionsBarPosition({
-                        top: adjustedTop,
-                        left: adjustedLeft,
-                     });
-                     setShowOptions(true);
-                  }}
+                  onClick={handleOptionsClick}
                   size="24"
                />
             </div>
-            <Link to={`/game/${post.game}/${post._id}`} className="flex-shrink-0">
+            <Link
+               to={`/game/${post.game}/${post._id}`}
+               className="flex-shrink-0"
+            >
                <div className="w-[180px] h-[101px] bg-gray-800 rounded-xl overflow-hidden">
                   <div className="w-full h-full relative">
                      <img
@@ -142,16 +177,28 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
             />
          )}
          {showOptions && (
-            <OptionBar
-               onClose={() => setShowOptions(false)}
-               onShare={onShare}
-               onReport={onReport}
-               style={{
-                  position: 'fixed',
-                  top: optionsBarPosition.top,
-                  left: optionsBarPosition.left,
-               }}
-            />
+            <>
+               <div
+                  className="fixed inset-0 bg-black bg-opacity-50 z-50"
+                  onClick={closeOptionBar}
+               ></div>
+               <div className="fixed inset-0 z-50 pointer-events-none">
+                  <div
+                     className="pointer-events-auto"
+                     style={{
+                        position: 'absolute',
+                        top: optionsBarPosition.top,
+                        left: optionsBarPosition.left,
+                     }}
+                  >
+                     <OptionBar
+                        onClose={closeOptionBar}
+                        onShare={onShare}
+                        onReport={onReport}
+                     />
+                  </div>
+               </div>
+            </>
          )}
       </>
    );
