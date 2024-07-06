@@ -3,14 +3,14 @@ import { MdOutlineFlag } from 'react-icons/md';
 import shareIcon from '../../assets/svg/share.svg';
 import { AuthContext } from '../../App'; // Adjust the import path as necessary
 
-interface OptionBarProps {
+interface PostOptionBarProps {
    onClose: () => void;
    onShare: () => void;
    onReport: () => void;
    style?: React.CSSProperties;
 }
 
-const OptionBar: React.FC<OptionBarProps> = ({ onClose, onReport, onShare, style }) => {
+const PostOptionBar: React.FC<PostOptionBarProps> = ({ onClose, onReport, onShare, style }) => {
    const ref = useRef<HTMLDivElement>(null);
    const Auth = useContext(AuthContext); // Use AuthContext to get the authentication status
 
@@ -58,4 +58,4 @@ const OptionBar: React.FC<OptionBarProps> = ({ onClose, onReport, onShare, style
    );
 };
 
-export default OptionBar;
+export default PostOptionBar;

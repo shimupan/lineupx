@@ -137,7 +137,6 @@ router.delete('/user/:id/comment/:commentId', async (req, res) => {
          return res.status(404).send('User not found');
       }
 
-      // Find the index of the comment to be deleted
       const commentIndex = user.comments.findIndex(
          (comment) => comment._id.toString() === commentId,
       );

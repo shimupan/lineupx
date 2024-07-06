@@ -28,7 +28,7 @@ import { CgMaximize, CgMinimize } from 'react-icons/cg';
 export type Comment = {
    _id: string;
    text: string;
-   userId: string;
+   user: string;
    username: string;
    createdAt: Date;
 
@@ -622,7 +622,7 @@ const PostPage = () => {
             </div>
             <div className="">
                {comments.map((comment, index) => (
-                  <Comments className="mt-4" comment={comment} key={index} />
+                  <Comments className="mt-4" comment={comment} postId={postData._id} key={index} />
                ))}
             </div>
          </div>

@@ -4,7 +4,7 @@ import {
    Tooltip,
    PreviewImage,
    ReportPopup,
-   OptionBar,
+   PostOptionBar,
 } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
@@ -265,25 +265,25 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                                     event.currentTarget.getBoundingClientRect();
                                  const top = rect.top + window.scrollY;
                                  const left = rect.left + window.scrollX;
-                                 const optionBarWidth = 200;
-                                 const optionBarHeight = 100;
+                                 const PostOptionBarWidth = 200;
+                                 const PostOptionBarHeight = 100;
                                  const windowWidth = window.innerWidth;
                                  const windowHeight = window.innerHeight;
 
                                  let adjustedLeft = left;
                                  let adjustedTop = top + rect.height;
 
-                                 if (left + optionBarWidth > windowWidth) {
-                                    adjustedLeft = windowWidth - optionBarWidth;
+                                 if (left + PostOptionBarWidth > windowWidth) {
+                                    adjustedLeft = windowWidth - PostOptionBarWidth;
                                  }else{
                                     adjustedLeft += 25;
                                  }
 
                                  if (
-                                    top + rect.height + optionBarHeight >
+                                    top + rect.height + PostOptionBarHeight >
                                     windowHeight
                                  ) {
-                                    adjustedTop = top - optionBarHeight;
+                                    adjustedTop = top - PostOptionBarHeight;
                                  }
 
                                  setOptionsBarPosition({
@@ -335,7 +335,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
             />
          )}
          {showOptions && (
-            <OptionBar
+            <PostOptionBar
                onClose={() => setShowOptions(false)}
                onShare={onShare}
                onReport={onReport}

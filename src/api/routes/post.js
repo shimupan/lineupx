@@ -531,7 +531,7 @@ router.post('/post/:id/comment', async (req, res) => {
 //Endpoint to delete a specific comment
 router.delete('/post/:id/comment/:commentId', async (req, res) => {
    const { id, commentId } = req.params;
-   const { userId } = req.body; 
+   const { userId, role } = req.body;
 
    try {
       const PostData = mongoose.model('PostData', PostDataSchema);
@@ -549,10 +549,7 @@ router.delete('/post/:id/comment/:commentId', async (req, res) => {
          return res.status(404).send('Comment not found');
       }
 
-      if (
-         post.comments[commentIndex].userId.toString() !== userId &&
-         req.user.role !== 'admin'
-      ) {
+      if (post.comments[commentIndex].user !== userId && role !== 'admin') {
          return res.status(403).send('Unauthorized to delete this comment');
       }
 

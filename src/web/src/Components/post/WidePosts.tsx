@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Tooltip, OptionBar, ReportPopup } from '../../Components';
+import { Tooltip, PostOptionBar, ReportPopup } from '../../Components';
 import { timeAgo } from './helper';
 import { PostType, UserType } from '../../global.types';
 import { getUserByID } from '../../util/getUser';
@@ -27,12 +27,12 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
 
    const onShare = () => {
       copyPostLinkToClipboard();
-      closeOptionBar();
+      closePostOptionBar();
    };
 
    const onReport = () => {
       setShowReportPopup(true);
-      closeOptionBar();
+      closePostOptionBar();
    };
 
    const copyPostLinkToClipboard = async () => {
@@ -51,24 +51,24 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
       event.stopPropagation();
       if (threeDotsRef.current) {
          const rect = threeDotsRef.current.getBoundingClientRect();
-         const optionBarWidth = 200;
-         const optionBarHeight = 100; 
+         const PostOptionBarWidth = 200;
+         const PostOptionBarHeight = 100; // ADJUST IF NEEDED
          const windowWidth = window.innerWidth;
          const windowHeight = window.innerHeight;
 
-         let adjustedLeft = rect.left - optionBarWidth / 2 + rect.width / 2;
+         let adjustedLeft = rect.left - PostOptionBarWidth / 2 + rect.width / 2;
          let adjustedTop = rect.bottom;
 
-         if (adjustedLeft + optionBarWidth > windowWidth) {
-            adjustedLeft = windowWidth - optionBarWidth;
+         if (adjustedLeft + PostOptionBarWidth > windowWidth) {
+            adjustedLeft = windowWidth - PostOptionBarWidth;
          }
 
          if (adjustedLeft < 0) {
             adjustedLeft = 0;
          }
 
-         if (rect.bottom + optionBarHeight > windowHeight) {
-            adjustedTop = rect.top - optionBarHeight;
+         if (rect.bottom + PostOptionBarHeight > windowHeight) {
+            adjustedTop = rect.top - PostOptionBarHeight;
          }
 
          setOptionsBarPosition({
@@ -80,7 +80,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
       }
    };
 
-   const closeOptionBar = () => {
+   const closePostOptionBar = () => {
       setShowOptions(false);
       document.body.style.overflow = '';
    };
@@ -99,7 +99,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
             showOptions &&
             !threeDotsRef.current?.contains(event.target as Node)
          ) {
-            closeOptionBar();
+            closePostOptionBar();
          }
       };
 
@@ -180,7 +180,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
             <>
                <div
                   className="fixed inset-0 bg-black bg-opacity-50 z-50"
-                  onClick={closeOptionBar}
+                  onClick={closePostOptionBar}
                ></div>
                <div className="fixed inset-0 z-50 pointer-events-none">
                   <div
@@ -191,8 +191,8 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
                         left: optionsBarPosition.left,
                      }}
                   >
-                     <OptionBar
-                        onClose={closeOptionBar}
+                     <PostOptionBar
+                        onClose={closePostOptionBar}
                         onShare={onShare}
                         onReport={onReport}
                      />
