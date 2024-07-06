@@ -127,6 +127,36 @@ router.post('/user/:id/comment', async (req, res) => {
    }
 });
 
+router.delete('/user/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+
+   try {
+      const user = await User.findById(id);
+
+      if (!user) {
+         return res.status(404).send('User not found');
+      }
+
+      // Find the index of the comment to be deleted
+      const commentIndex = user.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      if (commentIndex === -1) {
+         return res.status(404).send('Comment not found');
+      }
+
+      user.comments.splice(commentIndex, 1);
+
+      await user.save();
+
+      res.status(200).send('Comment deleted successfully from user');
+   } catch (error) {
+      console.error('Error deleting comment from user:', error);
+      res.status(500).send('Server error');
+   }
+});
+
 router.post('/user/:id/pfp', (req, res) => {
    const form = new Formidable();
 

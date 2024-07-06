@@ -26,10 +26,12 @@ import { CgMaximize, CgMinimize } from 'react-icons/cg';
 //import gear from '../assets/svg/gear.svg';
 
 export type Comment = {
+   _id: string;
    text: string;
    userId: string;
    username: string;
    createdAt: Date;
+
 };
 
 const PostPage = () => {

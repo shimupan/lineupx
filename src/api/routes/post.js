@@ -528,6 +528,45 @@ router.post('/post/:id/comment', async (req, res) => {
    }
 });
 
+//Endpoint to delete a specific comment
+router.delete('/post/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+   const { userId } = req.body; 
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const commentIndex = post.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      if (commentIndex === -1) {
+         return res.status(404).send('Comment not found');
+      }
+
+      if (
+         post.comments[commentIndex].userId.toString() !== userId &&
+         req.user.role !== 'admin'
+      ) {
+         return res.status(403).send('Unauthorized to delete this comment');
+      }
+
+      post.comments.splice(commentIndex, 1);
+
+      await post.save();
+
+      res.status(200).send('Comment deleted successfully');
+   } catch (error) {
+      console.error('Error deleting comment:', error);
+      res.status(500).send('Internal Server Error');
+   }
+});
+
 // Increment like count for a specific post
 router.post('/post/:id/increment-like', async (req, res) => {
    const { id } = req.params;
