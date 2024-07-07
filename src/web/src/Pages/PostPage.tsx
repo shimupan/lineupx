@@ -239,6 +239,7 @@ const PostPage = () => {
                createdAt: new Date(),
                username: Auth?.username,
                text: newComment,
+               user: Auth?._id,
             };
 
             setComments([newCommentWithDate, ...comments]);
