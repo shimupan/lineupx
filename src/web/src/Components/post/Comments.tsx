@@ -136,10 +136,11 @@ const Comments: React.FC<CommentProps> = ({
             role: Auth?.role,
             text: editedText,
          });
-         // DOESN'T WORK
+         /*
          await axios.put(`/user/${Auth?._id}/comment/${comment._id}`, {
             text: editedText,
          });
+         */
          comment.text = editedText;
          setIsEditing(false);
       } catch (error) {
