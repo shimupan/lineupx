@@ -564,6 +564,44 @@ router.delete('/post/:id/comment/:commentId', async (req, res) => {
    }
 });
 
+router.put('/post/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+   const { userId, role, text } = req.body;
+
+   if (!text) {
+      return res.status(400).send('Comment text is required');
+   }
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const commentIndex = post.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      if (commentIndex === -1) {
+         return res.status(404).send('Comment not found');
+      }
+
+      if (post.comments[commentIndex].user !== userId && role !== 'admin') {
+         return res.status(403).send('Unauthorized to edit this comment');
+      }
+
+      post.comments[commentIndex].text = text;
+      await post.save();
+
+      res.status(200).send('Comment edited successfully');
+   } catch (error) {
+      console.error('Error editing comment:', error);
+      res.status(500).send('Internal Server Error');
+   }
+});
+
 // Increment like count for a specific post
 router.post('/post/:id/increment-like', async (req, res) => {
    const { id } = req.params;

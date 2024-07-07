@@ -343,6 +343,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   position: 'absolute',
                   top: optionsBarPosition.top,
                   left: optionsBarPosition.left,
+                  width: '150px',
                }}
             />
          )}

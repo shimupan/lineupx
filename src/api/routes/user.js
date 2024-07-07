@@ -156,6 +156,35 @@ router.delete('/user/:id/comment/:commentId', async (req, res) => {
    }
 });
 
+router.put('/user/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+   const { text } = req.body;
+
+   if (!text) {
+      return res.status(400).send('Comment text is required');
+   }
+
+   try {
+      const user = await User.findById(id);
+
+      if (!user) {
+         return res.status(404).send('User not found');
+      }
+
+      const commentIndex = user.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      user.comments[commentIndex].text = text;
+      await user.save();
+
+      res.status(200).send('Comment edited successfully');
+   } catch (error) {
+      console.error('Error editing comment:', error);
+      res.status(500).send('Internal Server Error');
+   }
+});
+
 router.post('/user/:id/pfp', (req, res) => {
    const form = new Formidable();
 

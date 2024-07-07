@@ -31,7 +31,6 @@ export type Comment = {
    user: string;
    username: string;
    createdAt: Date;
-
 };
 
 const PostPage = () => {
@@ -251,14 +250,20 @@ const PostPage = () => {
       }
    };
 
+   const removeComment = (commentId: string) => {
+      setComments((prevComments) =>
+         prevComments.filter((comment) => comment._id !== commentId),
+      );
+   };
+
    useEffect(() => {
       fetchComments();
    }, []);
 
    useEffect(() => {
-      if(!currPostData && postData) {
+      if (!currPostData && postData) {
          document.title = postData.postTitle;
-      } else if(!postData && currPostData) {
+      } else if (!postData && currPostData) {
          document.title = currPostData.postTitle;
       }
    }, [postData, currPostData]);
@@ -278,7 +283,6 @@ const PostPage = () => {
                   (dislike: any) => dislike.userId === user_Id,
                ),
             );
-
          } catch (error) {
             console.error('Failed to fetch post data:', error);
          }
@@ -622,7 +626,13 @@ const PostPage = () => {
             </div>
             <div className="">
                {comments.map((comment, index) => (
-                  <Comments className="mt-4" comment={comment} postId={postData._id} key={index} />
+                  <Comments
+                     className="mt-4"
+                     comment={comment}
+                     postId={postData?._id || currPostData?._id}
+                     onDelete={removeComment}
+                     key={index}
+                  />
                ))}
             </div>
          </div>

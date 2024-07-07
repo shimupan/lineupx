@@ -178,10 +178,6 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
          )}
          {showOptions && (
             <>
-               <div
-                  className="fixed inset-0 bg-black bg-opacity-50 z-50"
-                  onClick={closePostOptionBar}
-               ></div>
                <div className="fixed inset-0 z-50 pointer-events-none">
                   <div
                      className="pointer-events-auto"
