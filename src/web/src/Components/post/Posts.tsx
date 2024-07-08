@@ -260,7 +260,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         <div className="flex items-center space-x-2">
                            <BsThreeDotsVertical
                               className="cursor-pointer"
-                              onClick={(event) => {
+                              onClick={(event: React.MouseEvent<SVGElement>) => {
                                  const rect =
                                     event.currentTarget.getBoundingClientRect();
                                  const top = rect.top + window.scrollY;
