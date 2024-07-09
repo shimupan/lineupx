@@ -5,10 +5,8 @@ import { mongo } from './config/index.js';
 import { auth, user, post, comment, replies } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
-/*
 import mongoose from 'mongoose';
-import PostDataSchema from './model/PostData.js';
-*/
+import { updateCS2Posts, updateValorantPosts } from './helper/updatePosts.js';
 
 dotenv.config();
 
@@ -41,29 +39,9 @@ app.use(replies);
 app.use(passport.initialize());
 app.use(passport.session());
 
-/* DELETE LATER 
-const ValorantPostData = mongoose.model('ValorantPostData', PostDataSchema, 'Valorant');
-const CS2PostData = mongoose.model('CS2PostData', PostDataSchema, 'CS2');
-
-
-const newField = {
-  reports: [],
-};
-
-// Function to update documents in a collection
-const updateCollection = (model) => {
-   model.updateMany({}, { $set: newField })
-     .then((result) => {
-       console.log(`Updated ${result.nModified} documents in ${model.collection.collectionName}`);
-     })
-     .catch((error) => {
-       console.error(`Error updating documents in ${model.collection.collectionName}:`, error);
-     });
- };
- 
- // Update documents in the Valorant and CS2 collections
- updateCollection(ValorantPostData);
- updateCollection(CS2PostData);
-*/
 const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+// await updateCS2Posts();
+// await updateValorantPosts();
+
