@@ -44,4 +44,3 @@ app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // await updateCS2Posts();
 // await updateValorantPosts();
-
