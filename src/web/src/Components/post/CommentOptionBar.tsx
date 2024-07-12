@@ -39,7 +39,7 @@ const CommentOptionBar: React.FC<CommentOptionBarProps> = ({
             className="flex items-center w-full text-white px-3 py-2 text-left text-sm hover:bg-gray-800 transition-colors duration-200"
             onClick={onEdit}
          >
-            <MdEdit className="w-4 h-4 mr-2" /> 
+            <MdEdit className="w-4 h-4 mr-2" />
             Edit
          </button>
          <button

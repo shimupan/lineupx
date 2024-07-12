@@ -260,7 +260,9 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                         <div className="flex items-center space-x-2">
                            <BsThreeDotsVertical
                               className="cursor-pointer"
-                              onClick={(event: React.MouseEvent<SVGElement>) => {
+                              onClick={(
+                                 event: React.MouseEvent<SVGElement>,
+                              ) => {
                                  const rect =
                                     event.currentTarget.getBoundingClientRect();
                                  const top = rect.top + window.scrollY;
@@ -274,8 +276,9 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                                  let adjustedTop = top + rect.height;
 
                                  if (left + PostOptionBarWidth > windowWidth) {
-                                    adjustedLeft = windowWidth - PostOptionBarWidth;
-                                 }else{
+                                    adjustedLeft =
+                                       windowWidth - PostOptionBarWidth;
+                                 } else {
                                     adjustedLeft += 25;
                                  }
 
@@ -287,7 +290,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                                  }
 
                                  setOptionsBarPosition({
-                                    top: adjustedTop+85,
+                                    top: adjustedTop + 85,
                                     left: adjustedLeft,
                                  });
                                  setShowOptions(true);

@@ -179,53 +179,59 @@ const ValorantLineups: React.FC = () => {
                   <div className="flex flex-col sm:flex-row justify-center items-center">
                      <div style={{ position: 'relative' }}>
                         <MapInteractionCSS>
-                        {isMapLoading ? (
+                           {isMapLoading ? (
                               <div className="flex justify-center items-center h-full">
-                                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-75"></div> {/* Loading spinner */}
+                                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-75"></div>{' '}
+                                 {/* Loading spinner */}
                               </div>
-                           ) : ( maps
-                              ?.filter((map) => map.displayName === mapName)
-                              .map((map) => (
-                                 <div
-                                    key={map.uuid}
-                                    className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5 map-container flex flex-col items-center justify-center m-auto"
-                                 >
-                                    <img
-                                       src={map.displayIcon}
-                                       alt={map.displayName}
-                                       onLoad={(event) => {
-                                          const target =
-                                             event.target as HTMLImageElement;
-                                          const {
-                                             naturalWidth: width,
-                                             naturalHeight: height,
-                                          } = target;
-                                          console.log(
-                                             `Image dimensions: ${width}x${height}`,
-                                          );
-                                          setIsMapLoaded(true);
-                                       }}
-                                       style={{
-                                          width: isMobile ? '100%' : '1000',
-                                          maxWidth: '700px',
-                                          margin: '0 auto',
-                                          display: 'block',
-                                       }}
-                                    />
-                                    {isMapLoaded &&
-                                       !selectedAbility &&
-                                       complementCoordinates &&
-                                       coordinates.map((coordinate, index) => (
-                                          <Dot
-                                             key={index}
-                                             coordinate={coordinate}
-                                             selectedDot={selectedDot}
-                                             setSelectedDot={setSelectedDot}
-                                             mode="ValorantLineups"
-                                          />
-                                       ))}
-                                 </div>
-                              ))
+                           ) : (
+                              maps
+                                 ?.filter((map) => map.displayName === mapName)
+                                 .map((map) => (
+                                    <div
+                                       key={map.uuid}
+                                       className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5 map-container flex flex-col items-center justify-center m-auto"
+                                    >
+                                       <img
+                                          src={map.displayIcon}
+                                          alt={map.displayName}
+                                          onLoad={(event) => {
+                                             const target =
+                                                event.target as HTMLImageElement;
+                                             const {
+                                                naturalWidth: width,
+                                                naturalHeight: height,
+                                             } = target;
+                                             console.log(
+                                                `Image dimensions: ${width}x${height}`,
+                                             );
+                                             setIsMapLoaded(true);
+                                          }}
+                                          style={{
+                                             width: isMobile ? '100%' : '1000',
+                                             maxWidth: '700px',
+                                             margin: '0 auto',
+                                             display: 'block',
+                                          }}
+                                       />
+                                       {isMapLoaded &&
+                                          !selectedAbility &&
+                                          complementCoordinates &&
+                                          coordinates.map(
+                                             (coordinate, index) => (
+                                                <Dot
+                                                   key={index}
+                                                   coordinate={coordinate}
+                                                   selectedDot={selectedDot}
+                                                   setSelectedDot={
+                                                      setSelectedDot
+                                                   }
+                                                   mode="ValorantLineups"
+                                                />
+                                             ),
+                                          )}
+                                    </div>
+                                 ))
                            )}
                            {isMapLoaded && selectedAbility ? (
                               <>
