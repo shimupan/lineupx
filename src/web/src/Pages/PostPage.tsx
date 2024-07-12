@@ -26,8 +26,9 @@ import { CgMaximize, CgMinimize } from 'react-icons/cg';
 //import gear from '../assets/svg/gear.svg';
 
 export type Comment = {
+   _id: string;
    text: string;
-   userId: string;
+   user: string;
    username: string;
    createdAt: Date;
 };
@@ -247,6 +248,12 @@ const PostPage = () => {
             console.error('Error posting comment:', error);
          }
       }
+   };
+
+   const removeComment = (commentId: string) => {
+      setComments((prevComments) =>
+         prevComments.filter((comment) => comment._id !== commentId),
+      );
    };
 
    useEffect(() => {
@@ -570,6 +577,53 @@ const PostPage = () => {
                   {postData?.lineupDescription ||
                      currPostData?.lineupDescription}
                </div>
+               <div className="bg-black md:ml-[10px]">
+                  <div className="flex items-start space-x-3">
+                     {Auth?.username && (
+                        <>
+                           <img
+                              className="w-10 h-10 rounded-full"
+                              src={`${Auth?.ProfilePicture}`}
+                              alt="PFP"
+                           />
+                           <div className="flex-1">
+                              <div className="flex items-center">
+                                 <h4 className="text-sm font-bold">
+                                    {Auth?.username}
+                                 </h4>
+                              </div>
+                              <textarea
+                                 className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                 placeholder="Add a public comment..."
+                                 onChange={(e) => {
+                                    setNewComment(e.target.value);
+                                 }}
+                              ></textarea>
+                              <div className="mt-2 flex justify-end space-x-2">
+                                 <button className="text-sm text-gray-500">
+                                    CANCEL
+                                 </button>
+                                 <button
+                                    className="text-sm text-blue-500 font-semibold"
+                                    onClick={handleCommentSubmit}
+                                 >
+                                    COMMENT
+                                 </button>
+                              </div>
+                           </div>
+                        </>
+                     )}
+                  </div>
+                  {comments.map((comment, index) => (
+                     <Comments
+                        className="mt-4"
+                        comment={comment}
+                        postId={postData?._id || currPostData?._id}
+                        onDelete={removeComment}
+                        key={index}
+                     />
+                  ))}
+               </div>
             </div>
             <div className="relative lg:flex-grow bg-black">
                {relatedPosts.map((post, index) => {
@@ -577,50 +631,6 @@ const PostPage = () => {
                      return <WidePosts post={post} key={index} />;
                   }
                })}
-            </div>
-         </div>
-
-         <div className="bg-black h-screen md:ml-[70px] pl-2">
-            <div className="flex items-start space-x-3 mb-4">
-               {Auth?.username && (
-                  <>
-                     <img
-                        className="w-10 h-10 rounded-full"
-                        src={`${Auth?.ProfilePicture}`}
-                        alt="PFP"
-                     />
-                     <div className="flex-1">
-                        <div className="flex items-center">
-                           <h4 className="text-sm font-bold">
-                              {Auth?.username}
-                           </h4>
-                        </div>
-                        <textarea
-                           className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500 pr-4"
-                           placeholder="Add a public comment..."
-                           onChange={(e) => {
-                              setNewComment(e.target.value);
-                           }}
-                        ></textarea>
-                        <div className="mt-2 flex justify-end space-x-2">
-                           <button className="text-sm text-gray-500">
-                              CANCEL
-                           </button>
-                           <button
-                              className="text-sm text-blue-500 font-semibold"
-                              onClick={handleCommentSubmit}
-                           >
-                              COMMENT
-                           </button>
-                        </div>
-                     </div>
-                  </>
-               )}
-            </div>
-            <div className="">
-               {comments.map((comment, index) => (
-                  <Comments className="mt-4" comment={comment} key={index} />
-               ))}
             </div>
          </div>
          <Footer />

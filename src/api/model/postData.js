@@ -165,6 +165,23 @@ const PostDataSchema = new mongoose.Schema({
          },
       },
    ],
+   reports: [
+      {
+         userId: {
+            type: String,
+            ref: 'User',
+            required: true,
+         },
+         reason: {
+            type: String,
+            required: true,
+         },
+         createdAt: {
+            type: Date,
+            default: Date.now,
+         },
+      },
+   ],
 });
 
 export default PostDataSchema;

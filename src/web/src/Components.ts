@@ -61,3 +61,8 @@ export { default as DefaultPost } from './Components/post/DefaultPost';
 export { default as FilterMenu } from './Components/post/filter/FilterMenu';
 export { default as AdsRedirect } from './Components/auth/AdsRedirect';
 export { default as RiotRedirect } from './Components/auth/RiotRedirect';
+export { default as ReportPopup } from './Components/post/ReportPopup';
+export { default as PostOptionBar } from './Components/post/PostOptionBar';
+export { default as CommentOptionBar } from './Components/post/CommentOptionBar';
+export { default as CS2Radar } from './Components/game/cs2/CS2Radar';
+

@@ -35,13 +35,27 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                   onClick={() => handleClick('/')}
                />
                <SideNavItems
-                  icon={<img src={cs2Logo} alt="CS2" width={25} />}
+                  icon={
+                     <img
+                        src={cs2Logo}
+                        alt="CS2"
+                        width={25}
+                        style={{ filter: 'brightness(0) invert(1)' }}
+                     />
+                  }
                   text="CS2"
                   active={activeItem === '/game/CS2'}
                   onClick={() => handleClick('/game/CS2')}
                />
                <SideNavItems
-                  icon={<img src={valorantLogo} alt="Valorant" width={25} />}
+                  icon={
+                     <img
+                        src={valorantLogo}
+                        alt="Valorant"
+                        width={25}
+                        style={{ filter: 'brightness(0) invert(1)' }}
+                     />
+                  }
                   text="Valorant"
                   active={activeItem === '/game/Valorant'}
                   onClick={() => handleClick('/game/Valorant')}
@@ -69,7 +83,14 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                   alert
                />
                <SideNavItems
-                  icon={<img src={questionMark} alt="About" width={25} />}
+                  icon={
+                     <img
+                        src={questionMark}
+                        alt="About"
+                        width={25}
+                        style={{ filter: 'brightness(0) invert(1)' }}
+                     />
+                  }
                   text="About"
                   active={activeItem === '/about'}
                   onClick={() => handleClick('/about')}

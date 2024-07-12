@@ -5,6 +5,8 @@ import { mongo } from './config/index.js';
 import { auth, user, post, comment, replies } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
+import mongoose from 'mongoose';
+import { updateCS2Posts, updateValorantPosts } from './helper/updatePosts.js';
 
 dotenv.config();
 
@@ -39,3 +41,6 @@ app.use(passport.session());
 
 const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+// await updateCS2Posts();
+// await updateValorantPosts();

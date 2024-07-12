@@ -60,6 +60,11 @@ export type PostType = {
    valorantAgent: string;
    ability: string;
    date: string;
+   reports: {
+      userId: string;
+      reason: string;
+      createdAt: Date;
+   }[];
 };
 
 export type ValorantAgent = {

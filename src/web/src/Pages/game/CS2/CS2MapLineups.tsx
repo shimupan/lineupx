@@ -3,13 +3,12 @@ import {
    Header,
    Footer,
    SideNavWrapper,
-   Dot,
    GrenadeSelection,
+   CS2Radar,
 } from '../../../Components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
-import { MapInteractionCSS } from 'react-map-interaction';
 
 import Decoy from '../../../assets/svg/decoy.svg';
 import Smoke from '../../../assets/svg/smoke.svg';
@@ -87,7 +86,6 @@ const CS2Lineups: React.FC = () => {
       Coordinate[]
    >([]);
    const [selectedDot, setSelectedDot] = useState<string>('');
-   const [isMapLoaded, setIsMapLoaded] = useState(false);
    // Load all dots
    useEffect(() => {
       const mapObject = mapRadars.find((map) => map.name === mapName);
@@ -210,76 +208,16 @@ const CS2Lineups: React.FC = () => {
          <div className="flex flex-1">
             <div className="flex-1 flex justify-center items-center">
                <div className="flex flex-col sm:flex-row justify-center items-center">
-                  <div className="relative mb-12">
-                     <MapInteractionCSS>
-                        <img
-                           src={mapImage}
-                           alt={mapName}
-                           onLoad={() => setIsMapLoaded(true)}
-                           style={{
-                              width: isMobile ? '100%' : '1000%',
-                              maxWidth: '700px',
-                              margin: '0 auto',
-                              display: 'block',
-                           }}
-                        />
-
-                        {/*
-                        Bit confusing, but basically 
-                        1) if there is no active button and no selected dot, then show all dots
-                        2) if there is an active button, then show only dots that match the active button
-                        3) if there is a selected dot, then show only dots that match the selected dot
-                        4) if there is an active button and a selected dot, then show only dots that match both
-                     */}
-                        {isMapLoaded &&
-                           !activeButton &&
-                           complementCoordinates &&
-                           coordinates.map((coordinate, index) => (
-                              <Dot
-                                 key={index}
-                                 coordinate={coordinate}
-                                 selectedDot={selectedDot}
-                                 setSelectedDot={setSelectedDot}
-                                 mode="CS2Lineups"
-                              />
-                           ))}
-                        {isMapLoaded && activeButton
-                           ? complementCoordinates
-                                .filter(
-                                   (coordinate) =>
-                                      coordinate.name ===
-                                      activeButton.toLowerCase(),
-                                )
-                                .map((coordinate, index) => (
-                                   <Dot
-                                      key={coordinate.name + index}
-                                      coordinate={coordinate}
-                                      selectedDot={selectedDot}
-                                      setSelectedDot={setSelectedDot}
-                                      mode="CS2Lineups"
-                                      special={coordinate.post}
-                                      abilityIconUrl={
-                                         grenadeIcons[
-                                            activeButton as keyof typeof grenadeIcons
-                                         ]
-                                      }
-                                      onTouchEnd={() =>
-                                         setSelectedDot(coordinate.name)
-                                      }
-                                   />
-                                ))
-                           : complementCoordinates.map((coordinate, index) => (
-                                <Dot
-                                   key={coordinate.name + index}
-                                   coordinate={coordinate}
-                                   selectedDot={selectedDot}
-                                   setSelectedDot={setSelectedDot}
-                                   mode="CS2Lineups"
-                                   special={coordinate.post}
-                                />
-                             ))}
-                     </MapInteractionCSS>
-                  </div>
+                  <CS2Radar
+                     mapImage={mapImage}
+                     mapName={mapName!}
+                     coordinates={coordinates}
+                     complementCoordinates={complementCoordinates}
+                     activeButton={activeButton}
+                     selectedDot={selectedDot}
+                     setSelectedDot={setSelectedDot}
+                     grenadeIcons={grenadeIcons}
+                  />
                </div>
             </div>
          </div>

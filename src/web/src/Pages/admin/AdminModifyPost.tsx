@@ -6,72 +6,128 @@ import { Header, Footer, SideNavWrapper } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import { AuthContext } from '../../App';
 import { approveRejectPosts } from '../../util/updatePost';
-import { MdCancel } from 'react-icons/md';
+import { MdCancel, MdReport } from 'react-icons/md';
+
+type PositionKey = 'landingPosition' | 'aimingPosition' | 'standingPosition';
 
 const AdminModifyPost = () => {
    const [post, setPost] = useState<PostType>();
    const Auth = useContext(AuthContext);
    const location = useLocation();
    const navigate = useNavigate();
+
    useEffect(() => {
-      setPost(location.state);
+      setPost(location.state as PostType);
    }, [location.state]);
 
+   const handlePostAction = async (action: 'approve' | 'reject') => {
+      if (post && Auth?.role) {
+         try {
+            await approveRejectPosts(post._id, action, post.game, Auth.role);
+            navigate(-1);
+         } catch (error) {
+            console.error(`Error ${action}ing post:`, error);
+         }
+      }
+   };
+
+   const getPositionImage = (position: PositionKey) => {
+      return post ? `${CDN_URL}/${post[position].public_id}.png` : '';
+   };
+
    return (
-      <>
+      <div className="min-h-screen bg-gray-900 text-white">
          <Header />
-         <SideNavWrapper />
+         <div className="flex">
+            <SideNavWrapper />
+            <main className="flex-1 p-4 md:p-6 md:ml-32">
+               <button
+                  className="flex items-center mb-6 text-blue-400 hover:text-blue-300"
+                  onClick={() => navigate(-1)}
+               >
+                  <IoIosArrowBack size={24} />
+                  <span className="ml-2">Back</span>
+               </button>
 
-         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-            <button
-               className="flex items-center mb-6 sm:mb-8 text-blue-500 hover:text-blue-700 cursor-pointer"
-               onClick={() => navigate(-1)}
-            >
-               <IoIosArrowBack size={24} />
-               <span className="ml-2 text-sm sm:text-base">Back</span>
-            </button>
+               <h1 className="text-2xl md:text-3xl font-bold mb-6">
+                  {post?.postTitle}
+               </h1>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8">
-               Title: {post?.postTitle}
-            </h1>
-            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center">
-               <img
-                  className="w-full sm:max-w-md h-auto shadow-lg rounded mb-4"
-                  src={`${CDN_URL}/${post?.landingPosition.public_id}`}
-                  alt="postImage"
-                  loading="lazy"
-               />
-               <img
-                  className="w-full sm:max-w-md h-auto shadow-lg rounded mb-4"
-                  src={`${CDN_URL}/${post?.aimingPosition.public_id}`}
-                  alt="postImage"
-                  loading="lazy"
-               />
-               <img
-                  className="w-full sm:max-w-md h-auto shadow-lg rounded mb-4"
-                  src={`${CDN_URL}/${post?.standingPosition.public_id}`}
-                  alt="postImage"
-                  loading="lazy"
-               />
-            </div>
-            <div className="flex justify-center mt-8 sm:mt-12">
-               <MdCancel
-                  className="cursor-pointer text-red-500 hover:text-red-700"
-                  size={128}
-                  onClick={() =>
-                     approveRejectPosts(
-                        post?._id!,
-                        'reject',
-                        post?.game!,
-                        Auth?.role!,
-                     ).then(() => navigate(-1))
-                  }
-               />
-            </div>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                  {(['landing', 'aiming', 'standing'] as const).map((pos) => (
+                     <div key={pos} className="aspect-w-16 aspect-h-9">
+                        <img
+                           src={getPositionImage(
+                              `${pos}Position` as PositionKey,
+                           )}
+                           alt={`${pos} position`}
+                           className="object-cover rounded-lg shadow-lg"
+                        />
+                     </div>
+                  ))}
+               </div>
+
+               <div className="bg-gray-800 rounded-lg p-4 mb-8">
+                  <h2 className="text-xl font-semibold mb-4">Post Details</h2>
+                  <p>
+                     <strong>Game:</strong> {post?.game}
+                  </p>
+                  <p>
+                     <strong>User ID:</strong> {post?.UserID}
+                  </p>
+                  <p>
+                     <strong>Username:</strong> {post?.Username}
+                  </p>
+                  <p>
+                     <strong>Created At:</strong>{' '}
+                     {post?.date ? new Date(post.date).toLocaleString() : 'N/A'}
+                  </p>
+                  <p>
+                     <strong>Views:</strong> {post?.views}
+                  </p>
+               </div>
+
+               {post?.reports && post.reports.length > 0 && (
+                  <div className="bg-gray-800 rounded-lg p-4 mb-8">
+                     <h2 className="text-xl font-semibold mb-4 flex items-center">
+                        <MdReport className="mr-2" />
+                        Reports ({post.reports.length})
+                     </h2>
+                     <div className="space-y-4">
+                        {post.reports.map((report, index) => (
+                           <div
+                              key={index}
+                              className="bg-gray-700 rounded-lg p-3"
+                           >
+                              <p>
+                                 <strong>User ID:</strong> {report.userId}
+                              </p>
+                              <p>
+                                 <strong>Reason:</strong> {report.reason}
+                              </p>
+                              <p>
+                                 <strong>Reported At:</strong>{' '}
+                                 {new Date(report.createdAt).toLocaleString()}
+                              </p>
+                           </div>
+                        ))}
+                     </div>
+                  </div>
+               )}
+
+               <div className="flex justify-center space-x-8">
+                  <button
+                     onClick={() => handlePostAction('reject')}
+                     className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                     <MdCancel size={24} />
+                     <span>Delete Post</span>
+                  </button>
+               </div>
+            </main>
          </div>
-
          <Footer />
-      </>
+      </div>
    );
 };
 
