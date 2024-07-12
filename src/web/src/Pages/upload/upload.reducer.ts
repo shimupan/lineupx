@@ -48,6 +48,6 @@ export const UploadDefaults = {
    teamSide: '',
    agents: undefined,
    selectedAgentAbilities: [],
-   lineupLocationCoords: { x: 0, y: 0, name: ''},
+   lineupLocationCoords: { x: 0, y: 0, name: '' },
    lineupPositionCoords: { x: 0, y: 0 },
 };

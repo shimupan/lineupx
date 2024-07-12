@@ -154,7 +154,7 @@ const CS2: React.FC = () => {
             </h1>
             <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
                {posts.map((post) => (
-                  <Posts postData={post} key={post.landingPosition.asset_id}/>
+                  <Posts postData={post} key={post.landingPosition.asset_id} />
                ))}
             </article>
          </main>

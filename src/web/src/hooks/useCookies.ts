@@ -19,7 +19,7 @@ export default function useCookie(name: string, defaultValue: any) {
    );
 
    const deleteCookie = useCallback(() => {
-      cookies.remove(name, {path: '/'});
+      cookies.remove(name, { path: '/' });
       setValue(null);
    }, [name]);
 

@@ -235,7 +235,6 @@ const ProfilePage = () => {
             <div className="min-h-screen pb-40 bg-gray-900 text-white">
                <div className="pt-20 pb-12 bg-gradient-to-b from-gray-800 to-gray-900">
                   <div className="container mx-auto px-4">
-
                      <div className="flex flex-col items-center md:pl-64">
                         <img
                            src={
@@ -420,8 +419,8 @@ const ProfilePage = () => {
                                              No Posts Available
                                           </h2>
                                           <p className="text-gray-500">
-                                             You currently have zero approved lineups for {' '}
-                                             {game}.
+                                             You currently have zero approved
+                                             lineups for {game}.
                                           </p>
                                           <p className="text-gray-500">
                                              Please check back later or select a
@@ -454,8 +453,7 @@ const ProfilePage = () => {
                                  Save
                               </h2>
                               <p className="text-gray-500">
-                                 Save lineups that you want to view
-                                 again.
+                                 Save lineups that you want to view again.
                               </p>
                               <p className="text-gray-500">
                                  No one is notified, and only you can see what

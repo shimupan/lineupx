@@ -216,7 +216,11 @@ const Upload: React.FC = () => {
                               No
                            </button>
                         </div>
-                        <div className={`flex flex-col sm:flex-row space-y-4 ${state.mapName ? 'sm:space-x-8' : 'sm:space-x-4'} sm:space-y-0`}>
+                        <div
+                           className={`flex flex-col sm:flex-row space-y-4 ${
+                              state.mapName ? 'sm:space-x-8' : 'sm:space-x-4'
+                           } sm:space-y-0`}
+                        >
                            <div>
                               <label
                                  htmlFor="jumpThrow"

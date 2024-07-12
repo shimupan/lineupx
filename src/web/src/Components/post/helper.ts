@@ -30,7 +30,10 @@ export const incrementLikeCount = async (postId: string, user_Id: string) => {
       });
 };
 
-export const incrementDislikeCount = async (postId: string, user_Id: string) => {
+export const incrementDislikeCount = async (
+   postId: string,
+   user_Id: string,
+) => {
    axios
       .post(`/post/${postId}/increment-dislike`, {
          userId: user_Id,

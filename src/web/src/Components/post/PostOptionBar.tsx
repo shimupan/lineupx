@@ -10,7 +10,12 @@ interface PostOptionBarProps {
    style?: React.CSSProperties;
 }
 
-const PostOptionBar: React.FC<PostOptionBarProps> = ({ onClose, onReport, onShare, style }) => {
+const PostOptionBar: React.FC<PostOptionBarProps> = ({
+   onClose,
+   onReport,
+   onShare,
+   style,
+}) => {
    const ref = useRef<HTMLDivElement>(null);
    const Auth = useContext(AuthContext); // Use AuthContext to get the authentication status
 

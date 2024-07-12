@@ -77,7 +77,8 @@ const AdminPosts: React.FC = () => {
                                        Game: {p.game}
                                     </p>
                                     <p className="text-sm text-gray-400">
-                                       Date Uploaded: {new Date(p.date).toLocaleDateString(
+                                       Date Uploaded:{' '}
+                                       {new Date(p.date).toLocaleDateString(
                                           'en-US',
                                           {
                                              year: 'numeric',

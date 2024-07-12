@@ -1,9 +1,10 @@
-name: Deploy
+name: Deploy Server
 
 on:
-  push:
-    types:
-      - closed
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 jobs:
   build:
@@ -18,7 +19,9 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            cd /var/www/lineupx/lineupx/api
+            cd api
+            git reset --hard
             git pull origin main
             git status
             npm install
+            pm2 restart LineupX

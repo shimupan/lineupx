@@ -6,11 +6,7 @@ type PanelCardProps = {
    to: string;
 };
 
-const PanelCard: React.FC<PanelCardProps> = ({
-   name,
-   description,
-   to,
-}) => {
+const PanelCard: React.FC<PanelCardProps> = ({ name, description, to }) => {
    return (
       <>
          <div>

@@ -141,7 +141,7 @@ const About: React.FC = () => {
                </p>
             </div>
 
-           {/* Call to Action Section */}
+            {/* Call to Action Section */}
             <div
                className="text-center transition-opacity duration-300"
                style={{
@@ -166,7 +166,9 @@ const About: React.FC = () => {
                <div
                   className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 transition-transform duration-300"
                   style={{
-                     transform: `translateY(${scrollPosition > 500 ? 0 : -50}px)`, // Adjust -50 for desired offset
+                     transform: `translateY(${
+                        scrollPosition > 500 ? 0 : -50
+                     }px)`, // Adjust -50 for desired offset
                   }}
                >
                   <div className="flex items-center">

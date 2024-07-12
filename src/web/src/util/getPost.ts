@@ -40,7 +40,9 @@ export async function getPostByGrenade(
    try {
       let coords: Coordinate[] = [];
       const encodedGrenadeType = encodeURIComponent(grenadeType);
-      const res = await axios.get(`/grenade/${map}/${game}/${encodedGrenadeType}`);
+      const res = await axios.get(
+         `/grenade/${map}/${game}/${encodedGrenadeType}`,
+      );
       res.data.forEach((post: PostType) => {
          let coord: Coordinate = {
             x: post.lineupPositionCoords.x,
@@ -57,7 +59,10 @@ export async function getPostByGrenade(
    }
 }
 
-export async function getPostByMap(game: string, map: string): Promise<Coordinate[]> {
+export async function getPostByMap(
+   game: string,
+   map: string,
+): Promise<Coordinate[]> {
    try {
       let coords: Coordinate[] = [];
       const res = await axios.get(`/post/${game}?map=${map}`);
@@ -74,5 +79,5 @@ export async function getPostByMap(game: string, map: string): Promise<Coordinat
    } catch (error) {
       console.error(error);
       return [];
-   };
+   }
 }

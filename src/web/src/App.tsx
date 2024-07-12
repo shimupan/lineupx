@@ -194,7 +194,7 @@ function App() {
                   element={<ForgotPassword />}
                ></Route>
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
-               <Route path="/privatepolicy" element={<PrivatePolicy />}></Route> 
+               <Route path="/privatepolicy" element={<PrivatePolicy />}></Route>
                {role === 'admin' && Verified && (
                   <Route element={<RequireAuth allowedRoles={['admin']} />}>
                      <Route path="/admin" element={<AdminHome />}></Route>

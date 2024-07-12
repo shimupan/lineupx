@@ -65,8 +65,12 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
                />
             </div>
             {/* Replace the button text with an arrow icon */}
-            <button onClick={() => setOpen(false)} className="block text-sm font-medium text-gray-700">
-               <IoMdArrowBack className="inline mr-2" />Back
+            <button
+               onClick={() => setOpen(false)}
+               className="block text-sm font-medium text-gray-700"
+            >
+               <IoMdArrowBack className="inline mr-2" />
+               Back
             </button>
             <form onSubmit={handleSubmit} className="mt-4">
                <div className="mb-4">

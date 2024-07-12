@@ -4,7 +4,6 @@ import { getUserByUsername } from '../../util/getUser';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 
-
 function isAxiosError(error: unknown): error is AxiosError {
    return (error as AxiosError).response !== undefined;
 }
@@ -73,7 +72,8 @@ export const handleSubmit = async (
          lineupPositionCoords: state.lineupPositionCoords,
       });
       toast.update(id, {
-         render: 'Post Uploaded Successfully!. Your Lineup will be reviewed by our admins',
+         render:
+            'Post Uploaded Successfully!. Your Lineup will be reviewed by our admins',
          type: 'success',
          isLoading: false,
          autoClose: 1000,
@@ -81,7 +81,11 @@ export const handleSubmit = async (
       });
    } catch (error) {
       let errorMessage = 'Post Failed to Upload...';
-      if (isAxiosError(error) && error.response && error.response.status === 429) {
+      if (
+         isAxiosError(error) &&
+         error.response &&
+         error.response.status === 429
+      ) {
          if (typeof error.response.data === 'string') {
             errorMessage = error.response.data;
          }
