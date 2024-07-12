@@ -4,89 +4,127 @@ import { getAllUsers } from '../../util/getUser';
 import { Footer, Header, SideNavWrapper } from '../../Components';
 import { UserType } from '../../global.types';
 import { useNavigate } from 'react-router-dom';
+import { FaEnvelope, FaCheck, FaTimes } from 'react-icons/fa';
 
 const AdminUsers: React.FC = () => {
    const [users, setUsers] = useState<UserType[]>([]);
+   const [loading, setLoading] = useState(true);
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
+
    useEffect(() => {
       if (Auth?.role) {
+         setLoading(true);
          getAllUsers(Auth?.role)
             .then((response) => {
                setUsers(response);
+               setLoading(false);
             })
             .catch((error) => {
-               console.log(error);
+               console.error('Error fetching users:', error);
+               setLoading(false);
             });
       }
    }, [Auth?.role]);
+
    return (
-      <>
+      <div className="min-h-screen bg-gray-900 text-white">
          <Header />
-         <SideNavWrapper />
-         <div className="mt-8 mb-6 ml-2 sm:ml-10 md:ml-20 text-2xl sm:text-4xl md:text-5xl font-bold text-white">
-            Click on a User to get more actions.
-         </div>
-         <div className="mx-2 sm:mx-10 md:mx-20 overflow-x-auto">
-            <table className="w-full table-auto border-collapse text-white">
-               <thead className="bg-gray-700">
-                  <tr>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        #
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        ID
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Role
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Username
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Email
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Verified Status
-                     </th>
-                  </tr>
-               </thead>
-               <tbody className="cursor-pointer">
-                  {users.map((user, index) => (
-                     <tr
-                        className="border-b border-gray-600 transition duration-300 ease-in-out hover:bg-gray-600"
-                        onClick={() => {
-                           navigate(`/admin/user/${user.username}`, {
-                              state: user,
-                           });
-                        }}
-                        key={user._id}
-                     >
-                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                           {index}
-                        </td>
-                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                           {user._id}
-                        </td>
-                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                           {user.role}
-                        </td>
-                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                           {user.username}
-                        </td>
-                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                           {user.email}
-                        </td>
-                        <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                           {user.Verified ? 'Verified' : 'Not Verified'}
-                        </td>
-                     </tr>
-                  ))}
-               </tbody>
-            </table>
+         <div className="flex">
+            <SideNavWrapper />
+            <main className="flex-1 p-4 md:p-6 md:ml-32">
+               <h1 className="text-2xl md:text-3xl font-bold mb-6">
+                  User Management
+               </h1>
+               {loading ? (
+                  <div className="flex justify-center items-center h-64">
+                     <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                  </div>
+               ) : (
+                  <div className="bg-gray-800 shadow-md rounded-lg overflow-hidden">
+                     <div className="overflow-x-auto">
+                        <table className="w-full">
+                           <thead className="bg-gray-700">
+                              <tr>
+                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                    User
+                                 </th>
+                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                    Role
+                                 </th>
+                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                    Email
+                                 </th>
+                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                    Verified
+                                 </th>
+                              </tr>
+                           </thead>
+                           <tbody className="divide-y divide-gray-600">
+                              {users.map((user) => (
+                                 <tr
+                                    key={user._id}
+                                    className="hover:bg-gray-700 cursor-pointer transition-colors duration-200"
+                                    onClick={() =>
+                                       navigate(
+                                          `/admin/user/${user.username}`,
+                                          { state: user },
+                                       )
+                                    }
+                                 >
+                                    <td className="px-4 py-4 whitespace-nowrap">
+                                       <div className="flex items-center">
+                                          <div className="flex-shrink-0 h-10 w-10">
+                                             <img
+                                                className="h-10 w-10 rounded-full"
+                                                src={
+                                                   user.ProfilePicture ||
+                                                   `https://ui-avatars.com/api/?background=random&color=fff&name=${user.username}`
+                                                }
+                                                alt={user.username}
+                                             />
+                                          </div>
+                                          <div className="ml-4">
+                                             <div className="text-sm font-medium">
+                                                {user.username}
+                                             </div>
+                                             <div className="text-sm text-gray-400">
+                                                {user._id}
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </td>
+                                    <td className="px-4 py-4 whitespace-nowrap">
+                                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                          {user.role}
+                                       </span>
+                                    </td>
+                                    <td className="px-4 py-4 whitespace-nowrap">
+                                       <div className="flex items-center">
+                                          <FaEnvelope className="mr-2 text-gray-400" />
+                                          <span className="text-sm">
+                                             {user.email}
+                                          </span>
+                                       </div>
+                                    </td>
+                                    <td className="px-4 py-4 whitespace-nowrap">
+                                       {user.Verified ? (
+                                          <FaCheck className="text-green-500" />
+                                       ) : (
+                                          <FaTimes className="text-red-500" />
+                                       )}
+                                    </td>
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               )}
+            </main>
          </div>
          <Footer />
-      </>
+      </div>
    );
 };
 

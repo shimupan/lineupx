@@ -463,6 +463,38 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
    }
 });
 
+//endpoint to report a post
+router.post('/post/:id/report', async (req, res) => {
+   const { id } = req.params;
+   const { userId, reason } = req.body;
+   if (!reason) {
+      return res.status(400).send('Reason is required');
+   }
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const report = {
+         userId: userId,
+         reason: reason,
+         createdAt: new Date(),
+      };
+
+      post.reports.push(report);
+      await post.save();
+
+      res.status(200).send('Report submitted successfully');
+   } catch (error) {
+      console.error('Error reporting post:', error);
+      res.status(500).send({ error: 'Server Error' });
+   }
+});
+
 // Endpoint to add a comment to a post
 router.post('/post/:id/comment', async (req, res) => {
    const { id } = req.params;
@@ -493,6 +525,80 @@ router.post('/post/:id/comment', async (req, res) => {
    } catch (error) {
       console.error('Failed to add comment:', error);
       res.status(500).send('Server error');
+   }
+});
+
+//Endpoint to delete a specific comment
+router.delete('/post/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+   const { userId, role } = req.body;
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const commentIndex = post.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      if (commentIndex === -1) {
+         return res.status(404).send('Comment not found');
+      }
+
+      if (post.comments[commentIndex].user !== userId && role !== 'admin') {
+         return res.status(403).send('Unauthorized to delete this comment');
+      }
+
+      post.comments.splice(commentIndex, 1);
+
+      await post.save();
+
+      res.status(200).send('Comment deleted successfully');
+   } catch (error) {
+      console.error('Error deleting comment:', error);
+      res.status(500).send('Internal Server Error');
+   }
+});
+
+router.put('/post/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+   const { userId, role, text } = req.body;
+
+   if (!text) {
+      return res.status(400).send('Comment text is required');
+   }
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      const commentIndex = post.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      if (commentIndex === -1) {
+         return res.status(404).send('Comment not found');
+      }
+
+      if (post.comments[commentIndex].user !== userId && role !== 'admin') {
+         return res.status(403).send('Unauthorized to edit this comment');
+      }
+
+      post.comments[commentIndex].text = text;
+      await post.save();
+
+      res.status(200).send('Comment edited successfully');
+   } catch (error) {
+      console.error('Error editing comment:', error);
+      res.status(500).send('Internal Server Error');
    }
 });
 

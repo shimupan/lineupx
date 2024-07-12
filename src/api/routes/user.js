@@ -54,6 +54,34 @@ router.get('/user/id/:id', async (req, res) => {
    }
 });
 
+// Update user information
+router.patch('/user/:id', async (req, res) => {
+   const { id } = req.params;
+   const updateData = req.body;
+
+   try {
+      const user = await User.findById(id);
+
+      if (!user) {
+         return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Update only the fields that are provided in the request body
+      Object.keys(updateData).forEach((key) => {
+         if (user[key] !== undefined) {
+            user[key] = updateData[key];
+         }
+      });
+
+      await user.save();
+
+      res.status(200).json({ message: 'User updated successfully', user });
+   } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ message: 'Server error' });
+   }
+});
+
 // getting all users
 router.post('/user', async (req, res) => {
    const { role } = req.body;
@@ -96,6 +124,64 @@ router.post('/user/:id/comment', async (req, res) => {
    } catch (error) {
       console.error('Failed to add comment:', error);
       res.status(500).send('Server error');
+   }
+});
+
+router.delete('/user/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+
+   try {
+      const user = await User.findById(id);
+
+      if (!user) {
+         return res.status(404).send('User not found');
+      }
+
+      const commentIndex = user.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      if (commentIndex === -1) {
+         return res.status(404).send('Comment not found');
+      }
+
+      user.comments.splice(commentIndex, 1);
+
+      await user.save();
+
+      res.status(200).send('Comment deleted successfully from user');
+   } catch (error) {
+      console.error('Error deleting comment from user:', error);
+      res.status(500).send('Server error');
+   }
+});
+
+router.put('/user/:id/comment/:commentId', async (req, res) => {
+   const { id, commentId } = req.params;
+   const { text } = req.body;
+
+   if (!text) {
+      return res.status(400).send('Comment text is required');
+   }
+
+   try {
+      const user = await User.findById(id);
+
+      if (!user) {
+         return res.status(404).send('User not found');
+      }
+
+      const commentIndex = user.comments.findIndex(
+         (comment) => comment._id.toString() === commentId,
+      );
+
+      user.comments[commentIndex].text = text;
+      await user.save();
+
+      res.status(200).send('Comment edited successfully');
+   } catch (error) {
+      console.error('Error editing comment:', error);
+      res.status(500).send('Internal Server Error');
    }
 });
 

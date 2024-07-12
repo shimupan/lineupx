@@ -5,184 +5,184 @@ import { CDN_URL } from '../../Constants';
 import { PostType } from '../../global.types';
 import { approveRejectPosts } from '../../util/updatePost';
 import axios from 'axios';
-
-import { MdCancel, MdCheckCircle } from 'react-icons/md';
-
-export function expandPost(id: string) {
-   const element = document.getElementById(id);
-   if (element?.classList.contains('hidden')) {
-      element?.classList.remove('hidden');
-   } else {
-      element?.classList.add('hidden');
-   }
-}
+import {
+   MdCancel,
+   MdCheckCircle,
+   MdExpandMore,
+   MdExpandLess,
+} from 'react-icons/md';
 
 const AdminCheck: React.FC = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
+   const [expandedPost, setExpandedPost] = useState<string | null>(null);
    const Auth = useContext(AuthContext);
+
    useEffect(() => {
       if (Auth?.role) {
          axios
-            .post('/post/check', {
-               role: Auth?.role,
-            })
-            .then((response) => {
-               setPosts(response.data);
-            })
-            .catch((error) => {
-               console.log(error);
-            });
+            .post('/post/check', { role: Auth?.role })
+            .then((response) => setPosts(response.data))
+            .catch((error) => console.log(error));
       }
    }, [Auth?.role]);
 
-   function acceptPost(id: string, game: string) {
-      try {
-         approveRejectPosts(id, 'approve', game, Auth?.role!);
-         window.location.reload();
-      } catch (error) {
-         console.log(error);
-      }
-   }
+   const togglePost = (id: string) => {
+      setExpandedPost(expandedPost === id ? null : id);
+   };
 
-   function rejectPost(id: string, game: string) {
+   const handlePostAction = async (
+      id: string,
+      game: string,
+      action: 'approve' | 'reject',
+   ) => {
       try {
-         approveRejectPosts(id, 'reject', game, Auth?.role!);
-         window.location.reload();
+         await approveRejectPosts(id, action, game, Auth?.role!);
+         setPosts(
+            posts.map((gamePost) => gamePost.filter((p) => p._id !== id)),
+         );
       } catch (error) {
          console.log(error);
       }
-   }
+   };
 
    return (
-      <>
+      <div className="min-h-screen bg-gray-900 text-white">
          <Header />
-         <SideNavWrapper />
-         <div className="mt-8 mb-6 ml-2 sm:ml-10 md:ml-20 text-2xl sm:text-4xl md:text-5xl font-bold text-white">
-            Click on a Post to expand and view the images.
+         <div className="flex flex-col md:flex-row">
+            <SideNavWrapper />
+            <main className="flex-1 p-4 md:p-6 md:ml-32">
+               <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
+                  Posts Pending Approval
+               </h1>
+               <div className="bg-gray-800 shadow-md rounded-lg overflow-hidden">
+                  {posts.flat().map((p) => (
+                     <div
+                        key={p._id}
+                        className="border-b border-gray-700 last:border-b-0"
+                     >
+                        <div
+                           className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-700"
+                           onClick={() => togglePost(p._id)}
+                        >
+                           <div className="flex items-center space-x-4">
+                              <img
+                                 src={`${CDN_URL}/${p.landingPosition.public_id}.png`}
+                                 alt="Landing Position"
+                                 className="w-12 h-12 rounded-full object-cover"
+                              />
+                              <div>
+                                 <h3 className="font-medium">{p.postTitle}</h3>
+                                 <p className="text-sm text-gray-400">
+                                    {p.game} - {p.mapName}
+                                 </p>
+                              </div>
+                           </div>
+                           {expandedPost === p._id ? (
+                              <MdExpandLess size={24} />
+                           ) : (
+                              <MdExpandMore size={24} />
+                           )}
+                        </div>
+                        {expandedPost === p._id && (
+                           <div className="p-4 bg-gray-700">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                 <div>
+                                    <h4 className="font-semibold mb-2">
+                                       Post Details
+                                    </h4>
+                                    <p>Username: {p.Username}</p>
+                                    <p>Map: {p.mapName}</p>
+                                    <p>Team Side: {p.teamSide}</p>
+                                    <p>
+                                       Jump Throw: {p.jumpThrow ? 'Yes' : 'No'}
+                                    </p>
+                                    <p>
+                                       Date: {new Date(p.date).toLocaleString()}
+                                    </p>
+                                    <p>Lineup Location: {p.lineupLocation}</p>
+                                    <p>
+                                       Lineup Description: {p.lineupDescription}
+                                    </p>
+                                 </div>
+                                 <div>
+                                    <h4 className="font-semibold mb-2">
+                                       Game-Specific Details
+                                    </h4>
+                                    {p.game === 'CS2' ? (
+                                       <p>Grenade Type: {p.grenadeType}</p>
+                                    ) : (
+                                       <>
+                                          <p>
+                                             Valorant Agent: {p.valorantAgent}
+                                          </p>
+                                          <p>Ability: {p.ability}</p>
+                                       </>
+                                    )}
+                                 </div>
+                              </div>
+                              <div className="mb-4">
+                                 <h4 className="font-semibold mb-2">
+                                    Coordinates
+                                 </h4>
+                                 <p>
+                                    Lineup Location: X:{' '}
+                                    {p.lineupLocationCoords.x}, Y:{' '}
+                                    {p.lineupLocationCoords.y}
+                                 </p>
+                                 <p>
+                                    Lineup Position: X:{' '}
+                                    {p.lineupPositionCoords.x}, Y:{' '}
+                                    {p.lineupPositionCoords.y}
+                                 </p>
+                              </div>
+                              <div className="flex flex-nowrap overflow-x-auto mb-4 space-x-4">
+                                 {['landing', 'aiming', 'standing'].map(
+                                    (pos) => (
+                                       <img
+                                          key={pos}
+                                          src={`${CDN_URL}/${
+                                             (p as any)[`${pos}Position`]
+                                                .public_id
+                                          }.png`}
+                                          alt={`${pos} position`}
+                                          className="h-48 w-96 object-cover rounded-lg flex-shrink-0"
+                                       />
+                                    ),
+                                 )}
+                              </div>
+                              <div className="flex justify-center space-x-4">
+                                 <button
+                                    onClick={() =>
+                                       handlePostAction(
+                                          p._id,
+                                          p.game,
+                                          'approve',
+                                       )
+                                    }
+                                    className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                 >
+                                    <MdCheckCircle size={20} />
+                                    <span>Approve</span>
+                                 </button>
+                                 <button
+                                    onClick={() =>
+                                       handlePostAction(p._id, p.game, 'reject')
+                                    }
+                                    className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                 >
+                                    <MdCancel size={20} />
+                                    <span>Reject</span>
+                                 </button>
+                              </div>
+                           </div>
+                        )}
+                     </div>
+                  ))}
+               </div>
+            </main>
          </div>
-         <div className="mx-2 sm:mx-10 md:mx-20 overflow-x-auto">
-            <table className="w-full table-auto border-collapse text-white">
-               <thead className="bg-gray-700">
-                  <tr>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        #
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Game
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Title
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        UserID
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Landing Position
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Aiming Position
-                     </th>
-                     <th className="px-4 py-3 text-left text-sm sm:text-base md:text-lg font-medium">
-                        Standing Position
-                     </th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {posts.map((post, index) => {
-                     return (
-                        <React.Fragment key={index}>
-                           {post.map((p, index) => {
-                              return (
-                                 <React.Fragment key={p._id}>
-                                    <tr
-                                       className="border-b border-gray-600 transition duration-300 ease-in-out hover:bg-gray-600 cursor-pointer"
-                                       onClick={() => expandPost(p._id)}
-                                    >
-                                       <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                                          {index}
-                                       </td>
-                                       <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                                          {p.game}
-                                       </td>
-                                       <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                                          {p.postTitle}
-                                       </td>
-                                       <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                                          {p.UserID}
-                                       </td>
-                                       <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                                          <img
-                                             src={`${CDN_URL}/${p.landingPosition.public_id}.png`}
-                                             height={50}
-                                             width={25}
-                                             className="w-10"
-                                          />
-                                       </td>
-                                       <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                                          <img
-                                             src={`${CDN_URL}/${p.aimingPosition.public_id}.png`}
-                                             height={50}
-                                             width={25}
-                                             className="w-10"
-                                          />
-                                       </td>
-                                       <td className="px-4 py-3 text-sm sm:text-base md:text-lg font-medium">
-                                          <img
-                                             src={`${CDN_URL}/${p.standingPosition.public_id}.png`}
-                                             height={50}
-                                             width={25}
-                                             className="w-10"
-                                          />
-                                       </td>
-                                    </tr>
-                                    <tr id={p._id} className="hidden">
-                                       <td colSpan={7}>
-                                          <div className="flex mb-4 mt-4">
-                                             <img
-                                                src={`${CDN_URL}/${p.landingPosition.public_id}`}
-                                                className="w-128 h-64 object-contain"
-                                             />
-                                             <img
-                                                src={`${CDN_URL}/${p.aimingPosition.public_id}`}
-                                                className="ml-4 mr-4 w-128 h-64 object-contain"
-                                             />
-                                             <img
-                                                src={`${CDN_URL}/${p.standingPosition.public_id}`}
-                                                className="w-128 h-64 object-contain"
-                                             />
-                                             <div className="flex flex-col m-4 items-center">
-                                                <MdCheckCircle
-                                                   className="text-green-500 text-4xl cursor-pointer"
-                                                   onClick={() =>
-                                                      acceptPost(p._id, p.game)
-                                                   }
-                                                   size={100}
-                                                />
-                                                approve
-                                                <MdCancel
-                                                   className="text-red-500 text-4xl cursor-pointer"
-                                                   onClick={() =>
-                                                      rejectPost(p._id, p.game)
-                                                   }
-                                                   size={100}
-                                                />
-                                                reject
-                                             </div>
-                                          </div>
-                                       </td>
-                                    </tr>
-                                 </React.Fragment>
-                              );
-                           })}
-                        </React.Fragment>
-                     );
-                  })}
-               </tbody>
-            </table>
-         </div>
-
          <Footer />
-      </>
+      </div>
    );
 };
 
