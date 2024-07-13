@@ -35,6 +35,7 @@ import {
    PrivatePolicy,
    TOS,
    ManagePosts,
+   EditPosts,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -226,6 +227,7 @@ function App() {
                >
                   <Route path="/upload" element={<Upload />}></Route>
                   <Route path="/manage-posts/:id" element={<ManagePosts />} />
+                  <Route path="/edit-post/:postId" element={<EditPosts />} />
                </Route>
                <Route path="/google-callback" element={<GoogleCallBack />} />
                <Route path="/verifyemail" element={<VerifyEmail />} />

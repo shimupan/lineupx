@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
    Header,
@@ -87,9 +87,8 @@ const ManagePosts = () => {
       console.log('Delete post:', postId);
    };
 
-   const handleEdit = (postId: string) => {
-      // Implement edit functionality
-      console.log('Edit post:', postId);
+   const handleEdit = (post: PostType) => {
+      navigate(`/edit-post/${post._id}`, { state: { post } });
    };
 
    if (loading) return <Loading />;
@@ -171,7 +170,7 @@ const ManagePosts = () => {
                               </div>
                               <div className="w-1/5 text-center">
                                  <button
-                                    onClick={() => handleEdit(post._id)}
+                                    onClick={() => handleEdit(post)}
                                     className="text-yellow-400 hover:text-yellow-300 mr-3"
                                     title="Edit"
                                  >
