@@ -28,6 +28,8 @@ export { default as SearchResults } from './Pages/SearchResults/SearchResults';
 export { default as GuestPage } from './Pages/user/GuestProfilePage';
 export { default as PrivatePolicy } from './Pages/policies/PrivatePolicy';
 export { default as TOS } from './Pages/policies/TOS';
+export { default as ManagePosts } from './Pages/user/PostManagement/ManagePosts';
+
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';

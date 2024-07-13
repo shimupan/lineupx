@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
    Header,
    SideNavWrapper,
@@ -69,7 +69,7 @@ const ProfilePage = () => {
    const [selectedGame, setSelectedGame] = useState('Valorant');
    const [unapprovedPosts, setUnapprovedPosts] = useState<PostType[]>([]);
    const [savedPosts, setSavedPosts] = useState<PostType[]>([]);
-
+   const navigate = useNavigate();
    const totalViews = posts
       .flat()
       .reduce((total, post) => total + post.views, 0);
@@ -305,13 +305,29 @@ const ProfilePage = () => {
                            <p className="mt-2">{postCount} posts</p>
                            <p className="mt-2">{totalViews} views</p>
                            {Auth?.username === user.username && (
-                              <button
-                                 className="mt-4 flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
-                                 onClick={() => setOpen(!open)}
-                              >
-                                 <CiEdit className="text-white mr-2" />
-                                 Edit Profile
-                              </button>
+                              <>
+                                 <div className="flex items-center justify-center space-x-4">
+                                    <button
+                                       className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Adjusted padding to match
+                                       onClick={() => setOpen(!open)}
+                                    >
+                                       <CiEdit className="text-white mr-2" />
+                                       Edit Profile
+                                    </button>
+                                    <button
+                                       className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Made padding consistent with the first button
+                                       onClick={() =>
+                                          navigate(
+                                             `/manage-posts/${Auth?.username}`,
+                                          )
+                                       }
+                                    >
+                                       <div className="flex text-center items-center gap-x-1">
+                                          Manage Posts
+                                       </div>
+                                    </button>
+                                 </div>
+                              </>
                            )}
                         </div>
                      </div>

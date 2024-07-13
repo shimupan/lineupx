@@ -34,6 +34,7 @@ import {
    GuestPage,
    PrivatePolicy,
    TOS,
+   ManagePosts,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -224,6 +225,7 @@ function App() {
                   element={<RequireAuth allowedRoles={['user', 'admin']} />}
                >
                   <Route path="/upload" element={<Upload />}></Route>
+                  <Route path="/manage-posts/:id" element={<ManagePosts />} />
                </Route>
                <Route path="/google-callback" element={<GoogleCallBack />} />
                <Route path="/verifyemail" element={<VerifyEmail />} />
