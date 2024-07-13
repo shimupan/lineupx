@@ -22,18 +22,3 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: "--write src/**/*.{js,jsx,ts,tsx,json,css,md}"
-      
-      - name: Commit changes
-        if: success()
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Prettify Code"
-      
-      - name: Push changes
-        if: success()
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
