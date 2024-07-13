@@ -29,7 +29,13 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Prettify Code"
+          # Check if there are any changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0  # Exit successfully if there are no changes
+          else
+            git commit -m "Prettify Code"
+          fi
       
       - name: Push changes
         if: success()
