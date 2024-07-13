@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
-        with:
-          prettier_options: "--write src/**/*.{js,jsx,ts,tsx,json,css,md}"
+      - name: Prettify Code
+        run: |
+          npm install
+          npx prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,md}"
       
       - name: Commit changes
         if: success()
