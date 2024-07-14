@@ -135,9 +135,16 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                onMouseLeave={handleMouseLeave}
                className="relative"
             >
-               <div style={{ paddingBottom: '56.25%', position: 'relative' }}>
+               <div
+                  style={{
+                     paddingBottom: '56.25%',
+                     position: 'relative',
+                     backgroundColor: 'black', 
+                  }}
+                  className="rounded-lg overflow-hidden"
+               >
                   <img
-                     className="absolute top-0 left-0 w-full h-full object-cover bg-gray-400 rounded-lg cursor-pointer"
+                     className="absolute top-0 left-0 w-full h-full object-contain cursor-pointer"
                      src={`${CDN_URL}/${postData.landingPosition.public_id}`}
                      alt={postData.postTitle}
                      onClick={async () => {

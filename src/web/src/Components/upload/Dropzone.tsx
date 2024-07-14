@@ -100,7 +100,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
                   </svg>
                   <p className="mb-2 text-sm text-gray-500">
                      <span className="font-semibold">Click to upload</span> or
-                     drag and drop
+                     drag and drop. Preffered 16:9 aspect ratio.
                   </p>
                </div>
             )}

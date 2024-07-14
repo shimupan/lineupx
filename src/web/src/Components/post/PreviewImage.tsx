@@ -24,17 +24,21 @@ const PreviewImage: React.FC<PreviewImageProps> = ({
    }, [currentImage]);
 
    return (
-      <div className="absolute top-0 left-0 w-full max-h-80 min-w-[250px] min-h-[150px] rounded-lg cursor-pointer">
-         <img
-            src={`${CDN_URL}/${images[currentImage]}`}
-            alt="Preview"
-            className={`w-full max-h-80 min-w-[250px] min-h-[150px] rounded-lg cursor-pointer transition-all duration-500 ${
-               isAnimating
-                  ? 'opacity-0 transform scale-0.95'
-                  : 'opacity-100 transform scale-1'
-            }`}
-            onClick={onClick}
-         />
+      <div 
+         className="absolute top-0 left-0 w-full h-full bg-black rounded-lg cursor-pointer overflow-hidden"
+         onClick={onClick}
+      >
+         <div className="relative w-full h-full flex items-center justify-center">
+            <img
+               src={`${CDN_URL}/${images[currentImage]}`}
+               alt="Preview"
+               className={`max-w-full max-h-full object-contain transition-all duration-500 ${
+                  isAnimating
+                     ? 'opacity-0 transform scale-95'
+                     : 'opacity-100 transform scale-100'
+               }`}
+            />
+         </div>
       </div>
    );
 };

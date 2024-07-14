@@ -54,7 +54,7 @@ const EditPost: React.FC = () => {
    return (
       <>
          <Header />
-         <div className="min-h-screen bg-gray-900 text-white p-8">
+         <div className="min-h-screen text-white p-8">
             <h1 className="text-2xl font-bold mb-6">Edit Post</h1>
             <div className="flex flex-col md:flex-row gap-8">
                {/* Left side - Form */}
@@ -101,17 +101,22 @@ const EditPost: React.FC = () => {
                <div className="flex-1">
                   <h2 className="text-xl font-bold mb-4">Preview</h2>
                   <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4">
                         {(['landing', 'standing', 'aiming'] as const).map(
                            (pos) => (
-                              <div key={pos} className="aspect-w-16 aspect-h-9">
-                                 <img
-                                    src={`${CDN_URL}/${
-                                       post[`${pos}Position`].public_id
-                                    }.png`}
-                                    alt={`${pos} position`}
-                                    className="object-cover rounded-lg shadow-lg"
-                                 />
+                              <div
+                                 key={pos}
+                                 className="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden"
+                              >
+                                 <div className="flex items-center justify-center w-full h-full">
+                                    <img
+                                       src={`${CDN_URL}/${
+                                          post[`${pos}Position`].public_id
+                                       }.png`}
+                                       alt={`${pos} position`}
+                                       className="max-w-full max-h-full object-contain"
+                                    />
+                                 </div>
                               </div>
                            ),
                         )}

@@ -53,19 +53,30 @@ const AdminModifyPost = () => {
                   {post?.postTitle}
                </h1>
 
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                  {(['landing', 'aiming', 'standing'] as const).map((pos) => (
-                     <div key={pos} className="aspect-w-16 aspect-h-9">
+               <div className="flex flex-wrap justify-center gap-4 mb-4">
+                                    {['landing', 'aiming', 'standing'].map(
+                                       (pos) => (
+                                          <div
+                                             key={pos}
+                                             className="w-full md:w-96 h-54 bg-black rounded-lg overflow-hidden"
+                                             style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                aspectRatio: '16 / 9',
+                                             }}
+                                          >
                         <img
                            src={getPositionImage(
                               `${pos}Position` as PositionKey,
                            )}
                            alt={`${pos} position`}
-                           className="object-cover rounded-lg shadow-lg"
+                           className="w-full h-full object-contain"
                         />
-                     </div>
-                  ))}
-               </div>
+                                          </div>
+                                       ),
+                                    )}
+                                 </div>
 
                <div className="bg-gray-800 rounded-lg p-4 mb-8">
                   <h2 className="text-xl font-semibold mb-4">Post Details</h2>

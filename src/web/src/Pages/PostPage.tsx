@@ -338,8 +338,11 @@ const PostPage = () => {
                      style={{
                         position: 'relative',
                         width: '100%',
-                        paddingTop: '56.25%',
+                        paddingTop: '56.25%', 
+                        backgroundColor: 'black',
+                        overflow: 'hidden',
                      }}
+                     className="rounded-r-xl"
                      onMouseEnter={() =>
                         document
                            .getElementById('fullscreen-button')
@@ -369,12 +372,15 @@ const PostPage = () => {
                         alt={postData?.postTitle || currPostData?.postTitle}
                         style={{
                            position: 'absolute',
-                           top: 0,
-                           left: 0,
-                           width: '100%',
-                           height: '100%',
+                           top: '50%',
+                           left: '50%',
+                           transform: 'translate(-50%, -50%)',
+                           maxWidth: '100%',
+                           maxHeight: '100%',
+                           width: 'auto',
+                           height: 'auto',
                         }}
-                        className="rounded-r-xl cursor-pointer"
+                        className="cursor-pointer object-contain"
                      />
                      <button
                         id="fullscreen-button"
