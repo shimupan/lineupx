@@ -51,8 +51,6 @@ const AdminCheck: React.FC = () => {
          <div className="flex flex-col md:flex-row">
             <SideNavWrapper />
             <main className="flex-1 p-4 md:p-6 md:ml-32">
-               {' '}
-               {/* Reduced left margin */}
                <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                   Posts Pending Approval
                </h1>
@@ -75,7 +73,7 @@ const AdminCheck: React.FC = () => {
                               <div>
                                  <h3 className="font-medium">{p.postTitle}</h3>
                                  <p className="text-sm text-gray-400">
-                                    {p.game}
+                                    {p.game} - {p.mapName}
                                  </p>
                               </div>
                            </div>
@@ -87,6 +85,56 @@ const AdminCheck: React.FC = () => {
                         </div>
                         {expandedPost === p._id && (
                            <div className="p-4 bg-gray-700">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                 <div>
+                                    <h4 className="font-semibold mb-2">
+                                       Post Details
+                                    </h4>
+                                    <p>Username: {p.Username}</p>
+                                    <p>Map: {p.mapName}</p>
+                                    <p>Team Side: {p.teamSide}</p>
+                                    <p>
+                                       Jump Throw: {p.jumpThrow ? 'Yes' : 'No'}
+                                    </p>
+                                    <p>
+                                       Date: {new Date(p.date).toLocaleString()}
+                                    </p>
+                                    <p>Lineup Location: {p.lineupLocation}</p>
+                                    <p>
+                                       Lineup Description: {p.lineupDescription}
+                                    </p>
+                                 </div>
+                                 <div>
+                                    <h4 className="font-semibold mb-2">
+                                       Game-Specific Details
+                                    </h4>
+                                    {p.game === 'CS2' ? (
+                                       <p>Grenade Type: {p.grenadeType}</p>
+                                    ) : (
+                                       <>
+                                          <p>
+                                             Valorant Agent: {p.valorantAgent}
+                                          </p>
+                                          <p>Ability: {p.ability}</p>
+                                       </>
+                                    )}
+                                 </div>
+                              </div>
+                              <div className="mb-4">
+                                 <h4 className="font-semibold mb-2">
+                                    Coordinates
+                                 </h4>
+                                 <p>
+                                    Lineup Location: X:{' '}
+                                    {p.lineupLocationCoords.x}, Y:{' '}
+                                    {p.lineupLocationCoords.y}
+                                 </p>
+                                 <p>
+                                    Lineup Position: X:{' '}
+                                    {p.lineupPositionCoords.x}, Y:{' '}
+                                    {p.lineupPositionCoords.y}
+                                 </p>
+                              </div>
                               <div className="flex flex-nowrap overflow-x-auto mb-4 space-x-4">
                                  {['landing', 'aiming', 'standing'].map(
                                     (pos) => (
