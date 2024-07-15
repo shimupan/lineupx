@@ -12,7 +12,6 @@ import {
 } from '../../../Components';
 import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
 import { useLocalStorage } from '../../../hooks';
-import { FaSpinner } from 'react-icons/fa';
 
 const Valorant: React.FC = () => {
    const [open, setOpen] = useState<boolean>(true);
@@ -24,8 +23,6 @@ const Valorant: React.FC = () => {
    const [isLoading, setIsLoading] = useState(false);
 
    const pageRef = useRef(page);
-   const loadingTriggerRef = useRef<HTMLDivElement>(null);
-
    useEffect(() => {
       pageRef.current = page;
    }, [page]);
@@ -167,7 +164,6 @@ const Valorant: React.FC = () => {
          console.log(err);
       }
    };
-
    useEffect(() => {
       document.title = 'Valorant';
       getSuggestions();
@@ -176,40 +172,25 @@ const Valorant: React.FC = () => {
       setHasMore(true); // Reset loading state
    }, []);
 
-   useEffect(() => {
-      if (posts.length === 0 && hasMore) {
-         fetchData();
-      }
-   }, []);
-
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
    };
 
-   const handleObserver = (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0];
-      if (target.isIntersecting && hasMore && !isLoading) {
-         fetchData();
-      }
-   };
-
    useEffect(() => {
-      const observer = new IntersectionObserver(handleObserver, {
-         root: null,
-         rootMargin: '100px',
-         threshold: 0.1,
-      });
-
-      if (loadingTriggerRef.current) {
-         observer.observe(loadingTriggerRef.current);
-      }
-
-      return () => {
-         if (loadingTriggerRef.current) {
-            observer.unobserve(loadingTriggerRef.current);
-         }
+      const handleScroll = () => {
+         const threshold = 10;
+         if (
+            window.innerHeight + document.documentElement.scrollTop <
+               document.documentElement.offsetHeight - threshold ||
+            !hasMore ||
+            isLoading
+         )
+            return;
+         fetchData();
       };
-   }, [hasMore, isLoading]);
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, [hasMore, page, isLoading]);
 
    return (
       <>
@@ -257,14 +238,6 @@ const Valorant: React.FC = () => {
                      />
                   ))}
                </article>
-               <div
-                  ref={loadingTriggerRef}
-                  className="h-20 flex items-center justify-center"
-               >
-                  {isLoading && (
-                     <FaSpinner className="animate-spin text-4xl text-gray-500" />
-                  )}
-               </div>
             </main>
             <Footer className="mt-auto" />
          </div>

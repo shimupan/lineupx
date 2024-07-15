@@ -11,17 +11,18 @@ import {
    Carousel,
 } from '../../../Components';
 import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
-import { FaSpinner } from 'react-icons/fa';
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
    const [isLoading, setIsLoading] = useState(false);
+   /*
+   const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
+   const [searchTerm, setSearchTerm] = useState('');
+   */
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const pageRef = useRef(page);
-   const loadingTriggerRef = useRef<HTMLDivElement>(null);
-
    useEffect(() => {
       pageRef.current = page;
    }, [page]);
@@ -54,6 +55,7 @@ const CS2: React.FC = () => {
             setSuggestions((prevSuggestions) => [
                ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
             ]);
+            console.log(suggestions);
          })
          .catch((err) => {
             console.log(err);
@@ -66,6 +68,7 @@ const CS2: React.FC = () => {
       axios
          .get(`/post/CS2`)
          .then((res) => {
+            setIsLoading(false);
             const titles = res.data.map((post: PostType) => post.postTitle);
             const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
             const maps = [
@@ -95,40 +98,26 @@ const CS2: React.FC = () => {
       setHasMore(true); // Reset loading state
    }, []);
 
-   useEffect(() => {
-      if (posts.length === 0 && hasMore) {
-         fetchData();
-      }
-   }, []);
-
    const handleSearch = (value: string) => {
       value = value.toLowerCase();
    };
 
-   const handleObserver = (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0];
-      if (target.isIntersecting && hasMore && !isLoading) {
-         fetchData();
-      }
-   };
-
    useEffect(() => {
-      const observer = new IntersectionObserver(handleObserver, {
-         root: null,
-         rootMargin: '100px',
-         threshold: 0.1,
-      });
-
-      if (loadingTriggerRef.current) {
-         observer.observe(loadingTriggerRef.current);
-      }
-
-      return () => {
-         if (loadingTriggerRef.current) {
-            observer.unobserve(loadingTriggerRef.current);
-         }
+      const handleScroll = () => {
+         const threshold = 10;
+         if (
+            window.innerHeight + document.documentElement.scrollTop <
+               document.documentElement.offsetHeight - threshold ||
+            !hasMore ||
+            isLoading
+         )
+            return;
+         fetchData();
       };
-   }, [hasMore, isLoading]);
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, [hasMore, page, isLoading]);
 
    return (
       <div className="flex flex-col min-h-screen">
@@ -159,6 +148,7 @@ const CS2: React.FC = () => {
                   <Carousel images={CS2_MAPS} />
                </div>
             </div>
+            {/* TODO: STYLING BELOW */}
             <h1 className="text-3xl font-bold text-center mt-10 mb-5">
                Recently added Lineups
             </h1>
@@ -167,14 +157,6 @@ const CS2: React.FC = () => {
                   <Posts postData={post} key={post.landingPosition.asset_id} />
                ))}
             </article>
-            <div
-               ref={loadingTriggerRef}
-               className="h-20 flex items-center justify-center"
-            >
-               {isLoading && (
-                  <FaSpinner className="animate-spin text-4xl text-gray-500" />
-               )}
-            </div>
          </main>
          <Footer className="mt-auto" />
       </div>
