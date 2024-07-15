@@ -170,7 +170,7 @@ const Comments: React.FC<CommentProps> = ({
                         {timeAgo(new Date(comment.createdAt))}
                      </p>
                   </div>
-                  {Auth?._id === comment.user && (
+                  {Auth?._id === comment.user || Auth?.role === 'admin' && (
                      <div ref={threeDotsRef}>
                         <BsThreeDotsVertical
                            className="cursor-pointer"

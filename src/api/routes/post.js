@@ -564,6 +564,36 @@ router.delete('/post/:id/comment/:commentId', async (req, res) => {
    }
 });
 
+router.put('/post/:id', async (req, res) => {
+   const { id } = req.params;
+   const { userId, postTitle, lineupDescription, role } = req.body;
+
+   try {
+
+      const PostData = mongoose.model('PostData', PostDataSchema);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      if (post.toString() !== userId || role !== 'admin') {
+         return res.status(403).json({ message: 'User not authorized to edit this post' });
+      }
+      if(postTitle) post.postTitle = postTitle;
+      if(lineupDescription) post.lineupDescription = lineupDescription;
+
+      const updatedPost = await post.save();
+
+      res.status(200).json(updatedPost);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+   }
+});
+
+
+
 router.put('/post/:id/comment/:commentId', async (req, res) => {
    const { id, commentId } = req.params;
    const { userId, role, text } = req.body;
