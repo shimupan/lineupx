@@ -102,9 +102,10 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
 
    const incrementViewCount = async () => {
       axios
-         .post(`/post/${postData._id}/increment-view-count`, {
-            userId: user_Id,
+         .post(`/post/${postData._id}/increment-view-count`,{
+            game: postData.game,
          })
+
          .then((response) => {
             console.log('Successfully incremented view count:', response);
          })
