@@ -499,14 +499,14 @@ router.post('/post/:id/report', async (req, res) => {
 // Endpoint to add a comment to a post
 router.post('/post/:id/comment', async (req, res) => {
    const { id } = req.params;
-   const { username, userId, text } = req.body;
+   const { username, userId, text, game} = req.body;
 
    if (!text) {
       return res.status(400).send('Comment text is required');
    }
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema);
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
       const post = await PostData.findById(id);
 
       if (!post) {
@@ -606,11 +606,10 @@ router.put('/post/:id/comment/:commentId', async (req, res) => {
 // Increment like count for a specific post
 router.post('/post/:id/increment-like', async (req, res) => {
    const { id } = req.params;
-   const { userId } = req.body;
-
-   const PostData = mongoose.model('PostData', PostDataSchema);
+   const { userId, game } = req.body;
 
    try {
+      const PostData = mongoose.model('PostData', PostDataSchema);
       const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');
@@ -646,11 +645,10 @@ router.post('/post/:id/increment-like', async (req, res) => {
 // Increment dislike count for a specific post
 router.post('/post/:id/increment-dislike', async (req, res) => {
    const { id } = req.params;
-   const { userId } = req.body;
-
-   const PostData = mongoose.model('PostData', PostDataSchema);
+   const { userId, game} = req.body;
 
    try {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
       const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');

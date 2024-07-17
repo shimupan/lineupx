@@ -226,6 +226,7 @@ const PostPage = () => {
                   text: newComment,
                   userId: user_Id,
                   username: Auth?.username,
+                  game: postData?.game || currPostData?.game,
                },
             );
             const userResponse = await axios.post(`/user/${user_Id}/comment`, {
@@ -516,6 +517,7 @@ const PostPage = () => {
                                  incrementLikeCount(
                                     postData?._id || currPostData?._id,
                                     user_Id!,
+                                    postData?.game || currPostData?.game,
                                  );
                                  setIsLiked(true);
                                  setIsDisliked(false);
@@ -539,6 +541,7 @@ const PostPage = () => {
                                  incrementDislikeCount(
                                     postData?._id || currPostData?._id,
                                     user_Id!,
+                                    postData?.game || currPostData?.game,
                                  );
                                  setIsDisliked(true);
                                  setIsLiked(false);
