@@ -1,17 +1,16 @@
-// src/Components/EditPost.tsx
-
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { PostType } from '../../../global.types';
 import { toast } from 'react-toastify';
 import { Header, Footer } from '../../../Components';
 import { CDN_URL } from '../../../Constants';
 import { FaEye, FaThumbsUp, FaThumbsDown, FaComment } from 'react-icons/fa';
+import { AuthContext } from '../../../App';
 
 const EditPost: React.FC = () => {
    const { postId } = useParams<{ postId: string }>();
-   const navigate = useNavigate();
+   const Auth = useContext(AuthContext);
    const location = useLocation();
    const [post, setPost] = useState<PostType | null>(
       location.state?.post || null,
@@ -36,14 +35,19 @@ const EditPost: React.FC = () => {
       }
    }, [postId, post]);
 
-   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+   const handleSubmit = async (event: React.FormEvent) => {
+      event.preventDefault();
       try {
-         await axios.put(`/post/${postId}`, post);
+         await axios.put(`/post/${postId}`, {
+            game: post?.game,
+            userId: post?.UserID,
+            postTitle: post?.postTitle,
+            lineupDescription: post?.lineupDescription,
+            role: Auth?.role,
+         });
          toast.success('Post updated successfully');
-         navigate(-1);
       } catch (error) {
-         toast.error('Error updating post');
+         toast.error('Failed to update post');
          console.error('Error updating post:', error);
       }
    };
@@ -111,7 +115,7 @@ const EditPost: React.FC = () => {
                                  <div className="flex items-center justify-center w-full h-full">
                                     <img
                                        src={`${CDN_URL}/${
-                                          post[`${pos}Position`].public_id
+                                          post[`${pos}Position`]?.public_id
                                        }.png`}
                                        alt={`${pos} position`}
                                        className="max-w-full max-h-full object-contain"

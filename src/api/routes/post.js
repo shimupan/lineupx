@@ -566,20 +566,19 @@ router.delete('/post/:id/comment/:commentId', async (req, res) => {
 
 router.put('/post/:id', async (req, res) => {
    const { id } = req.params;
-   const { userId, postTitle, lineupDescription, role } = req.body;
+   const { userId, postTitle, lineupDescription, role, game} = req.body;
 
    try {
-
-      const PostData = mongoose.model('PostData', PostDataSchema);
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
       const post = await PostData.findById(id);
 
       if (!post) {
          return res.status(404).send('Post not found');
       }
 
-      if (post.toString() !== userId || role !== 'admin') {
+      if (post.UserID.toString() !== userId.toString() || role !== 'admin') {
          return res.status(403).json({ message: 'User not authorized to edit this post' });
-      }
+     }
       if(postTitle) post.postTitle = postTitle;
       if(lineupDescription) post.lineupDescription = lineupDescription;
 
