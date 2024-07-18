@@ -3,7 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { PostType } from '../../../global.types';
 import { toast } from 'react-toastify';
-import { Header, Footer } from '../../../Components';
+import { Header, Footer, Dropzone } from '../../../Components';
 import { CDN_URL } from '../../../Constants';
 import { FaEye, FaThumbsUp, FaThumbsDown, FaComment } from 'react-icons/fa';
 import { AuthContext } from '../../../App';
@@ -12,10 +12,12 @@ const EditPost: React.FC = () => {
    const { postId } = useParams<{ postId: string }>();
    const Auth = useContext(AuthContext);
    const location = useLocation();
-   const [post, setPost] = useState<PostType | null>(
-      location.state?.post || null,
-   );
+   const [post, setPost] = useState<PostType | null>(location.state?.post || null);
    const [loading, setLoading] = useState(!location.state?.post);
+   const [standingPosition, setStandingPosition] = useState<string>('');
+   const [aimingPosition, setAimingPosition] = useState<string>('');
+   const [landingPosition, setLandingPosition] = useState<string>('');
+
 
    useEffect(() => {
       if (!post) {
@@ -44,6 +46,11 @@ const EditPost: React.FC = () => {
             postTitle: post?.postTitle,
             lineupDescription: post?.lineupDescription,
             role: Auth?.role,
+            jumpThrow: post?.jumpThrow,
+            teamSide: post?.teamSide,
+            aimingPosition: aimingPosition,
+            standingPosition: standingPosition,
+            landingPosition: landingPosition,
          });
          toast.success('Post updated successfully');
       } catch (error) {
@@ -51,6 +58,7 @@ const EditPost: React.FC = () => {
          console.error('Error updating post:', error);
       }
    };
+
 
    if (loading) return <div>Loading...</div>;
    if (!post) return <div>Post not found</div>;
@@ -71,9 +79,7 @@ const EditPost: React.FC = () => {
                         type="text"
                         id="postTitle"
                         value={post.postTitle}
-                        onChange={(e) =>
-                           setPost({ ...post, postTitle: e.target.value })
-                        }
+                        onChange={(e) => setPost({ ...post, postTitle: e.target.value })}
                         className="w-full bg-gray-800 rounded p-2"
                      />
                   </div>
@@ -84,15 +90,58 @@ const EditPost: React.FC = () => {
                      <textarea
                         id="description"
                         value={post.lineupDescription}
-                        onChange={(e) =>
-                           setPost({
-                              ...post,
-                              lineupDescription: e.target.value,
-                           })
-                        }
+                        onChange={(e) => setPost({ ...post, lineupDescription: e.target.value })}
                         className="w-full bg-gray-800 rounded p-2 h-32"
                      />
                   </div>
+                  <div>
+                     <label htmlFor="jumpThrow" className="block mb-2">
+                        Is the Lineup A Jump Throw?
+                     </label>
+                     <select
+                        id="jumpThrow"
+                        value={post.jumpThrow}
+                        onChange={(e) => setPost({ ...post, jumpThrow: e.target.value })}
+                        className="w-full bg-gray-800 text-white rounded p-2"
+                     >
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                     </select>
+                  </div>
+                  <div>
+                     <label htmlFor="teamSide" className="block mb-2">
+                        Teamside
+                     </label>
+                     <select
+                        id="teamSide"
+                        value={post.teamSide}
+                        onChange={(e) => setPost({ ...post, teamSide: e.target.value })}
+                        className="w-full bg-gray-800 text-white rounded p-2"
+                     >
+                        {post.game === 'Valorant' ? (
+                           <>
+                              <option value="Attacker">Attacker</option>
+                              <option value="Defender">Defender</option>
+                           </>
+                        ) : post.game === 'CS2' ? (
+                           <>
+                              <option value="CT">CT</option>
+                              <option value="T">T</option>
+                           </>
+                        ) : null}
+                     </select>
+                  </div>
+
+                  {/* Dropzone for each image position */}
+                  <div className="space-y-4">
+                     <label>Landing Position</label>
+                     <Dropzone setFile={setLandingPosition} />
+                     <label>Standing Position</label>
+                     <Dropzone setFile={setStandingPosition} />
+                     <label>Aiming Position</label>
+                     <Dropzone setFile={setAimingPosition} />
+                  </div>
+
                   <button
                      type="submit"
                      className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
@@ -106,40 +155,29 @@ const EditPost: React.FC = () => {
                   <h2 className="text-xl font-bold mb-4">Preview</h2>
                   <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4">
-                        {(['landing', 'standing', 'aiming'] as const).map(
-                           (pos) => (
-                              <div
-                                 key={pos}
-                                 className="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden"
-                              >
-                                 <div className="flex items-center justify-center w-full h-full">
-                                    <img
-                                       src={`${CDN_URL}/${
-                                          post[`${pos}Position`]?.public_id
-                                       }.png`}
-                                       alt={`${pos} position`}
-                                       className="max-w-full max-h-full object-contain"
-                                    />
-                                 </div>
+                        {(['landing', 'standing', 'aiming'] as const).map((pos) => (
+                           <div
+                              key={pos}
+                              className="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden"
+                           >
+                              <div className="flex items-center justify-center w-full h-full">
+                                 <img
+                                    src={`${CDN_URL}/${post[`${pos}Position`]?.public_id}.png`}
+                                    alt={`${pos} position`}
+                                    className="max-w-full max-h-full object-contain"
+                                 />
                               </div>
-                           ),
-                        )}
+                           </div>
+                        ))}
                      </div>
                      <div className="p-4">
-                        <h3 className="text-lg font-semibold mb-2">
-                           {post.postTitle}
-                        </h3>
-                        <p className="text-gray-400 mb-2">
-                           {post.lineupDescription}
-                        </p>
+                        <h3 className="text-lg font-semibold mb-2">{post.postTitle}</h3>
+                        <p className="text-gray-400 mb-2">{post.lineupDescription}</p>
                         <div className="flex items-center text-sm text-gray-500 mb-2">
                            <FaEye className="mr-1" /> {post.views || 0}
-                           <FaThumbsUp className="ml-4 mr-1" />{' '}
-                           {post.likes?.length || 0}
-                           <FaThumbsDown className="ml-4 mr-1" />{' '}
-                           {post.dislikes?.length || 0}
-                           <FaComment className="ml-4 mr-1" />{' '}
-                           {post.comments.length || 0}
+                           <FaThumbsUp className="ml-4 mr-1" /> {post.likes?.length || 0}
+                           <FaThumbsDown className="ml-4 mr-1" /> {post.dislikes?.length || 0}
+                           <FaComment className="ml-4 mr-1" /> {post.comments.length || 0}
                         </div>
                      </div>
                   </div>

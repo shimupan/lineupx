@@ -338,7 +338,7 @@ const PostPage = () => {
                      style={{
                         position: 'relative',
                         width: '100%',
-                        paddingTop: '56.25%', 
+                        paddingTop: '56.25%',
                         backgroundColor: 'black',
                         overflow: 'hidden',
                      }}
@@ -579,6 +579,11 @@ const PostPage = () => {
                            year: 'numeric',
                         })}
                      </p>
+                     {postData.jumpThrow && (
+                        <i className="italic ml-16">
+                           Lineup requires jump throw
+                        </i>
+                     )}
                   </div>
                   {postData?.lineupDescription ||
                      currPostData?.lineupDescription}

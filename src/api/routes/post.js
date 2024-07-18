@@ -566,7 +566,18 @@ router.delete('/post/:id/comment/:commentId', async (req, res) => {
 
 router.put('/post/:id', async (req, res) => {
    const { id } = req.params;
-   const { userId, postTitle, lineupDescription, role, game} = req.body;
+   const {
+      userId,
+      postTitle,
+      lineupDescription,
+      role,
+      game,
+      jumpThrow,
+      teamSide,
+      standingPosition,
+      aimingPosition,
+      landingPosition,
+   } = req.body;
 
    try {
       const PostData = mongoose.model('PostData', PostDataSchema, game);
@@ -576,11 +587,72 @@ router.put('/post/:id', async (req, res) => {
          return res.status(404).send('Post not found');
       }
 
-      if (post.UserID.toString() !== userId.toString() || role !== 'admin') {
+      if (post.UserID.toString() !== userId.toString() && role !== 'admin') {
          return res.status(403).json({ message: 'User not authorized to edit this post' });
-     }
-      if(postTitle) post.postTitle = postTitle;
-      if(lineupDescription) post.lineupDescription = lineupDescription;
+      }
+
+      // Function to delete Cloudinary image by public_id
+      
+      async function deleteCloudinaryImage(public_id) {
+         try {
+            await cloudinaryObject.uploader.destroy(public_id);
+            console.log(`Deleted image with public_id: ${public_id}`);
+         } catch (error) {
+            console.error(`Error deleting image with public_id ${public_id}:`, error);
+         }
+      }
+      
+
+      // Delete old images if new ones are provided
+      if (standingPosition && post.standingPosition) {
+         await deleteCloudinaryImage(post.standingPosition.public_id);
+      }
+      if (aimingPosition && post.aimingPosition) {
+         await deleteCloudinaryImage(post.aimingPosition.public_id);
+      }
+      if (landingPosition && post.landingPosition) {
+         await deleteCloudinaryImage(post.landingPosition.public_id);
+      }
+      
+
+      // Prepare updated fields
+      if (postTitle) post.postTitle = postTitle;
+      if (lineupDescription) post.lineupDescription = lineupDescription;
+      if (jumpThrow) post.jumpThrow = jumpThrow;
+      if (teamSide) post.teamSide = teamSide;
+      
+      
+      // Update cloudinary images if provided
+      if (standingPosition) {
+         const uploadStandingPosition = await cloudinaryObject.uploader.upload(
+            standingPosition,
+            { folder: game }
+         );
+         post.standingPosition = {
+            public_id: uploadStandingPosition.public_id,
+            asset_id: uploadStandingPosition.asset_id,
+         };
+      }
+      if (aimingPosition) {
+         const uploadAimingPosition = await cloudinaryObject.uploader.upload(
+            aimingPosition,
+            { folder: game }
+         );
+         post.aimingPosition = {
+            public_id: uploadAimingPosition.public_id,
+            asset_id: uploadAimingPosition.asset_id,
+         };
+      }
+      if (landingPosition) {
+         const uploadLandingPosition = await cloudinaryObject.uploader.upload(
+            landingPosition,
+            { folder: game }
+         );
+         post.landingPosition = {
+            public_id: uploadLandingPosition.public_id,
+            asset_id: uploadLandingPosition.asset_id,
+         };
+      }
 
       const updatedPost = await post.save();
 
