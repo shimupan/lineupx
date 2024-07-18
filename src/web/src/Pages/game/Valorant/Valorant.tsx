@@ -27,81 +27,97 @@ const Valorant: React.FC = () => {
       pageRef.current = page;
    }, [page]);
 
-   // Function to fetch data
-   const fetchData = async () => {
+   const fetchInitialData = async () => {
       setIsLoading(true);
-      const currentPage = pageRef.current;
       try {
          const postsResponse = await axios.get(
-            `/post/Valorant?page=${currentPage}&limit=20&recent=true`,
+            '/post/Valorant?page=1&limit=20&recent=true',
          );
-         if (postsResponse.data.length > 0) {
-            setPosts((prevPosts) =>
-               [...prevPosts, ...postsResponse.data].reverse(),
-            );
-            setPage((prevPage) => prevPage + 1);
-         } else {
-            setHasMore(false);
-         }
+         setPosts(postsResponse.data.reverse());
+         setPage(2);
+         setHasMore(postsResponse.data.length === 20);
          setIsLoading(false);
-         const titles = postsResponse.data.map(
-            (post: PostType) => `${post.postTitle}`,
-         );
-
-         const agentsResponse = await axios.get(
-            'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
-         );
-
-         const mapsResponse = await fetch('https://valorant-api.com/v1/maps');
-         const mapsData = await mapsResponse.json();
-         const mapTitles = mapsData.data.map(
-            (map: { displayName: string }) => `${map.displayName}`,
-         );
-
-         // Extract displayNames for suggestions
-         const displayNames = agentsResponse.data.data.map(
-            (agent: { displayName: string }) => `${agent.displayName}`,
-         );
-
-         const abilities = agentsResponse.data.data.flatMap(
-            (agent: {
-               displayName: string;
-               abilities: {
-                  displayName: string;
-               }[];
-            }) => {
-               return agent.abilities.map(
-                  (ability) => `${ability.displayName}`,
-               );
-            },
-         );
-
-         const itemsToRemove = [
-            'The Range',
-            'Kasbah',
-            'District',
-            'Piazza',
-            'Drift',
-         ].map((item) => item.toLowerCase().trim());
-         const filteredSuggestions = suggestions.filter(
-            (suggestion) =>
-               !itemsToRemove.includes(suggestion.toLowerCase().trim()),
-         );
-         setSuggestions((prevSuggestions) => [
-            ...new Set([
-               ...titles,
-               ...prevSuggestions,
-               ...mapTitles,
-               ...displayNames,
-               ...abilities,
-               ...filteredSuggestions,
-            ]),
-         ]);
       } catch (err) {
          console.log(err);
          setHasMore(false);
          setIsLoading(false);
       }
+   };
+   // Function to fetch data
+   const fetchData = async () => {
+      setIsLoading(true);
+      const currentPage = pageRef.current;
+      axios
+         .get(`/post/Valorant?page=${currentPage}&limit=20&recent=true`)
+         .then(async (res) => {
+            if (res.data.length > 0) {
+               setPosts((prevPosts) => [...prevPosts, ...res.data.reverse()]);
+               setPage((prevPage) => prevPage + 1);
+            } else {
+               setHasMore(false);
+            }
+            setIsLoading(false);
+            const titles = res.data.map(
+               (post: PostType) => `${post.postTitle}`,
+            );
+
+            const agentsResponse = await axios.get(
+               'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
+            );
+
+            const mapsResponse = await fetch(
+               'https://valorant-api.com/v1/maps',
+            );
+            const mapsData = await mapsResponse.json();
+            const mapTitles = mapsData.data.map(
+               (map: { displayName: string }) => `${map.displayName}`,
+            );
+
+            // Extract displayNames for suggestions
+            const displayNames = agentsResponse.data.data.map(
+               (agent: { displayName: string }) => `${agent.displayName}`,
+            );
+
+            const abilities = agentsResponse.data.data.flatMap(
+               (agent: {
+                  displayName: string;
+                  abilities: {
+                     displayName: string;
+                  }[];
+               }) => {
+                  return agent.abilities.map(
+                     (ability) => `${ability.displayName}`,
+                  );
+               },
+            );
+
+            const itemsToRemove = [
+               'The Range',
+               'Kasbah',
+               'District',
+               'Piazza',
+               'Drift',
+            ].map((item) => item.toLowerCase().trim());
+            const filteredSuggestions = suggestions.filter(
+               (suggestion) =>
+                  !itemsToRemove.includes(suggestion.toLowerCase().trim()),
+            );
+            setSuggestions((prevSuggestions) => [
+               ...new Set([
+                  ...titles,
+                  ...prevSuggestions,
+                  ...mapTitles,
+                  ...displayNames,
+                  ...abilities,
+                  ...filteredSuggestions,
+               ]),
+            ]);
+         })
+         .catch((err) => {
+            console.log(err);
+            setHasMore(false);
+            setIsLoading(false);
+         });
    };
 
    const getSuggestions = async () => {
@@ -167,9 +183,7 @@ const Valorant: React.FC = () => {
    useEffect(() => {
       document.title = 'Valorant';
       getSuggestions();
-      setPosts([]); // Reset posts when component mounts
-      setPage(1); // Reset to first page
-      setHasMore(true); // Reset loading state
+      fetchInitialData();
    }, []);
 
    const handleSearch = (value: string) => {
@@ -230,7 +244,7 @@ const Valorant: React.FC = () => {
                <h1 className="text-3xl font-bold text-center mt-10 mb-5">
                   Recently added Lineups
                </h1>
-               <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+               <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
                   {posts.map((post) => (
                      <Posts
                         postData={post}

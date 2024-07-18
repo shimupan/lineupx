@@ -27,6 +27,23 @@ const CS2: React.FC = () => {
       pageRef.current = page;
    }, [page]);
 
+   const fetchInitialData = async () => {
+      setIsLoading(true);
+      try {
+         const postsResponse = await axios.get(
+            '/post/CS2?page=1&limit=20&recent=true',
+         );
+         setPosts(postsResponse.data.reverse());
+         setPage(2);
+         setHasMore(postsResponse.data.length === 20);
+         setIsLoading(false);
+      } catch (err) {
+         console.log(err);
+         setHasMore(false);
+         setIsLoading(false);
+      }
+   };
+
    const fetchData = () => {
       setIsLoading(true);
       const currentPage = pageRef.current;
@@ -55,7 +72,6 @@ const CS2: React.FC = () => {
             setSuggestions((prevSuggestions) => [
                ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
             ]);
-            console.log(suggestions);
          })
          .catch((err) => {
             console.log(err);
@@ -93,9 +109,7 @@ const CS2: React.FC = () => {
    useEffect(() => {
       document.title = 'CS2';
       getSuggestions();
-      setPosts([]); // Reset posts when component mounts
-      setPage(1); // Reset to first page
-      setHasMore(true); // Reset loading state
+      fetchInitialData();
    }, []);
 
    const handleSearch = (value: string) => {
@@ -152,7 +166,7 @@ const CS2: React.FC = () => {
             <h1 className="text-3xl font-bold text-center mt-10 mb-5">
                Recently added Lineups
             </h1>
-            <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+            <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
                {posts.map((post) => (
                   <Posts postData={post} key={post.landingPosition.asset_id} />
                ))}
