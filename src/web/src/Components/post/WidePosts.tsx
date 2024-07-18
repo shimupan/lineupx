@@ -51,9 +51,9 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
    };
 
    const handlePostClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-     event.preventDefault();
-     incrementViewCount();
-     window.location.href = `/game/${post.game}/${post._id}`;
+      event.preventDefault();
+      incrementViewCount();
+      window.location.href = `/game/${post.game}/${post._id}`;
    };
 
    const copyPostLinkToClipboard = async () => {

@@ -259,7 +259,7 @@ const PostPage = () => {
 
    const incrementViewCount = async () => {
       axios
-         .post(`/post/${postData._id}/increment-view-count`,{
+         .post(`/post/${postData._id}/increment-view-count`, {
             game: postData.game || currPostData?.game,
          })
 

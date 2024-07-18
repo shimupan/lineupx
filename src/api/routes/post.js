@@ -499,7 +499,7 @@ router.post('/post/:id/report', async (req, res) => {
 // Endpoint to add a comment to a post
 router.post('/post/:id/comment', async (req, res) => {
    const { id } = req.params;
-   const { username, userId, text, game} = req.body;
+   const { username, userId, text, game } = req.body;
 
    if (!text) {
       return res.status(400).send('Comment text is required');
@@ -645,7 +645,7 @@ router.post('/post/:id/increment-like', async (req, res) => {
 // Increment dislike count for a specific post
 router.post('/post/:id/increment-dislike', async (req, res) => {
    const { id } = req.params;
-   const { userId, game} = req.body;
+   const { userId, game } = req.body;
 
    try {
       const PostData = mongoose.model('PostData', PostDataSchema, game);
