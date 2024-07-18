@@ -257,8 +257,23 @@ const PostPage = () => {
       );
    };
 
+   const incrementViewCount = async () => {
+      axios
+         .post(`/post/${postData._id}/increment-view-count`,{
+            game: postData.game || currPostData?.game,
+         })
+
+         .then((response) => {
+            console.log('Successfully incremented view count:', response);
+         })
+         .catch((error) => {
+            console.error('Failed to increment view count:', error);
+         });
+   };
+
    useEffect(() => {
       fetchComments();
+      incrementViewCount();
    }, []);
 
    useEffect(() => {
