@@ -19,6 +19,9 @@ const EditPost: React.FC = () => {
    const [standingPosition, setStandingPosition] = useState<string>('');
    const [aimingPosition, setAimingPosition] = useState<string>('');
    const [landingPosition, setLandingPosition] = useState<string>('');
+   const [standingPreview, setStandingPreview] = useState<string | null>(null);
+   const [aimingPreview, setAimingPreview] = useState<string | null>(null);
+   const [landingPreview, setLandingPreview] = useState<string | null>(null);
 
    useEffect(() => {
       if (!post) {
@@ -159,16 +162,19 @@ const EditPost: React.FC = () => {
                               {position} Position
                            </label>
                            <Dropzone
-                              setFile={(file) => {
+                              setFile={(file, preview) => {
                                  switch (position) {
                                     case 'Landing':
                                        setLandingPosition(file);
+                                       setLandingPreview(preview);
                                        break;
                                     case 'Standing':
                                        setStandingPosition(file);
+                                       setStandingPreview(preview);
                                        break;
                                     case 'Aiming':
                                        setAimingPosition(file);
+                                       setAimingPreview(preview);
                                        break;
                                  }
                               }}
@@ -203,8 +209,22 @@ const EditPost: React.FC = () => {
                                  }}
                               >
                                  <img
-                                    src={`${CDN_URL}/${post[`${pos}Position`]
-                                       ?.public_id}.png`}
+                                    src={
+                                       pos === 'standing' && standingPreview
+                                          ? standingPreview
+                                          : pos === 'aiming' && aimingPreview
+                                            ? aimingPreview
+                                            : pos === 'landing' &&
+                                                landingPreview
+                                              ? landingPreview
+                                              : post[`${pos}Position`]
+                                                     ?.public_id
+                                                ? `${CDN_URL}/${
+                                                     post[`${pos}Position`]
+                                                        .public_id
+                                                  }.png`
+                                                : ''
+                                    }
                                     alt={`${pos} position`}
                                     className="object-contain w-full h-full"
                                  />
