@@ -588,20 +588,24 @@ router.put('/post/:id', async (req, res) => {
       }
 
       if (post.UserID.toString() !== userId.toString() && role !== 'admin') {
-         return res.status(403).json({ message: 'User not authorized to edit this post' });
+         return res
+            .status(403)
+            .json({ message: 'User not authorized to edit this post' });
       }
 
       // Function to delete Cloudinary image by public_id
-      
+
       async function deleteCloudinaryImage(public_id) {
          try {
             await cloudinaryObject.uploader.destroy(public_id);
             console.log(`Deleted image with public_id: ${public_id}`);
          } catch (error) {
-            console.error(`Error deleting image with public_id ${public_id}:`, error);
+            console.error(
+               `Error deleting image with public_id ${public_id}:`,
+               error,
+            );
          }
       }
-      
 
       // Delete old images if new ones are provided
       if (standingPosition && post.standingPosition) {
@@ -613,20 +617,18 @@ router.put('/post/:id', async (req, res) => {
       if (landingPosition && post.landingPosition) {
          await deleteCloudinaryImage(post.landingPosition.public_id);
       }
-      
 
       // Prepare updated fields
       if (postTitle) post.postTitle = postTitle;
       if (lineupDescription) post.lineupDescription = lineupDescription;
       if (jumpThrow) post.jumpThrow = jumpThrow;
       if (teamSide) post.teamSide = teamSide;
-      
-      
+
       // Update cloudinary images if provided
       if (standingPosition) {
          const uploadStandingPosition = await cloudinaryObject.uploader.upload(
             standingPosition,
-            { folder: game }
+            { folder: game },
          );
          post.standingPosition = {
             public_id: uploadStandingPosition.public_id,
@@ -636,7 +638,7 @@ router.put('/post/:id', async (req, res) => {
       if (aimingPosition) {
          const uploadAimingPosition = await cloudinaryObject.uploader.upload(
             aimingPosition,
-            { folder: game }
+            { folder: game },
          );
          post.aimingPosition = {
             public_id: uploadAimingPosition.public_id,
@@ -646,7 +648,7 @@ router.put('/post/:id', async (req, res) => {
       if (landingPosition) {
          const uploadLandingPosition = await cloudinaryObject.uploader.upload(
             landingPosition,
-            { folder: game }
+            { folder: game },
          );
          post.landingPosition = {
             public_id: uploadLandingPosition.public_id,
@@ -662,8 +664,6 @@ router.put('/post/:id', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
    }
 });
-
-
 
 router.put('/post/:id/comment/:commentId', async (req, res) => {
    const { id, commentId } = req.params;

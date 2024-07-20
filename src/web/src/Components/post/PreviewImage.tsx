@@ -24,7 +24,7 @@ const PreviewImage: React.FC<PreviewImageProps> = ({
    }, [currentImage]);
 
    return (
-      <div 
+      <div
          className="absolute top-0 left-0 w-full h-full bg-black rounded-lg cursor-pointer overflow-hidden"
          onClick={onClick}
       >

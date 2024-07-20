@@ -139,7 +139,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   style={{
                      paddingBottom: '56.25%',
                      position: 'relative',
-                     backgroundColor: 'black', 
+                     backgroundColor: 'black',
                   }}
                   className="rounded-lg overflow-hidden"
                >

@@ -38,18 +38,21 @@ const rejectStyle = {
 
 const Dropzone: React.FC<DropzoneProps> = ({ setFile, style: propStyle }) => {
    const [preview, setPreview] = useState<string | null>(null);
-   
-   const onDrop = useCallback((acceptedFiles: File[]) => {
-      const file = new FileReader();
-      file.readAsDataURL(acceptedFiles[0]);
-      file.onloadend = () => {
-         const result = file.result;
-         if (typeof result === 'string') {
-            setPreview(result);
-            setFile(result, result); // Send both file data and preview
-         }
-      };
-   }, [setFile]);
+
+   const onDrop = useCallback(
+      (acceptedFiles: File[]) => {
+         const file = new FileReader();
+         file.readAsDataURL(acceptedFiles[0]);
+         file.onloadend = () => {
+            const result = file.result;
+            if (typeof result === 'string') {
+               setPreview(result);
+               setFile(result, result); // Send both file data and preview
+            }
+         };
+      },
+      [setFile],
+   );
 
    const {
       getRootProps,

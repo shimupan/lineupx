@@ -170,15 +170,16 @@ const Comments: React.FC<CommentProps> = ({
                         {timeAgo(new Date(comment.createdAt))}
                      </p>
                   </div>
-                  {Auth?._id === comment.user || Auth?.role === 'admin' && (
-                     <div ref={threeDotsRef}>
-                        <BsThreeDotsVertical
-                           className="cursor-pointer"
-                           onClick={handleOptionsClick}
-                           size="24"
-                        />
-                     </div>
-                  )}
+                  {Auth?._id === comment.user ||
+                     (Auth?.role === 'admin' && (
+                        <div ref={threeDotsRef}>
+                           <BsThreeDotsVertical
+                              className="cursor-pointer"
+                              onClick={handleOptionsClick}
+                              size="24"
+                           />
+                        </div>
+                     ))}
                </div>
                <div
                   className={`transition-all duration-300 ease-in-out ${
