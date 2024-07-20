@@ -5,7 +5,14 @@ import { PostType } from '../../../global.types';
 import { toast } from 'react-toastify';
 import { Header, Footer, Dropzone } from '../../../Components';
 import { CDN_URL } from '../../../Constants';
-import { FaEye, FaThumbsUp, FaThumbsDown, FaComment } from 'react-icons/fa';
+import {
+   FaEye,
+   FaThumbsUp,
+   FaThumbsDown,
+   FaComment,
+   FaArrowLeft,
+   FaArrowRight,
+} from 'react-icons/fa';
 import { AuthContext } from '../../../App';
 
 const EditPost: React.FC = () => {
@@ -22,6 +29,9 @@ const EditPost: React.FC = () => {
    const [standingPreview, setStandingPreview] = useState<string | null>(null);
    const [aimingPreview, setAimingPreview] = useState<string | null>(null);
    const [landingPreview, setLandingPreview] = useState<string | null>(null);
+
+   const [previewMode, setPreviewMode] = useState<'grid' | 'arrow'>('grid');
+   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
    useEffect(() => {
       if (!post) {
@@ -61,6 +71,25 @@ const EditPost: React.FC = () => {
          toast.error('Failed to update post');
          console.error('Error updating post:', error);
       }
+   };
+
+   const handleArrowClick = (direction: 'prev' | 'next') => {
+      const imagePositions = ['landing', 'standing', 'aiming'];
+      let newIndex = currentImageIndex;
+
+      if (direction === 'prev') {
+         newIndex =
+            currentImageIndex > 0
+               ? currentImageIndex - 1
+               : imagePositions.length - 1;
+      } else if (direction === 'next') {
+         newIndex =
+            currentImageIndex < imagePositions.length - 1
+               ? currentImageIndex + 1
+               : 0;
+      }
+
+      setCurrentImageIndex(newIndex);
    };
 
    if (loading) return <div>Loading...</div>;
@@ -194,44 +223,144 @@ const EditPost: React.FC = () => {
                {/* Right side - Preview */}
                <div className="flex-1">
                   <h2 className="text-xl font-bold mb-4">Preview</h2>
+                  <div className="mb-4">
+                     <label className="inline-flex items-center cursor-pointer">
+                        <input
+                           type="checkbox"
+                           className="sr-only peer"
+                           checked={previewMode === 'arrow'}
+                           onChange={() =>
+                              setPreviewMode(
+                                 previewMode === 'grid' ? 'arrow' : 'grid',
+                              )
+                           }
+                        />
+                        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span className="ml-3 text-sm font-medium text-white dark:text-gray-300">
+                           {previewMode === 'grid' ? 'Grid View' : 'Arrow View'}
+                        </span>
+                     </label>
+                  </div>
                   <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-                        {(['landing', 'standing', 'aiming'] as const).map(
-                           (pos) => (
-                              <div
-                                 key={pos}
-                                 className="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden"
-                                 style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    aspectRatio: '16 / 9',
-                                 }}
-                              >
-                                 <img
-                                    src={
-                                       pos === 'standing' && standingPreview
-                                          ? standingPreview
-                                          : pos === 'aiming' && aimingPreview
-                                            ? aimingPreview
-                                            : pos === 'landing' &&
-                                                landingPreview
-                                              ? landingPreview
-                                              : post[`${pos}Position`]
-                                                     ?.public_id
-                                                ? `${CDN_URL}/${
-                                                     post[`${pos}Position`]
-                                                        .public_id
-                                                  }.png`
-                                                : ''
-                                    }
-                                    alt={`${pos} position`}
-                                    className="object-contain w-full h-full"
-                                 />
-                              </div>
-                           ),
-                        )}
-                     </div>
+                     {previewMode === 'grid' ? (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+                           {(['landing', 'standing', 'aiming'] as const).map(
+                              (pos) => (
+                                 <div
+                                    key={pos}
+                                    className="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden"
+                                    style={{
+                                       display: 'flex',
+                                       justifyContent: 'center',
+                                       alignItems: 'center',
+                                       aspectRatio: '16 / 9',
+                                    }}
+                                 >
+                                    <img
+                                       src={
+                                          pos === 'standing' && standingPreview
+                                             ? standingPreview
+                                             : pos === 'aiming' && aimingPreview
+                                               ? aimingPreview
+                                               : pos === 'landing' &&
+                                                   landingPreview
+                                                 ? landingPreview
+                                                 : post[`${pos}Position`]
+                                                        ?.public_id
+                                                   ? `${CDN_URL}/${
+                                                        post[`${pos}Position`]
+                                                           .public_id
+                                                     }.png`
+                                                   : ''
+                                       }
+                                       alt={`${pos} position`}
+                                       className="object-contain w-full h-full"
+                                    />
+                                 </div>
+                              ),
+                           )}
+                        </div>
+                     ) : (
+                        <div
+                           className="relative bg-black"
+                           style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              aspectRatio: '16 / 9',
+                           }}
+                        >
+                           <img
+                              src={
+                                 (['landing', 'standing', 'aiming'] as const)[
+                                    currentImageIndex
+                                 ] === 'standing' && standingPreview
+                                    ? standingPreview
+                                    : (
+                                           [
+                                              'landing',
+                                              'standing',
+                                              'aiming',
+                                           ] as const
+                                        )[currentImageIndex] === 'aiming' &&
+                                        aimingPreview
+                                      ? aimingPreview
+                                      : (
+                                             [
+                                                'landing',
+                                                'standing',
+                                                'aiming',
+                                             ] as const
+                                          )[currentImageIndex] === 'landing' &&
+                                          landingPreview
+                                        ? landingPreview
+                                        : post[
+                                               `${
+                                                  (
+                                                     [
+                                                        'landing',
+                                                        'standing',
+                                                        'aiming',
+                                                     ] as const
+                                                  )[currentImageIndex]
+                                               }Position`
+                                            ]?.public_id
+                                          ? `${CDN_URL}/${
+                                               post[
+                                                  `${
+                                                     (
+                                                        [
+                                                           'landing',
+                                                           'standing',
+                                                           'aiming',
+                                                        ] as const
+                                                     )[currentImageIndex]
+                                                  }Position`
+                                               ].public_id
+                                            }.png`
+                                          : ''
+                              }
+                              alt={`${
+                                 (['landing', 'standing', 'aiming'] as const)[
+                                    currentImageIndex
+                                 ]
+                              } position`}
+                              className="object-contain w-full h-full"
+                           />
+                           <button
+                              onClick={() => handleArrowClick('prev')}
+                              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-r"
+                           >
+                              <FaArrowLeft />
+                           </button>
+                           <button
+                              onClick={() => handleArrowClick('next')}
+                              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-l"
+                           >
+                              <FaArrowRight />
+                           </button>
+                        </div>
+                     )}
                      <div className="p-4">
                         <h3 className="text-lg font-semibold mb-2">
                            {post.postTitle}
