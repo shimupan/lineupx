@@ -17,10 +17,15 @@ export function timeAgo(date: Date) {
    return `${yearsAgo} years ago`;
 }
 
-export const incrementLikeCount = async (postId: string, user_Id: string) => {
+export const incrementLikeCount = async (
+   postId: string,
+   user_Id: string,
+   game: string,
+) => {
    axios
       .post(`/post/${postId}/increment-like`, {
          userId: user_Id,
+         game: game,
       })
       .then((response) => {
          console.log('Successfully incremented like count:', response);
@@ -33,10 +38,12 @@ export const incrementLikeCount = async (postId: string, user_Id: string) => {
 export const incrementDislikeCount = async (
    postId: string,
    user_Id: string,
+   game: string,
 ) => {
    axios
       .post(`/post/${postId}/increment-dislike`, {
          userId: user_Id,
+         game: game,
       })
       .then((response) => {
          console.log('Successfully incremented dislike count:', response);

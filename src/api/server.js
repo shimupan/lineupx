@@ -43,4 +43,4 @@ const PORT = process.env.PORT || 3000; // Use environment variable for port or d
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // await updateCS2Posts();
-// await updateValorantPosts();
+//await updateValorantPosts();

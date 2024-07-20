@@ -8,6 +8,7 @@ import { CDN_URL } from '../../Constants';
 import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { AuthContext } from '../../App';
+import axios from 'axios';
 
 type WidePostsProps = {
    post: PostType;
@@ -33,6 +34,26 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
    const onReport = () => {
       setShowReportPopup(true);
       closePostOptionBar();
+   };
+
+   const incrementViewCount = async () => {
+      axios
+         .post(`/post/${post._id}/increment-view-count`, {
+            game: post.game,
+         })
+         .then((response) => {
+            console.log('Successfully incremented view count:', response);
+         })
+         .catch((error) => {
+            console.error('Failed to increment view count:', error);
+            // Handle error
+         });
+   };
+
+   const handlePostClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+      incrementViewCount();
+      window.location.href = `/game/${post.game}/${post._id}`;
    };
 
    const copyPostLinkToClipboard = async () => {
@@ -122,6 +143,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
             <Link
                to={`/game/${post.game}/${post._id}`}
                className="flex-shrink-0"
+               onClick={handlePostClick}
             >
                <div className="w-[180px] h-[101px] bg-gray-800 rounded-xl overflow-hidden">
                   <div className="w-full h-full relative">
@@ -137,6 +159,7 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
                <Link
                   className="text-md font-bold m-0 no-underline"
                   to={`/game/${post.game}/${post._id}`}
+                  onClick={handlePostClick}
                >
                   {post.postTitle.length > 23
                      ? `${post.postTitle.substring(0, 23)}...`

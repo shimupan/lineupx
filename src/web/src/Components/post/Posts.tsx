@@ -100,20 +100,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       postData.ability,
    );
 
-   const incrementViewCount = async () => {
-      axios
-         .post(`/post/${postData._id}/increment-view-count`, {
-            userId: user_Id,
-         })
-         .then((response) => {
-            console.log('Successfully incremented view count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment view count:', error);
-            // Handle error
-         });
-   };
-
    const copyPostLinkToClipboard = async () => {
       const postUrl = `${window.location.origin}/game/${
          postData.game
@@ -141,7 +127,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      src={`${CDN_URL}/${postData.landingPosition.public_id}`}
                      alt={postData.postTitle}
                      onClick={async () => {
-                        await incrementViewCount();
                         navigate(`/game/${postData.game}/${postData._id}`, {
                            state: { postData },
                         });
@@ -228,7 +213,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                      images={images}
                      currentImage={currentImage}
                      onClick={async () => {
-                        await incrementViewCount();
                         navigate(`/game/${postData.game}/${postData._id}`, {
                            state: { postData },
                         });
