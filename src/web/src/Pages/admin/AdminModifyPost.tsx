@@ -6,7 +6,7 @@ import { Header, Footer, SideNavWrapper } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import { AuthContext } from '../../App';
 import { approveRejectPosts } from '../../util/updatePost';
-import { MdCancel, MdReport } from 'react-icons/md';
+import { MdCancel, MdReport, MdEdit } from 'react-icons/md';
 
 type PositionKey = 'landingPosition' | 'aimingPosition' | 'standingPosition';
 
@@ -33,6 +33,10 @@ const AdminModifyPost = () => {
 
    const getPositionImage = (position: PositionKey) => {
       return post ? `${CDN_URL}/${post[position].public_id}.png` : '';
+   };
+
+   const handleEdit = (post: PostType) => {
+      navigate(`/edit-post/${post._id}`, { state: { post } });
    };
 
    return (
@@ -132,6 +136,15 @@ const AdminModifyPost = () => {
                      <MdCancel size={24} />
                      <span>Delete Post</span>
                   </button>
+                  {post && (
+                     <button
+                        onClick={() => handleEdit(post)}
+                        className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                     >
+                        <MdEdit size={24} />
+                        <span>Edit Post</span>
+                     </button>
+                  )}
                </div>
             </main>
          </div>

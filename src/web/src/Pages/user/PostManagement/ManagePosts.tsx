@@ -17,7 +17,6 @@ import {
    FaEye,
    FaTrash,
    FaEdit,
-   FaComment,
    FaThumbsUp,
    FaThumbsDown,
 } from 'react-icons/fa';

@@ -133,7 +133,7 @@ const EditPost: React.FC = () => {
                         className="w-full bg-gray-800 rounded p-2 h-32"
                      />
                   </div>
-                  <div className="flex flex-row space-x-4">
+                  <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                      <div className="flex-1">
                         <label
                            htmlFor="jumpThrow"
@@ -184,9 +184,9 @@ const EditPost: React.FC = () => {
                   </div>
 
                   {/* Dropzone for each image position */}
-                  <div className="flex flex-row space-x-4">
+                  <div className="flex flex-col md:flex-row md:space-x-4">
                      {['Landing', 'Standing', 'Aiming'].map((position) => (
-                        <div key={position} className="flex-1">
+                        <div key={position} className="flex-1 mb-4 md:mb-0">
                            <label className="block mb-2 text-sm font-medium text-gray-300">
                               {position} Position
                            </label>
@@ -214,7 +214,7 @@ const EditPost: React.FC = () => {
 
                   <button
                      type="submit"
-                     className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
+                     className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded mt-4 sm:mt-0"
                   >
                      Update Post
                   </button>

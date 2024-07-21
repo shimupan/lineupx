@@ -579,7 +579,7 @@ const PostPage = () => {
                            year: 'numeric',
                         })}
                      </p>
-                     {postData.jumpThrow && (
+                     {postData?.jumpThrow && (
                         <i className="italic ml-16">
                            Lineup requires jump throw
                         </i>
