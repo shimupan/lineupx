@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { PostType } from '../../../global.types';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Header, Footer, Dropzone } from '../../../Components';
 import { CDN_URL } from '../../../Constants';
 import {
@@ -39,6 +40,7 @@ const EditPost: React.FC = () => {
             try {
                const response = await axios.get(`/post/${postId}`);
                setPost(response.data);
+               toast.success('Post loaded successfully');
             } catch (error) {
                toast.error('Error fetching post data');
                console.error('Error fetching post:', error);
@@ -92,6 +94,36 @@ const EditPost: React.FC = () => {
       setCurrentImageIndex(newIndex);
    };
 
+   const resetEditableFields = (currentPost: PostType): Partial<PostType> => ({
+      postTitle: '',
+      lineupDescription: '',
+      jumpThrow: 'false',
+      teamSide: currentPost.game === 'Valorant' ? 'Attacker' : 'CT',
+   });
+
+   const clearForm = () => {
+      if (
+         window.confirm(
+            'Are you sure you want to reset the form? All unsaved changes will be lost.',
+         )
+      ) {
+         if (post) {
+            setPost({
+               ...post,
+               ...resetEditableFields(post),
+            });
+            setStandingPosition('');
+            setAimingPosition('');
+            setLandingPosition('');
+            setStandingPreview(null);
+            setAimingPreview(null);
+            setLandingPreview(null);
+         }
+      } else {
+         toast.info('Form reset cancelled');
+      }
+   };
+
    if (loading) return <div>Loading...</div>;
    if (!post) return <div>Post not found</div>;
 
@@ -104,6 +136,16 @@ const EditPost: React.FC = () => {
                {/* Left side - Form */}
                <form onSubmit={handleSubmit} className="space-y-4 flex-1">
                   <div>
+                     <div className="float-right">
+                        <button
+                           type="button"
+                           onClick={clearForm}
+                           className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                        >
+                           Reset Fields
+                        </button>
+                     </div>
+                     <div className="clear-both"></div>
                      <label htmlFor="postTitle" className="block mb-2">
                         Title
                      </label>
@@ -214,7 +256,7 @@ const EditPost: React.FC = () => {
 
                   <button
                      type="submit"
-                     className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded mt-4 sm:mt-0"
+                     className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                      Update Post
                   </button>
@@ -361,11 +403,11 @@ const EditPost: React.FC = () => {
                            </button>
                         </div>
                      )}
-                     <div className="p-4">
-                        <h3 className="text-lg font-semibold mb-2">
+                     <div className="p-4 max-h-60 overflow-y-auto">
+                        <h3 className="text-lg font-semibold mb-2 break-words">
                            {post.postTitle}
                         </h3>
-                        <p className="text-gray-400 mb-2">
+                        <p className="text-gray-400 mb-2 break-words">
                            {post.lineupDescription}
                         </p>
                         <div className="flex items-center text-sm text-gray-500 mb-2">
@@ -381,6 +423,7 @@ const EditPost: React.FC = () => {
                   </div>
                </div>
             </div>
+            <ToastContainer position="top-center" />
          </div>
          <Footer />
       </>
