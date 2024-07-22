@@ -4,7 +4,7 @@ import axios from 'axios';
 import { PostType } from '../../../global.types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Header, Footer, Dropzone } from '../../../Components';
+import { Header, Footer, Dropzone, LoadingSpinner } from '../../../Components';
 import { CDN_URL } from '../../../Constants';
 import {
    FaEye,
@@ -30,7 +30,7 @@ const EditPost: React.FC = () => {
    const [standingPreview, setStandingPreview] = useState<string | null>(null);
    const [aimingPreview, setAimingPreview] = useState<string | null>(null);
    const [landingPreview, setLandingPreview] = useState<string | null>(null);
-
+   const [isLoading, setIsLoading] = useState(false);
    const [previewMode, setPreviewMode] = useState<'grid' | 'arrow'>('grid');
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -55,6 +55,7 @@ const EditPost: React.FC = () => {
    }, [postId, post]);
 
    const handleSubmit = async (event: React.FormEvent) => {
+      setIsLoading(true);
       event.preventDefault();
       try {
          await axios.put(`/post/${postId}`, {
@@ -73,6 +74,8 @@ const EditPost: React.FC = () => {
       } catch (error) {
          toast.error('Failed to update post');
          console.error('Error updating post:', error);
+      } finally {
+         setIsLoading(false);
       }
    };
 
@@ -255,12 +258,23 @@ const EditPost: React.FC = () => {
                      ))}
                   </div>
 
-                  <button
-                     type="submit"
-                     className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                     Update Post
-                  </button>
+                  <div className="flex justify-center items-center">
+                     <button
+                        type="submit"
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        disabled={isLoading} 
+                     >
+                        Update Post
+                     </button>
+                     {isLoading && (
+                        <LoadingSpinner
+                           size={30}
+                           color="#3498db"
+                           secondaryColor="#f3f3f3"
+                           speed={1}
+                        />
+                     )}
+                  </div>
                </form>
 
                {/* Right side - Preview */}

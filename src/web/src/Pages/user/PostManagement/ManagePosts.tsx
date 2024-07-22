@@ -138,14 +138,16 @@ const ManagePosts = () => {
                <div className="w-full px-4 pt-20 md:pl-32">
                   <h1 className="text-2xl font-bold mb-6">Manage Posts</h1>
                   <div className="bg-gray-800 rounded-lg overflow-hidden shadow-md">
-                     <div className="p-4 border-b border-gray-700 flex items-center text-gray-400 font-medium">
-                        <div className="w-2/5">Post</div>
-                        <div className="w-1/5 text-center">Date</div>
-                        <div className="w-1/5 text-center">Views</div>
-                        <div className="w-1/5 text-center">
+                     <div className="p-4 border-b border-gray-700 flex flex-wrap items-center text-gray-400 font-medium">
+                        <div className="w-full sm:w-2/5">Post</div>
+                        <div className="w-full sm:w-1/5 text-center">Date</div>
+                        <div className="w-full sm:w-1/5 text-center">Views</div>
+                        <div className="w-full sm:w-1/5 text-center">
                            Likes vs. Dislikes
                         </div>
-                        <div className="w-1/5 text-center">Actions</div>
+                        <div className="w-full sm:w-1/5 text-center">
+                           Actions
+                        </div>
                      </div>
                      {posts.map((post) => {
                         const likePercentage = calculateLikePercentage(
@@ -156,9 +158,9 @@ const ManagePosts = () => {
                         return (
                            <div
                               key={post._id}
-                              className="p-4 border-b border-gray-700 flex items-center hover:bg-gray-700"
+                              className="p-4 border-b border-gray-700 flex flex-wrap items-center hover:bg-gray-700"
                            >
-                              <div className="w-2/5 flex items-center">
+                              <div className="w-full sm:w-2/5 flex items-center mb-4 sm:mb-0">
                                  <img
                                     src={`${CDN_URL}/${post.landingPosition.public_id}.png`}
                                     alt="Thumbnail"
@@ -173,14 +175,14 @@ const ManagePosts = () => {
                                     </p>
                                  </div>
                               </div>
-                              <div className="w-1/5 text-center text-sm text-gray-400">
+                              <div className="w-full sm:w-1/5 text-center text-sm text-gray-400 mb-2 sm:mb-0">
                                  {new Date(post.date).toLocaleDateString()}
                               </div>
-                              <div className="w-1/5 text-center text-sm text-gray-400">
+                              <div className="w-full sm:w-1/5 text-center text-sm text-gray-400 mb-2 sm:mb-0">
                                  <FaEye className="inline mr-1" />{' '}
                                  {post.views || 0}
                               </div>
-                              <div className="w-1/5 text-center text-sm text-gray-400">
+                              <div className="w-full sm:w-1/5 text-center text-sm text-gray-400 mb-2 sm:mb-0">
                                  <div className="flex items-center justify-center">
                                     <FaThumbsUp className="text-green-500 mr-1" />
                                     <span className="mr-2">
@@ -200,7 +202,7 @@ const ManagePosts = () => {
                                     ></div>
                                  </div>
                               </div>
-                              <div className="w-1/5 text-center">
+                              <div className="w-full sm:w-1/5 text-center">
                                  <button
                                     onClick={() => handleEdit(post)}
                                     className="text-yellow-400 hover:text-yellow-300 mr-3"
