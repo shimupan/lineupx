@@ -39,6 +39,7 @@ export { default as Footer } from './Components/global/Footer';
 export { default as SideNavWrapper } from './Components/global/sidebar/SideNavWrapper';
 export { default as Searchbar } from './Components/game/Searchbar';
 export { default as RequireAuth } from './Components/auth/RequireAuth';
+export { default as UserAuth } from './Components/auth/UserAuth';
 export { default as Dropzone } from './Components/upload/Dropzone';
 export { default as Carousel } from './Components/game/Carousel';
 export { default as Loading } from './Components/global/Loading';

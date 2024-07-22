@@ -87,7 +87,7 @@ const ManagePosts = () => {
    };
 
    const handleEdit = (post: PostType) => {
-      navigate(`/edit-post/${post._id}`, { state: { post } });
+      navigate(`/edit-post/${post.game}/${Auth?.username}/${post._id}`, { state: { post } });
    };
 
    if (loading) return <Loading />;

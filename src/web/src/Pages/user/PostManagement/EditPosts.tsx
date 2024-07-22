@@ -17,7 +17,7 @@ import {
 import { AuthContext } from '../../../App';
 
 const EditPost: React.FC = () => {
-   const { postId } = useParams<{ postId: string }>();
+   const { postId, game } = useParams();
    const Auth = useContext(AuthContext);
    const location = useLocation();
    const [post, setPost] = useState<PostType | null>(
@@ -38,9 +38,8 @@ const EditPost: React.FC = () => {
       if (!post) {
          const fetchPost = async () => {
             try {
-               const response = await axios.get(`/post/${postId}`);
+               const response = await axios.get(`/post/detail/${game}/${postId}`);
                setPost(response.data);
-               toast.success('Post loaded successfully');
             } catch (error) {
                toast.error('Error fetching post data');
                console.error('Error fetching post:', error);
@@ -83,10 +82,10 @@ const EditPost: React.FC = () => {
          newIndex =
             currentImageIndex > 0
                ? currentImageIndex - 1
-               : imagePositions.length - 1;
+               : imagePositions?.length - 1;
       } else if (direction === 'next') {
          newIndex =
-            currentImageIndex < imagePositions.length - 1
+            currentImageIndex < imagePositions?.length - 1
                ? currentImageIndex + 1
                : 0;
       }
@@ -417,7 +416,7 @@ const EditPost: React.FC = () => {
                            <FaThumbsDown className="ml-4 mr-1" />{' '}
                            {post.dislikes?.length || 0}
                            <FaComment className="ml-4 mr-1" />{' '}
-                           {post.comments.length || 0}
+                           {post.comments?.length || 0}
                         </div>
                      </div>
                   </div>

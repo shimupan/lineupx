@@ -10,6 +10,7 @@ import {
    Register,
    Login,
    RequireAuth,
+   UserAuth,
    Upload,
    ForgotPassword,
    ResetPassword,
@@ -226,9 +227,26 @@ function App() {
                   element={<RequireAuth allowedRoles={['user', 'admin']} />}
                >
                   <Route path="/upload" element={<Upload />}></Route>
-                  <Route path="/manage-posts/:id" element={<ManagePosts />} />
-                  <Route path="/edit-post/:postId" element={<EditPosts />} />
                </Route>
+               {(role === 'admin' || role === 'user') && Verified && (
+                  <Route
+                     element={
+                        <UserAuth
+                           allowedRoles={['user', 'admin']}
+                           requireOwnership
+                        />
+                     }
+                  >
+                     <Route
+                        path="/manage-posts/:id"
+                        element={<ManagePosts />}
+                     />
+                     <Route
+                        path="/edit-post/:game/:id/:postId"
+                        element={<EditPosts />}
+                     />
+                  </Route>
+               )}
                <Route path="/google-callback" element={<GoogleCallBack />} />
                <Route path="/verifyemail" element={<VerifyEmail />} />
                <Route path="*" element={<PageNotFound />}></Route>
