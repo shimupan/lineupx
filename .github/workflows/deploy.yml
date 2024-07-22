@@ -1,14 +1,12 @@
-name: Deploy Server
+name: Deployment to Server
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Deploy using ssh

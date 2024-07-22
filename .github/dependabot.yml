@@ -8,6 +8,10 @@ updates:
       - dependencies
     commit-message:
       prefix: "[Dependency] "
+    groups:
+      all-updates:
+        patterns:
+          - "*"
 
   - package-ecosystem: "npm"
     directory: "/src/api"
@@ -17,3 +21,7 @@ updates:
       - dependencies
     commit-message:
       prefix: "[Dependency] "
+    groups:
+      all-updates:
+        patterns:
+          - "*"
