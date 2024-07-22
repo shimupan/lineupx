@@ -192,16 +192,16 @@ const Valorant: React.FC = () => {
 
    useEffect(() => {
       const handleScroll = () => {
-         const threshold = 10;
-         if (
-            window.innerHeight + document.documentElement.scrollTop <
-               document.documentElement.offsetHeight - threshold ||
-            !hasMore ||
-            isLoading
-         )
-            return;
+         const distanceFromBottom =
+            document.documentElement.offsetHeight -
+            (window.innerHeight + document.documentElement.scrollTop);
+
+         const threshold = window.innerHeight / 8;
+         if (distanceFromBottom > threshold || !hasMore || isLoading) return;
+
          fetchData();
       };
+
       window.addEventListener('scroll', handleScroll);
       return () => window.removeEventListener('scroll', handleScroll);
    }, [hasMore, page, isLoading]);
