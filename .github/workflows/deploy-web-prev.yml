@@ -15,13 +15,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      
+      - name: Change Directory
+        run: cd src/web
 
       - name: Install Vercel CLI
         run: npm install -g vercel
       
       - name: Pull Vercel Env
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
-        working-directory: src/web
       
       - name: Build Project
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
