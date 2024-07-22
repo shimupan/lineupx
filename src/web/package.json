@@ -55,7 +55,7 @@
     "autoprefixer": "^10.4.19",
     "cypress": "^13.13.1",
     "dotenv": "^16.4.5",
-    "eslint": "^8.53.0",
+    "eslint": "^9.7.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.9",
     "postcss": "^8.4.39",
