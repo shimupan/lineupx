@@ -1,0 +1,37 @@
+name: Building Server
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Build
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker Image
+      run: docker build -t server-img -f src/api/Dockerfile src/api
+
+    - name: Run Docker Container
+      run: |
+        docker run -d --name server -p 1337:1337 server-img
+        sleep 10
+
+    - name: Check Container Logs
+      run: docker logs server
+
+    - name: Inspect Container State
+      run: |
+        if ! docker ps | grep -q server; then
+          echo "Container not running expected"
+          exit 1
+        else
+          echo "Container running"
+        fi
