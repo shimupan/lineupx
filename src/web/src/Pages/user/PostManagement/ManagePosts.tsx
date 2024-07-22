@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
    Header,
@@ -6,6 +6,7 @@ import {
    Footer,
    Loading,
    ProfileEdit,
+   DeletePopup,
 } from '../../../Components';
 import { getUserByUsername } from '../../../util/getUser';
 import { GAMES, CDN_URL } from '../../../Constants';
@@ -51,11 +52,17 @@ const ManagePosts = () => {
    const [loading, setLoading] = useState(true);
    const [posts, setPosts] = useState<PostType[]>([]);
    const [open, setOpen] = useState(false);
+   const [deletePopup, setDeletePopup] = useState({
+      isOpen: false,
+      postId: '',
+      game: '',
+   });
+   const Auth = useContext(AuthContext);
+
    const calculateLikePercentage = (likes: number, dislikes: number) => {
       const total = likes + dislikes;
       return total > 0 ? Math.round((likes / total) * 100) : 0;
    };
-   const Auth = useContext(AuthContext);
 
    useEffect(() => {
       // Fetch Users
@@ -81,9 +88,33 @@ const ManagePosts = () => {
          });
    }, [id]);
 
-   const handleDelete = (postId: string) => {
-      // Implement delete functionality
-      console.log('Delete post:', postId);
+   const handleDeleteClick = (postId: string, game: string) => {
+      setDeletePopup({ isOpen: true, postId, game });
+   };
+
+   const handleDeleteConfirm = async () => {
+      const { postId, game } = deletePopup;
+      try {
+         const response = await axios.delete(`/post/${game}/${postId}`, {
+            data: { role: Auth?.role },
+         });
+
+         if (response.status === 200) {
+            toast.success('Post deleted successfully');
+            setPosts(posts.filter((post) => post._id !== postId));
+         } else {
+            toast.error('Failed to delete post');
+         }
+      } catch (error) {
+         console.error('Error deleting post:', error);
+         toast.error('An error occurred while deleting the post');
+      } finally {
+         setDeletePopup({ isOpen: false, postId: '', game: '' });
+      }
+   };
+
+   const handleDeleteCancel = () => {
+      setDeletePopup({ isOpen: false, postId: '', game: '' });
    };
 
    const handleEdit = (post: PostType) => {
@@ -103,7 +134,7 @@ const ManagePosts = () => {
                <ProfileEdit user={user} setOpen={setOpen} />
             </div>
          ) : (
-            <div className="min-h-screen pb-40 bg-gray-900 text-white">
+            <div className="min-h-screen pb-40 text-white">
                <div className="w-full px-4 pt-20 md:pl-32">
                   <h1 className="text-2xl font-bold mb-6">Manage Posts</h1>
                   <div className="bg-gray-800 rounded-lg overflow-hidden shadow-md">
@@ -178,7 +209,9 @@ const ManagePosts = () => {
                                     <FaEdit />
                                  </button>
                                  <button
-                                    onClick={() => handleDelete(post._id)}
+                                    onClick={() =>
+                                       handleDeleteClick(post._id, post.game)
+                                    }
                                     className="text-red-400 hover:text-red-300"
                                     title="Delete"
                                  >
@@ -194,6 +227,31 @@ const ManagePosts = () => {
          )}
          <Footer />
          <ToastContainer position="top-center" />
+
+         <DeletePopup
+            isOpen={deletePopup.isOpen}
+            onClose={handleDeleteCancel}
+            title="Confirm Deletion"
+         >
+            <p className="text-gray-300 mb-4">
+               Are you sure you want to delete this post? This action cannot be
+               undone.
+            </p>
+            <div className="flex justify-end space-x-4">
+               <button
+                  onClick={handleDeleteCancel}
+                  className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+               >
+                  Cancel
+               </button>
+               <button
+                  onClick={handleDeleteConfirm}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+               >
+                  Delete
+               </button>
+            </div>
+         </DeletePopup>
       </>
    );
 };

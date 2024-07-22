@@ -4,6 +4,19 @@ import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
 
+
+     // Function to delete Cloudinary images
+     async function deleteCloudinaryImage(public_id) {
+      try {
+      await cloudinaryObject.uploader.destroy(public_id);
+      console.log(`Deleted image with public_id: ${public_id}`);
+      } catch (error) {
+      console.error(
+         `Error deleting image with public_id ${public_id}:`,
+         error,
+      );
+      }
+   }
 const postLimit = rateLimit({
    windowMs: 24 * 60 * 60 * 1000,
    max: 10,
@@ -593,20 +606,6 @@ router.put('/post/:id', async (req, res) => {
             .json({ message: 'User not authorized to edit this post' });
       }
 
-      // Function to delete Cloudinary image by public_id
-
-      async function deleteCloudinaryImage(public_id) {
-         try {
-            await cloudinaryObject.uploader.destroy(public_id);
-            console.log(`Deleted image with public_id: ${public_id}`);
-         } catch (error) {
-            console.error(
-               `Error deleting image with public_id ${public_id}:`,
-               error,
-            );
-         }
-      }
-
       // Delete old images if new ones are provided
       if (standingPosition && post.standingPosition) {
          await deleteCloudinaryImage(post.standingPosition.public_id);
@@ -903,6 +902,37 @@ router.get('/grenade/:map/:game/:grenade', async (req, res) => {
    }
 });
 
-// returns all post for a specific map
+ 
+ // Delete a post
+ router.delete('/post/:game/:id', async (req, res) => {
+   const { game, id } = req.params;
+   const { role } = req.body; // Assuming you're passing the user's role in the request body
+ 
+   if (role !== 'admin') {
+     return res.status(401).send('Unauthorized');
+   }
+ 
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+ 
+   try {
+     const post = await PostData.findById(id);
+     if (!post) {
+       return res.status(404).send('Post not found');
+     }
+ 
+     // Delete images from Cloudinary
+     await deleteCloudinaryImage(post.aimingPosition.public_id);
+     await deleteCloudinaryImage(post.standingPosition.public_id);
+     await deleteCloudinaryImage(post.landingPosition.public_id);
+ 
+     // Delete the post from the database
+     await PostData.findByIdAndDelete(id);
+ 
+     res.status(200).send({ message: 'Post deleted successfully' });
+   } catch (error) {
+     console.error('Error deleting post:', error);
+     res.status(500).send({ error: 'Internal Server Error' });
+   }
+ });
 
 export default router;
