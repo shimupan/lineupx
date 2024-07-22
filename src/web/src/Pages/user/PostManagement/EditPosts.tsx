@@ -38,7 +38,9 @@ const EditPost: React.FC = () => {
       if (!post) {
          const fetchPost = async () => {
             try {
-               const response = await axios.get(`/post/detail/${game}/${postId}`);
+               const response = await axios.get(
+                  `/post/detail/${game}/${postId}`,
+               );
                setPost(response.data);
             } catch (error) {
                toast.error('Error fetching post data');
