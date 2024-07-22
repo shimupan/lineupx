@@ -60,6 +60,12 @@ export type PostType = {
    valorantAgent: string;
    ability: string;
    date: string;
+   comments: {
+      username: string;
+      user: string;
+      text: string;
+      createdAt: string;
+   }[];
    reports: {
       userId: string;
       reason: string;

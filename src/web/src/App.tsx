@@ -10,6 +10,7 @@ import {
    Register,
    Login,
    RequireAuth,
+   UserAuth,
    Upload,
    ForgotPassword,
    ResetPassword,
@@ -34,6 +35,8 @@ import {
    GuestPage,
    PrivatePolicy,
    TOS,
+   ManagePosts,
+   EditPosts,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -225,6 +228,25 @@ function App() {
                >
                   <Route path="/upload" element={<Upload />}></Route>
                </Route>
+               {(role === 'admin' || role === 'user') && Verified && (
+                  <Route
+                     element={
+                        <UserAuth
+                           allowedRoles={['user', 'admin']}
+                           requireOwnership
+                        />
+                     }
+                  >
+                     <Route
+                        path="/manage-posts/:id"
+                        element={<ManagePosts />}
+                     />
+                     <Route
+                        path="/edit-post/:game/:id/:postId"
+                        element={<EditPosts />}
+                     />
+                  </Route>
+               )}
                <Route path="/google-callback" element={<GoogleCallBack />} />
                <Route path="/verifyemail" element={<VerifyEmail />} />
                <Route path="*" element={<PageNotFound />}></Route>

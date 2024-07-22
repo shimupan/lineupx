@@ -145,14 +145,17 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
                className="flex-shrink-0"
                onClick={handlePostClick}
             >
-               <div className="w-[180px] h-[101px] bg-gray-800 rounded-xl overflow-hidden">
-                  <div className="w-full h-full relative">
-                     <img
-                        src={`${CDN_URL}/${post.landingPosition.public_id}`}
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
-                        alt={post.postTitle}
-                     />
-                  </div>
+               <div
+                  className="w-[180px] h-[101px] bg-black rounded-xl overflow-hidden"
+                  style={{
+                     position: 'relative',
+                  }}
+               >
+                  <img
+                     src={`${CDN_URL}/${post.landingPosition.public_id}`}
+                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-contain"
+                     alt={post.postTitle}
+                  />
                </div>
             </Link>
             <div className="flex flex-col pl-2 flex-grow">

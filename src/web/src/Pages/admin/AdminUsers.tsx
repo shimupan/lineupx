@@ -30,7 +30,7 @@ const AdminUsers: React.FC = () => {
    return (
       <div className="min-h-screen bg-gray-900 text-white">
          <Header />
-         <div className="flex">
+         <div className="flex flex-col md:flex-row">
             <SideNavWrapper />
             <main className="flex-1 p-4 md:p-6 md:ml-32">
                <h1 className="text-2xl md:text-3xl font-bold mb-6">
@@ -38,12 +38,12 @@ const AdminUsers: React.FC = () => {
                </h1>
                {loading ? (
                   <div className="flex justify-center items-center h-64">
-                     <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                     <div className="animate-spin rounded-full h-24 w-24 border-t-2 border-b-2 border-blue-500"></div>
                   </div>
                ) : (
                   <div className="bg-gray-800 shadow-md rounded-lg overflow-hidden">
                      <div className="overflow-x-auto">
-                        <table className="w-full">
+                        <table className="w-full min-w-max">
                            <thead className="bg-gray-700">
                               <tr>
                                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
@@ -73,7 +73,7 @@ const AdminUsers: React.FC = () => {
                                     }
                                  >
                                     <td className="px-4 py-4 whitespace-nowrap">
-                                       <div className="flex items-center">
+                                       <div className="flex items-center flex-col sm:flex-row">
                                           <div className="flex-shrink-0 h-10 w-10">
                                              <img
                                                 className="h-10 w-10 rounded-full"
@@ -84,7 +84,7 @@ const AdminUsers: React.FC = () => {
                                                 alt={user.username}
                                              />
                                           </div>
-                                          <div className="ml-4">
+                                          <div className="ml-4 text-center sm:text-left">
                                              <div className="text-sm font-medium">
                                                 {user.username}
                                              </div>

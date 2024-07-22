@@ -6,7 +6,7 @@ import { Header, Footer, SideNavWrapper } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import { AuthContext } from '../../App';
 import { approveRejectPosts } from '../../util/updatePost';
-import { MdCancel, MdReport } from 'react-icons/md';
+import { MdCancel, MdReport, MdEdit } from 'react-icons/md';
 
 type PositionKey = 'landingPosition' | 'aimingPosition' | 'standingPosition';
 
@@ -35,6 +35,12 @@ const AdminModifyPost = () => {
       return post ? `${CDN_URL}/${post[position].public_id}.png` : '';
    };
 
+   const handleEdit = (post: PostType) => {
+      navigate(`/edit-post/${post.game}/${Auth?.username}/${post._id}`, {
+         state: { post },
+      });
+   };
+
    return (
       <div className="min-h-screen bg-gray-900 text-white">
          <Header />
@@ -53,15 +59,24 @@ const AdminModifyPost = () => {
                   {post?.postTitle}
                </h1>
 
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                  {(['landing', 'aiming', 'standing'] as const).map((pos) => (
-                     <div key={pos} className="aspect-w-16 aspect-h-9">
+               <div className="flex flex-wrap justify-center gap-4 mb-4">
+                  {['landing', 'aiming', 'standing'].map((pos) => (
+                     <div
+                        key={pos}
+                        className="w-full md:w-96 h-54 bg-black rounded-lg overflow-hidden"
+                        style={{
+                           display: 'flex',
+                           justifyContent: 'center',
+                           alignItems: 'center',
+                           aspectRatio: '16 / 9',
+                        }}
+                     >
                         <img
                            src={getPositionImage(
                               `${pos}Position` as PositionKey,
                            )}
                            alt={`${pos} position`}
-                           className="object-cover rounded-lg shadow-lg"
+                           className="w-full h-full object-contain"
                         />
                      </div>
                   ))}
@@ -123,6 +138,15 @@ const AdminModifyPost = () => {
                      <MdCancel size={24} />
                      <span>Delete Post</span>
                   </button>
+                  {post && (
+                     <button
+                        onClick={() => handleEdit(post)}
+                        className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                     >
+                        <MdEdit size={24} />
+                        <span>Edit Post</span>
+                     </button>
+                  )}
                </div>
             </main>
          </div>

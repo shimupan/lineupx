@@ -4,6 +4,15 @@ import PostDataSchema from '../model/postData.js';
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
 
+// Function to delete Cloudinary images
+async function deleteCloudinaryImage(public_id) {
+   try {
+      await cloudinaryObject.uploader.destroy(public_id);
+      console.log(`Deleted image with public_id: ${public_id}`);
+   } catch (error) {
+      console.error(`Error deleting image with public_id ${public_id}:`, error);
+   }
+}
 const postLimit = rateLimit({
    windowMs: 24 * 60 * 60 * 1000,
    max: 10,
@@ -565,6 +574,93 @@ router.delete('/post/:id/comment/:commentId', async (req, res) => {
    }
 });
 
+router.put('/post/:id', async (req, res) => {
+   const { id } = req.params;
+   const {
+      userId,
+      postTitle,
+      lineupDescription,
+      role,
+      game,
+      jumpThrow,
+      teamSide,
+      standingPosition,
+      aimingPosition,
+      landingPosition,
+   } = req.body;
+
+   try {
+      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const post = await PostData.findById(id);
+
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      if (post.UserID.toString() !== userId.toString() && role !== 'admin') {
+         return res
+            .status(403)
+            .json({ message: 'User not authorized to edit this post' });
+      }
+
+      // Delete old images if new ones are provided
+      if (standingPosition && post.standingPosition) {
+         await deleteCloudinaryImage(post.standingPosition.public_id);
+      }
+      if (aimingPosition && post.aimingPosition) {
+         await deleteCloudinaryImage(post.aimingPosition.public_id);
+      }
+      if (landingPosition && post.landingPosition) {
+         await deleteCloudinaryImage(post.landingPosition.public_id);
+      }
+
+      // Prepare updated fields
+      if (postTitle) post.postTitle = postTitle;
+      if (lineupDescription) post.lineupDescription = lineupDescription;
+      if (jumpThrow) post.jumpThrow = jumpThrow;
+      if (teamSide) post.teamSide = teamSide;
+
+      // Update cloudinary images if provided
+      if (standingPosition) {
+         const uploadStandingPosition = await cloudinaryObject.uploader.upload(
+            standingPosition,
+            { folder: game },
+         );
+         post.standingPosition = {
+            public_id: uploadStandingPosition.public_id,
+            asset_id: uploadStandingPosition.asset_id,
+         };
+      }
+      if (aimingPosition) {
+         const uploadAimingPosition = await cloudinaryObject.uploader.upload(
+            aimingPosition,
+            { folder: game },
+         );
+         post.aimingPosition = {
+            public_id: uploadAimingPosition.public_id,
+            asset_id: uploadAimingPosition.asset_id,
+         };
+      }
+      if (landingPosition) {
+         const uploadLandingPosition = await cloudinaryObject.uploader.upload(
+            landingPosition,
+            { folder: game },
+         );
+         post.landingPosition = {
+            public_id: uploadLandingPosition.public_id,
+            asset_id: uploadLandingPosition.asset_id,
+         };
+      }
+
+      const updatedPost = await post.save();
+
+      res.status(200).json(updatedPost);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+   }
+});
+
 router.put('/post/:id/comment/:commentId', async (req, res) => {
    const { id, commentId } = req.params;
    const { userId, role, text } = req.body;
@@ -801,6 +897,36 @@ router.get('/grenade/:map/:game/:grenade', async (req, res) => {
    }
 });
 
-// returns all post for a specific map
+// Delete a post
+router.delete('/post/:game/:id', async (req, res) => {
+   const { game, id } = req.params;
+   const { role } = req.body; // Assuming you're passing the user's role in the request body
+
+   if (role !== 'admin') {
+      return res.status(401).send('Unauthorized');
+   }
+
+   const PostData = mongoose.model('PostData', PostDataSchema, game);
+
+   try {
+      const post = await PostData.findById(id);
+      if (!post) {
+         return res.status(404).send('Post not found');
+      }
+
+      // Delete images from Cloudinary
+      await deleteCloudinaryImage(post.aimingPosition.public_id);
+      await deleteCloudinaryImage(post.standingPosition.public_id);
+      await deleteCloudinaryImage(post.landingPosition.public_id);
+
+      // Delete the post from the database
+      await PostData.findByIdAndDelete(id);
+
+      res.status(200).send({ message: 'Post deleted successfully' });
+   } catch (error) {
+      console.error('Error deleting post:', error);
+      res.status(500).send({ error: 'Internal Server Error' });
+   }
+});
 
 export default router;

@@ -138,15 +138,24 @@ const AdminCheck: React.FC = () => {
                               <div className="flex flex-nowrap overflow-x-auto mb-4 space-x-4">
                                  {['landing', 'aiming', 'standing'].map(
                                     (pos) => (
-                                       <img
+                                       <div
                                           key={pos}
-                                          src={`${CDN_URL}/${
-                                             (p as any)[`${pos}Position`]
-                                                .public_id
-                                          }.png`}
-                                          alt={`${pos} position`}
-                                          className="h-48 w-96 object-cover rounded-lg flex-shrink-0"
-                                       />
+                                          className="h-48 w-96 bg-black rounded-lg flex-shrink-0 overflow-hidden"
+                                          style={{
+                                             display: 'flex',
+                                             justifyContent: 'center',
+                                             alignItems: 'center',
+                                          }}
+                                       >
+                                          <img
+                                             src={`${CDN_URL}/${
+                                                (p as any)[`${pos}Position`]
+                                                   .public_id
+                                             }.png`}
+                                             alt={`${pos} position`}
+                                             className="max-h-full max-w-full object-contain"
+                                          />
+                                       </div>
                                     ),
                                  )}
                               </div>

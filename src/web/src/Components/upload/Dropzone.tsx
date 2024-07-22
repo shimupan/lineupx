@@ -1,8 +1,8 @@
-import { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 type DropzoneProps = {
-   setFile: React.Dispatch<React.SetStateAction<string>>;
+   setFile: (file: string, preview: string) => void;
    style?: React.CSSProperties;
 };
 
@@ -36,19 +36,24 @@ const rejectStyle = {
    borderColor: '#E53E3E',
 };
 
-const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
-   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
-   const onDrop = useCallback((acceptedFiles: File[]) => {
-      const file = new FileReader();
-      file.readAsDataURL(acceptedFiles[0]);
-      file.onloadend = () => {
-         const result = file.result;
-         setPreview(result);
-         if (typeof result === 'string') {
-            setFile(result);
-         }
-      };
-   }, []);
+const Dropzone: React.FC<DropzoneProps> = ({ setFile, style: propStyle }) => {
+   const [preview, setPreview] = useState<string | null>(null);
+
+   const onDrop = useCallback(
+      (acceptedFiles: File[]) => {
+         const file = new FileReader();
+         file.readAsDataURL(acceptedFiles[0]);
+         file.onloadend = () => {
+            const result = file.result;
+            if (typeof result === 'string') {
+               setPreview(result);
+               setFile(result, result); // Send both file data and preview
+            }
+         };
+      },
+      [setFile],
+   );
+
    const {
       getRootProps,
       getInputProps,
@@ -72,8 +77,9 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
          ...(isFocused ? focusedStyle : {}),
          ...(isDragAccept ? acceptStyle : {}),
          ...(isDragReject ? rejectStyle : {}),
+         ...propStyle,
       }),
-      [isFocused, isDragAccept, isDragReject],
+      [isFocused, isDragAccept, isDragReject, propStyle],
    );
 
    return (
@@ -100,7 +106,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
                   </svg>
                   <p className="mb-2 text-sm text-gray-500">
                      <span className="font-semibold">Click to upload</span> or
-                     drag and drop
+                     drag and drop. Preferred 16:9 aspect ratio.
                   </p>
                </div>
             )}
@@ -108,7 +114,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFile }) => {
          {preview && (
             <div className="mt-4">
                <img
-                  src={preview as string}
+                  src={preview}
                   alt="Upload preview"
                   className="object-contain w-full h-40 rounded-md"
                />

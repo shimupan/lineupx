@@ -126,15 +126,25 @@ const AdminPosts: React.FC = () => {
                                  <div className="flex flex-wrap justify-center gap-4 mb-4">
                                     {['landing', 'aiming', 'standing'].map(
                                        (pos) => (
-                                          <img
+                                          <div
                                              key={pos}
-                                             src={`${CDN_URL}/${
-                                                (p as any)[`${pos}Position`]
-                                                   .public_id
-                                             }.png`}
-                                             alt={`${pos} position`}
-                                             className="w-full md:w-96 h-54 object-cover rounded-lg"
-                                          />
+                                             className="w-full md:w-96 h-54 bg-black rounded-lg overflow-hidden"
+                                             style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                aspectRatio: '16 / 9',
+                                             }}
+                                          >
+                                             <img
+                                                src={`${CDN_URL}/${
+                                                   (p as any)[`${pos}Position`]
+                                                      .public_id
+                                                }.png`}
+                                                alt={`${pos} position`}
+                                                className="max-w-full max-h-full object-contain"
+                                             />
+                                          </div>
                                        ),
                                     )}
                                  </div>
