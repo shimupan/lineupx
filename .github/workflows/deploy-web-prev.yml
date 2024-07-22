@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  deploy-prev:
+  preview-deployment:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

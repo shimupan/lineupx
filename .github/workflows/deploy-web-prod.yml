@@ -10,23 +10,23 @@ on:
       - main
 
 jobs:
-  deploy-prod:
+  production-deployment:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Change Directory
+        run: cd src/web
 
       - name: Install Vercel CLI
         run: npm install -g vercel
       
       - name: Pull Vercel Env
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} 
-        working-directory: src/web
       
       - name: Build Project
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: src/web
       
       - name: Deploy Project
         run: vercel --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: src/web
