@@ -4,7 +4,14 @@ import axios from 'axios';
 import { PostType } from '../../../global.types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Header, Footer, Dropzone, LoadingSpinner, SideNavWrapper, BottomNav } from '../../../Components';
+import {
+   Header,
+   Footer,
+   Dropzone,
+   LoadingSpinner,
+   SideNavWrapper,
+   BottomNav,
+} from '../../../Components';
 import { CDN_URL } from '../../../Constants';
 import {
    FaEye,

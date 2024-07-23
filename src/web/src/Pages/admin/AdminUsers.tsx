@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../../App';
 import { getAllUsers } from '../../util/getUser';
-import { Footer, Header, SideNavWrapper,BottomNav } from '../../Components';
+import { Footer, Header, SideNavWrapper, BottomNav } from '../../Components';
 import { UserType } from '../../global.types';
 import { useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaCheck, FaTimes } from 'react-icons/fa';
