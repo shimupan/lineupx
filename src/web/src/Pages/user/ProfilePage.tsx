@@ -421,7 +421,7 @@ const ProfilePage = () => {
                                     {game}
                                  </div>
                                  {posts[index].length > 0 ? (
-                                    <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
+                                    <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
                                        {posts[index].map((post) => (
                                           <div
                                              key={
