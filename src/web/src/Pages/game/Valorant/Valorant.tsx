@@ -9,11 +9,14 @@ import {
    Footer,
    Carousel,
    ValorantPopup,
+   BottomNav,
 } from '../../../Components';
 import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
 import { useLocalStorage } from '../../../hooks';
+import useIsMobile from '../../../hooks/isMobile';
 
 const Valorant: React.FC = () => {
+   const isMobile = useIsMobile();
    const [open, setOpen] = useState<boolean>(true);
    const [posts, setPosts] = useState<PostType[]>([]);
    const [value, setValue] = useLocalStorage('valorantPopup', true);
@@ -214,7 +217,7 @@ const Valorant: React.FC = () => {
          <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-1">
-               <SideNavWrapper />
+               {!isMobile && <SideNavWrapper />}
                <div
                   className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
                   style={{
@@ -253,7 +256,10 @@ const Valorant: React.FC = () => {
                   ))}
                </article>
             </main>
-            <Footer className="mt-auto" />
+            <Footer />
+            <div style={{ paddingTop: '80px' }}>
+               {isMobile && <BottomNav />}
+            </div>
          </div>
       </>
    );

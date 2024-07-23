@@ -10,6 +10,7 @@ import {
    FollowerPopup,
    FollowingPopup,
    UnapprovedPostsPopup,
+   BottomNav,
 } from '../../Components';
 import { getUserByUsername } from '../../util/getUser';
 import { follow } from '../../util/followStatus';
@@ -23,7 +24,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { FaRegSave, FaRegNewspaper } from 'react-icons/fa';
+import useIsMobile from '../../hooks/isMobile';
+
 const ProfilePage = () => {
+   const isMobile = useIsMobile();
    const { id } = useParams<{ id: string }>();
    const [user, setUser] = useState<UserType>({
       role: '',
@@ -226,7 +230,7 @@ const ProfilePage = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
          {open && Auth?.username == user.username ? (
             <div className="h-screen">
                <ProfileEdit user={user} setOpen={setOpen} />
@@ -484,6 +488,7 @@ const ProfilePage = () => {
          )}
 
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
 
          <ToastContainer position="top-center" />
 

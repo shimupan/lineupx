@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Footer, Header, SideNavWrapper } from '../../Components';
+import { Footer, Header, SideNavWrapper, BottomNav } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL } from '../../Constants';
 import { PostType } from '../../global.types';
@@ -11,8 +11,10 @@ import {
    MdExpandMore,
    MdExpandLess,
 } from 'react-icons/md';
+import useIsMobile from '../../hooks/isMobile';
 
 const AdminCheck: React.FC = () => {
+   const isMobile = useIsMobile();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const [expandedPost, setExpandedPost] = useState<string | null>(null);
    const Auth = useContext(AuthContext);
@@ -49,7 +51,7 @@ const AdminCheck: React.FC = () => {
       <div className="min-h-screen bg-gray-900 text-white">
          <Header />
          <div className="flex flex-col md:flex-row">
-            <SideNavWrapper />
+            {!isMobile && <SideNavWrapper />}
             <main className="flex-1 p-4 md:p-6 md:ml-32">
                <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                   Posts Pending Approval
@@ -191,6 +193,7 @@ const AdminCheck: React.FC = () => {
             </main>
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </div>
    );
 };

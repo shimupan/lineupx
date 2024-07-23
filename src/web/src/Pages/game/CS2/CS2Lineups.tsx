@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef } from 'react';
-import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { Header, Footer, SideNavWrapper, BottomNav } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
+import useIsMobile from '../../../hooks/isMobile';
 
 import ancient from '../../../assets/cs2maps/ancient.webp';
 import anubis from '../../../assets/cs2maps/anubis.webp';
@@ -13,6 +14,7 @@ import overpass from '../../../assets/cs2maps/overpass.webp';
 import vertigo from '../../../assets/cs2maps/vertigo.webp';
 
 const CS2Lineups: React.FC = () => {
+   const isMobile = useIsMobile();
    const Auth = useContext(AuthContext);
    const initialRender = useRef(true);
    const navigate = useNavigate();
@@ -41,7 +43,7 @@ const CS2Lineups: React.FC = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
 
          <main className="bg-gradient-to-br from-purple-800 to-blue-600 min-h-screen p-4 flex justify-center items-center">
             <div className="container mx-auto py-6">
@@ -75,6 +77,7 @@ const CS2Lineups: React.FC = () => {
          </main>
 
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };

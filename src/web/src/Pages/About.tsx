@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header, Footer, SideNavWrapper } from '../Components';
+import { Header, Footer, SideNavWrapper, BottomNav } from '../Components';
 import HeroImage from '../assets/hero.webp';
 import { FaUpload, FaSync, FaMedal, FaThumbsUp } from 'react-icons/fa';
+import useIsMobile from '../hooks/isMobile';
 
 const About: React.FC = () => {
    const [showMore, setShowMore] = useState(false);
    const [scrollPosition, setScrollPosition] = useState(0);
    const navigate = useNavigate();
+   const isMobile = useIsMobile();
 
    useEffect(() => {
       const handleScroll = () => {
@@ -28,7 +30,8 @@ const About: React.FC = () => {
    return (
       <div className="flex flex-col min-h-screen bg-gray-900 text-white justify">
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
+
          <div className="flex-1 pt-28 px-8 sm:pl-8 md:pl-64 lg:pl-64 text-sm md:text-base lg:text-lg max-w-6xl">
             <div
                className="relative mb-16 transition-transform duration-300"
@@ -207,6 +210,7 @@ const About: React.FC = () => {
             </div>
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </div>
    );
 };
