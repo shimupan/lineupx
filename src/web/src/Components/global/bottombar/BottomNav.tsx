@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MdHome, MdOutlineSettings } from 'react-icons/md';
+import { MdHome } from 'react-icons/md';
 import cs2Logo from '../../../assets/svg/csgo.svg';
 import valorantLogo from '../../../assets/svg/valorant.svg';
+import { AuthContext } from '../../../App';
 
 const BottomNav: React.FC = () => {
    const location = useLocation();
+   const Auth = useContext(AuthContext);
 
    const isActive = (path: string) => location.pathname === path;
 
@@ -57,13 +59,27 @@ const BottomNav: React.FC = () => {
             </li>
             <li>
                <Link
-                  to="/profile"
+                  to={`/user/${Auth?.username ? Auth?.username : 'Guest'}`}
                   className={`flex flex-col items-center ${
-                     isActive('/profile') ? 'text-indigo-400' : ''
+                     isActive(
+                        `/user/${Auth?.username ? Auth?.username : 'Guest'}`,
+                     )
+                        ? 'text-indigo-400'
+                        : ''
                   }`}
                >
-                  <MdOutlineSettings size={24} />
-                  <span className="text-xs mt-1">Profile</span>
+                  <img
+                     src={
+                        Auth?.ProfilePicture
+                           ? Auth.ProfilePicture
+                           : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
+                                Auth?.username ? Auth?.username : 'Guest'
+                             }`
+                     }
+                     alt="Profile"
+                     className="w-6 h-6 rounded-full"
+                  />
+                  <span className="text-xs mt-1">You</span>
                </Link>
             </li>
          </ul>

@@ -18,24 +18,18 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const navigate = useNavigate();
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
+   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768);
    const location = useLocation();
    const approved = Auth?.role === 'admin';
    const isSpecialRoute =
       location.pathname.startsWith('/game/Valorant') ||
       location.pathname.startsWith('/game/CS2');
+
    let topPosition = 'top-[50px]';
    if (isSpecialRoute) {
       topPosition = 'top-[90px]';
    }
-   const isMobile = window.innerWidth <= 768;
-   if (
-      (location.pathname === '/game/Valorant' ||
-         location.pathname === '/game/CS2') &&
-      approved &&
-      isMobile
-   ) {
-      topPosition = 'top-[140px]';
-   } else if (isSpecialRoute && approved && isMobile) {
+   if (isSpecialRoute && approved && isMobile) {
       topPosition = 'top-[115px]';
    } else if (approved && isMobile) {
       topPosition = 'top-[75px]';
@@ -43,14 +37,11 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
 
    const logout = async () => {
       try {
-         // Send a request to the server to invalidate the refresh token
          if (Auth?.refreshToken) {
             await axios.delete('/logout', {
                data: { refreshToken: Auth.refreshToken },
             });
          }
-
-         // Clear the tokens from cookies and context
          cookies.remove('accessToken');
          cookies.remove('refreshToken');
          if (Auth) {
@@ -60,8 +51,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
             Auth.setEmail('');
             Auth.setProfilePicture('');
          }
-
-         // Navigate to the login or home page after logout
          navigate('/login');
       } catch (error) {
          console.error('Error during logout:', error);
@@ -69,16 +58,24 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    };
 
    useEffect(() => {
-      // This will cause a re-render whenever Auth changes
-   }, [Auth]);
+      const handleResize = () => setIsMobile(window.innerWidth <= 768);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+   }, []);
+
+   // Do not render the SideNav component on mobile
+   if (isMobile) {
+      return null;
+   }
+
    return (
       <>
          <aside
             className={`${
                expanded ? 'h-full' : ''
             } md:h-screen fixed ${topPosition} bottom-0 z-20 transition-all duration-700`}
-            onMouseEnter={() => window.innerWidth > 768 && setExpanded(true)}
-            onMouseLeave={() => window.innerWidth > 768 && setExpanded(false)}
+            onMouseEnter={() => setExpanded(true)}
+            onMouseLeave={() => setExpanded(false)}
          >
             <nav
                className={`h-full flex flex-col overflow-hidden ${
