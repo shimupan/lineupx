@@ -46,8 +46,8 @@ const AdminCheck: React.FC = () => {
    };
 
    return (
-         <div className="min-h-screen bg-gray-900 text-white">
-                  <Layout>
+      <div className="min-h-screen bg-gray-900 text-white">
+         <Layout>
             <div className="flex flex-col md:flex-row">
                <main className="flex-1 p-4 md:p-6 md:ml-32">
                   <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
@@ -201,8 +201,8 @@ const AdminCheck: React.FC = () => {
                   </div>
                </main>
             </div>
-            </Layout>
-         </div>
+         </Layout>
+      </div>
    );
 };
 

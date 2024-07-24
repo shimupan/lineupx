@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from 'react';
-import { Game, Layout} from '../Components';
+import { Game, Layout } from '../Components';
 import { AuthContext } from '../App';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -40,14 +40,12 @@ const Page: React.FC = () => {
    return (
       <>
          <Layout>
-
-         <div className="h-screen flex">
-            <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
-               <Game game={'game/CS2'} name={cs2} />
-               <Game game={'game/Valorant'} name={valorant} />
+            <div className="h-screen flex">
+               <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
+                  <Game game={'game/CS2'} name={cs2} />
+                  <Game game={'game/Valorant'} name={valorant} />
+               </div>
             </div>
-         </div>
-
          </Layout>
 
          <ToastContainer
