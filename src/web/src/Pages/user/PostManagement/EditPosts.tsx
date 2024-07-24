@@ -144,7 +144,7 @@ const EditPost: React.FC = () => {
       <>
          <Header />
          {!isMobile && <SideNavWrapper />}
-         <div className="min-h-screen text-white md:p-6 md:ml-32">
+         <div className="min-h-screen text-white p-4 md:p-6 md:ml-32">
             <h1 className="text-2xl font-bold mb-6">Edit Post</h1>
             <div className="flex flex-col md:flex-row gap-8">
                {/* Left side - Form */}
