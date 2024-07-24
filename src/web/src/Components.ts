@@ -30,6 +30,7 @@ export { default as PrivatePolicy } from './Pages/policies/PrivatePolicy';
 export { default as TOS } from './Pages/policies/TOS';
 export { default as ManagePosts } from './Pages/user/PostManagement/ManagePosts';
 export { default as EditPosts } from './Pages/user/PostManagement/EditPosts';
+export { default as ServerStatus } from './Pages/ServerStatus';
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';
