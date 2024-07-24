@@ -38,21 +38,6 @@ services:
       - /home/app/node_modules
     depends_on:
       - lineupx_db
-  
-  lineupx_web:
-    container_name: lineupx_web
-    image: web
-    ports:
-      - 5173:5173
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    build:
-      context: ./src/web
-      dockerfile: Dockerfile
-    volumes:
-      - ./src/web:/home/web
-      - /home/web/node_modules
-    depends_on:
-      - lineupx_api
+
 volumes:
   lineupx_db:
