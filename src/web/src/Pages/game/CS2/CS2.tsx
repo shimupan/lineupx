@@ -146,13 +146,15 @@ const CS2: React.FC = () => {
                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
 
-               <Searchbar
-                  onChange={(e) => handleSearch(e.target.value)}
-                  onSearch={handleSearch}
-                  placeholder="Search for CS2 Lineups"
-                  suggestions={suggestions}
-                  game={'CS2'}
-               />
+               <div className="w-full px-4 z-10">
+                  <Searchbar
+                     onChange={(e) => handleSearch(e.target.value)}
+                     onSearch={handleSearch}
+                     placeholder="Search for CS2 Lineups"
+                     suggestions={suggestions}
+                     game={'CS2'}
+                  />
+               </div>
             </div>
             <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
                <div className="w-full sm:w-3/4 md:w-1/2 ">

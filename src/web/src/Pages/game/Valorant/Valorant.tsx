@@ -226,17 +226,18 @@ const Valorant: React.FC = () => {
                   <h1 className="text-lg mb-4 pt-10 font-bold z-10">
                      Valorant
                   </h1>
-
-                  <Searchbar
-                     onChange={(e) => handleSearch(e.target.value)}
-                     onSearch={handleSearch}
-                     placeholder="Search for Valorant Lineups"
-                     suggestions={suggestions}
-                     game={'Valorant'}
-                  />
+                  <div className="w-full px-4 z-10">
+                     <Searchbar
+                        onChange={(e) => handleSearch(e.target.value)}
+                        onSearch={handleSearch}
+                        placeholder="Search for Valorant Lineups"
+                        suggestions={suggestions}
+                        game={'Valorant'}
+                     />
+                  </div>
                </div>
                <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
-                  <div className="w-full sm:w-3/4 md:w-1/2 ">
+                  <div className="w-full sm:w-3/4 md:w-1/2">
                      <Carousel images={VALORANT_MAPS} />
                   </div>
                </div>
