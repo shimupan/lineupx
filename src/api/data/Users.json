@@ -1,5 +1,16 @@
 [
     {
+        "_id": "ObjectId('66a099bdf8e2b66f1e149f48')",
+        "role": "admin",
+        "username": "admin",
+        "password": "admin",
+        "email": "admin@lineupx.net",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": []
+    },
+    {
         "_id": {
             "$oid": "65a70055dc44d590069824da"
         },
