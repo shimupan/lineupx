@@ -1,0 +1,506 @@
+[
+    {
+        "_id": {
+            "$oid": "65a70055dc44d590069824da"
+        },
+        "ProfilePicture": "https://res.cloudinary.com/ddwqqjmyo/image/upload/v1711745107/profile_pictures/cvn5lhncu88f4qxmmhzs.png",
+        "role": "admin",
+        "username": "ooccupate",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [
+            {
+                "$oid": "65fdf3f5674cd62852a672b0"
+            },
+            {
+                "$oid": "65b95df59b59b5853363171c"
+            }
+        ],
+        "comments": [
+            {
+                "text": "test",
+                "_id": {
+                    "$oid": "65b03657addfb39ea8b8f030"
+                },
+                "createdAt": {
+                    "$date": "2024-01-23T21:57:43.65Z"
+                }
+            },
+            {
+                "text": "this is the haunt",
+                "_id": {
+                    "$oid": "65b04dae5b8141a77648d215"
+                },
+                "createdAt": {
+                    "$date": "2024-01-23T23:37:18.045Z"
+                }
+            },
+            {
+                "text": "Yo this is fire",
+                "_id": {
+                    "$oid": "65c696722e0dc09b91ed0999"
+                },
+                "createdAt": {
+                    "$date": "2024-02-09T21:17:38.566Z"
+                }
+            },
+            {
+                "text": "hello",
+                "_id": {
+                    "$oid": "65f4b260af69734bbbab84de"
+                },
+                "createdAt": {
+                    "$date": "2024-03-15T20:41:04.515Z"
+                }
+            },
+            {
+                "text": "ssa",
+                "_id": {
+                    "$oid": "65f4b2a0af69734bbbab875d"
+                },
+                "createdAt": {
+                    "$date": "2024-03-15T20:42:08.419Z"
+                }
+            },
+            {
+                "text": "dsad",
+                "_id": {
+                    "$oid": "65f4b2d2af69734bbbab88f9"
+                },
+                "createdAt": {
+                    "$date": "2024-03-15T20:42:58.627Z"
+                }
+            },
+            {
+                "text": "dsaw",
+                "_id": {
+                    "$oid": "65f4b31aaf69734bbbab8a21"
+                },
+                "createdAt": {
+                    "$date": "2024-03-15T20:44:10.091Z"
+                }
+            },
+            {
+                "text": "yo this won me 1v1",
+                "_id": {
+                    "$oid": "65fdf209674cd62852a65f3b"
+                },
+                "createdAt": {
+                    "$date": "2024-03-22T21:03:05.192Z"
+                }
+            }
+        ],
+        "followers": [
+            {
+                "$oid": "65a70095dc44d590069824e2"
+            }
+        ],
+        "__v": 141,
+        "following": [
+            {
+                "$oid": "65a70095dc44d590069824e2"
+            }
+        ]
+    },
+    {
+        "_id": {
+            "$oid": "65a70095dc44d590069824e2"
+        },
+        "ProfilePicture": "https://res.cloudinary.com/ddwqqjmyo/image/upload/v1719199975/profile_pictures/qavuabgavrfv4z017gon.jpg",
+        "role": "admin",
+        "username": "kagiriez",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [
+            {
+                "$oid": "65fde52f674cd62852a54d56"
+            },
+            {
+                "$oid": "664e11194747eec764c2d8e2"
+            },
+            {
+                "$oid": "6663b2bf289679b8ef6e6cd3"
+            },
+            {
+                "$oid": "666088fbbea00eaf175c9cbc"
+            }
+        ],
+        "comments": [
+            {
+                "text": "very cool lineup!",
+                "_id": {
+                    "$oid": "65c6966b2e0dc09b91ed0991"
+                },
+                "createdAt": {
+                    "$date": "2024-02-09T21:17:31.33Z"
+                }
+            },
+            {
+                "text": "skibidi toilet",
+                "_id": {
+                    "$oid": "65c69a532e0dc09b91ed0a54"
+                },
+                "createdAt": {
+                    "$date": "2024-02-09T21:34:11.409Z"
+                }
+            },
+            {
+                "text": "rizzly bear",
+                "_id": {
+                    "$oid": "65c6a1012e0dc09b91ed0aec"
+                },
+                "createdAt": {
+                    "$date": "2024-02-09T22:02:41.071Z"
+                }
+            },
+            {
+                "text": "peak",
+                "_id": {
+                    "$oid": "65cbfd9b1c4cec9d17ad0041"
+                },
+                "createdAt": {
+                    "$date": "2024-02-13T23:39:07.919Z"
+                }
+            },
+            {
+                "text": "very cool lineup!",
+                "_id": {
+                    "$oid": "65f602f1674cd62852a4d271"
+                },
+                "createdAt": {
+                    "$date": "2024-03-16T20:37:05.528Z"
+                }
+            },
+            {
+                "text": "Wow!",
+                "_id": {
+                    "$oid": "65fde542674cd62852a55032"
+                },
+                "createdAt": {
+                    "$date": "2024-03-22T20:08:34.051Z"
+                }
+            },
+            {
+                "text": "yea",
+                "_id": {
+                    "$oid": "663ed14a4747eec764bf186e"
+                },
+                "createdAt": {
+                    "$date": "2024-05-11T02:00:42.653Z"
+                }
+            },
+            {
+                "text": "a",
+                "_id": {
+                    "$oid": "664e5b344747eec764c2ea91"
+                },
+                "createdAt": {
+                    "$date": "2024-05-22T20:53:08.238Z"
+                }
+            },
+            {
+                "text": "insane",
+                "_id": {
+                    "$oid": "6652712dbea00eaf175b5537"
+                },
+                "createdAt": {
+                    "$date": "2024-05-25T23:15:57.238Z"
+                }
+            },
+            {
+                "text": "nice\n",
+                "_id": {
+                    "$oid": "6691a822fe50834533224092"
+                },
+                "createdAt": {
+                    "$date": "2024-07-12T22:03:14.245Z"
+                }
+            },
+            {
+                "text": "W",
+                "_id": {
+                    "$oid": "6696cee05180067a636cc50b"
+                },
+                "createdAt": {
+                    "$date": "2024-07-16T19:49:52.42Z"
+                }
+            },
+            {
+                "text": "nice",
+                "_id": {
+                    "$oid": "6696d0f75180067a636d98ea"
+                },
+                "createdAt": {
+                    "$date": "2024-07-16T19:58:47.486Z"
+                }
+            },
+            {
+                "text": "WW",
+                "_id": {
+                    "$oid": "669b3fbaa8b61853db2b2977"
+                },
+                "createdAt": {
+                    "$date": "2024-07-20T04:40:26.944Z"
+                }
+            }
+        ],
+        "followers": [
+            {
+                "$oid": "65a70055dc44d590069824da"
+            },
+            {
+                "$oid": "668b1c1a27c2fa4d2160d05c"
+            }
+        ],
+        "__v": 149,
+        "following": [
+            {
+                "$oid": "65a70055dc44d590069824da"
+            }
+        ]
+    },
+    {
+        "_id": {
+            "$oid": "65c97cfd2e0dc09b91ed0df5"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Brice Vincent",
+        "email": "",
+        "password": "",
+        "Verified": false,
+        "verificationCode": "696525",
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "comments": [],
+        "followers": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "65cbe4d72e0dc09b91ed0e7b"
+        },
+        "ProfilePicture": "https://res.cloudinary.com/ddwqqjmyo/image/upload/v1712092061/profile_pictures/lwwqjbpojt0l9eh3u3un.jpg",
+        "role": "user",
+        "username": "Tiffany Mcclaughry",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "comments": [],
+        "followers": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "66615738bea00eaf176876fb"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Paula Boas",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "6661d718bea00eaf176886a2"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Opal Jensen",
+        "email": "",
+        "password": "",
+        "Verified": false,
+        "verificationCode": "345513",
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "6665d7d2289679b8ef73a480"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Allen Jude",
+        "email": "",
+        "password": "",
+        "Verified": false,
+        "verificationCode": "473747",
+        "likes": [],
+        "dislikes": [],
+        "saved": [
+            {
+                "$oid": "65c6b27d2e0dc09b91ed0b9b"
+            }
+        ],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 1
+    },
+    {
+        "_id": {
+            "$oid": "66712977289679b8ef7a6cb6"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Michael Siddall",
+        "email": "",
+        "password": "",
+        "Verified": false,
+        "verificationCode": "539775",
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "668b1c1a27c2fa4d2160d05c"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Irene Maness",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [
+            {
+                "$oid": "65a70095dc44d590069824e2"
+            }
+        ],
+        "comments": [
+            {
+                "text": "cool",
+                "_id": {
+                    "$oid": "668b1cb327c2fa4d2160fd00"
+                },
+                "createdAt": {
+                    "$date": "2024-07-07T22:54:43.455Z"
+                }
+            }
+        ],
+        "__v": 2
+    },
+    {
+        "_id": {
+            "$oid": "669b720da8b61853db2b3d6f"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Robert Hensley",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "669b7660a8b61853db2b59b1"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Glen Watson",
+        "email": "",
+        "password": "",
+        "Verified": false,
+        "verificationCode": "227790",
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "669b7761a8b61853db2b59b9"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Carmel Bonnet",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "669b802fa8b61853db2bed2c"
+        },
+        "ProfilePicture": "",
+        "role": "user",
+        "username": "Rosie Abreu",
+        "email": "",
+        "password": "",
+        "Verified": false,
+        "verificationCode": "302662",
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "669dd9c5a8b61853db2c3415"
+        },
+        "ProfilePicture": "https://res.cloudinary.com/ddwqqjmyo/image/upload/v1721621298/profile_pictures/zyiqk981b4pbvrqlvsqs.jpg",
+        "role": "user",
+        "username": "Todd Mcnulty",
+        "email": "",
+        "password": "",
+        "Verified": true,
+        "likes": [],
+        "dislikes": [],
+        "saved": [],
+        "followers": [],
+        "following": [],
+        "comments": [],
+        "__v": 0
+    }
+]
