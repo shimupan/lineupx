@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from 'react';
-import { Header, Game, Footer, SideNavWrapper, BottomNav } from '../Components';
+import { Header, Game, Footer, SideNavWrapper, BottomNav, ServerStatusBannner } from '../Components';
 import { AuthContext } from '../App';
 import { ToastContainer, toast } from 'react-toastify';
 import useIsMobile from '../hooks/isMobile';
@@ -42,7 +42,7 @@ const Page: React.FC = () => {
    return (
       <>
          <Header />
-
+         <ServerStatusBannner />
          {!isMobile && <SideNavWrapper />}
 
          <div className="h-screen flex">
