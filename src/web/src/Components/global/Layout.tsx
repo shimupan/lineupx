@@ -21,11 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
          <ServerStatusBannner />
          {!isMobile && <SideNavWrapper />}
 
-         <div className="min-h-screen flex flex-col">
-            <div className="flex-1 flex justify-center items-center space-x-4">
-               {children}
-            </div>
-         </div>
+         {children}
 
          <Footer />
          <div className="pt-20">{isMobile && <BottomNav />}</div>
