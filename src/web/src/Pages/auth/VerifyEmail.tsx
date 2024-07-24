@@ -1,10 +1,12 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Header, SideNavWrapper } from '../../Components';
+import { Header, SideNavWrapper, BottomNav } from '../../Components';
 import { ToastContainer, toast } from 'react-toastify';
+import useIsMobile from '../../hooks/isMobile';
 
 const VerifyEmail: React.FC = () => {
+   const isMobile = useIsMobile();
    const [verificationCode, setVerificationCode] = useState<string>('');
    const navigate = useNavigate();
    const location = useLocation();
@@ -17,10 +19,9 @@ const VerifyEmail: React.FC = () => {
       const id = toast.loading('Verifying Email...');
 
       try {
-         const response = await axios.post(`/verifyemail/${userId}`, {
+         await axios.post(`/verifyemail/${userId}`, {
             verificationCode,
          });
-         console.log(response.data);
 
          toast.update(id, {
             render: 'Email verification successful!',
@@ -60,7 +61,7 @@ const VerifyEmail: React.FC = () => {
       <>
          <Header />
 
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
 
          <div className="h-screen md:h-full md:w-1/2 lg:w-1/2 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
@@ -101,6 +102,7 @@ const VerifyEmail: React.FC = () => {
                </div>
             </div>
          </div>
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
          <ToastContainer position="top-center" />
       </>
    );

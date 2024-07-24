@@ -7,7 +7,9 @@ import {
    Loading,
    ProfileEdit,
    DeletePopup,
+   BottomNav,
 } from '../../../Components';
+import useIsMobile from '../../../hooks/isMobile';
 import { getUserByUsername } from '../../../util/getUser';
 import { GAMES, CDN_URL } from '../../../Constants';
 import { AuthContext } from '../../../App';
@@ -23,6 +25,7 @@ import {
 } from 'react-icons/fa';
 
 const ManagePosts = () => {
+   const isMobile = useIsMobile();
    const { id } = useParams<{ id: string }>();
    const navigate = useNavigate();
    const [user, setUser] = useState<UserType>({
@@ -128,7 +131,7 @@ const ManagePosts = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
          {open && Auth?.username == user.username ? (
             <div className="h-screen">
                <ProfileEdit user={user} setOpen={setOpen} />
@@ -228,6 +231,7 @@ const ManagePosts = () => {
             </div>
          )}
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
          <ToastContainer position="top-center" />
 
          <DeletePopup

@@ -7,15 +7,16 @@ import {
    SideNavWrapper,
    ValorantMode,
    CS2Mode,
+   BottomNav,
 } from '../../Components';
 import { AuthContext } from '../../App';
 import { ToastContainer } from 'react-toastify';
 import { reducer, UploadDefaults } from './upload.reducer';
 import { handleSubmit } from './upload.util';
+import useIsMobile from '../../hooks/isMobile';
 
 const Upload: React.FC = () => {
-   // TODO: ADD Agents and Agent specific stuff if the game is valorant
-   // Future state variables will go in the reducer
+   const isMobile = useIsMobile();
    const [state, dispatch] = useReducer(reducer, UploadDefaults);
    // Images are outside since they are used as props
    const [standingPosition, setStandingPosition] = useState<string>('');
@@ -40,7 +41,7 @@ const Upload: React.FC = () => {
       return (
          <>
             <Header />
-            <SideNavWrapper />
+            {!isMobile && <SideNavWrapper />}
 
             <div className="flex items-center justify-center h-screen">
                <div className="px-4 py-6 text-center border border-gray-300 rounded-lg shadow-lg bg-white">
@@ -272,6 +273,7 @@ const Upload: React.FC = () => {
                </div>
             </div>
          </div>
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
          <ToastContainer position="top-center" />
       </>
    );

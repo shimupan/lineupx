@@ -1,7 +1,9 @@
-import { Header, SideNavWrapper } from '../../Components';
+import { Header, SideNavWrapper, BottomNav } from '../../Components';
 import PanelCard from '../../Components/admin/PanelCard';
+import useIsMobile from '../../hooks/isMobile';
 
 const AdminHome: React.FC = () => {
+   const isMobile = useIsMobile();
    return (
       <>
          <Header />
@@ -23,8 +25,8 @@ const AdminHome: React.FC = () => {
                to="/admin/check"
             />
          </div>
-
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };
