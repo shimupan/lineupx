@@ -1,12 +1,10 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Header, SideNavWrapper, BottomNav } from '../../Components';
+import { Layout } from '../../Components';
 import { ToastContainer, toast } from 'react-toastify';
-import useIsMobile from '../../hooks/isMobile';
 
 const ResetPassword: React.FC = () => {
-   const isMobile = useIsMobile();
    const [password, setPassword] = useState<string>('');
    const [confirmPassword, setConfirmPassword] = useState<string>('');
    const navigate = useNavigate();
@@ -65,9 +63,7 @@ const ResetPassword: React.FC = () => {
 
    return (
       <>
-         <Header />
-
-         {!isMobile && <SideNavWrapper />}
+         <Layout>
 
          <div className="h-screen md:h-full md:w-1/2 lg:w-1/2 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
@@ -131,7 +127,7 @@ const ResetPassword: React.FC = () => {
                </div>
             </div>
          </div>
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
          <ToastContainer position="top-center" />
       </>
    );

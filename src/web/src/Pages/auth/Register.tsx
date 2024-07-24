@@ -1,12 +1,10 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { Header, SideNavWrapper, BottomNav } from '../../Components';
+import { Layout } from '../../Components';
 import { ToastContainer, toast } from 'react-toastify';
-import useIsMobile from '../../hooks/isMobile';
 
 const Register: React.FC = () => {
-   const isMobile = useIsMobile();
    const [userName, setUserName] = useState<string>('');
    const [email, setEmail] = useState<string>('');
    const [password, setPassword] = useState<string>('');
@@ -76,9 +74,7 @@ const Register: React.FC = () => {
 
    return (
       <>
-         <Header />
-
-         {!isMobile && <SideNavWrapper />}
+         <Layout>
 
          <div className="h-screen md:h-full md:w-1/2 lg:w-1/2 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
@@ -173,7 +169,7 @@ const Register: React.FC = () => {
                </div>
             </div>
          </div>
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
          <ToastContainer position="top-center" />
       </>
    );

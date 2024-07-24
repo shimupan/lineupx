@@ -1,12 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
 import {
-   Header,
-   Footer,
-   SideNavWrapper,
    WidePosts,
    Comments,
-   BottomNav,
+   Layout,
 } from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
@@ -23,7 +20,6 @@ import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
-import useIsMobile from '../hooks/isMobile';
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -36,7 +32,6 @@ export type Comment = {
 };
 
 const PostPage = () => {
-   const isMobile = useIsMobile();
    const location = useLocation();
    const postData = location.state?.postData;
    const [currPostData, setcurrPostData] = useState<PostType | null>(null);
@@ -347,9 +342,7 @@ const PostPage = () => {
 
    return (
       <>
-         <Header />
-
-         {!isMobile && <SideNavWrapper />}
+         <Layout>
 
          <div className="lg:flex">
             <div className="md:ml-[70px] relative lg:w-3/4 bg-black pb-4">
@@ -666,8 +659,7 @@ const PostPage = () => {
                })}
             </div>
          </div>
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
       </>
    );
 };

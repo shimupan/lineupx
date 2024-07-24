@@ -3,20 +3,15 @@ import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
 import {
-   Header,
-   SideNavWrapper,
+   Layout,
    Searchbar,
-   Footer,
    Carousel,
    ValorantPopup,
-   BottomNav,
 } from '../../../Components';
 import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
 import { useLocalStorage } from '../../../hooks';
-import useIsMobile from '../../../hooks/isMobile';
 
 const Valorant: React.FC = () => {
-   const isMobile = useIsMobile();
    const [open, setOpen] = useState<boolean>(true);
    const [posts, setPosts] = useState<PostType[]>([]);
    const [value, setValue] = useLocalStorage('valorantPopup', true);
@@ -211,13 +206,14 @@ const Valorant: React.FC = () => {
 
    return (
       <>
+         <Layout>
          {value && open && (
             <ValorantPopup setOpen={setOpen} setValue={setValue} />
          )}
          <div className="flex flex-col min-h-screen">
-            <Header />
+            
             <main className="flex-1">
-               {!isMobile && <SideNavWrapper />}
+              
                <div
                   className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
                   style={{
@@ -256,11 +252,9 @@ const Valorant: React.FC = () => {
                   ))}
                </article>
             </main>
-            <Footer />
-            <div style={{ paddingTop: '80px' }}>
-               {isMobile && <BottomNav />}
-            </div>
+            
          </div>
+         </Layout>
       </>
    );
 };

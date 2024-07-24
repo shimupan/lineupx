@@ -3,20 +3,16 @@ import { useLocation } from 'react-router-dom';
 import { useValorant } from '../../hooks';
 import { Dropzone } from '../../Components';
 import {
-   Header,
-   SideNavWrapper,
+   Layout,
    ValorantMode,
    CS2Mode,
-   BottomNav,
 } from '../../Components';
 import { AuthContext } from '../../App';
 import { ToastContainer } from 'react-toastify';
 import { reducer, UploadDefaults } from './upload.reducer';
 import { handleSubmit } from './upload.util';
-import useIsMobile from '../../hooks/isMobile';
 
 const Upload: React.FC = () => {
-   const isMobile = useIsMobile();
    const [state, dispatch] = useReducer(reducer, UploadDefaults);
    // Images are outside since they are used as props
    const [standingPosition, setStandingPosition] = useState<string>('');
@@ -40,8 +36,7 @@ const Upload: React.FC = () => {
    if (!verified) {
       return (
          <>
-            <Header />
-            {!isMobile && <SideNavWrapper />}
+            <Layout>
 
             <div className="flex items-center justify-center h-screen">
                <div className="px-4 py-6 text-center border border-gray-300 rounded-lg shadow-lg bg-white">
@@ -68,15 +63,14 @@ const Upload: React.FC = () => {
                   </p>
                </div>
             </div>
+            </Layout>
          </>
       );
    }
 
    return (
       <>
-         <Header />
-
-         <SideNavWrapper />
+         <Layout>
 
          <div className="min-h-screen container mx-auto bg-white rounded-lg md:pt-12 md:my-5 md:p-10 lg:p-0 md:w-1/2 lg:w-1/2">
             <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
@@ -273,7 +267,7 @@ const Upload: React.FC = () => {
                </div>
             </div>
          </div>
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
          <ToastContainer position="top-center" />
       </>
    );

@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-   Header,
-   Footer,
-   SideNavWrapper,
+   Layout,
    GrenadeSelection,
    CS2Radar,
-   BottomNav,
 } from '../../../Components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
@@ -142,8 +139,7 @@ const CS2Lineups: React.FC = () => {
 
    return (
       <>
-         <Header />
-         {!isMobile && <SideNavWrapper />}
+         <Layout>
          <div className="text-center pt-12">
             {!selectedDot && !activeButton ? (
                <>
@@ -251,8 +247,7 @@ const CS2Lineups: React.FC = () => {
             />
          </div>
 
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
       </>
    );
 };

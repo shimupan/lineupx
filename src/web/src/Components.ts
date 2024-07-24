@@ -73,3 +73,4 @@ export { default as DeletePopup } from './Components/post/DeletePopup';
 export { default as LoadingSpinner } from './Components/global/LoadingSpinner';
 export { default as BottomNav } from './Components/global/bottombar/BottomNav';
 export { default as ServerStatusBannner } from './Components/global/ServerStatusBanner';
+export { default as Layout } from './Components/global/Layout';

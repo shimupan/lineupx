@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Header, Footer, SideNavWrapper, BottomNav } from '../../Components';
-import useIsMobile from '../../hooks/isMobile';
+import { Layout } from '../../Components';
 
 const ServerStatus: React.FC = () => {
-   const isMobile = useIsMobile();
    const [status, setStatus] = useState<string>('Checking...');
    const [lastChecked, setLastChecked] = useState<Date | null>(null);
 
@@ -27,8 +25,7 @@ const ServerStatus: React.FC = () => {
 
    return (
       <>
-         <Header />
-         {!isMobile && <SideNavWrapper />}
+         <Layout>
          <div className="min-h-screen flex items-center justify-center p-4">
             <div className="bg-white rounded-xl shadow-2xl p-8 max-w-2xl w-full">
                <h1 className="text-4xl font-bold mb-8 text-gray-800 text-center">
@@ -74,8 +71,7 @@ const ServerStatus: React.FC = () => {
                </div>
             </div>
          </div>
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
       </>
    );
 };

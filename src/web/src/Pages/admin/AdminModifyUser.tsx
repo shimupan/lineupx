@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserType } from '../../global.types';
-import { Header, SideNavWrapper, Footer, BottomNav } from '../../Components';
+import { Layout } from '../../Components';
 import { FaEdit, FaSave, FaArrowLeft } from 'react-icons/fa';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import useIsMobile from '../../hooks/isMobile';
 
 const AdminModifyUser: React.FC = () => {
-   const isMobile = useIsMobile();
    const [user, setUser] = useState<UserType | null>(null);
    const [editMode, setEditMode] = useState({
       username: false,
@@ -62,11 +60,10 @@ const AdminModifyUser: React.FC = () => {
    if (!user) return <div>Loading...</div>;
 
    return (
+      <Layout>
       <div className="min-h-screen bg-gray-900 text-white">
-         <Header />
          <ToastContainer />
          <div className="flex">
-            {!isMobile && <SideNavWrapper />}
             <main className="flex-1 p-4 md:p-6 md:ml-32">
                <button
                   onClick={() => navigate(-1)}
@@ -166,9 +163,9 @@ const AdminModifyUser: React.FC = () => {
                </div>
             </main>
          </div>
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+
       </div>
+      </Layout>
    );
 };
 

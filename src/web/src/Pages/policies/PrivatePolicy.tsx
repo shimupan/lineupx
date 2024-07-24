@@ -1,13 +1,10 @@
 import React from 'react';
-import { Header, Footer, SideNavWrapper, BottomNav } from '../../Components';
-import useIsMobile from '../../hooks/isMobile';
+import { Layout } from '../../Components';
 
 const PrivatePolicy: React.FC = () => {
-   const isMobile = useIsMobile();
    return (
       <>
-         <Header />
-         {!isMobile && <SideNavWrapper />}
+         <Layout>
 
          <div className="flex flex-col min-h-screen items-center">
             <div className="flex-1 pt-16 px-8 text-white sm:pl-8 md:pl-64 lg:pl-64 text-sm md:text-base lg:text-lg max-w-6xl">
@@ -99,8 +96,7 @@ const PrivatePolicy: React.FC = () => {
                />
             </div>
          </div>
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
       </>
    );
 };

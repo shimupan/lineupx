@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-   Header,
-   Footer,
-   SideNavWrapper,
-   Dot,
-   BottomNav,
+   Layout, Dot
 } from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
@@ -158,8 +154,7 @@ const ValorantLineups: React.FC = () => {
 
    return (
       <>
-         <Header />
-         {!isMobile && <SideNavWrapper />}
+         <Layout>
          <div className="text-center ">
             {!selectedDot && !selectedAbility ? (
                <>
@@ -460,8 +455,7 @@ const ValorantLineups: React.FC = () => {
             </button>
          </div>
 
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
       </>
    );
 };

@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import {
-   Footer,
-   Header,
-   SideNavWrapper,
-   Posts,
-   FilterMenu,
-   BottomNav,
-} from '../../Components';
+import { Posts, FilterMenu, Layout } from '../../Components';
 /*
 import {
    getPostByMap,
@@ -17,10 +10,8 @@ import {
 */
 import { PostType } from '../../global.types';
 import axios from 'axios';
-import useIsMobile from '../../hooks/isMobile';
 
 export const SearchResults = () => {
-   const isMobile = useIsMobile();
    const { game, query } = useParams<{ game: string; query: string }>();
    const location = useLocation();
    const navigate = useNavigate();
@@ -113,32 +104,29 @@ export const SearchResults = () => {
 
    return (
       <>
-         <Header />
-         {!isMobile && <SideNavWrapper />}
-         <div className="flex flex-col items-center justify-center mt-4">
-            <h1 className="text-4xl font-bold">
-               Search Results for {query} in {game}{' '}
-            </h1>
-            <div className="relative inline-block text-left mt-4">
-               <FilterMenu onFilterChange={handleFilterChange} />
+         <Layout>
+            <div className="flex flex-col items-center justify-center mt-4">
+               <h1 className="text-4xl font-bold">
+                  Search Results for {query} in {game}{' '}
+               </h1>
+               <div className="relative inline-block text-left mt-4">
+                  <FilterMenu onFilterChange={handleFilterChange} />
+               </div>
             </div>
-         </div>
-         <article className="pt-4 pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
-            {!posts ? (
-               <p className="text-lg mt-2">
-                  Sorry, we couldn't find any results for your search.
-               </p>
-            ) : (
-               posts.map((post) => (
-                  <div key={post.landingPosition.public_id}>
-                     <Posts postData={post} />
-                  </div>
-               ))
-            )}
-         </article>
-
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+            <article className="pt-4 pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
+               {!posts ? (
+                  <p className="text-lg mt-2">
+                     Sorry, we couldn't find any results for your search.
+                  </p>
+               ) : (
+                  posts.map((post) => (
+                     <div key={post.landingPosition.public_id}>
+                        <Posts postData={post} />
+                     </div>
+                  ))
+               )}
+            </article>
+         </Layout>
       </>
    );
 };
