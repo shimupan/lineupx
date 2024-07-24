@@ -6,6 +6,7 @@ import {
    SideNavWrapper,
    Posts,
    FilterMenu,
+   BottomNav,
 } from '../../Components';
 /*
 import {
@@ -16,8 +17,10 @@ import {
 */
 import { PostType } from '../../global.types';
 import axios from 'axios';
+import useIsMobile from '../../hooks/isMobile';
 
 export const SearchResults = () => {
+   const isMobile = useIsMobile();
    const { game, query } = useParams<{ game: string; query: string }>();
    const location = useLocation();
    const navigate = useNavigate();
@@ -111,7 +114,7 @@ export const SearchResults = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
          <div className="flex flex-col items-center justify-center mt-4">
             <h1 className="text-4xl font-bold">
                Search Results for {query} in {game}{' '}
@@ -135,6 +138,7 @@ export const SearchResults = () => {
          </article>
 
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };

@@ -6,6 +6,7 @@ import {
    SideNavWrapper,
    WidePosts,
    Comments,
+   BottomNav,
 } from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
@@ -22,6 +23,7 @@ import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
+import useIsMobile from '../hooks/isMobile';
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -34,6 +36,7 @@ export type Comment = {
 };
 
 const PostPage = () => {
+   const isMobile = useIsMobile();
    const location = useLocation();
    const postData = location.state?.postData;
    const [currPostData, setcurrPostData] = useState<PostType | null>(null);
@@ -346,7 +349,8 @@ const PostPage = () => {
       <>
          <Header />
 
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
+
          <div className="lg:flex">
             <div className="md:ml-[70px] relative lg:w-3/4 bg-black pb-4">
                <div className="">
@@ -409,12 +413,11 @@ const PostPage = () => {
                      >
                         <CgMaximize size={24} />
                      </button>
-
                      <div
                         id="full-screen-container"
                         className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 z-50 hidden flex justify-center items-center"
                      >
-                        <div className="max-w-[90%] max-h-[90%] flex justify-center items-center">
+                        <div className="relative w-full h-full flex justify-center items-center">
                            <img
                               id="full-screen-image"
                               className="max-w-full max-h-full object-contain"
@@ -422,7 +425,7 @@ const PostPage = () => {
                               alt="Full-screen image"
                            />
                            <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-between items-center p-4">
-                              <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-center items-center p-4 space-x-4">
+                              <div className="flex justify-center items-center w-full space-x-4">
                                  <button
                                     onClick={() => handleArrowClick('prev')}
                                     className="text-2xl text-white"
@@ -434,6 +437,7 @@ const PostPage = () => {
                                        width: '200px',
                                        textAlign: 'center',
                                     }}
+                                    className="text-white"
                                  >
                                     {imageTitles[currentImageIndex]}
                                  </div>
@@ -663,6 +667,7 @@ const PostPage = () => {
             </div>
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };

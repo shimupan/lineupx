@@ -1,18 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
-
+import useIsMobile from '../../../hooks/isMobile';
 import {
    Header,
    SideNavWrapper,
    Searchbar,
    Footer,
    Carousel,
+   BottomNav,
+   Posts,
 } from '../../../Components';
 import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 
 const CS2: React.FC = () => {
+   const isMobile = useIsMobile();
    const [posts, setPosts] = useState<PostType[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
@@ -137,7 +139,7 @@ const CS2: React.FC = () => {
       <div className="flex flex-col min-h-screen">
          <Header />
          <main className="flex-1">
-            <SideNavWrapper />
+            {!isMobile && <SideNavWrapper />}
             <div
                className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
                style={{
@@ -173,6 +175,7 @@ const CS2: React.FC = () => {
             </article>
          </main>
          <Footer className="mt-auto" />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </div>
    );
 };

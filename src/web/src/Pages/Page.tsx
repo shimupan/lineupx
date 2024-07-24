@@ -1,8 +1,8 @@
-// Main page of the app
 import { useContext, useEffect, useRef } from 'react';
-import { Header, Game, Footer, SideNavWrapper } from '../Components';
+import { Header, Game, Footer, SideNavWrapper, BottomNav } from '../Components';
 import { AuthContext } from '../App';
 import { ToastContainer, toast } from 'react-toastify';
+import useIsMobile from '../hooks/isMobile';
 
 import cs2 from '../assets/csgo2.webp';
 import valorant from '../assets/valorant.webp';
@@ -24,6 +24,8 @@ const Page: React.FC = () => {
    document.title = 'LineupX - Find the best lineups for your favorite games!';
    const Auth = useContext(AuthContext);
    const initialRender = useRef(true);
+   const isMobile = useIsMobile();
+
    useEffect(() => {
       if (initialRender.current) {
          initialRender.current = false;
@@ -41,7 +43,7 @@ const Page: React.FC = () => {
       <>
          <Header />
 
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
 
          <div className="h-screen flex">
             <div className="main-content flex-col md:flex-row flex-1 flex justify-center items-center space-x-4">
@@ -51,6 +53,7 @@ const Page: React.FC = () => {
          </div>
 
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
 
          <ToastContainer
             position="top-center"

@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Footer, Header, SideNavWrapper } from '../../Components';
+import { Footer, Header, SideNavWrapper, BottomNav } from '../../Components';
 import { AuthContext } from '../../App';
 import { CDN_URL, GAMES } from '../../Constants';
 import { PostType } from '../../global.types';
 import axios from 'axios';
 import { FaEye, FaFlag, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import useIsMobile from '../../hooks/isMobile';
 
 const AdminPosts: React.FC = () => {
+   const isMobile = useIsMobile();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const [loading, setLoading] = useState(true);
    const [expandedPost, setExpandedPost] = useState<string | null>(null);
@@ -43,7 +45,7 @@ const AdminPosts: React.FC = () => {
       <div className="min-h-screen bg-gray-900 text-white">
          <Header />
          <div className="flex flex-col md:flex-row">
-            <SideNavWrapper />
+            {!isMobile && <SideNavWrapper />}
             <main className="flex-1 p-2 md:p-6 md:ml-32">
                <h1 className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6 pl-2">
                   Admin Posts
@@ -181,6 +183,7 @@ const AdminPosts: React.FC = () => {
             </main>
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </div>
    );
 };

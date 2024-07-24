@@ -2,15 +2,17 @@ import { useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { PostType } from '../../global.types';
-import { Header, Footer, SideNavWrapper } from '../../Components';
+import { Header, Footer, SideNavWrapper, BottomNav } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import { AuthContext } from '../../App';
 import { approveRejectPosts } from '../../util/updatePost';
 import { MdCancel, MdReport, MdEdit } from 'react-icons/md';
+import useIsMobile from '../../hooks/isMobile';
 
 type PositionKey = 'landingPosition' | 'aimingPosition' | 'standingPosition';
 
 const AdminModifyPost = () => {
+   const isMobile = useIsMobile();
    const [post, setPost] = useState<PostType>();
    const Auth = useContext(AuthContext);
    const location = useLocation();
@@ -45,7 +47,7 @@ const AdminModifyPost = () => {
       <div className="min-h-screen bg-gray-900 text-white">
          <Header />
          <div className="flex">
-            <SideNavWrapper />
+            {!isMobile && <SideNavWrapper />}
             <main className="flex-1 p-4 md:p-6 md:ml-32">
                <button
                   className="flex items-center mb-6 text-blue-400 hover:text-blue-300"
@@ -151,6 +153,7 @@ const AdminModifyPost = () => {
             </main>
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </div>
    );
 };
