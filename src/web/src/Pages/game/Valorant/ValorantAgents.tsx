@@ -1,8 +1,10 @@
-import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { Header, Footer, SideNavWrapper, BottomNav } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
 import { useValorant } from '../../../hooks/index';
+import useIsMobile from '../../../hooks/isMobile';
 
 const ValorantAgents: React.FC = () => {
+   const isMobile = useIsMobile();
    const { allAgents, agentDetails, setAgentDetails } = useValorant();
    const navigate = useNavigate();
 
@@ -14,7 +16,7 @@ const ValorantAgents: React.FC = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
 
          <div className="flex flex-col md:flex-row">
             <div
@@ -112,6 +114,7 @@ const ValorantAgents: React.FC = () => {
             </button>
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };

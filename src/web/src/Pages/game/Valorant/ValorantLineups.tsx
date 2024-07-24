@@ -1,8 +1,10 @@
-import { Header, Footer, SideNavWrapper } from '../../../Components';
+import { Header, Footer, SideNavWrapper, BottomNav } from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useValorant } from '../../../hooks/index';
+import useIsMobile from '../../../hooks/isMobile';
 
 const ValorantLineups: React.FC = () => {
+   const isMobile = useIsMobile();
    const { allMaps } = useValorant();
    const navigate = useNavigate();
    const { agentName } = useParams<{ agentName: string }>();
@@ -13,7 +15,7 @@ const ValorantLineups: React.FC = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
          <main className="bg-gradient-to-br from-purple-800 to-blue-600 min-h-screen p-4">
             <div className="container mx-auto py-6">
                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
@@ -56,6 +58,7 @@ const ValorantLineups: React.FC = () => {
             </div>
          </main>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };

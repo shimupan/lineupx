@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { Header, SideNavWrapper, Footer } from '../../Components';
+import { Header, SideNavWrapper, Footer, BottomNav } from '../../Components';
 import { FaUserCircle } from 'react-icons/fa';
+import useIsMobile from '../../hooks/isMobile';
 
 const GuestPage = () => {
    const navigate = useNavigate();
-
+   const isMobile = useIsMobile();
    const handleSignInClick = () => {
       navigate('/login');
    };
@@ -12,7 +13,7 @@ const GuestPage = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
          <div className="flex flex-col items-center justify-center h-[calc(100vh-80px-60px)] text-center p-4">
             <FaUserCircle className="text-6xl mb-4 text-gray-500" />
             <h2 className="text-2xl font-semibold mb-2">
@@ -29,6 +30,7 @@ const GuestPage = () => {
             </button>
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };

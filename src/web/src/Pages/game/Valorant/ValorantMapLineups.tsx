@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Header, Footer, SideNavWrapper, Dot } from '../../../Components';
+import {
+   Header,
+   Footer,
+   SideNavWrapper,
+   Dot,
+   BottomNav,
+} from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
@@ -153,7 +159,7 @@ const ValorantLineups: React.FC = () => {
    return (
       <>
          <Header />
-         <SideNavWrapper />
+         {!isMobile && <SideNavWrapper />}
          <div className="text-center ">
             {!selectedDot && !selectedAbility ? (
                <>
@@ -455,6 +461,7 @@ const ValorantLineups: React.FC = () => {
          </div>
 
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };

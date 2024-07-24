@@ -67,59 +67,52 @@ const Header: React.FC = () => {
                </div>
 
                {Auth?.accessToken ? (
-                  <div className="flex flex-row">
-                     <div>
-                        {Auth?.role === 'admin' ? (
-                           <button
-                              onClick={() => navigate('/admin')}
-                              className="bg-indigo-800 text-gray-200 ml-3 p-2 rounded hover:bg-blue-500 hover:text-gray-100"
-                           >
-                              Admin Panel
-                           </button>
-                        ) : (
-                           <></>
-                        )}
-
+                  <div className="flex flex-row items-center space-x-2">
+                     {Auth?.role === 'admin' && (
                         <button
-                           onClick={logout}
-                           className="bg-indigo-800 text-gray-200 ml-3 p-2 rounded hover:bg-blue-500 hover:text-gray-100"
+                           onClick={() => navigate('/admin')}
+                           className="bg-indigo-800 text-gray-200 p-2 rounded hover:bg-blue-500 hover:text-gray-100 text-sm whitespace-nowrap"
                         >
-                           Logout
+                           Admin Panel
                         </button>
-                     </div>
-                     {location.pathname === '/game/CS2' ||
-                     location.pathname === '/game/Valorant' ? (
+                     )}
+
+                     <button
+                        onClick={logout}
+                        className="bg-indigo-800 text-gray-200 p-2 rounded hover:bg-blue-500 hover:text-gray-100 text-sm whitespace-nowrap"
+                     >
+                        Logout
+                     </button>
+
+                     {(location.pathname === '/game/CS2' ||
+                        location.pathname === '/game/Valorant') && (
                         <Link
                            to={'/upload'}
                            state={{ game: location.pathname }}
                         >
-                           <button className="bg-indigo-800 text-gray-200 p-2 ml-3 rounded hover:bg-blue-500 hover:text-gray-100">
+                           <button className="bg-indigo-800 text-gray-200 p-2 rounded hover:bg-blue-500 hover:text-gray-100 text-sm whitespace-nowrap">
                               Upload
                            </button>
                         </Link>
-                     ) : (
-                        <></>
                      )}
                   </div>
                ) : (
                   <div
-                     className="flex items-center justify-end w-full md:w-auto"
+                     className="flex flex-row items-center space-x-2"
                      id="nav-content"
                   >
-                     <div className="auth flex items-center w-full md:w-auto">
-                        <Link
-                           to={'/login'}
-                           className="bg-white text-gray-800 p-2 rounded mr-4 hover:bg-gray-400 hover:text-gray-950"
-                        >
-                           Sign in
-                        </Link>
-                        <Link
-                           to={'/register'}
-                           className="bg-indigo-800 text-gray-200 p-2 rounded hover:bg-blue-500 hover:text-gray-100"
-                        >
-                           Sign up
-                        </Link>
-                     </div>
+                     <Link
+                        to={'/login'}
+                        className="bg-white text-gray-800 p-2 rounded hover:bg-gray-400 hover:text-gray-950 text-sm whitespace-nowrap"
+                     >
+                        Sign in
+                     </Link>
+                     <Link
+                        to={'/register'}
+                        className="bg-indigo-800 text-gray-200 p-2 rounded hover:bg-blue-500 hover:text-gray-100 text-sm whitespace-nowrap"
+                     >
+                        Sign up
+                     </Link>
                   </div>
                )}
             </div>

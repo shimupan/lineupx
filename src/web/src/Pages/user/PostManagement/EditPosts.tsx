@@ -4,7 +4,14 @@ import axios from 'axios';
 import { PostType } from '../../../global.types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Header, Footer, Dropzone, LoadingSpinner } from '../../../Components';
+import {
+   Header,
+   Footer,
+   Dropzone,
+   LoadingSpinner,
+   SideNavWrapper,
+   BottomNav,
+} from '../../../Components';
 import { CDN_URL } from '../../../Constants';
 import {
    FaEye,
@@ -15,8 +22,10 @@ import {
    FaArrowRight,
 } from 'react-icons/fa';
 import { AuthContext } from '../../../App';
+import useIsMobile from '../../../hooks/isMobile';
 
 const EditPost: React.FC = () => {
+   const isMobile = useIsMobile();
    const { postId, game } = useParams();
    const Auth = useContext(AuthContext);
    const location = useLocation();
@@ -134,7 +143,8 @@ const EditPost: React.FC = () => {
    return (
       <>
          <Header />
-         <div className="min-h-screen text-white p-8">
+         {!isMobile && <SideNavWrapper />}
+         <div className="min-h-screen text-white md:p-6 md:ml-32">
             <h1 className="text-2xl font-bold mb-6">Edit Post</h1>
             <div className="flex flex-col md:flex-row gap-8">
                {/* Left side - Form */}
@@ -441,6 +451,7 @@ const EditPost: React.FC = () => {
             <ToastContainer position="top-center" />
          </div>
          <Footer />
+         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </>
    );
 };
