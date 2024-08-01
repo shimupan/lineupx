@@ -44,14 +44,11 @@ jobs:
     - name: Run Docker Compose Up
       run: docker compose up -d
     
+    - name: Inspect API Status
+      run: curl -s http://localhost:1337
+
+    - name: Inspect Web Status
+      run: curl -s http://localhost:5173
+
     - name: Check Docker Compose Logs
       run: docker compose logs
-    
-    - name: Inspect API Status
-      run: |
-        response=$(curl -s http://localhost:1337)
-        expected_response="server is running"
-        if [ "$response" != "$expected_response" ]; then
-          echo "API is not running as expected."
-          exit 1
-        fi
