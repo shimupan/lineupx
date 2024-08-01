@@ -17,11 +17,7 @@ services:
       - ./src/api/scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
       - ./src/api/scripts/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
       - ./src/api/data:/docker-entrypoint-initdb.d/data
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+    command: ["sh", "-c", "mongod > /dev/null 2>&1"]
 
   lineupx_api:
     container_name: lineupx_api

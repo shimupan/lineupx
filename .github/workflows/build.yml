@@ -1,0 +1,52 @@
+name: Building Application
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_web:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: src/web
+
+    - name: Run build
+      run: npm run build
+      working-directory: src/web
+  
+  build_app:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Run Docker Compose Up
+      run: docker compose up -d
+    
+    - name: Check Docker Compose Logs
+      run: docker compose logs
+    
+    - name: Inspect Docker Compose Services
+      run: |
+        services=("lineupx_db" "lineupx_api" "lineupx_web")
+        for service in "${services[@]}"; do
+          if ! docker compose ps $service | grep -q "Up"; then
+            echo "Service $service is not running as expected"
+            exit 1
+          else
+            echo "Service $service is running"
+          fi
+        done
