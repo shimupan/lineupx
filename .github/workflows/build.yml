@@ -44,6 +44,9 @@ jobs:
     - name: Run Docker Compose Up
       run: docker compose up --detach --wait --wait-timeout 30
     
+    - name: Wait For Services To Start
+      run: sleep 30
+    
     - name: Check Docker Compose Logs
       run: docker compose logs
 
