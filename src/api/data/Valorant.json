@@ -1,71 +1,2816 @@
 [
-    {"_id":{"$oid":"65c6c3582e0dc09b91ed0be7"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Post Plant Generator Molly","mapName":"ascent","lineupLocation":"A Main","lineupDescription":"1. Stand in this corner of A main (image 1).\n2. Line up the bottom diamond of molly throw icon with the brick in the sky as indicated in image 2.\n3. Fire your molly about 4 seconds before you think they will get on the spike (image 3)","teamSide":"Attacker","likes":[],"dislikes":[],"views":42,"standingPosition":{"public_id":"Valorant/jm36c8jzh1jimcvewt5u","asset_id":"97f3a3ae6407a3cc68d4d96af047a419"},"aimingPosition":{"public_id":"Valorant/skjlrktnymipresr0yso","asset_id":"5e00650a4c3afccb0759bd9e71fb6b73"},"landingPosition":{"public_id":"Valorant/plherwovtpojzzlkxm1p","asset_id":"63fd8d20ba1eb9139e04d12c1e22152d"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocationCoords":{"x":707.264,"y":393.216,"name":"A Default Plant"},"lineupPositionCoords":{"x":1027.881238155401,"y":577.010739102969},"comments":[],"date":{"$date":"2024-02-10T00:29:12.238Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"65c6c44f2e0dc09b91ed0c07"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Camera","mapName":"bind","lineupLocation":"B Site","lineupDescription":"1. Jump on the elevator then on the two superimposed crates, then stand where it is indicated.\n2. Aim the camera as shown (as high as possible).\n3. Jump and throw the camera as high as possible.","teamSide":"Defender","likes":[{"userId":"65a70095dc44d590069824e2","_id":{"$oid":"666354fdbea00eaf176ef56f"}}],"dislikes":[],"views":26,"standingPosition":{"public_id":"Valorant/za9lk5vplpgqdj9bgxde","asset_id":"a8e34c27e0de9bb207fdc55b9e3d8c59"},"aimingPosition":{"public_id":"Valorant/izvpcy5w10bm7oj1ct7w","asset_id":"0e560ff2c9867b203c2e1e3202dabde3"},"landingPosition":{"public_id":"Valorant/ean3buk6wgmsdy1ywyvy","asset_id":"af7dd0064e155add8c4aef425b9b4534"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Cypher","ability":"Spycam","lineupLocationCoords":{"x":592.896,"y":581.6320000000001,"name":"Tube"},"lineupPositionCoords":{"x":593.1825647504737,"y":729.6727732154137},"comments":[{"username":"kagiriez","user":"65a70095dc44d590069824e2","text":"very cool lineup!","createdAt":{"$date":"2024-03-16T20:37:05.413Z"},"_id":{"$oid":"65f602f1674cd62852a4d26a"}}],"date":{"$date":"2024-02-10T00:33:19.373Z"},"__v":2,"reports":[]},
-{"_id":{"$oid":"65fde52f674cd62852a54d56"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Sova A Site Recon ","mapName":"ascent","lineupLocation":"Ascent A Main","lineupDescription":"1. Stand against the barrels outside of the ice cream shop.\n2. Look just above the flag pole, where the edge of the building is.\n3. Fire a 2 Bar 0 Bounce Recon Bolt, it should land on the top of A Site (image 3).","teamSide":"Attacker","likes":[],"dislikes":[],"views":15,"standingPosition":{"public_id":"Valorant/eqr9y5uysgidcuwu8ziu","asset_id":"14492df44a028d4119f14ab4fca2025f"},"aimingPosition":{"public_id":"Valorant/rnsajtbsaxj46bgiua3w","asset_id":"24c5fc0fa791d4101a9acbe3a2a230ed"},"landingPosition":{"public_id":"Valorant/tlvx82dcxaqocd5qka63","asset_id":"407441dcbfc98620ae2fbde058f42a3e"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocationCoords":{"x":735.936,"y":303.104,"name":"A Site"},"lineupPositionCoords":{"x":1414.7456816051797,"y":493.214117850166},"comments":[{"username":"kagiriez","user":"65a70095dc44d590069824e2","text":"Wow!","createdAt":{"$date":"2024-03-22T20:08:33.922Z"},"_id":{"$oid":"65fde541674cd62852a5502a"}},{"username":"ooccupate","user":"65a70055dc44d590069824da","text":"yo this won me 1v1","createdAt":{"$date":"2024-03-22T21:03:05.072Z"},"_id":{"$oid":"65fdf209674cd62852a65f31"}}],"date":{"$date":"2024-03-22T20:08:15.408Z"},"__v":2,"reports":[]},
-{"_id":{"$oid":"65fde629674cd62852a5793c"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Oneway for A Stairs ","mapName":"ascent","lineupLocation":"Ascent B Site","lineupDescription":"Use this smoke to see the toes of people behind B Stairs","teamSide":"Attacker","likes":[],"dislikes":[],"views":4,"standingPosition":{"public_id":"Valorant/nzrtcvo3rqx9oyz76x6p","asset_id":"0cde1501be5682903ec64e61b5270143"},"aimingPosition":{"public_id":"Valorant/hg8hviwmzvnffxjeztkx","asset_id":"f2962d0ee8bf0a70a9e861283265f46a"},"landingPosition":{"public_id":"Valorant/lhjs975yj5om7xk3is9w","asset_id":"ed5330b6d77ea06465d5338bcfe31a3a"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Omen","ability":"Dark Cover","lineupLocationCoords":{"x":391.872,"y":1359.872,"name":"B CT"},"lineupPositionCoords":{"x":472.03726686704306,"y":1560.933860635248},"comments":[],"date":{"$date":"2024-03-22T20:12:25.145Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"65fde6e4674cd62852a59ed2"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"C Main Haunt from C Link","mapName":"lotus","lineupLocation":"C Main","lineupDescription":"1. Stand in line with the left side of the beam.\n2. Aim the bottom left HUD line at the edge of the pillar.\n3. Left-click.","teamSide":"Defender","likes":[],"dislikes":[],"views":3,"standingPosition":{"public_id":"Valorant/bmm3knckr8itva62qk5z","asset_id":"3e48c7f5c9d920adddf8daa44d8c13ba"},"aimingPosition":{"public_id":"Valorant/poy4ghjjwvbtgx7rb3ls","asset_id":"ee00a492c52a5a977fd6e7c7ba6f19e2"},"landingPosition":{"public_id":"Valorant/pr0j9ryol6nnptjxlncj","asset_id":"59b982f33445c454da3278fc27a46317"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocationCoords":{"x":674.816,"y":1155.0720000000001,"name":"B Door"},"lineupPositionCoords":{"x":646.2333869816987,"y":946.1240249364633},"comments":[],"date":{"$date":"2024-03-22T20:15:32.076Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"65fde797674cd62852a5df0d"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Lobby to Backsite B","mapName":"breeze","lineupLocation":"Backsite B","lineupDescription":"Aim at corner and TP","teamSide":"Attacker","likes":[],"dislikes":[],"views":9,"standingPosition":{"public_id":"Valorant/bhqerdfousbglrpp9npw","asset_id":"f54f68c6d49d4be15ee259f7cd2cee61"},"aimingPosition":{"public_id":"Valorant/lgcu7famlc2iqaakshv1","asset_id":"313242a905e6a8f821abc86135149434"},"landingPosition":{"public_id":"Valorant/a5uzdchiozngunkdffxk","asset_id":"48e3ba53dc2c99504ac38515c9f936ba"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Yoru","ability":"GATECRASH","lineupLocationCoords":{"x":105.47200000000001,"y":593.92,"name":"B Backsite"},"lineupPositionCoords":{"x":1469.3954447784051,"y":1726.2493929313027},"comments":[],"date":{"$date":"2024-03-22T20:18:31.728Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"65fdf3f5674cd62852a672b0"},"Username":"ooccupate","UserID":{"$oid":"65a70055dc44d590069824da"},"postTitle":"A Truck Denial from Short","mapName":"bind","lineupLocation":"A Short","lineupDescription":"A default lineup for brimestone","teamSide":"Attacker","likes":[{"userId":"65a70055dc44d590069824da","_id":{"$oid":"6663548bbea00eaf176ee571"}}],"dislikes":[],"views":8,"standingPosition":{"public_id":"Valorant/n9bzns81hp4rgquioop3","asset_id":"7f2ab29a29d5a6fe837caa0b66b4587a"},"aimingPosition":{"public_id":"Valorant/wx5gn5yj2kiqbwdg1qog","asset_id":"4646349eb7776ad953a55bebb9cc4c13"},"landingPosition":{"public_id":"Valorant/lvjmii6g9x9uiojzwaht","asset_id":"ed28a401a364ffbd5d668ba2a1acc182"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocationCoords":{"x":1408,"y":712.7040000000001,"name":"Default"},"lineupPositionCoords":{"x":1184.518918918919,"y":1115.3297297297297},"comments":[],"date":{"$date":"2024-03-22T21:11:17.443Z"},"__v":1,"reports":[]},
-{"_id":{"$oid":"66033643674cd62852a68a8b"},"Username":"ooccupate","UserID":{"$oid":"65a70055dc44d590069824da"},"postTitle":"Viper Bind Post Plant B Lineup","mapName":"bind","lineupLocation":"B mid","lineupDescription":"A lineup that lands at B default from outside hookah for post plant situations","teamSide":"Attacker","likes":[],"dislikes":[],"views":12,"standingPosition":{"public_id":"Valorant/salhiyflaixhk77qzpgm","asset_id":"2a37217de6488aebf4b23832ec7af3d9"},"aimingPosition":{"public_id":"Valorant/pghu7unxmq6deiqdaczo","asset_id":"42cd6cd10c1f590af39f245109f23c4a"},"landingPosition":{"public_id":"Valorant/kormje2goratj7tlatyz","asset_id":"0b7cbcdb26e196c0c4fc02c7d664e184"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Viper","ability":"Snake Bite","lineupLocationCoords":{"x":592.896,"y":581.6320000000001,"name":"Tube"},"lineupPositionCoords":{"x":871.7837837837839,"y":988.0216216216216},"comments":[],"date":{"$date":"2024-03-26T20:55:31.312Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"660c735f674cd62852ae39ae"},"Username":"SkyWings1217","UserID":{"$oid":"65cbe4d72e0dc09b91ed0e7b"},"postTitle":"Pheonix Ascent A main Cubby Hot Hands","mapName":"ascent","lineupLocation":"Ascent, A main , cubby","lineupDescription":"Molly for the cubby at Ascent A main for a potential flash combo. FREE KILLS","teamSide":"Defender","likes":[],"dislikes":[],"views":8,"standingPosition":{"public_id":"Valorant/nkhflt582zi6cdxxofgh","asset_id":"5b83fee0ec184106b5d0f11b01cdd783"},"aimingPosition":{"public_id":"Valorant/a8yvbofwwa3qdbmd13vm","asset_id":"b10f0c373fdd7feaa12520ee864cecab"},"landingPosition":{"public_id":"Valorant/rhksrzbbkmvyb27gak5h","asset_id":"4806cec8fd251d80f1d4c81351e0d810"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Phoenix","ability":"Hot Hands","lineupLocationCoords":{"x":924.352,"y":557.056,"name":"A Long Cubby"},"lineupPositionCoords":{"x":748.7016929314962,"y":372.3015116175975},"comments":[],"date":{"$date":"2024-04-02T21:06:40.008Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6615afbc6f0532518ec077bf"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Retake Eye","mapName":"lotus","teamSide":"Defender","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/tfakeyx9i4eyodkdfrnf","asset_id":"6da8ae52f74c923efe6298078a8fc230"},"aimingPosition":{"public_id":"Valorant/wp2xaysgpzopqw43owda","asset_id":"e563c2aa9e351d02b61678a306469728"},"landingPosition":{"public_id":"Valorant/c5bqkirsy9iy24evwtjp","asset_id":"93dedc5c82caa12487f45134abca4e79"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocation":"B Main","lineupDescription":"1. Go against the pinged wall\n2. Aim at the intersection point of the vines\n3. Do a normal throw","lineupLocationCoords":{"x":1022.976,"y":937.984,"name":"Pool"},"lineupPositionCoords":{"x":1325.9398164486886,"y":930.4121971769308},"comments":[],"date":{"$date":"2024-04-09T21:14:36.702Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6615b0a46f0532518ec08fdc"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Main To A Default","mapName":"icebox","teamSide":"Attacker","likes":[],"dislikes":[],"views":3,"standingPosition":{"public_id":"Valorant/wrzrhuxtkktxphjjss2y","asset_id":"8b648751023da3c2994af8efdd24d0f1"},"aimingPosition":{"public_id":"Valorant/gzvxu06jnfidbgcchu7z","asset_id":"ed00cc85dd070544740251ccc279eeb6"},"landingPosition":{"public_id":"Valorant/okv5jhqpxkmlbdy5i3sb","asset_id":"22c035735b95428cf2def58bc85bd1fd"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Gekko","ability":"Mosh Pit","lineupLocation":"A Main Icebox","lineupDescription":"- Put your crosshair on the intersection. You may need to be on med-high settings to see it.\n- Throw the molly. It will take approximately 3 seconds to land and approximately 6 seconds to kill the defuser.","lineupLocationCoords":{"x":1432.256,"y":1724.416,"name":"A Default Plant"},"lineupPositionCoords":{"x":957.0539150294177,"y":1437.2887753646814},"comments":[],"date":{"$date":"2024-04-09T21:18:28.597Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6615b16e6f0532518ec0ab0c"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Knife from Attacker Spawn to B","mapName":"icebox","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/zzwwmhsvge9zfs5auy1u","asset_id":"cc3b683ba38979c619ce977d6e8524f5"},"aimingPosition":{"public_id":"Valorant/ms1awbbd2eyjnbhluf1t","asset_id":"54156c7f72d2f8aef429bfb93f10448b"},"landingPosition":{"public_id":"Valorant/fb8ltguv3p0p4uxhnugt","asset_id":"1d7ee12578ef18a6aa5fe9520484b6e8"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"KAY/O","ability":"ZERO/point","lineupLocation":"B Site","lineupDescription":"Go to the corner of ramp.  Aim for the blue crate and aim the bottom of your knifes \"E\" on top of the upper right hinge.","lineupLocationCoords":{"x":1256.128,"y":458.752,"name":"B Nest"},"lineupPositionCoords":{"x":550.5963014285544,"y":1270.6069937774887},"comments":[],"date":{"$date":"2024-04-09T21:21:50.572Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6615b2336f0532518ec0b3ae"},"Username":"ooccupate","UserID":{"$oid":"65a70055dc44d590069824da"},"postTitle":"Sage A Short Slow from B Site","mapName":"bind","teamSide":"Defender","likes":[],"dislikes":[],"views":2,"standingPosition":{"public_id":"Valorant/xzv0fyjwiqomqotgdcyq","asset_id":"8804fed3b38eef7bc00deaacabb46393"},"aimingPosition":{"public_id":"Valorant/hjeb7hlqwhyenduowp9j","asset_id":"5e0fb48e025aaeb5a531a8a9b930eaac"},"landingPosition":{"public_id":"Valorant/oekqfnhph1ipfobsnlnu","asset_id":"11c15c19dcc6606f6930f2fa2b855d9b"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sage","ability":"Slow Orb","lineupLocation":"B Back Site","lineupDescription":"A Sage support slow from B when the enemy is rushing A","lineupLocationCoords":{"x":1215.488,"y":942.08,"name":"A Cubby"},"lineupPositionCoords":{"x":608.8648648648649,"y":556.2810810810811},"comments":[],"date":{"$date":"2024-04-09T21:25:07.015Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6615b2456f0532518ec0b3d6"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Site God Dart","mapName":"ascent","teamSide":"Attacker","likes":[],"dislikes":[],"views":3,"standingPosition":{"public_id":"Valorant/zfknhhaae7eekvw06sko","asset_id":"7575d778803ef58556566c37b4594480"},"aimingPosition":{"public_id":"Valorant/ecuay0jxzdo3hndw5tqi","asset_id":"8849aed6d27e8c5c74fba9ee61ff6112"},"landingPosition":{"public_id":"Valorant/aivy9mu4pruafjig1rid","asset_id":"472aaf6b7826dd34fcbe5ec35f506ee4"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Main","lineupDescription":"1. Stand against the box until it boosts you up slightly.\n2. Aim at the middle bottom of the gray section in image 2.\n3. Fire with 0 bounces and 1 charge.","lineupLocationCoords":{"x":707.264,"y":393.216,"name":"A Default Plant"},"lineupPositionCoords":{"x":1257.627612482157,"y":495.94659037340466},"comments":[],"date":{"$date":"2024-04-09T21:25:25.043Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6615b54a6f0532518ec10149"},"Username":"ooccupate","UserID":{"$oid":"65a70055dc44d590069824da"},"postTitle":"Sova fake Lineup from A main to B","mapName":"breeze","teamSide":"Attacker","likes":[],"dislikes":[],"views":2,"standingPosition":{"public_id":"Valorant/djrps7ocbjintsfeznjc","asset_id":"f93e30710370726c734e86660014fdc6"},"aimingPosition":{"public_id":"Valorant/flqjtc1mbt0wraj9lzga","asset_id":"f45253ffb2f238109a4100e7cee6f364"},"landingPosition":{"public_id":"Valorant/wqmnq0rzb6bcaeho39pk","asset_id":"214600080b6424ca153418d9da60fa1a"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Main","lineupDescription":"EZ Fake arrow to juke ur enemies on Breeze","lineupLocationCoords":{"x":105.47200000000001,"y":593.92,"name":"B Backsite"},"lineupPositionCoords":{"x":1389.318918918919,"y":1591.3513513513515},"comments":[],"date":{"$date":"2024-04-09T21:38:18.486Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6615b77d6f0532518ec16328"},"Username":"ooccupate","UserID":{"$oid":"65a70055dc44d590069824da"},"postTitle":"Dead Lock A Post Plant Ult","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[{"userId":"65a70095dc44d590069824e2","_id":{"$oid":"6652b5b4bea00eaf175b6566"}}],"views":3,"standingPosition":{"public_id":"Valorant/rju1ndukfzaeh6dquh47","asset_id":"5949922a83f508314063435369cf8df0"},"aimingPosition":{"public_id":"Valorant/nzakshk6b1k3t0vcempu","asset_id":"15efaa05d3202dd50bd02bc95bd0218c"},"landingPosition":{"public_id":"Valorant/bavlicvkvyenrlzpdtxf","asset_id":"dfd1a2d2ee38c5091aec060b2ac78edf"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Deadlock","ability":"Annihilation","lineupLocation":"A Short to the right","lineupDescription":"A way to not waste your deadlock ult","lineupLocationCoords":{"x":1408,"y":712.7040000000001,"name":"Default"},"lineupPositionCoords":{"x":1472.345945945946,"y":1104.2594594594595},"comments":[],"date":{"$date":"2024-04-09T21:47:41.73Z"},"__v":4,"reports":[]},
-{"_id":{"$oid":"664d6e5f4747eec764c2d6f1"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Phoenix Default Molly","mapName":"ascent","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/ji2s4xupvynlcbhwxfpu","asset_id":"97e7286b503fde1c7777ef2fd8bd9edb"},"aimingPosition":{"public_id":"Valorant/o8psn7gf7ovy45mylubr","asset_id":"cb02dcc4b5d171aaf74abf62c19e8bc6"},"landingPosition":{"public_id":"Valorant/llwzvllazzfoe2m1al89","asset_id":"df51215f108c4585785ca3330d55eb93"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Phoenix","ability":"Hot Hands","lineupLocation":"Ascent A Default","lineupDescription":"Stand at corner of the wall and jump throw","lineupLocationCoords":{"x":707.264,"y":393.216,"name":"A Default Plant"},"lineupPositionCoords":{"x":1034.9048291003194,"y":512.0712909201388},"comments":[],"date":{"$date":"2024-05-22T04:02:39.201Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"664e11194747eec764c2d8e2"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Harbor Split Screens Cove","mapName":"split","teamSide":"Attacker","likes":[],"dislikes":[],"views":4,"standingPosition":{"public_id":"Valorant/uakeeapqn4lziisaf5h0","asset_id":"47b21efbf1f8715e094155aa56be0783"},"aimingPosition":{"public_id":"Valorant/fxpsbuloije1cj6mpwmj","asset_id":"ff205c557966a5e61a108fa2941e64ee"},"landingPosition":{"public_id":"Valorant/jbv9wmv9nkj6tfzw1qdh","asset_id":"2661ed4a7fefaead2c79a4db27343855"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Harbor","ability":"Cove","lineupLocation":"Split Screens","lineupDescription":"Aim and jump throw at right corner of diamond","lineupLocationCoords":{"x":314.368,"y":434.176,"name":"Screens"},"lineupPositionCoords":{"x":1087.4005790128947,"y":329.98459897258914},"comments":[{"username":"kagiriez","user":"65a70095dc44d590069824e2","text":"insane","createdAt":{"$date":"2024-05-25T23:15:57.133Z"},"_id":{"$oid":"6652712dbea00eaf175b552c"}}],"date":{"$date":"2024-05-22T15:36:57.304Z"},"__v":1,"reports":[]},
-{"_id":{"$oid":"66608863bea00eaf175c984e"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"TP Mid to B Main","mapName":"breeze","teamSide":"Defender","likes":[],"dislikes":[],"views":4,"standingPosition":{"public_id":"Valorant/gypzk1nvy4fkicfhxaxs","asset_id":"26f82eff1a15458345b99206a8981786"},"aimingPosition":{"public_id":"Valorant/jslhcvi3mtzyuuctgeek","asset_id":"a594c49787ebb46123dab0f27bf5a072"},"landingPosition":{"public_id":"Valorant/jrffpro60fxl8v6qxsje","asset_id":"a7ebe5239929eff7dcc40b298e447815"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Yoru","ability":"GATECRASH","lineupLocation":"Top Mid Breeze","lineupDescription":"Stand in corner, aim in middle of door frame, and send TP","lineupLocationCoords":{"x":289.79200000000003,"y":962.5600000000001,"name":"B Main"},"lineupPositionCoords":{"x":963.1939355653822,"y":403.64876816171824},"comments":[],"date":{"$date":"2024-06-05T15:46:43.796Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"666088fbbea00eaf175c9cbc"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Main to Rafters","mapName":"icebox","teamSide":"Attacker","likes":[],"dislikes":[{"userId":"","_id":{"$oid":"669f454485a1b1233bb86587"}}],"views":8,"standingPosition":{"public_id":"Valorant/c1uo74navnj6ngustdab","asset_id":"2f96fd458ef4e03948c81acb1666858f"},"aimingPosition":{"public_id":"Valorant/vxy3egamqx2nhkz5rhl5","asset_id":"af08f5e4d319a84a3ace78388cefee6e"},"landingPosition":{"public_id":"Valorant/esvgdq0jryosa2lbta1b","asset_id":"df916a5b12289aec3bde1eff6a5f21fb"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Yoru","ability":"GATECRASH","lineupLocation":"A Rafters","lineupDescription":"Get in corner and TP","lineupLocationCoords":{"x":1575.616,"y":1642.496,"name":"A Rafters"},"lineupPositionCoords":{"x":789.8319646241314,"y":1350.6708780795957},"comments":[],"date":{"$date":"2024-06-05T15:49:15.837Z"},"__v":6,"reports":[]},
-{"_id":{"$oid":"666089a3bea00eaf175c9cce"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Default B Molly","mapName":"breeze","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/mf6va4t3nmmbwlkpnuxe","asset_id":"86384e7b3e7c38383ae43a9b6fadd132"},"aimingPosition":{"public_id":"Valorant/mmakof1esacconsfjaz6","asset_id":"e7723712e0f10f0b5a1a5f61e7279e56"},"landingPosition":{"public_id":"Valorant/ocidv4wcfskhcmf5ichj","asset_id":"33f1125e4f00424b2ad4e0ae03203043"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"KAY/O","ability":"ZERO/point","lineupLocation":"Breeze B Default","lineupDescription":"1. Stand on the edge of the plank.\n2. Aim at the middle of the brick.\n3. Jump and left-click","lineupLocationCoords":{"x":297.984,"y":638.976,"name":"B Default"},"lineupPositionCoords":{"x":512.9703095388503,"y":1386.8957675300062},"comments":[],"date":{"$date":"2024-06-05T15:52:03.698Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"666089f4bea00eaf175c9cda"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Default B Molly","mapName":"breeze","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/gb94tznoa1pxjdtgixcx","asset_id":"14706eb2b588cd9e1ef6529bc80783fb"},"aimingPosition":{"public_id":"Valorant/wcfbg2zyv34woikl7hwy","asset_id":"d698dc4230d62ee33805fc86acba2dbb"},"landingPosition":{"public_id":"Valorant/wa5nek5tm9xfysh9gobt","asset_id":"b6e99975b958f5c1464a99c5320f70d2"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Viper","ability":"ZERO/point","lineupLocation":"Breeze B Default","lineupDescription":"1. Stand in the corner behind the small wooden crate on the left wall.\n2. Aim the top of your wall icon onto the right corner of the cannon.\n","lineupLocationCoords":{"x":297.984,"y":638.976,"name":"B Default"},"lineupPositionCoords":{"x":600.945041061276,"y":1265.2836386607705},"comments":[],"date":{"$date":"2024-06-05T15:53:24.266Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"66608a8dbea00eaf175c9ce6"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Root to A Default","mapName":"lotus","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/uuxpiku58urm3qjulndo","asset_id":"ccafc40737deca9f67fb35229a66cd81"},"aimingPosition":{"public_id":"Valorant/vzdhttlc3omjhq9w9q2l","asset_id":"41638faf4757d5b3f716e34c322dfe60"},"landingPosition":{"public_id":"Valorant/cksycl9uq38nlime4p7q","asset_id":"2c497ab92e815093740b89a9b0468613"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Gekko","ability":"Mosh Pit","lineupLocation":"Breeze B Default","lineupDescription":"1. Stand in the pinged corner (image 1).\n2. Place the left end of the line below the throw hud on the end of the brighter part of the rock (image 2 for reference).\n3. Throw the molly. It should take ~4 seconds to land and ~7 seconds to start dealing damage.","lineupLocationCoords":{"x":1776.64,"y":753.664,"name":"Default"},"lineupPositionCoords":{"x":1384.9551484523056,"y":1283.396083385976},"comments":[],"date":{"$date":"2024-06-05T15:55:57.564Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"66608ae7bea00eaf175c9cf2"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Root to A Default","mapName":"lotus","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/qvfgo3ww9lqukry2phv1","asset_id":"23124c3b00a2fe498cd596137317f189"},"aimingPosition":{"public_id":"Valorant/l7orvohdgreqptxlr5ul","asset_id":"18fabf2ffbf4d81e26eba807ecb21dbe"},"landingPosition":{"public_id":"Valorant/vnfaynrrl76gzyuwlvn7","asset_id":"83cb17f23f8d688d527ead9a0641a3e4"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Gekko","ability":"Mosh Pit","lineupLocation":"Breeze B Default","lineupDescription":"Stand in the left corner of the box, align crosshair and throw. Takes around 6 seconds to land.\n\nTHIS IS A JUMP THROW","lineupLocationCoords":{"x":261.12,"y":966.6560000000001,"name":"C Site"},"lineupPositionCoords":{"x":624.2324699936828,"y":1084.1591914087176},"comments":[],"date":{"$date":"2024-06-05T15:57:27.344Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"66608b71bea00eaf175c9cfe"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Flash A Main Support","mapName":"ascent","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/jzybqrfrrymcfsequkwy","asset_id":"bb0342fbcb933f24d341c643c9cad866"},"aimingPosition":{"public_id":"Valorant/lbtochu0vwlkvp2k54m7","asset_id":"c4dd0f7cb04fd7f17f3eb86a627b7a48"},"landingPosition":{"public_id":"Valorant/szbw0p1hxwdiyfpedlbc","asset_id":"a32ef1f9b2ef580ca9ebec665eedc36a"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"KAY/O","ability":"Mosh Pit","lineupLocation":"Ascent A Main","lineupDescription":"1. Stand against the boxes on A Site.\n2. Aim at the top floating rock in the cluster.\n3. Tap forward and left-click","lineupLocationCoords":{"x":1166.016,"y":540.672,"name":"A Lobby"},"lineupPositionCoords":{"x":670.8073278584965,"y":271.68667087807955},"comments":[],"date":{"$date":"2024-06-05T15:59:45.691Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"66608bfebea00eaf175c9d0a"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Post Plant B Molly","mapName":"icebox","teamSide":"Attacker","likes":[],"dislikes":[],"views":3,"standingPosition":{"public_id":"Valorant/rueh5ivavhb4r4goqlwc","asset_id":"2b557aeac52d1884e17d15df96ab0b26"},"aimingPosition":{"public_id":"Valorant/xdugq7xqjsnjbslczzf2","asset_id":"ea6dab432279d1a5fec47ea7f81d8b53"},"landingPosition":{"public_id":"Valorant/jzhpygdgz8uqcp0lfw63","asset_id":"b093a38e158e6e2ce7b5c72596c73fb3"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"B Default Icebox","lineupDescription":"Stand in corner and aim crosshair and throw","lineupLocationCoords":{"x":1206.976,"y":475.136,"name":"B Site"},"lineupPositionCoords":{"x":797.5944409349336,"y":489.03600758054324},"comments":[],"date":{"$date":"2024-06-05T16:02:06.219Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"66608d20bea00eaf175c9d59"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Site Deep Recon Reveal","mapName":"breeze","teamSide":"Attacker","likes":[],"dislikes":[],"views":2,"standingPosition":{"public_id":"Valorant/q3unslzx6qxblag4wyqo","asset_id":"3026a9964a4da299f05682a516a74bd4"},"aimingPosition":{"public_id":"Valorant/srqyjxfgncfpvvorgocv","asset_id":"ccec0f86dc532cdef7a6231b750c39f0"},"landingPosition":{"public_id":"Valorant/t0xbwzhzps8agikmle1b","asset_id":"b0ccecd83ee931a7b9c08402b8370074"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Nanoswarm","lineupLocation":"Deep A Site","lineupDescription":"1. Stand in between the big rock and yellow tank at A Lobby (Image 1)\n2. Align the bottom of the sova drone with the bottom vine (Image 2)\n3. 2 Charge, no bounce\n\nCredit to Fraty","lineupLocationCoords":{"x":1580.032,"y":724.992,"name":"Yellow"},"lineupPositionCoords":{"x":1384.9551484523056,"y":1588.7201516108653},"comments":[],"date":{"$date":"2024-06-05T16:06:56.772Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b107289679b8ef6e5991"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Default A Molly","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/hbm9wteqjeitahxp8olh","asset_id":"652d4e6f2d244fd66332a3beb0ed9a85"},"aimingPosition":{"public_id":"Valorant/by3qrhm98kl1amxqxmtu","asset_id":"ce67bac975c0d406c0033558b77e34cd"},"landingPosition":{"public_id":"Valorant/aynce8t5bllpxsileok4","asset_id":"39090f5c884768f181f82ffca79e3276"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"A Default","lineupDescription":"Go to bench and chuck molly\n\nCredit: @Snaplex","lineupLocationCoords":{"x":1408,"y":712.7040000000001,"name":"Default"},"lineupPositionCoords":{"x":1214.1806696146557,"y":1104.8591282375237},"comments":[],"date":{"$date":"2024-06-08T01:16:55.923Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b157289679b8ef6e599d"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Far A Default Molly","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/jak9r9pliuintxzt0kny","asset_id":"d0ee901b3ca292e1a1c35339e18a4bb0"},"aimingPosition":{"public_id":"Valorant/plrcj0fw6t3a47txm8bc","asset_id":"b23ae61671e1fa7cea74064e2f07b9a2"},"landingPosition":{"public_id":"Valorant/iwf20u7dazzkzgecypvv","asset_id":"84a86fcebf0001cd426cddf6cae4b092"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"A Default","lineupDescription":"Go to barrel and lineup the top of the incendiary icon with the dot\n\nCredit: @Snaplex","lineupLocationCoords":{"x":1408,"y":712.7040000000001,"name":"Default"},"lineupPositionCoords":{"x":1374.6051800379025,"y":1291.1585596967782},"comments":[],"date":{"$date":"2024-06-08T01:18:15.373Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b196289679b8ef6e59a9"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Triple Molly","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/yyp2wqetjgupnvychwkg","asset_id":"5f774b5a3f211b1651b284f5cdc05cd2"},"aimingPosition":{"public_id":"Valorant/boit27b2ckzgmdmhoocg","asset_id":"8d438e05da8058c035e73bcffb8f0ab4"},"landingPosition":{"public_id":"Valorant/wownkg7yd33dhkywhzlp","asset_id":"44879a140f86becb12ec930b20b41fe2"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"A Triple","lineupDescription":"Go to boxes and lineup the aim circle of the incendiary icon with the dot\n\nCredit: @Snaplex","lineupLocationCoords":{"x":1543.1680000000001,"y":692.224,"name":"Triple"},"lineupPositionCoords":{"x":1775.66645609602,"y":1177.308907138345},"comments":[],"date":{"$date":"2024-06-08T01:19:18.509Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b1d8289679b8ef6e59b5"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Far B Default Molly","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/kybdqmhi59oachxmhtiw","asset_id":"7f3a96b9a125b4ba5c60765ffe30792c"},"aimingPosition":{"public_id":"Valorant/qktxjcb9ripi6ffojmeo","asset_id":"c8e7c37dfe3cd25eb66a177ddc52ba91"},"landingPosition":{"public_id":"Valorant/mxnghb5zvka2wkjuyyub","asset_id":"e2d1efd422de048da646de56c9bfec82"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"B Default","lineupDescription":"Go to the fountain and aim GUI \n\nCredit: @Snaplex","lineupLocationCoords":{"x":592.896,"y":581.6320000000001,"name":"Tube"},"lineupPositionCoords":{"x":492.27037271004417,"y":1226.4712571067591},"comments":[],"date":{"$date":"2024-06-08T01:20:24.247Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b1ff289679b8ef6e59c1"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Default Middle Molly","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/tdovyv7plztenmt0wdx0","asset_id":"f4565b855f44d2530817c33f1d29e0bd"},"aimingPosition":{"public_id":"Valorant/hgo7dxk7kxbuc4so3acx","asset_id":"e8d5249b9c096bb3bc5087d544d4db05"},"landingPosition":{"public_id":"Valorant/go5rznsg8jwx8v4woejp","asset_id":"1a9edf8c33e961080d35f1ee63f8bd29"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"B Middle Plant","lineupDescription":"Go to the corner of TP and aim crosshair\n\nCredit: @Snaplex","lineupLocationCoords":{"x":592.896,"y":581.6320000000001,"name":"Tube"},"lineupPositionCoords":{"x":308.5584333543904,"y":926.3221730890713},"comments":[],"date":{"$date":"2024-06-08T01:21:03.61Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b237289679b8ef6e61c9"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Hookah B Default Molly","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/xkxtqpd1n7an2hrihkel","asset_id":"e81c09c97d06601c4960e00ee81d8c61"},"aimingPosition":{"public_id":"Valorant/x2zmjbxos3riziudu4qt","asset_id":"6458c6b224ac56a8986086c99e2b3103"},"landingPosition":{"public_id":"Valorant/gtk7jduafqdahlysy1fu","asset_id":"1828d23f9734e58c625fd74603e8ad57"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"B Default","lineupDescription":"Go to the back left corner of hookah and aim crosshair\n\nCredit: @Snaplex","lineupLocationCoords":{"x":592.896,"y":581.6320000000001,"name":"Tube"},"lineupPositionCoords":{"x":683.7447883765003,"y":983.246999368288},"comments":[],"date":{"$date":"2024-06-08T01:21:59.354Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b270289679b8ef6e6c8e"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Default AntiPlant Molly","mapName":"bind","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/veishobyqwy7m9dud7sa","asset_id":"9ff84ff70d5d3272ecb959055b9e2f44"},"aimingPosition":{"public_id":"Valorant/ygivx7h4j7ai6mzxssin","asset_id":"afaa85bf0b80e5584bfe91e0d3791771"},"landingPosition":{"public_id":"Valorant/flllvgijmqzitiljmw6n","asset_id":"bf3478698abcb7c8cd1f5388c94462da"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"A Default","lineupDescription":"Go to the wall and aim crosshair\n\nCredit: @Snaplex","lineupLocationCoords":{"x":1408,"y":712.7040000000001,"name":"Default"},"lineupPositionCoords":{"x":1410.8300694883133,"y":533.0233733417562},"comments":[],"date":{"$date":"2024-06-08T01:22:56.927Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b2bf289679b8ef6e6cd3"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Anti Default Plant Molly","mapName":"bind","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/p2hwwwzdqmfjqfyibji9","asset_id":"ed9f52f3564a4ba97ca1b908a7470d36"},"aimingPosition":{"public_id":"Valorant/vwanylsx4dgs6zyvqv1l","asset_id":"8b2debd9ff2ab38be1dc7b1e55974765"},"landingPosition":{"public_id":"Valorant/ln0bhoremkp82bzt8egt","asset_id":"f7fdd5d2825277f188c3730a102d4bec"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"A Default","lineupDescription":"Go to wall and aim crosshair\n\nCredit: @Snaplex","lineupLocationCoords":{"x":1408,"y":712.7040000000001,"name":"Default"},"lineupPositionCoords":{"x":1410.8300694883133,"y":533.0233733417562},"comments":[],"date":{"$date":"2024-06-08T01:24:15.545Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b432289679b8ef6ea19c"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Main God Reveal","mapName":"lotus","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/psibrvgjoybn8rquaewm","asset_id":"8d509ce4bee70a93900d156e2070d8a0"},"aimingPosition":{"public_id":"Valorant/ggc96h9l5udmn5tf5fss","asset_id":"0b12b15f8640d6716e46ea740ea537d1"},"landingPosition":{"public_id":"Valorant/kn6vrxbbglgqqurmokev","asset_id":"cf04045c11847d2e5578b60978b59704"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocation":"A Main","lineupDescription":"Go to wall, aim, and jump throw\n\nCredit: @Tseeky","lineupLocationCoords":{"x":1424.384,"y":1216.512,"name":"Cobble"},"lineupPositionCoords":{"x":1610.0669614655717,"y":786.5975994946303},"comments":[],"date":{"$date":"2024-06-08T01:30:26.586Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b467289679b8ef6ea60f"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Main God Reveal from Mid","mapName":"lotus","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/hx8euihjlaxumrxmjgsl","asset_id":"6c73997ec385d6b3809c196755346d4f"},"aimingPosition":{"public_id":"Valorant/kv2s3ptw6uvn0zg7dgwv","asset_id":"95b6e4c401bd659f0fd6a958de426f6d"},"landingPosition":{"public_id":"Valorant/hziljxxkmunqwaftd2yq","asset_id":"d9799f52a61aa914a37db3871643f404"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocation":"A Main","lineupDescription":"Go to the ledge, aim, and running jump throw\n\nCredit: @Tseeky","lineupLocationCoords":{"x":1424.384,"y":1216.512,"name":"Cobble"},"lineupPositionCoords":{"x":1030.4687302590019,"y":879.7473152242577},"comments":[],"date":{"$date":"2024-06-08T01:31:19.388Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b5e9289679b8ef6f5749"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Fade A Tree Wallbang","mapName":"lotus","teamSide":"Defender","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/b401rg8vqpoxonwdjasi","asset_id":"4fb2c267166855efa1af78934129ee7a"},"aimingPosition":{"public_id":"Valorant/vobuxgvokfiocyrokrh9","asset_id":"26a69f499529ecc397033b9898cad663"},"landingPosition":{"public_id":"Valorant/nadnqt8yuacwvkhzm6hv","asset_id":"877509ed8b07106e24e8316385a3c92c"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocation":"A Tree","lineupDescription":"Go to Wall, aim and jump throw\n\nCredit: @Tseeky","lineupLocationCoords":{"x":1698.816,"y":1052.672,"name":"Door"},"lineupPositionCoords":{"x":1889.5161086544535,"y":884.9222994314592},"comments":[],"date":{"$date":"2024-06-08T01:37:45.356Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b615289679b8ef6f5755"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Fade A Tree Wallbang","mapName":"lotus","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/vzx91igp3kokdc6szu6n","asset_id":"c43d05c77780f552e2ccfd67009d5ce5"},"aimingPosition":{"public_id":"Valorant/d5ngfs0khrrmt16p8qs7","asset_id":"3187b553345834de35b626c57c466d1b"},"landingPosition":{"public_id":"Valorant/ucqscykbprsicbzfvwcc","asset_id":"36a8c11decb6319baea22ed3caf69595"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocation":"A Tree","lineupDescription":"Go to Wall, aim and jump throw\n\nCredit: @Tseeky","lineupLocationCoords":{"x":1698.816,"y":1052.672,"name":"Door"},"lineupPositionCoords":{"x":1736.8540745420087,"y":900.4472520530637},"comments":[],"date":{"$date":"2024-06-08T01:38:29.794Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6663b640289679b8ef6f5761"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Retake","mapName":"lotus","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/gfz3kiz9atpvbrnukov7","asset_id":"722ec506e6c1165d50f69a7ad105a233"},"aimingPosition":{"public_id":"Valorant/ffpyo5sqbrv6rlw2bxem","asset_id":"a6ac5ad4655167db77e710c674d768ed"},"landingPosition":{"public_id":"Valorant/hbdgww3t8m2k0j1f9twu","asset_id":"5cd2b674c2736cfdeac1a6626287a5f2"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocation":"A Site","lineupDescription":"Go to Wall, aim and running jump throw\n\nCredit: @Tseeky","lineupLocationCoords":{"x":1776.64,"y":753.664,"name":"Default"},"lineupPositionCoords":{"x":1612.6544535691723,"y":452.8111181301326},"comments":[],"date":{"$date":"2024-06-08T01:39:12.171Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"666f5bf1289679b8ef76d8f5"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Retake Lineup","mapName":"lotus","teamSide":"Defender","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/gtzmsfthrbgbvpirtssr","asset_id":"33df2152b8fbdd02e6ddf535dee1eeab"},"aimingPosition":{"public_id":"Valorant/m56pxfgzlqiwfwg49k43","asset_id":"6163d69e87c9359609339565e61d7136"},"landingPosition":{"public_id":"Valorant/yrngmqnav7thfchj5rhg","asset_id":"fed9b3fede3ac4f33dc4176d219c0c9e"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Fade","ability":"Haunt","lineupLocation":"B Site","lineupDescription":"Go to Corner and jump throw","lineupLocationCoords":{"x":1022.976,"y":937.984,"name":"Pool"},"lineupPositionCoords":{"x":1273.692987997473,"y":582.1857233101705},"comments":[],"date":{"$date":"2024-06-16T21:41:05.819Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678d8c39737fd04991400f7"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Default Molly from Defender Spawn","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/jeblnclproay7moa03gj","asset_id":"bc630af32f3d7881a742285294828f4e"},"aimingPosition":{"public_id":"Valorant/natyl8hv163gz0hfpmsq","asset_id":"a8a818165f77fd0e22ea1bf3a4e3aee7"},"landingPosition":{"public_id":"Valorant/xrpj1dtinoohpep6r2oe","asset_id":"2ce7dd56fd51f1d04d9c36f7d4beebe5"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Brimstone","ability":"Incendiary","lineupLocation":"A Default","lineupDescription":"Aim your crosshair near the tree\n\nCredit: @Catalyzt","lineupLocationCoords":{"x":845.8240000000001,"y":377.5360000000001,"name":"A Site Entrance"},"lineupPositionCoords":{"x":285.27100442198355,"y":543.3733417561591},"comments":[],"date":{"$date":"2024-06-24T02:24:03.2Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678da1e9737fd0499146c8c"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Default Swarm Lineup","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/ikynjkgwc9gjmqlcvos8","asset_id":"8d80b7aea66b6c8f25627f0aefe2e5c3"},"aimingPosition":{"public_id":"Valorant/xlujfj3fe5pwcus2ft3l","asset_id":"8f511cb2527dd4b62fe808a094364743"},"landingPosition":{"public_id":"Valorant/hsxgpun7k6lkipfibtk4","asset_id":"554eb72977f07986110d157aac38f15d"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"A Default","lineupDescription":"Aim and jump throw\n\nCredit: @6S Mars","lineupLocationCoords":{"x":845.8240000000001,"y":377.5360000000001,"name":"A Site Entrance"},"lineupPositionCoords":{"x":1770.4914718888185,"y":380.3613392293114},"comments":[],"date":{"$date":"2024-06-24T02:29:50.263Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678da609737fd0499146c98"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Bridge Swarm Lineup","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/rlhfwylfva3qgir7vd7v","asset_id":"b9dd6615bf110bac1e2d76ba8846989c"},"aimingPosition":{"public_id":"Valorant/xqclhdliu0pcsjxtokmy","asset_id":"91851d94eab78f4a215fae0739b88f17"},"landingPosition":{"public_id":"Valorant/b6zof7cd3zjc55onbky6","asset_id":"c4a3c0c45fdb2213318357e08c825933"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"A Bridge","lineupDescription":"Aim and align your killjoy turrret into the corner of the yellow line thing.\n\nCredit: @6S Mars","lineupLocationCoords":{"x":945.8240000000001,"y":77.5360000000001,"name":"A Site Bridge "},"lineupPositionCoords":{"x":1765.316487681617,"y":380.3613392293114},"comments":[],"date":{"$date":"2024-06-24T02:30:56.345Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678db5b9737fd049914c586"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Bridge Post Plant Molly","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/wzy3bqfpdoqnqix68ivy","asset_id":"6c67df6a02d617469f6140bb044bd6f1"},"aimingPosition":{"public_id":"Valorant/ltkpf7s3hodcxzhasypl","asset_id":"1fc9d925ea90cdd05ec64441a6489f60"},"landingPosition":{"public_id":"Valorant/pwzgmouucxicf88xcrtc","asset_id":"7323a7dc4ec093c9ae6e603a65e1cf91"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"A Bridge","lineupDescription":"Aim and Jump Throw\n\nCredit: @6S Mars","lineupLocationCoords":{"x":945.8240000000001,"y":77.5360000000001,"name":"A Site Bridge "},"lineupPositionCoords":{"x":249.04611497157293,"y":545.9608338597599},"comments":[{"username":"kagiriez","user":"65a70095dc44d590069824e2","text":"WW","_id":{"$oid":"669b3fbaa8b61853db2b294f"},"createdAt":{"$date":"2024-07-20T04:40:26.811Z"}}],"date":{"$date":"2024-06-24T02:35:07.861Z"},"__v":1,"reports":[]},
-{"_id":{"$oid":"6678db8a9737fd049914c59e"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Safe Post Plant Molly","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/dtgbkqivtywlrzmw4wwx","asset_id":"34366ebdd350a6f3fbcd3b8af2b4fc16"},"aimingPosition":{"public_id":"Valorant/veboafhbai9r29bbpbma","asset_id":"b8d89bb1b6f6e640823087b7360faec5"},"landingPosition":{"public_id":"Valorant/lmchzrsnw7tdl8z3pbsu","asset_id":"832fb48864f1cdc32f8aaf0816f1ccef"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"A Bridge","lineupDescription":"Aim and Jump Throw\n\nCredit: @6S Mars","lineupLocationCoords":{"x":845.8240000000001,"y":77.5360000000001,"name":"A Site Bridge Entrance"},"lineupPositionCoords":{"x":251.6336070751737,"y":553.7233101705622},"comments":[],"date":{"$date":"2024-06-24T02:35:54.503Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678dd009737fd049914c6f3"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Default Swarm ","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/wudhlzftdcjunwnmynk1","asset_id":"165447ba7119052aaf705ac0602c77c0"},"aimingPosition":{"public_id":"Valorant/ooovzx1fgw4rfcbewfpi","asset_id":"31269915ed7d440c973f4834441cf56b"},"landingPosition":{"public_id":"Valorant/q8ksbqb4zuata8zdhrcs","asset_id":"cfb09ad7b94778689bc8ed01d8b3a845"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"B Default","lineupDescription":"Line up your turret icon to the corner of the building and jump throw\n\nCredit: @6S Mars","lineupLocationCoords":{"x":876.8735632183908,"y":1871.4482758620688,"name":"B Default"},"lineupPositionCoords":{"x":1403.067593177511,"y":1456.7580543272268},"comments":[],"date":{"$date":"2024-06-24T02:42:08.92Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678dddd9737fd049914c6ff"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Far B Default Swarm ","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/azpvxyohcf9scc7ccaku","asset_id":"5c6f60dd80d3deb2b485b17d943cf043"},"aimingPosition":{"public_id":"Valorant/exlb95qkz8d9d6n7r6gu","asset_id":"a43e560e12402248d26ad75df1e5dd9b"},"landingPosition":{"public_id":"Valorant/qxnmbdtn8aqbs4mp8bei","asset_id":"8ab02f9ff8197ae6fa7fec0d23bef310"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"B Default","lineupDescription":"Line up the right corner of the HUD with the first ridge on the building and jump throw\n\nCredit: @6S Mars","lineupLocationCoords":{"x":876.8735632183908,"y":1871.4482758620688,"name":"B Default"},"lineupPositionCoords":{"x":1403.067593177511,"y":1456.7580543272268},"comments":[],"date":{"$date":"2024-06-24T02:45:49.131Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678deaa9737fd049914c70b"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Backsite to Danger Swarm ","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/tifrprwbizhggfvtcazt","asset_id":"71a97249feabc4cbed94bd701ee26620"},"aimingPosition":{"public_id":"Valorant/ohfsqof7yt19vgbfr18r","asset_id":"84d165cf8b66ac81c531abfc9106332b"},"landingPosition":{"public_id":"Valorant/frdutguqtdpexsvcuzkr","asset_id":"4d0af60fc93141e79f5a1f5165d1b74e"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"B Default","lineupDescription":"aim and jump throw\n\nCredit: @6S Mars","lineupLocationCoords":{"x":741.5172413793103,"y":1995.0344827586207,"name":"B Bridge Plant"},"lineupPositionCoords":{"x":1395.3051168667087,"y":1464.520530638029},"comments":[],"date":{"$date":"2024-06-24T02:49:14.149Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6678deff9737fd049914c717"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Backsite Swarm","mapName":"abyss","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/gvy866lvaxqjtswpnpif","asset_id":"d3fc6caa14d42fa15e85447fb29725ad"},"aimingPosition":{"public_id":"Valorant/gafppz82pkkftmzysofy","asset_id":"c028c28f14b1e5e35dd6ed5f769dbaad"},"landingPosition":{"public_id":"Valorant/qa9dl8scfylfybbbjr3j","asset_id":"16782e3f7dc22c7c1d6dc4e45b5beb24"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"B Default","lineupDescription":"aim and jump throw\n\nCredit: @6S Mars","lineupLocationCoords":{"x":741.5172413793103,"y":1995.0344827586207,"name":"B Bridge Plant"},"lineupPositionCoords":{"x":1392.717624763108,"y":1518.857864813645},"comments":[],"date":{"$date":"2024-06-24T02:50:39.493Z"},"__v":0,"reports":[]},
-{"_id":{"$oid":"6696d37b5180067a636e8167"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Backsite Recon","mapName":"sunset","teamSide":"Attacker","likes":[],"dislikes":[],"views":4,"standingPosition":{"public_id":"Valorant/y9zvksrlf4u3ehruylp2","asset_id":"5d10a154df04d31f7c1b5b09aa729a21"},"aimingPosition":{"public_id":"Valorant/walotmvgfb5rvpbeo9st","asset_id":"21ca1b522ad3d1ef16eaf1a4512c57d7"},"landingPosition":{"public_id":"Valorant/pbv9zxg8zqb645cmiur4","asset_id":"2505b7f7b5418a18f41eed1d1a8461dc"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Sitee","lineupDescription":"Double Bounce Dart\n\nCredit: @Snaplex","lineupLocationCoords":{"x":338.944,"y":581.6320000000001,"name":"B Boba"},"lineupPositionCoords":{"x":686.3322804801011,"y":1593.8951358180668},"comments":[],"date":{"$date":"2024-07-16T20:09:31.793Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de0850a91d725ce84642f"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Safe Orb Oneway ","mapName":"icebox","teamSide":"Defender","likes":[],"dislikes":[],"views":5,"standingPosition":{"public_id":"Valorant/w8nbn3hynl6feflowngg","asset_id":"4af8e828a0abfe351d433de6bdf05701"},"aimingPosition":{"public_id":"Valorant/pru5uwbulazrdxoimkrs","asset_id":"4f5870726f2c87e5535c7a31c0e10a6b"},"landingPosition":{"public_id":"Valorant/lsa33bin7fcj8rh5t30d","asset_id":"9a8cf3eb49115d92cad49b31023977f5"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Viper","ability":"Poison Cloud","lineupLocation":"Icebox B Entrance","lineupDescription":"Go to corner and throw","lineupLocationCoords":{"x":910.472,"y":442.368,"name":"B Oneway"},"lineupPositionCoords":{"x":1247.8180669614655,"y":188.88692356285532},"comments":[],"date":{"$date":"2024-07-22T04:31:01.969Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de12a0a91d725ce84643f"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B to A Box One Way","mapName":"bind","teamSide":"Defender","likes":[],"dislikes":[],"views":3,"standingPosition":{"public_id":"Valorant/dqx439opx2wgqki1ui7n","asset_id":"529f298d1e0adde5a67ed0f9303a496d"},"aimingPosition":{"public_id":"Valorant/hszticrcvsy6oabpu2rp","asset_id":"c6dadd4b221846d57862a0d9a4334111"},"landingPosition":{"public_id":"Valorant/dhhpklbj0c44czzyxbup","asset_id":"b20e0e02148f462eab8a006b9a278560"},"grenadeType":"","jumpThrow":true,"game":"Valorant","approved":true,"valorantAgent":"Viper","ability":"Poison Cloud","lineupLocation":"B Short Entrance","lineupDescription":"Go to corner of the metal box and aim the corner of the right bottom part of viper molly at the painting and jump throw","lineupLocationCoords":{"x":1281.0240000000001,"y":995.328,"name":"Short"},"lineupPositionCoords":{"x":631.9949463044851,"y":595.1231838281743},"comments":[],"date":{"$date":"2024-07-22T04:33:46.674Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de2ab0a91d725ce8539c0"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Market Door Oneway","mapName":"sunset","teamSide":"Defender","likes":[],"dislikes":[],"views":4,"standingPosition":{"public_id":"Valorant/qoiojidvbwiuzvterqln","asset_id":"d7d9f66885871b8a3f334e4228e0e3d3"},"aimingPosition":{"public_id":"Valorant/nlwfiasgijb44yvmx3v3","asset_id":"69b73047e7fb38973d072d28402f9f9d"},"landingPosition":{"public_id":"Valorant/bahs9ceuvubajqcmlynx","asset_id":"002b6ef69f31aba72da0582445f3886c"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Cypher","ability":"Cyber Cage","lineupLocation":"Market","lineupDescription":"Aim and throw","lineupLocationCoords":{"x":646.144,"y":987.136,"name":"B Market"},"lineupPositionCoords":{"x":727.7321541377131,"y":1011.7094125078963},"comments":[],"date":{"$date":"2024-07-22T04:40:11.642Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de44226633af7975838e8"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Early Sova Dart Info ","mapName":"haven","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/j7cggiahcpfl0hpepojo","asset_id":"421243e85933ab617bb841ea7bb94644"},"aimingPosition":{"public_id":"Valorant/soueyy6qdpcvuxoativz","asset_id":"62eff8c8082a2fbad31dcf85d16f6368"},"landingPosition":{"public_id":"Valorant/l62rfa3nrnly3qurxvdb","asset_id":"e227131ad72322e257e6118b24b882bb"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"C Long","lineupDescription":"1 and a half bar charge and shoot","lineupLocationCoords":{"x":1444.544,"y":1703.9360000000001,"name":"C Long Area"},"lineupPositionCoords":{"x":588.0075805432722,"y":1469.6955148452305},"comments":[],"date":{"$date":"2024-07-22T04:46:58.677Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de4c726633af7975838f8"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Info from A Heaven","mapName":"haven","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/e4xakrwcypmeiqhq434m","asset_id":"879df81f080824ec76400c991229bd28"},"aimingPosition":{"public_id":"Valorant/jgeugxidcijh53rkgm1d","asset_id":"2c68a9c4ca1ef57d7b2399b928f5d0df"},"landingPosition":{"public_id":"Valorant/zprbvwzz4ecw7ljx7dzn","asset_id":"4684387204c0a704d984781481b8044f"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Entrance","lineupDescription":"Go to corner of window and 1 bar charge aiming at the sun","lineupLocationCoords":{"x":1276.608,"y":774.144,"name":"A Lobby"},"lineupPositionCoords":{"x":639.7574226152874,"y":250.9867340492735},"comments":[],"date":{"$date":"2024-07-22T04:49:11.409Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de52b26633af797583908"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Sova A God Dart","mapName":"haven","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/okfpk9ywtpj5hqaaedp6","asset_id":"3f07ba3b37f9af602538f66387753943"},"aimingPosition":{"public_id":"Valorant/yzbstmyspi6tlfrklkos","asset_id":"4b06854eaf89a0f56d5c1c30c6f5a19c"},"landingPosition":{"public_id":"Valorant/zq1blhlm76qjjnweqcyt","asset_id":"13c4d406acede32d35ac7783511b3c50"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Site","lineupDescription":"One Charge and One Bounce","lineupLocationCoords":{"x":744.128,"y":368.64,"name":"A Backsite"},"lineupPositionCoords":{"x":1240.0555906506631,"y":408.82375236891977},"comments":[],"date":{"$date":"2024-07-22T04:50:51.605Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de5c326633af797583918"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"C Attack Dart","mapName":"haven","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/nfauwxbgwafppkwgquvr","asset_id":"bd0cd129a30adba884ceb148b89be8a7"},"aimingPosition":{"public_id":"Valorant/vgxh0doaukkaj4hr8elp","asset_id":"64b47ceee5287c18945d41c1ca97ed11"},"landingPosition":{"public_id":"Valorant/wzhvozdh0epe0khqed18","asset_id":"f36b41c61deb3bd1dfb1fd260519e2d1"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"C Site","lineupDescription":"One a half charge and one bounce. Aim at a middle short leaf","lineupLocationCoords":{"x":805.568,"y":1708.032,"name":"Long Plant"},"lineupPositionCoords":{"x":1607.4794693619708,"y":1485.220467466835},"comments":[],"date":{"$date":"2024-07-22T04:53:23.017Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de64b26633af797583928"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Haven C to A Site Dart","mapName":"haven","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/vrd8bbxt4lhzjbqmxlxo","asset_id":"3943a2b7bc9fdfed1c006cbc3378b0b8"},"aimingPosition":{"public_id":"Valorant/wbt06yehlsskhxsfvb1i","asset_id":"a40a70e3925885b74a7a35897d4fdbcd"},"landingPosition":{"public_id":"Valorant/dpw908r4e896ltwaeqsy","asset_id":"af97df7293cedcb03693a195364461a6"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Site","lineupDescription":"Stand in the corner. Aim and full charge + 1 bounce","lineupLocationCoords":{"x":834.24,"y":241.66400000000002,"name":"Long A Plant"},"lineupPositionCoords":{"x":743.2571067593177,"y":1505.920404295641},"comments":[],"date":{"$date":"2024-07-22T04:55:39.838Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de6d526633af797583938"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"C Garage to Attacker Spawn","mapName":"haven","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/v83vhwfozlofpk6zhygu","asset_id":"89346841bfe5415e8c3b01a928cc5422"},"aimingPosition":{"public_id":"Valorant/kxchpqvpd7pftrcfq6il","asset_id":"f034c47e0089b4d56d68e4ff1945ee04"},"landingPosition":{"public_id":"Valorant/e2sm4pecjajjtwlhb50e","asset_id":"6eb0728472058c7ece8bc04dc997bbfc"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Yoru","ability":"GATECRASH","lineupLocation":"Attacker Spawn","lineupDescription":"Stand in the corner and throw TP","lineupLocationCoords":{"x":1862.336,"y":1101.824,"name":"Attacker Spawn"},"lineupPositionCoords":{"x":911.444093493367,"y":1348.0833859759948},"comments":[],"date":{"$date":"2024-07-22T04:57:57.115Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de75826633af797583948"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Defender to A Cubby","mapName":"haven","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/jre4rqi8dbwkuhmocj8z","asset_id":"4a3eb82588bd6b2d3a54800832399393"},"aimingPosition":{"public_id":"Valorant/vqtixc2drxeamiwzvfun","asset_id":"0e94fad569f0a026223a4a1ed2382f98"},"landingPosition":{"public_id":"Valorant/bh4qo3ikksncidmly2uq","asset_id":"ea511b57abd80bacd94393d0ba897509"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Yoru","ability":"GATECRASH","lineupLocation":"A Cubby","lineupDescription":"Go to the corner of the wall and aim at the tiny white box near the door","lineupLocationCoords":{"x":1112.768,"y":196.608,"name":"A Long Close Cubby"},"lineupPositionCoords":{"x":533.6702463676563,"y":680.5104232469993},"comments":[],"date":{"$date":"2024-07-22T05:00:08.091Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de84826633af797583968"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Stairs to A Site","mapName":"haven","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/me4bfprngeohpucpmxic","asset_id":"04c20080cb7a599209f4be43fc54e344"},"aimingPosition":{"public_id":"Valorant/w0humduedmv6jccutk6n","asset_id":"905f1ea662b43e5e1f6ef8153c2fa57b"},"landingPosition":{"public_id":"Valorant/w15ughp5da7cenlkc9lc","asset_id":"bcb6a192e2c774338a26e6cbcf5e20d5"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Cubby","lineupDescription":"Go to the corner of the stairs outside A Site. Aim at the corner of the leaf, use a scoped weapon for better accuracy. Double bounce, full charge","lineupLocationCoords":{"x":744.128,"y":368.64,"name":"A Backsite"},"lineupPositionCoords":{"x":1563.492103600758,"y":763.3101705622236},"comments":[],"date":{"$date":"2024-07-22T05:04:08.513Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669de98a4064af9b4847e38a"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Site Ult Retake","mapName":"haven","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/whe6tpddjrvedfr2akdr","asset_id":"ba3d29049a0b58b2a271aa035a55357a"},"aimingPosition":{"public_id":"Valorant/g50ududjcw8jrtgfdokg","asset_id":"ad385dabd15e9d68441ffcdba2ccd743"},"landingPosition":{"public_id":"Valorant/rawfg01gtuv7eosb1bcz","asset_id":"a9aa897339d2a4e55eca1d1368c272a2"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Killjoy","ability":"Nanoswarm","lineupLocation":"A Cubby","lineupDescription":"Align your Nanoswarm icon with the wooden square and throw","lineupLocationCoords":{"x":1112.768,"y":196.608,"name":"A Long Close Cubby"},"lineupPositionCoords":{"x":732.9071383449146,"y":675.3354390397978},"comments":[],"date":{"$date":"2024-07-22T05:09:30.971Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669dead44064af9b4847e49f"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"Deep A Early Reveal","mapName":"bind","teamSide":"Defender","likes":[],"dislikes":[],"views":2,"standingPosition":{"public_id":"Valorant/xcd3ysb4ftdtuoebfe55","asset_id":"23bc8708cfcaf60d24451e778cdad11f"},"aimingPosition":{"public_id":"Valorant/vgxd2sr2fcos6mzowzrk","asset_id":"161c4f5bb67f0bc5b789d957a6962296"},"landingPosition":{"public_id":"Valorant/arwcik07ddeyxujetqkm","asset_id":"9531c8cfc1504e3e98366d2c99e1f1f0"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Short","lineupDescription":"Two charge and double bounce","lineupLocationCoords":{"x":1424.384,"y":1040.384,"name":"Trees"},"lineupPositionCoords":{"x":1501.3922931143397,"y":639.1105495893872},"comments":[],"date":{"$date":"2024-07-22T05:15:00.609Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669deb704064af9b4847e4af"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Far Retake Dart","mapName":"bind","teamSide":"Defender","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/z01cdprtgdwdorbryccp","asset_id":"3d42aedfcef0e027e65e8e8aa87786bc"},"aimingPosition":{"public_id":"Valorant/pkzjlcstaprqpwupuxrk","asset_id":"ce38a11ceee186415a564489525a8e0c"},"landingPosition":{"public_id":"Valorant/mgvyxn1lk9hvglzaxzbz","asset_id":"bc2609b4896114060b1373343991ee36"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"B Site","lineupDescription":"Aim at the bottom of the crane handle. Shoot at 2 charges no bounce","lineupLocationCoords":{"x":650.24,"y":757.76,"name":"B Window"},"lineupPositionCoords":{"x":1307.3303853442828,"y":408.82375236891977},"comments":[],"date":{"$date":"2024-07-22T05:17:36.813Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669debd54064af9b4847e4bf"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B God Dart","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":2,"standingPosition":{"public_id":"Valorant/dph8xsuszq5mbsrnes70","asset_id":"d9c488f9c6d6aa433aabe978961a550c"},"aimingPosition":{"public_id":"Valorant/qq76fmhnbjzfwidtxh5e","asset_id":"05736816dd0466e8ef2988e8b96a7415"},"landingPosition":{"public_id":"Valorant/rou63g0dmvq9gqwftlku","asset_id":"f3aea630d4763cbd5a896d9f3dde5dc9"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"B Site","lineupDescription":"Go to corner and aim slightly below the triangle. Shoot with 2 charges no bounce","lineupLocationCoords":{"x":728.064,"y":589.8240000000001,"name":"Cubby"},"lineupPositionCoords":{"x":859.6942514213519,"y":1133.321541377132},"comments":[],"date":{"$date":"2024-07-22T05:19:17.871Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669ded794064af9b4847e4cf"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Lamp God Dart","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":2,"standingPosition":{"public_id":"Valorant/t6vug52quyvab8on7qxw","asset_id":"6a04e1ec99da7ce1e1a6490e89fd010f"},"aimingPosition":{"public_id":"Valorant/csx6zkbrtjut5hddhku5","asset_id":"33fa3091b3814cf86fd59f957c7f1487"},"landingPosition":{"public_id":"Valorant/wab7ubp3hbvujy6xdt0h","asset_id":"211473bd58475abb67cdb6e20e34a67d"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Sova","ability":"Recon Bolt","lineupLocation":"A Site","lineupDescription":"Go to corner and line up the bottom corner of your HUD with the triangular gap in the leaf. Next position your HUD like shown in the picture. One charge and shoot","lineupLocationCoords":{"x":1395.712,"y":679.936,"name":"Truck"},"lineupPositionCoords":{"x":1454.8174352495262,"y":1156.6089703095388},"comments":[],"date":{"$date":"2024-07-22T05:26:17.894Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669dee4f4064af9b484821d8"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"B Short to Tube Post Plant","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":0,"standingPosition":{"public_id":"Valorant/hscdfmuxxrcgd1aajnyo","asset_id":"8f2fd55ad388e4a09fe6f3137d46803e"},"aimingPosition":{"public_id":"Valorant/lrl1grtmlml7qi8bechd","asset_id":"e17481e1c4faf095735ac27c65b40e63"},"landingPosition":{"public_id":"Valorant/rl84akcywfsrpib2010k","asset_id":"f799533bcfabd5bff5e25e6b9771ebe2"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Gekko","ability":"Mosh Pit","lineupLocation":"B Tube","lineupDescription":"Place the HUD of mosh pit as shown in the image and throw","lineupLocationCoords":{"x":592.896,"y":581.6320000000001,"name":"Tube"},"lineupPositionCoords":{"x":862.2817435249526,"y":928.909665192672},"comments":[],"date":{"$date":"2024-07-22T05:29:51.851Z"},"reports":[],"__v":0},
-{"_id":{"$oid":"669def184064af9b484821e8"},"Username":"kagiriez","UserID":{"$oid":"65a70095dc44d590069824e2"},"postTitle":"A Default Post Plant","mapName":"bind","teamSide":"Attacker","likes":[],"dislikes":[],"views":1,"standingPosition":{"public_id":"Valorant/vt4rz9jqv1krhhphqk1d","asset_id":"34367c0bb359f8eacec78ed5d677c270"},"aimingPosition":{"public_id":"Valorant/a3yprymssvujwdk5h2ap","asset_id":"f05d6259ab17bb5ccee02da5c915ccf8"},"landingPosition":{"public_id":"Valorant/nwajpjnjsvichj3runrr","asset_id":"4e8cc7c8042451044167b7cb3448eefd"},"grenadeType":"","jumpThrow":false,"game":"Valorant","approved":true,"valorantAgent":"Viper","ability":"Snake Bite","lineupLocation":"A Default","lineupDescription":"Go to corner and position crosshair near the top as shown in picture","lineupLocationCoords":{"x":1408,"y":712.7040000000001,"name":"Default"},"lineupPositionCoords":{"x":1416.0050536955148,"y":1045.3468098547062},"comments":[],"date":{"$date":"2024-07-22T05:33:12.32Z"},"reports":[],"__v":0}
+  {
+    "_id": { "$oid": "65c6c3582e0dc09b91ed0be7" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Post Plant Generator Molly",
+    "mapName": "ascent",
+    "lineupLocation": "A Main",
+    "lineupDescription": "1. Stand in this corner of A main (image 1).\n2. Line up the bottom diamond of molly throw icon with the brick in the sky as indicated in image 2.\n3. Fire your molly about 4 seconds before you think they will get on the spike (image 3)",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 42,
+    "standingPosition": {
+      "public_id": "Valorant/jm36c8jzh1jimcvewt5u",
+      "asset_id": "97f3a3ae6407a3cc68d4d96af047a419"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/skjlrktnymipresr0yso",
+      "asset_id": "5e00650a4c3afccb0759bd9e71fb6b73"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/plherwovtpojzzlkxm1p",
+      "asset_id": "63fd8d20ba1eb9139e04d12c1e22152d"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocationCoords": {
+      "x": 707.264,
+      "y": 393.216,
+      "name": "A Default Plant"
+    },
+    "lineupPositionCoords": { "x": 1027.881238155401, "y": 577.010739102969 },
+    "comments": [],
+    "date": { "$date": "2024-02-10T00:29:12.238Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6c44f2e0dc09b91ed0c07" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Camera",
+    "mapName": "bind",
+    "lineupLocation": "B Site",
+    "lineupDescription": "1. Jump on the elevator then on the two superimposed crates, then stand where it is indicated.\n2. Aim the camera as shown (as high as possible).\n3. Jump and throw the camera as high as possible.",
+    "teamSide": "Defender",
+    "likes": [
+      {
+        "userId": "65a70095dc44d590069824e2",
+        "_id": { "$oid": "666354fdbea00eaf176ef56f" }
+      }
+    ],
+    "dislikes": [],
+    "views": 26,
+    "standingPosition": {
+      "public_id": "Valorant/za9lk5vplpgqdj9bgxde",
+      "asset_id": "a8e34c27e0de9bb207fdc55b9e3d8c59"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/izvpcy5w10bm7oj1ct7w",
+      "asset_id": "0e560ff2c9867b203c2e1e3202dabde3"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/ean3buk6wgmsdy1ywyvy",
+      "asset_id": "af7dd0064e155add8c4aef425b9b4534"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Cypher",
+    "ability": "Spycam",
+    "lineupLocationCoords": {
+      "x": 592.896,
+      "y": 581.6320000000001,
+      "name": "Tube"
+    },
+    "lineupPositionCoords": { "x": 593.1825647504737, "y": 729.6727732154137 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "very cool lineup!",
+        "createdAt": { "$date": "2024-03-16T20:37:05.413Z" },
+        "_id": { "$oid": "65f602f1674cd62852a4d26a" }
+      }
+    ],
+    "date": { "$date": "2024-02-10T00:33:19.373Z" },
+    "__v": 2,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65fde52f674cd62852a54d56" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Sova A Site Recon ",
+    "mapName": "ascent",
+    "lineupLocation": "Ascent A Main",
+    "lineupDescription": "1. Stand against the barrels outside of the ice cream shop.\n2. Look just above the flag pole, where the edge of the building is.\n3. Fire a 2 Bar 0 Bounce Recon Bolt, it should land on the top of A Site (image 3).",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 15,
+    "standingPosition": {
+      "public_id": "Valorant/eqr9y5uysgidcuwu8ziu",
+      "asset_id": "14492df44a028d4119f14ab4fca2025f"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/rnsajtbsaxj46bgiua3w",
+      "asset_id": "24c5fc0fa791d4101a9acbe3a2a230ed"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/tlvx82dcxaqocd5qka63",
+      "asset_id": "407441dcbfc98620ae2fbde058f42a3e"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocationCoords": { "x": 735.936, "y": 303.104, "name": "A Site" },
+    "lineupPositionCoords": { "x": 1414.7456816051797, "y": 493.214117850166 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "Wow!",
+        "createdAt": { "$date": "2024-03-22T20:08:33.922Z" },
+        "_id": { "$oid": "65fde541674cd62852a5502a" }
+      },
+      {
+        "username": "ooccupate",
+        "user": "65a70055dc44d590069824da",
+        "text": "yo this won me 1v1",
+        "createdAt": { "$date": "2024-03-22T21:03:05.072Z" },
+        "_id": { "$oid": "65fdf209674cd62852a65f31" }
+      }
+    ],
+    "date": { "$date": "2024-03-22T20:08:15.408Z" },
+    "__v": 2,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65fde629674cd62852a5793c" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Oneway for A Stairs ",
+    "mapName": "ascent",
+    "lineupLocation": "Ascent B Site",
+    "lineupDescription": "Use this smoke to see the toes of people behind B Stairs",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 4,
+    "standingPosition": {
+      "public_id": "Valorant/nzrtcvo3rqx9oyz76x6p",
+      "asset_id": "0cde1501be5682903ec64e61b5270143"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/hg8hviwmzvnffxjeztkx",
+      "asset_id": "f2962d0ee8bf0a70a9e861283265f46a"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/lhjs975yj5om7xk3is9w",
+      "asset_id": "ed5330b6d77ea06465d5338bcfe31a3a"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Omen",
+    "ability": "Dark Cover",
+    "lineupLocationCoords": { "x": 391.872, "y": 1359.872, "name": "B CT" },
+    "lineupPositionCoords": { "x": 472.03726686704306, "y": 1560.933860635248 },
+    "comments": [],
+    "date": { "$date": "2024-03-22T20:12:25.145Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65fde6e4674cd62852a59ed2" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "C Main Haunt from C Link",
+    "mapName": "lotus",
+    "lineupLocation": "C Main",
+    "lineupDescription": "1. Stand in line with the left side of the beam.\n2. Aim the bottom left HUD line at the edge of the pillar.\n3. Left-click.",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 3,
+    "standingPosition": {
+      "public_id": "Valorant/bmm3knckr8itva62qk5z",
+      "asset_id": "3e48c7f5c9d920adddf8daa44d8c13ba"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/poy4ghjjwvbtgx7rb3ls",
+      "asset_id": "ee00a492c52a5a977fd6e7c7ba6f19e2"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/pr0j9ryol6nnptjxlncj",
+      "asset_id": "59b982f33445c454da3278fc27a46317"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocationCoords": {
+      "x": 674.816,
+      "y": 1155.0720000000001,
+      "name": "B Door"
+    },
+    "lineupPositionCoords": { "x": 646.2333869816987, "y": 946.1240249364633 },
+    "comments": [],
+    "date": { "$date": "2024-03-22T20:15:32.076Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65fde797674cd62852a5df0d" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Lobby to Backsite B",
+    "mapName": "breeze",
+    "lineupLocation": "Backsite B",
+    "lineupDescription": "Aim at corner and TP",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 9,
+    "standingPosition": {
+      "public_id": "Valorant/bhqerdfousbglrpp9npw",
+      "asset_id": "f54f68c6d49d4be15ee259f7cd2cee61"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/lgcu7famlc2iqaakshv1",
+      "asset_id": "313242a905e6a8f821abc86135149434"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/a5uzdchiozngunkdffxk",
+      "asset_id": "48e3ba53dc2c99504ac38515c9f936ba"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Yoru",
+    "ability": "GATECRASH",
+    "lineupLocationCoords": {
+      "x": 105.47200000000001,
+      "y": 593.92,
+      "name": "B Backsite"
+    },
+    "lineupPositionCoords": {
+      "x": 1469.3954447784051,
+      "y": 1726.2493929313027
+    },
+    "comments": [],
+    "date": { "$date": "2024-03-22T20:18:31.728Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65fdf3f5674cd62852a672b0" },
+    "Username": "ooccupate",
+    "UserID": { "$oid": "65a70055dc44d590069824da" },
+    "postTitle": "A Truck Denial from Short",
+    "mapName": "bind",
+    "lineupLocation": "A Short",
+    "lineupDescription": "A default lineup for brimestone",
+    "teamSide": "Attacker",
+    "likes": [
+      {
+        "userId": "65a70055dc44d590069824da",
+        "_id": { "$oid": "6663548bbea00eaf176ee571" }
+      }
+    ],
+    "dislikes": [],
+    "views": 8,
+    "standingPosition": {
+      "public_id": "Valorant/n9bzns81hp4rgquioop3",
+      "asset_id": "7f2ab29a29d5a6fe837caa0b66b4587a"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/wx5gn5yj2kiqbwdg1qog",
+      "asset_id": "4646349eb7776ad953a55bebb9cc4c13"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/lvjmii6g9x9uiojzwaht",
+      "asset_id": "ed28a401a364ffbd5d668ba2a1acc182"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocationCoords": {
+      "x": 1408,
+      "y": 712.7040000000001,
+      "name": "Default"
+    },
+    "lineupPositionCoords": { "x": 1184.518918918919, "y": 1115.3297297297297 },
+    "comments": [],
+    "date": { "$date": "2024-03-22T21:11:17.443Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "66033643674cd62852a68a8b" },
+    "Username": "ooccupate",
+    "UserID": { "$oid": "65a70055dc44d590069824da" },
+    "postTitle": "Viper Bind Post Plant B Lineup",
+    "mapName": "bind",
+    "lineupLocation": "B mid",
+    "lineupDescription": "A lineup that lands at B default from outside hookah for post plant situations",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 12,
+    "standingPosition": {
+      "public_id": "Valorant/salhiyflaixhk77qzpgm",
+      "asset_id": "2a37217de6488aebf4b23832ec7af3d9"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/pghu7unxmq6deiqdaczo",
+      "asset_id": "42cd6cd10c1f590af39f245109f23c4a"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/kormje2goratj7tlatyz",
+      "asset_id": "0b7cbcdb26e196c0c4fc02c7d664e184"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Viper",
+    "ability": "Snake Bite",
+    "lineupLocationCoords": {
+      "x": 592.896,
+      "y": 581.6320000000001,
+      "name": "Tube"
+    },
+    "lineupPositionCoords": { "x": 871.7837837837839, "y": 988.0216216216216 },
+    "comments": [],
+    "date": { "$date": "2024-03-26T20:55:31.312Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "660c735f674cd62852ae39ae" },
+    "Username": "SkyWings1217",
+    "UserID": { "$oid": "65cbe4d72e0dc09b91ed0e7b" },
+    "postTitle": "Pheonix Ascent A main Cubby Hot Hands",
+    "mapName": "ascent",
+    "lineupLocation": "Ascent, A main , cubby",
+    "lineupDescription": "Molly for the cubby at Ascent A main for a potential flash combo. FREE KILLS",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 8,
+    "standingPosition": {
+      "public_id": "Valorant/nkhflt582zi6cdxxofgh",
+      "asset_id": "5b83fee0ec184106b5d0f11b01cdd783"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/a8yvbofwwa3qdbmd13vm",
+      "asset_id": "b10f0c373fdd7feaa12520ee864cecab"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/rhksrzbbkmvyb27gak5h",
+      "asset_id": "4806cec8fd251d80f1d4c81351e0d810"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Phoenix",
+    "ability": "Hot Hands",
+    "lineupLocationCoords": {
+      "x": 924.352,
+      "y": 557.056,
+      "name": "A Long Cubby"
+    },
+    "lineupPositionCoords": { "x": 748.7016929314962, "y": 372.3015116175975 },
+    "comments": [],
+    "date": { "$date": "2024-04-02T21:06:40.008Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6615afbc6f0532518ec077bf" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Retake Eye",
+    "mapName": "lotus",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/tfakeyx9i4eyodkdfrnf",
+      "asset_id": "6da8ae52f74c923efe6298078a8fc230"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/wp2xaysgpzopqw43owda",
+      "asset_id": "e563c2aa9e351d02b61678a306469728"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/c5bqkirsy9iy24evwtjp",
+      "asset_id": "93dedc5c82caa12487f45134abca4e79"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocation": "B Main",
+    "lineupDescription": "1. Go against the pinged wall\n2. Aim at the intersection point of the vines\n3. Do a normal throw",
+    "lineupLocationCoords": { "x": 1022.976, "y": 937.984, "name": "Pool" },
+    "lineupPositionCoords": { "x": 1325.9398164486886, "y": 930.4121971769308 },
+    "comments": [],
+    "date": { "$date": "2024-04-09T21:14:36.702Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6615b0a46f0532518ec08fdc" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Main To A Default",
+    "mapName": "icebox",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 3,
+    "standingPosition": {
+      "public_id": "Valorant/wrzrhuxtkktxphjjss2y",
+      "asset_id": "8b648751023da3c2994af8efdd24d0f1"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/gzvxu06jnfidbgcchu7z",
+      "asset_id": "ed00cc85dd070544740251ccc279eeb6"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/okv5jhqpxkmlbdy5i3sb",
+      "asset_id": "22c035735b95428cf2def58bc85bd1fd"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Gekko",
+    "ability": "Mosh Pit",
+    "lineupLocation": "A Main Icebox",
+    "lineupDescription": "- Put your crosshair on the intersection. You may need to be on med-high settings to see it.\n- Throw the molly. It will take approximately 3 seconds to land and approximately 6 seconds to kill the defuser.",
+    "lineupLocationCoords": {
+      "x": 1432.256,
+      "y": 1724.416,
+      "name": "A Default Plant"
+    },
+    "lineupPositionCoords": { "x": 957.0539150294177, "y": 1437.2887753646814 },
+    "comments": [],
+    "date": { "$date": "2024-04-09T21:18:28.597Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6615b16e6f0532518ec0ab0c" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Knife from Attacker Spawn to B",
+    "mapName": "icebox",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/zzwwmhsvge9zfs5auy1u",
+      "asset_id": "cc3b683ba38979c619ce977d6e8524f5"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ms1awbbd2eyjnbhluf1t",
+      "asset_id": "54156c7f72d2f8aef429bfb93f10448b"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/fb8ltguv3p0p4uxhnugt",
+      "asset_id": "1d7ee12578ef18a6aa5fe9520484b6e8"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "KAY/O",
+    "ability": "ZERO/point",
+    "lineupLocation": "B Site",
+    "lineupDescription": "Go to the corner of ramp.  Aim for the blue crate and aim the bottom of your knifes \"E\" on top of the upper right hinge.",
+    "lineupLocationCoords": { "x": 1256.128, "y": 458.752, "name": "B Nest" },
+    "lineupPositionCoords": { "x": 550.5963014285544, "y": 1270.6069937774887 },
+    "comments": [],
+    "date": { "$date": "2024-04-09T21:21:50.572Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6615b2336f0532518ec0b3ae" },
+    "Username": "ooccupate",
+    "UserID": { "$oid": "65a70055dc44d590069824da" },
+    "postTitle": "Sage A Short Slow from B Site",
+    "mapName": "bind",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 2,
+    "standingPosition": {
+      "public_id": "Valorant/xzv0fyjwiqomqotgdcyq",
+      "asset_id": "8804fed3b38eef7bc00deaacabb46393"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/hjeb7hlqwhyenduowp9j",
+      "asset_id": "5e0fb48e025aaeb5a531a8a9b930eaac"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/oekqfnhph1ipfobsnlnu",
+      "asset_id": "11c15c19dcc6606f6930f2fa2b855d9b"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sage",
+    "ability": "Slow Orb",
+    "lineupLocation": "B Back Site",
+    "lineupDescription": "A Sage support slow from B when the enemy is rushing A",
+    "lineupLocationCoords": { "x": 1215.488, "y": 942.08, "name": "A Cubby" },
+    "lineupPositionCoords": { "x": 608.8648648648649, "y": 556.2810810810811 },
+    "comments": [],
+    "date": { "$date": "2024-04-09T21:25:07.015Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6615b2456f0532518ec0b3d6" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Site God Dart",
+    "mapName": "ascent",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 3,
+    "standingPosition": {
+      "public_id": "Valorant/zfknhhaae7eekvw06sko",
+      "asset_id": "7575d778803ef58556566c37b4594480"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ecuay0jxzdo3hndw5tqi",
+      "asset_id": "8849aed6d27e8c5c74fba9ee61ff6112"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/aivy9mu4pruafjig1rid",
+      "asset_id": "472aaf6b7826dd34fcbe5ec35f506ee4"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Main",
+    "lineupDescription": "1. Stand against the box until it boosts you up slightly.\n2. Aim at the middle bottom of the gray section in image 2.\n3. Fire with 0 bounces and 1 charge.",
+    "lineupLocationCoords": {
+      "x": 707.264,
+      "y": 393.216,
+      "name": "A Default Plant"
+    },
+    "lineupPositionCoords": { "x": 1257.627612482157, "y": 495.94659037340466 },
+    "comments": [],
+    "date": { "$date": "2024-04-09T21:25:25.043Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6615b54a6f0532518ec10149" },
+    "Username": "ooccupate",
+    "UserID": { "$oid": "65a70055dc44d590069824da" },
+    "postTitle": "Sova fake Lineup from A main to B",
+    "mapName": "breeze",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 2,
+    "standingPosition": {
+      "public_id": "Valorant/djrps7ocbjintsfeznjc",
+      "asset_id": "f93e30710370726c734e86660014fdc6"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/flqjtc1mbt0wraj9lzga",
+      "asset_id": "f45253ffb2f238109a4100e7cee6f364"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/wqmnq0rzb6bcaeho39pk",
+      "asset_id": "214600080b6424ca153418d9da60fa1a"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Main",
+    "lineupDescription": "EZ Fake arrow to juke ur enemies on Breeze",
+    "lineupLocationCoords": {
+      "x": 105.47200000000001,
+      "y": 593.92,
+      "name": "B Backsite"
+    },
+    "lineupPositionCoords": { "x": 1389.318918918919, "y": 1591.3513513513515 },
+    "comments": [],
+    "date": { "$date": "2024-04-09T21:38:18.486Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6615b77d6f0532518ec16328" },
+    "Username": "ooccupate",
+    "UserID": { "$oid": "65a70055dc44d590069824da" },
+    "postTitle": "Dead Lock A Post Plant Ult",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [
+      {
+        "userId": "65a70095dc44d590069824e2",
+        "_id": { "$oid": "6652b5b4bea00eaf175b6566" }
+      }
+    ],
+    "views": 3,
+    "standingPosition": {
+      "public_id": "Valorant/rju1ndukfzaeh6dquh47",
+      "asset_id": "5949922a83f508314063435369cf8df0"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/nzakshk6b1k3t0vcempu",
+      "asset_id": "15efaa05d3202dd50bd02bc95bd0218c"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/bavlicvkvyenrlzpdtxf",
+      "asset_id": "dfd1a2d2ee38c5091aec060b2ac78edf"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Deadlock",
+    "ability": "Annihilation",
+    "lineupLocation": "A Short to the right",
+    "lineupDescription": "A way to not waste your deadlock ult",
+    "lineupLocationCoords": {
+      "x": 1408,
+      "y": 712.7040000000001,
+      "name": "Default"
+    },
+    "lineupPositionCoords": { "x": 1472.345945945946, "y": 1104.2594594594595 },
+    "comments": [],
+    "date": { "$date": "2024-04-09T21:47:41.73Z" },
+    "__v": 4,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "664d6e5f4747eec764c2d6f1" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Phoenix Default Molly",
+    "mapName": "ascent",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/ji2s4xupvynlcbhwxfpu",
+      "asset_id": "97e7286b503fde1c7777ef2fd8bd9edb"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/o8psn7gf7ovy45mylubr",
+      "asset_id": "cb02dcc4b5d171aaf74abf62c19e8bc6"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/llwzvllazzfoe2m1al89",
+      "asset_id": "df51215f108c4585785ca3330d55eb93"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Phoenix",
+    "ability": "Hot Hands",
+    "lineupLocation": "Ascent A Default",
+    "lineupDescription": "Stand at corner of the wall and jump throw",
+    "lineupLocationCoords": {
+      "x": 707.264,
+      "y": 393.216,
+      "name": "A Default Plant"
+    },
+    "lineupPositionCoords": { "x": 1034.9048291003194, "y": 512.0712909201388 },
+    "comments": [],
+    "date": { "$date": "2024-05-22T04:02:39.201Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "664e11194747eec764c2d8e2" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Harbor Split Screens Cove",
+    "mapName": "split",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 4,
+    "standingPosition": {
+      "public_id": "Valorant/uakeeapqn4lziisaf5h0",
+      "asset_id": "47b21efbf1f8715e094155aa56be0783"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/fxpsbuloije1cj6mpwmj",
+      "asset_id": "ff205c557966a5e61a108fa2941e64ee"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/jbv9wmv9nkj6tfzw1qdh",
+      "asset_id": "2661ed4a7fefaead2c79a4db27343855"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Harbor",
+    "ability": "Cove",
+    "lineupLocation": "Split Screens",
+    "lineupDescription": "Aim and jump throw at right corner of diamond",
+    "lineupLocationCoords": { "x": 314.368, "y": 434.176, "name": "Screens" },
+    "lineupPositionCoords": {
+      "x": 1087.4005790128947,
+      "y": 329.98459897258914
+    },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "insane",
+        "createdAt": { "$date": "2024-05-25T23:15:57.133Z" },
+        "_id": { "$oid": "6652712dbea00eaf175b552c" }
+      }
+    ],
+    "date": { "$date": "2024-05-22T15:36:57.304Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "66608863bea00eaf175c984e" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "TP Mid to B Main",
+    "mapName": "breeze",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 4,
+    "standingPosition": {
+      "public_id": "Valorant/gypzk1nvy4fkicfhxaxs",
+      "asset_id": "26f82eff1a15458345b99206a8981786"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/jslhcvi3mtzyuuctgeek",
+      "asset_id": "a594c49787ebb46123dab0f27bf5a072"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/jrffpro60fxl8v6qxsje",
+      "asset_id": "a7ebe5239929eff7dcc40b298e447815"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Yoru",
+    "ability": "GATECRASH",
+    "lineupLocation": "Top Mid Breeze",
+    "lineupDescription": "Stand in corner, aim in middle of door frame, and send TP",
+    "lineupLocationCoords": {
+      "x": 289.79200000000003,
+      "y": 962.5600000000001,
+      "name": "B Main"
+    },
+    "lineupPositionCoords": { "x": 963.1939355653822, "y": 403.64876816171824 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T15:46:43.796Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "666088fbbea00eaf175c9cbc" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Main to Rafters",
+    "mapName": "icebox",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [
+      { "userId": "", "_id": { "$oid": "669f454485a1b1233bb86587" } }
+    ],
+    "views": 8,
+    "standingPosition": {
+      "public_id": "Valorant/c1uo74navnj6ngustdab",
+      "asset_id": "2f96fd458ef4e03948c81acb1666858f"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/vxy3egamqx2nhkz5rhl5",
+      "asset_id": "af08f5e4d319a84a3ace78388cefee6e"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/esvgdq0jryosa2lbta1b",
+      "asset_id": "df916a5b12289aec3bde1eff6a5f21fb"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Yoru",
+    "ability": "GATECRASH",
+    "lineupLocation": "A Rafters",
+    "lineupDescription": "Get in corner and TP",
+    "lineupLocationCoords": {
+      "x": 1575.616,
+      "y": 1642.496,
+      "name": "A Rafters"
+    },
+    "lineupPositionCoords": { "x": 789.8319646241314, "y": 1350.6708780795957 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T15:49:15.837Z" },
+    "__v": 6,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "666089a3bea00eaf175c9cce" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Default B Molly",
+    "mapName": "breeze",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/mf6va4t3nmmbwlkpnuxe",
+      "asset_id": "86384e7b3e7c38383ae43a9b6fadd132"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/mmakof1esacconsfjaz6",
+      "asset_id": "e7723712e0f10f0b5a1a5f61e7279e56"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/ocidv4wcfskhcmf5ichj",
+      "asset_id": "33f1125e4f00424b2ad4e0ae03203043"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "KAY/O",
+    "ability": "ZERO/point",
+    "lineupLocation": "Breeze B Default",
+    "lineupDescription": "1. Stand on the edge of the plank.\n2. Aim at the middle of the brick.\n3. Jump and left-click",
+    "lineupLocationCoords": { "x": 297.984, "y": 638.976, "name": "B Default" },
+    "lineupPositionCoords": { "x": 512.9703095388503, "y": 1386.8957675300062 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T15:52:03.698Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "666089f4bea00eaf175c9cda" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Default B Molly",
+    "mapName": "breeze",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/gb94tznoa1pxjdtgixcx",
+      "asset_id": "14706eb2b588cd9e1ef6529bc80783fb"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/wcfbg2zyv34woikl7hwy",
+      "asset_id": "d698dc4230d62ee33805fc86acba2dbb"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/wa5nek5tm9xfysh9gobt",
+      "asset_id": "b6e99975b958f5c1464a99c5320f70d2"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Viper",
+    "ability": "ZERO/point",
+    "lineupLocation": "Breeze B Default",
+    "lineupDescription": "1. Stand in the corner behind the small wooden crate on the left wall.\n2. Aim the top of your wall icon onto the right corner of the cannon.\n",
+    "lineupLocationCoords": { "x": 297.984, "y": 638.976, "name": "B Default" },
+    "lineupPositionCoords": { "x": 600.945041061276, "y": 1265.2836386607705 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T15:53:24.266Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "66608a8dbea00eaf175c9ce6" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Root to A Default",
+    "mapName": "lotus",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/uuxpiku58urm3qjulndo",
+      "asset_id": "ccafc40737deca9f67fb35229a66cd81"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/vzdhttlc3omjhq9w9q2l",
+      "asset_id": "41638faf4757d5b3f716e34c322dfe60"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/cksycl9uq38nlime4p7q",
+      "asset_id": "2c497ab92e815093740b89a9b0468613"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Gekko",
+    "ability": "Mosh Pit",
+    "lineupLocation": "Breeze B Default",
+    "lineupDescription": "1. Stand in the pinged corner (image 1).\n2. Place the left end of the line below the throw hud on the end of the brighter part of the rock (image 2 for reference).\n3. Throw the molly. It should take ~4 seconds to land and ~7 seconds to start dealing damage.",
+    "lineupLocationCoords": { "x": 1776.64, "y": 753.664, "name": "Default" },
+    "lineupPositionCoords": { "x": 1384.9551484523056, "y": 1283.396083385976 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T15:55:57.564Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "66608ae7bea00eaf175c9cf2" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Root to A Default",
+    "mapName": "lotus",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/qvfgo3ww9lqukry2phv1",
+      "asset_id": "23124c3b00a2fe498cd596137317f189"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/l7orvohdgreqptxlr5ul",
+      "asset_id": "18fabf2ffbf4d81e26eba807ecb21dbe"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/vnfaynrrl76gzyuwlvn7",
+      "asset_id": "83cb17f23f8d688d527ead9a0641a3e4"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Gekko",
+    "ability": "Mosh Pit",
+    "lineupLocation": "Breeze B Default",
+    "lineupDescription": "Stand in the left corner of the box, align crosshair and throw. Takes around 6 seconds to land.\n\nTHIS IS A JUMP THROW",
+    "lineupLocationCoords": {
+      "x": 261.12,
+      "y": 966.6560000000001,
+      "name": "C Site"
+    },
+    "lineupPositionCoords": { "x": 624.2324699936828, "y": 1084.1591914087176 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T15:57:27.344Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "66608b71bea00eaf175c9cfe" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Flash A Main Support",
+    "mapName": "ascent",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/jzybqrfrrymcfsequkwy",
+      "asset_id": "bb0342fbcb933f24d341c643c9cad866"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/lbtochu0vwlkvp2k54m7",
+      "asset_id": "c4dd0f7cb04fd7f17f3eb86a627b7a48"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/szbw0p1hxwdiyfpedlbc",
+      "asset_id": "a32ef1f9b2ef580ca9ebec665eedc36a"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "KAY/O",
+    "ability": "Mosh Pit",
+    "lineupLocation": "Ascent A Main",
+    "lineupDescription": "1. Stand against the boxes on A Site.\n2. Aim at the top floating rock in the cluster.\n3. Tap forward and left-click",
+    "lineupLocationCoords": { "x": 1166.016, "y": 540.672, "name": "A Lobby" },
+    "lineupPositionCoords": { "x": 670.8073278584965, "y": 271.68667087807955 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T15:59:45.691Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "66608bfebea00eaf175c9d0a" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Post Plant B Molly",
+    "mapName": "icebox",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 3,
+    "standingPosition": {
+      "public_id": "Valorant/rueh5ivavhb4r4goqlwc",
+      "asset_id": "2b557aeac52d1884e17d15df96ab0b26"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/xdugq7xqjsnjbslczzf2",
+      "asset_id": "ea6dab432279d1a5fec47ea7f81d8b53"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/jzhpygdgz8uqcp0lfw63",
+      "asset_id": "b093a38e158e6e2ce7b5c72596c73fb3"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "B Default Icebox",
+    "lineupDescription": "Stand in corner and aim crosshair and throw",
+    "lineupLocationCoords": { "x": 1206.976, "y": 475.136, "name": "B Site" },
+    "lineupPositionCoords": { "x": 797.5944409349336, "y": 489.03600758054324 },
+    "comments": [],
+    "date": { "$date": "2024-06-05T16:02:06.219Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "66608d20bea00eaf175c9d59" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Site Deep Recon Reveal",
+    "mapName": "breeze",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 2,
+    "standingPosition": {
+      "public_id": "Valorant/q3unslzx6qxblag4wyqo",
+      "asset_id": "3026a9964a4da299f05682a516a74bd4"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/srqyjxfgncfpvvorgocv",
+      "asset_id": "ccec0f86dc532cdef7a6231b750c39f0"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/t0xbwzhzps8agikmle1b",
+      "asset_id": "b0ccecd83ee931a7b9c08402b8370074"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Nanoswarm",
+    "lineupLocation": "Deep A Site",
+    "lineupDescription": "1. Stand in between the big rock and yellow tank at A Lobby (Image 1)\n2. Align the bottom of the sova drone with the bottom vine (Image 2)\n3. 2 Charge, no bounce\n\nCredit to Fraty",
+    "lineupLocationCoords": { "x": 1580.032, "y": 724.992, "name": "Yellow" },
+    "lineupPositionCoords": {
+      "x": 1384.9551484523056,
+      "y": 1588.7201516108653
+    },
+    "comments": [],
+    "date": { "$date": "2024-06-05T16:06:56.772Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b107289679b8ef6e5991" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Default A Molly",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/hbm9wteqjeitahxp8olh",
+      "asset_id": "652d4e6f2d244fd66332a3beb0ed9a85"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/by3qrhm98kl1amxqxmtu",
+      "asset_id": "ce67bac975c0d406c0033558b77e34cd"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/aynce8t5bllpxsileok4",
+      "asset_id": "39090f5c884768f181f82ffca79e3276"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "A Default",
+    "lineupDescription": "Go to bench and chuck molly\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 1408,
+      "y": 712.7040000000001,
+      "name": "Default"
+    },
+    "lineupPositionCoords": {
+      "x": 1214.1806696146557,
+      "y": 1104.8591282375237
+    },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:16:55.923Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b157289679b8ef6e599d" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Far A Default Molly",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/jak9r9pliuintxzt0kny",
+      "asset_id": "d0ee901b3ca292e1a1c35339e18a4bb0"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/plrcj0fw6t3a47txm8bc",
+      "asset_id": "b23ae61671e1fa7cea74064e2f07b9a2"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/iwf20u7dazzkzgecypvv",
+      "asset_id": "84a86fcebf0001cd426cddf6cae4b092"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "A Default",
+    "lineupDescription": "Go to barrel and lineup the top of the incendiary icon with the dot\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 1408,
+      "y": 712.7040000000001,
+      "name": "Default"
+    },
+    "lineupPositionCoords": {
+      "x": 1374.6051800379025,
+      "y": 1291.1585596967782
+    },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:18:15.373Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b196289679b8ef6e59a9" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Triple Molly",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/yyp2wqetjgupnvychwkg",
+      "asset_id": "5f774b5a3f211b1651b284f5cdc05cd2"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/boit27b2ckzgmdmhoocg",
+      "asset_id": "8d438e05da8058c035e73bcffb8f0ab4"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/wownkg7yd33dhkywhzlp",
+      "asset_id": "44879a140f86becb12ec930b20b41fe2"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "A Triple",
+    "lineupDescription": "Go to boxes and lineup the aim circle of the incendiary icon with the dot\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 1543.1680000000001,
+      "y": 692.224,
+      "name": "Triple"
+    },
+    "lineupPositionCoords": { "x": 1775.66645609602, "y": 1177.308907138345 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:19:18.509Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b1d8289679b8ef6e59b5" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Far B Default Molly",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/kybdqmhi59oachxmhtiw",
+      "asset_id": "7f3a96b9a125b4ba5c60765ffe30792c"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/qktxjcb9ripi6ffojmeo",
+      "asset_id": "c8e7c37dfe3cd25eb66a177ddc52ba91"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/mxnghb5zvka2wkjuyyub",
+      "asset_id": "e2d1efd422de048da646de56c9bfec82"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "B Default",
+    "lineupDescription": "Go to the fountain and aim GUI \n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 592.896,
+      "y": 581.6320000000001,
+      "name": "Tube"
+    },
+    "lineupPositionCoords": {
+      "x": 492.27037271004417,
+      "y": 1226.4712571067591
+    },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:20:24.247Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b1ff289679b8ef6e59c1" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Default Middle Molly",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/tdovyv7plztenmt0wdx0",
+      "asset_id": "f4565b855f44d2530817c33f1d29e0bd"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/hgo7dxk7kxbuc4so3acx",
+      "asset_id": "e8d5249b9c096bb3bc5087d544d4db05"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/go5rznsg8jwx8v4woejp",
+      "asset_id": "1a9edf8c33e961080d35f1ee63f8bd29"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "B Middle Plant",
+    "lineupDescription": "Go to the corner of TP and aim crosshair\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 592.896,
+      "y": 581.6320000000001,
+      "name": "Tube"
+    },
+    "lineupPositionCoords": { "x": 308.5584333543904, "y": 926.3221730890713 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:21:03.61Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b237289679b8ef6e61c9" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Hookah B Default Molly",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/xkxtqpd1n7an2hrihkel",
+      "asset_id": "e81c09c97d06601c4960e00ee81d8c61"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/x2zmjbxos3riziudu4qt",
+      "asset_id": "6458c6b224ac56a8986086c99e2b3103"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/gtk7jduafqdahlysy1fu",
+      "asset_id": "1828d23f9734e58c625fd74603e8ad57"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "B Default",
+    "lineupDescription": "Go to the back left corner of hookah and aim crosshair\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 592.896,
+      "y": 581.6320000000001,
+      "name": "Tube"
+    },
+    "lineupPositionCoords": { "x": 683.7447883765003, "y": 983.246999368288 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:21:59.354Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b270289679b8ef6e6c8e" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Default AntiPlant Molly",
+    "mapName": "bind",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/veishobyqwy7m9dud7sa",
+      "asset_id": "9ff84ff70d5d3272ecb959055b9e2f44"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ygivx7h4j7ai6mzxssin",
+      "asset_id": "afaa85bf0b80e5584bfe91e0d3791771"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/flllvgijmqzitiljmw6n",
+      "asset_id": "bf3478698abcb7c8cd1f5388c94462da"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "A Default",
+    "lineupDescription": "Go to the wall and aim crosshair\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 1408,
+      "y": 712.7040000000001,
+      "name": "Default"
+    },
+    "lineupPositionCoords": { "x": 1410.8300694883133, "y": 533.0233733417562 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:22:56.927Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b2bf289679b8ef6e6cd3" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Anti Default Plant Molly",
+    "mapName": "bind",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/p2hwwwzdqmfjqfyibji9",
+      "asset_id": "ed9f52f3564a4ba97ca1b908a7470d36"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/vwanylsx4dgs6zyvqv1l",
+      "asset_id": "8b2debd9ff2ab38be1dc7b1e55974765"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/ln0bhoremkp82bzt8egt",
+      "asset_id": "f7fdd5d2825277f188c3730a102d4bec"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "A Default",
+    "lineupDescription": "Go to wall and aim crosshair\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 1408,
+      "y": 712.7040000000001,
+      "name": "Default"
+    },
+    "lineupPositionCoords": { "x": 1410.8300694883133, "y": 533.0233733417562 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:24:15.545Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b432289679b8ef6ea19c" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Main God Reveal",
+    "mapName": "lotus",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/psibrvgjoybn8rquaewm",
+      "asset_id": "8d509ce4bee70a93900d156e2070d8a0"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ggc96h9l5udmn5tf5fss",
+      "asset_id": "0b12b15f8640d6716e46ea740ea537d1"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/kn6vrxbbglgqqurmokev",
+      "asset_id": "cf04045c11847d2e5578b60978b59704"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocation": "A Main",
+    "lineupDescription": "Go to wall, aim, and jump throw\n\nCredit: @Tseeky",
+    "lineupLocationCoords": { "x": 1424.384, "y": 1216.512, "name": "Cobble" },
+    "lineupPositionCoords": { "x": 1610.0669614655717, "y": 786.5975994946303 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:30:26.586Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b467289679b8ef6ea60f" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Main God Reveal from Mid",
+    "mapName": "lotus",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/hx8euihjlaxumrxmjgsl",
+      "asset_id": "6c73997ec385d6b3809c196755346d4f"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/kv2s3ptw6uvn0zg7dgwv",
+      "asset_id": "95b6e4c401bd659f0fd6a958de426f6d"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/hziljxxkmunqwaftd2yq",
+      "asset_id": "d9799f52a61aa914a37db3871643f404"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocation": "A Main",
+    "lineupDescription": "Go to the ledge, aim, and running jump throw\n\nCredit: @Tseeky",
+    "lineupLocationCoords": { "x": 1424.384, "y": 1216.512, "name": "Cobble" },
+    "lineupPositionCoords": { "x": 1030.4687302590019, "y": 879.7473152242577 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:31:19.388Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b5e9289679b8ef6f5749" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Fade A Tree Wallbang",
+    "mapName": "lotus",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/b401rg8vqpoxonwdjasi",
+      "asset_id": "4fb2c267166855efa1af78934129ee7a"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/vobuxgvokfiocyrokrh9",
+      "asset_id": "26a69f499529ecc397033b9898cad663"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/nadnqt8yuacwvkhzm6hv",
+      "asset_id": "877509ed8b07106e24e8316385a3c92c"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocation": "A Tree",
+    "lineupDescription": "Go to Wall, aim and jump throw\n\nCredit: @Tseeky",
+    "lineupLocationCoords": { "x": 1698.816, "y": 1052.672, "name": "Door" },
+    "lineupPositionCoords": { "x": 1889.5161086544535, "y": 884.9222994314592 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:37:45.356Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b615289679b8ef6f5755" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Fade A Tree Wallbang",
+    "mapName": "lotus",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/vzx91igp3kokdc6szu6n",
+      "asset_id": "c43d05c77780f552e2ccfd67009d5ce5"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/d5ngfs0khrrmt16p8qs7",
+      "asset_id": "3187b553345834de35b626c57c466d1b"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/ucqscykbprsicbzfvwcc",
+      "asset_id": "36a8c11decb6319baea22ed3caf69595"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocation": "A Tree",
+    "lineupDescription": "Go to Wall, aim and jump throw\n\nCredit: @Tseeky",
+    "lineupLocationCoords": { "x": 1698.816, "y": 1052.672, "name": "Door" },
+    "lineupPositionCoords": { "x": 1736.8540745420087, "y": 900.4472520530637 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:38:29.794Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6663b640289679b8ef6f5761" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Retake",
+    "mapName": "lotus",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/gfz3kiz9atpvbrnukov7",
+      "asset_id": "722ec506e6c1165d50f69a7ad105a233"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ffpyo5sqbrv6rlw2bxem",
+      "asset_id": "a6ac5ad4655167db77e710c674d768ed"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/hbdgww3t8m2k0j1f9twu",
+      "asset_id": "5cd2b674c2736cfdeac1a6626287a5f2"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocation": "A Site",
+    "lineupDescription": "Go to Wall, aim and running jump throw\n\nCredit: @Tseeky",
+    "lineupLocationCoords": { "x": 1776.64, "y": 753.664, "name": "Default" },
+    "lineupPositionCoords": { "x": 1612.6544535691723, "y": 452.8111181301326 },
+    "comments": [],
+    "date": { "$date": "2024-06-08T01:39:12.171Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "666f5bf1289679b8ef76d8f5" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Retake Lineup",
+    "mapName": "lotus",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/gtzmsfthrbgbvpirtssr",
+      "asset_id": "33df2152b8fbdd02e6ddf535dee1eeab"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/m56pxfgzlqiwfwg49k43",
+      "asset_id": "6163d69e87c9359609339565e61d7136"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/yrngmqnav7thfchj5rhg",
+      "asset_id": "fed9b3fede3ac4f33dc4176d219c0c9e"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Fade",
+    "ability": "Haunt",
+    "lineupLocation": "B Site",
+    "lineupDescription": "Go to Corner and jump throw",
+    "lineupLocationCoords": { "x": 1022.976, "y": 937.984, "name": "Pool" },
+    "lineupPositionCoords": { "x": 1273.692987997473, "y": 582.1857233101705 },
+    "comments": [],
+    "date": { "$date": "2024-06-16T21:41:05.819Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678d8c39737fd04991400f7" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Default Molly from Defender Spawn",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/jeblnclproay7moa03gj",
+      "asset_id": "bc630af32f3d7881a742285294828f4e"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/natyl8hv163gz0hfpmsq",
+      "asset_id": "a8a818165f77fd0e22ea1bf3a4e3aee7"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/xrpj1dtinoohpep6r2oe",
+      "asset_id": "2ce7dd56fd51f1d04d9c36f7d4beebe5"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Brimstone",
+    "ability": "Incendiary",
+    "lineupLocation": "A Default",
+    "lineupDescription": "Aim your crosshair near the tree\n\nCredit: @Catalyzt",
+    "lineupLocationCoords": {
+      "x": 845.8240000000001,
+      "y": 377.5360000000001,
+      "name": "A Site Entrance"
+    },
+    "lineupPositionCoords": { "x": 285.27100442198355, "y": 543.3733417561591 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:24:03.2Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678da1e9737fd0499146c8c" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Default Swarm Lineup",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/ikynjkgwc9gjmqlcvos8",
+      "asset_id": "8d80b7aea66b6c8f25627f0aefe2e5c3"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/xlujfj3fe5pwcus2ft3l",
+      "asset_id": "8f511cb2527dd4b62fe808a094364743"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/hsxgpun7k6lkipfibtk4",
+      "asset_id": "554eb72977f07986110d157aac38f15d"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "A Default",
+    "lineupDescription": "Aim and jump throw\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 845.8240000000001,
+      "y": 377.5360000000001,
+      "name": "A Site Entrance"
+    },
+    "lineupPositionCoords": { "x": 1770.4914718888185, "y": 380.3613392293114 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:29:50.263Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678da609737fd0499146c98" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Bridge Swarm Lineup",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/rlhfwylfva3qgir7vd7v",
+      "asset_id": "b9dd6615bf110bac1e2d76ba8846989c"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/xqclhdliu0pcsjxtokmy",
+      "asset_id": "91851d94eab78f4a215fae0739b88f17"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/b6zof7cd3zjc55onbky6",
+      "asset_id": "c4a3c0c45fdb2213318357e08c825933"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "A Bridge",
+    "lineupDescription": "Aim and align your killjoy turrret into the corner of the yellow line thing.\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 945.8240000000001,
+      "y": 77.5360000000001,
+      "name": "A Site Bridge "
+    },
+    "lineupPositionCoords": { "x": 1765.316487681617, "y": 380.3613392293114 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:30:56.345Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678db5b9737fd049914c586" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Bridge Post Plant Molly",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/wzy3bqfpdoqnqix68ivy",
+      "asset_id": "6c67df6a02d617469f6140bb044bd6f1"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ltkpf7s3hodcxzhasypl",
+      "asset_id": "1fc9d925ea90cdd05ec64441a6489f60"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/pwzgmouucxicf88xcrtc",
+      "asset_id": "7323a7dc4ec093c9ae6e603a65e1cf91"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "A Bridge",
+    "lineupDescription": "Aim and Jump Throw\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 945.8240000000001,
+      "y": 77.5360000000001,
+      "name": "A Site Bridge "
+    },
+    "lineupPositionCoords": { "x": 249.04611497157293, "y": 545.9608338597599 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "WW",
+        "_id": { "$oid": "669b3fbaa8b61853db2b294f" },
+        "createdAt": { "$date": "2024-07-20T04:40:26.811Z" }
+      }
+    ],
+    "date": { "$date": "2024-06-24T02:35:07.861Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678db8a9737fd049914c59e" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Safe Post Plant Molly",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/dtgbkqivtywlrzmw4wwx",
+      "asset_id": "34366ebdd350a6f3fbcd3b8af2b4fc16"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/veboafhbai9r29bbpbma",
+      "asset_id": "b8d89bb1b6f6e640823087b7360faec5"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/lmchzrsnw7tdl8z3pbsu",
+      "asset_id": "832fb48864f1cdc32f8aaf0816f1ccef"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "A Bridge",
+    "lineupDescription": "Aim and Jump Throw\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 845.8240000000001,
+      "y": 77.5360000000001,
+      "name": "A Site Bridge Entrance"
+    },
+    "lineupPositionCoords": { "x": 251.6336070751737, "y": 553.7233101705622 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:35:54.503Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678dd009737fd049914c6f3" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Default Swarm ",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/wudhlzftdcjunwnmynk1",
+      "asset_id": "165447ba7119052aaf705ac0602c77c0"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ooovzx1fgw4rfcbewfpi",
+      "asset_id": "31269915ed7d440c973f4834441cf56b"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/q8ksbqb4zuata8zdhrcs",
+      "asset_id": "cfb09ad7b94778689bc8ed01d8b3a845"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "B Default",
+    "lineupDescription": "Line up your turret icon to the corner of the building and jump throw\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 876.8735632183908,
+      "y": 1871.4482758620688,
+      "name": "B Default"
+    },
+    "lineupPositionCoords": { "x": 1403.067593177511, "y": 1456.7580543272268 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:42:08.92Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678dddd9737fd049914c6ff" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Far B Default Swarm ",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/azpvxyohcf9scc7ccaku",
+      "asset_id": "5c6f60dd80d3deb2b485b17d943cf043"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/exlb95qkz8d9d6n7r6gu",
+      "asset_id": "a43e560e12402248d26ad75df1e5dd9b"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/qxnmbdtn8aqbs4mp8bei",
+      "asset_id": "8ab02f9ff8197ae6fa7fec0d23bef310"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "B Default",
+    "lineupDescription": "Line up the right corner of the HUD with the first ridge on the building and jump throw\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 876.8735632183908,
+      "y": 1871.4482758620688,
+      "name": "B Default"
+    },
+    "lineupPositionCoords": { "x": 1403.067593177511, "y": 1456.7580543272268 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:45:49.131Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678deaa9737fd049914c70b" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Backsite to Danger Swarm ",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/tifrprwbizhggfvtcazt",
+      "asset_id": "71a97249feabc4cbed94bd701ee26620"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/ohfsqof7yt19vgbfr18r",
+      "asset_id": "84d165cf8b66ac81c531abfc9106332b"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/frdutguqtdpexsvcuzkr",
+      "asset_id": "4d0af60fc93141e79f5a1f5165d1b74e"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "B Default",
+    "lineupDescription": "aim and jump throw\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 741.5172413793103,
+      "y": 1995.0344827586207,
+      "name": "B Bridge Plant"
+    },
+    "lineupPositionCoords": { "x": 1395.3051168667087, "y": 1464.520530638029 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:49:14.149Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6678deff9737fd049914c717" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Backsite Swarm",
+    "mapName": "abyss",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/gvy866lvaxqjtswpnpif",
+      "asset_id": "d3fc6caa14d42fa15e85447fb29725ad"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/gafppz82pkkftmzysofy",
+      "asset_id": "c028c28f14b1e5e35dd6ed5f769dbaad"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/qa9dl8scfylfybbbjr3j",
+      "asset_id": "16782e3f7dc22c7c1d6dc4e45b5beb24"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "B Default",
+    "lineupDescription": "aim and jump throw\n\nCredit: @6S Mars",
+    "lineupLocationCoords": {
+      "x": 741.5172413793103,
+      "y": 1995.0344827586207,
+      "name": "B Bridge Plant"
+    },
+    "lineupPositionCoords": { "x": 1392.717624763108, "y": 1518.857864813645 },
+    "comments": [],
+    "date": { "$date": "2024-06-24T02:50:39.493Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6696d37b5180067a636e8167" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Backsite Recon",
+    "mapName": "sunset",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 4,
+    "standingPosition": {
+      "public_id": "Valorant/y9zvksrlf4u3ehruylp2",
+      "asset_id": "5d10a154df04d31f7c1b5b09aa729a21"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/walotmvgfb5rvpbeo9st",
+      "asset_id": "21ca1b522ad3d1ef16eaf1a4512c57d7"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/pbv9zxg8zqb645cmiur4",
+      "asset_id": "2505b7f7b5418a18f41eed1d1a8461dc"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Sitee",
+    "lineupDescription": "Double Bounce Dart\n\nCredit: @Snaplex",
+    "lineupLocationCoords": {
+      "x": 338.944,
+      "y": 581.6320000000001,
+      "name": "B Boba"
+    },
+    "lineupPositionCoords": { "x": 686.3322804801011, "y": 1593.8951358180668 },
+    "comments": [],
+    "date": { "$date": "2024-07-16T20:09:31.793Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de0850a91d725ce84642f" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Safe Orb Oneway ",
+    "mapName": "icebox",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 5,
+    "standingPosition": {
+      "public_id": "Valorant/w8nbn3hynl6feflowngg",
+      "asset_id": "4af8e828a0abfe351d433de6bdf05701"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/pru5uwbulazrdxoimkrs",
+      "asset_id": "4f5870726f2c87e5535c7a31c0e10a6b"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/lsa33bin7fcj8rh5t30d",
+      "asset_id": "9a8cf3eb49115d92cad49b31023977f5"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Viper",
+    "ability": "Poison Cloud",
+    "lineupLocation": "Icebox B Entrance",
+    "lineupDescription": "Go to corner and throw",
+    "lineupLocationCoords": { "x": 910.472, "y": 442.368, "name": "B Oneway" },
+    "lineupPositionCoords": {
+      "x": 1247.8180669614655,
+      "y": 188.88692356285532
+    },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:31:01.969Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de12a0a91d725ce84643f" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B to A Box One Way",
+    "mapName": "bind",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 3,
+    "standingPosition": {
+      "public_id": "Valorant/dqx439opx2wgqki1ui7n",
+      "asset_id": "529f298d1e0adde5a67ed0f9303a496d"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/hszticrcvsy6oabpu2rp",
+      "asset_id": "c6dadd4b221846d57862a0d9a4334111"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/dhhpklbj0c44czzyxbup",
+      "asset_id": "b20e0e02148f462eab8a006b9a278560"
+    },
+    "grenadeType": "",
+    "jumpThrow": true,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Viper",
+    "ability": "Poison Cloud",
+    "lineupLocation": "B Short Entrance",
+    "lineupDescription": "Go to corner of the metal box and aim the corner of the right bottom part of viper molly at the painting and jump throw",
+    "lineupLocationCoords": {
+      "x": 1281.0240000000001,
+      "y": 995.328,
+      "name": "Short"
+    },
+    "lineupPositionCoords": { "x": 631.9949463044851, "y": 595.1231838281743 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:33:46.674Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de2ab0a91d725ce8539c0" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Market Door Oneway",
+    "mapName": "sunset",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 4,
+    "standingPosition": {
+      "public_id": "Valorant/qoiojidvbwiuzvterqln",
+      "asset_id": "d7d9f66885871b8a3f334e4228e0e3d3"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/nlwfiasgijb44yvmx3v3",
+      "asset_id": "69b73047e7fb38973d072d28402f9f9d"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/bahs9ceuvubajqcmlynx",
+      "asset_id": "002b6ef69f31aba72da0582445f3886c"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Cypher",
+    "ability": "Cyber Cage",
+    "lineupLocation": "Market",
+    "lineupDescription": "Aim and throw",
+    "lineupLocationCoords": { "x": 646.144, "y": 987.136, "name": "B Market" },
+    "lineupPositionCoords": { "x": 727.7321541377131, "y": 1011.7094125078963 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:40:11.642Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de44226633af7975838e8" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Early Sova Dart Info ",
+    "mapName": "haven",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/j7cggiahcpfl0hpepojo",
+      "asset_id": "421243e85933ab617bb841ea7bb94644"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/soueyy6qdpcvuxoativz",
+      "asset_id": "62eff8c8082a2fbad31dcf85d16f6368"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/l62rfa3nrnly3qurxvdb",
+      "asset_id": "e227131ad72322e257e6118b24b882bb"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "C Long",
+    "lineupDescription": "1 and a half bar charge and shoot",
+    "lineupLocationCoords": {
+      "x": 1444.544,
+      "y": 1703.9360000000001,
+      "name": "C Long Area"
+    },
+    "lineupPositionCoords": { "x": 588.0075805432722, "y": 1469.6955148452305 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:46:58.677Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de4c726633af7975838f8" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Info from A Heaven",
+    "mapName": "haven",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/e4xakrwcypmeiqhq434m",
+      "asset_id": "879df81f080824ec76400c991229bd28"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/jgeugxidcijh53rkgm1d",
+      "asset_id": "2c68a9c4ca1ef57d7b2399b928f5d0df"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/zprbvwzz4ecw7ljx7dzn",
+      "asset_id": "4684387204c0a704d984781481b8044f"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Entrance",
+    "lineupDescription": "Go to corner of window and 1 bar charge aiming at the sun",
+    "lineupLocationCoords": { "x": 1276.608, "y": 774.144, "name": "A Lobby" },
+    "lineupPositionCoords": { "x": 639.7574226152874, "y": 250.9867340492735 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:49:11.409Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de52b26633af797583908" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Sova A God Dart",
+    "mapName": "haven",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/okfpk9ywtpj5hqaaedp6",
+      "asset_id": "3f07ba3b37f9af602538f66387753943"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/yzbstmyspi6tlfrklkos",
+      "asset_id": "4b06854eaf89a0f56d5c1c30c6f5a19c"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/zq1blhlm76qjjnweqcyt",
+      "asset_id": "13c4d406acede32d35ac7783511b3c50"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Site",
+    "lineupDescription": "One Charge and One Bounce",
+    "lineupLocationCoords": { "x": 744.128, "y": 368.64, "name": "A Backsite" },
+    "lineupPositionCoords": {
+      "x": 1240.0555906506631,
+      "y": 408.82375236891977
+    },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:50:51.605Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de5c326633af797583918" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "C Attack Dart",
+    "mapName": "haven",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/nfauwxbgwafppkwgquvr",
+      "asset_id": "bd0cd129a30adba884ceb148b89be8a7"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/vgxh0doaukkaj4hr8elp",
+      "asset_id": "64b47ceee5287c18945d41c1ca97ed11"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/wzhvozdh0epe0khqed18",
+      "asset_id": "f36b41c61deb3bd1dfb1fd260519e2d1"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "C Site",
+    "lineupDescription": "One a half charge and one bounce. Aim at a middle short leaf",
+    "lineupLocationCoords": {
+      "x": 805.568,
+      "y": 1708.032,
+      "name": "Long Plant"
+    },
+    "lineupPositionCoords": { "x": 1607.4794693619708, "y": 1485.220467466835 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:53:23.017Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de64b26633af797583928" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Haven C to A Site Dart",
+    "mapName": "haven",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/vrd8bbxt4lhzjbqmxlxo",
+      "asset_id": "3943a2b7bc9fdfed1c006cbc3378b0b8"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/wbt06yehlsskhxsfvb1i",
+      "asset_id": "a40a70e3925885b74a7a35897d4fdbcd"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/dpw908r4e896ltwaeqsy",
+      "asset_id": "af97df7293cedcb03693a195364461a6"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Site",
+    "lineupDescription": "Stand in the corner. Aim and full charge + 1 bounce",
+    "lineupLocationCoords": {
+      "x": 834.24,
+      "y": 241.66400000000002,
+      "name": "Long A Plant"
+    },
+    "lineupPositionCoords": { "x": 743.2571067593177, "y": 1505.920404295641 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:55:39.838Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de6d526633af797583938" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "C Garage to Attacker Spawn",
+    "mapName": "haven",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/v83vhwfozlofpk6zhygu",
+      "asset_id": "89346841bfe5415e8c3b01a928cc5422"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/kxchpqvpd7pftrcfq6il",
+      "asset_id": "f034c47e0089b4d56d68e4ff1945ee04"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/e2sm4pecjajjtwlhb50e",
+      "asset_id": "6eb0728472058c7ece8bc04dc997bbfc"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Yoru",
+    "ability": "GATECRASH",
+    "lineupLocation": "Attacker Spawn",
+    "lineupDescription": "Stand in the corner and throw TP",
+    "lineupLocationCoords": {
+      "x": 1862.336,
+      "y": 1101.824,
+      "name": "Attacker Spawn"
+    },
+    "lineupPositionCoords": { "x": 911.444093493367, "y": 1348.0833859759948 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T04:57:57.115Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de75826633af797583948" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Defender to A Cubby",
+    "mapName": "haven",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/jre4rqi8dbwkuhmocj8z",
+      "asset_id": "4a3eb82588bd6b2d3a54800832399393"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/vqtixc2drxeamiwzvfun",
+      "asset_id": "0e94fad569f0a026223a4a1ed2382f98"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/bh4qo3ikksncidmly2uq",
+      "asset_id": "ea511b57abd80bacd94393d0ba897509"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Yoru",
+    "ability": "GATECRASH",
+    "lineupLocation": "A Cubby",
+    "lineupDescription": "Go to the corner of the wall and aim at the tiny white box near the door",
+    "lineupLocationCoords": {
+      "x": 1112.768,
+      "y": 196.608,
+      "name": "A Long Close Cubby"
+    },
+    "lineupPositionCoords": { "x": 533.6702463676563, "y": 680.5104232469993 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:00:08.091Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de84826633af797583968" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Stairs to A Site",
+    "mapName": "haven",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/me4bfprngeohpucpmxic",
+      "asset_id": "04c20080cb7a599209f4be43fc54e344"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/w0humduedmv6jccutk6n",
+      "asset_id": "905f1ea662b43e5e1f6ef8153c2fa57b"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/w15ughp5da7cenlkc9lc",
+      "asset_id": "bcb6a192e2c774338a26e6cbcf5e20d5"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Cubby",
+    "lineupDescription": "Go to the corner of the stairs outside A Site. Aim at the corner of the leaf, use a scoped weapon for better accuracy. Double bounce, full charge",
+    "lineupLocationCoords": { "x": 744.128, "y": 368.64, "name": "A Backsite" },
+    "lineupPositionCoords": { "x": 1563.492103600758, "y": 763.3101705622236 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:04:08.513Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669de98a4064af9b4847e38a" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Site Ult Retake",
+    "mapName": "haven",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/whe6tpddjrvedfr2akdr",
+      "asset_id": "ba3d29049a0b58b2a271aa035a55357a"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/g50ududjcw8jrtgfdokg",
+      "asset_id": "ad385dabd15e9d68441ffcdba2ccd743"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/rawfg01gtuv7eosb1bcz",
+      "asset_id": "a9aa897339d2a4e55eca1d1368c272a2"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Killjoy",
+    "ability": "Nanoswarm",
+    "lineupLocation": "A Cubby",
+    "lineupDescription": "Align your Nanoswarm icon with the wooden square and throw",
+    "lineupLocationCoords": {
+      "x": 1112.768,
+      "y": 196.608,
+      "name": "A Long Close Cubby"
+    },
+    "lineupPositionCoords": { "x": 732.9071383449146, "y": 675.3354390397978 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:09:30.971Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669dead44064af9b4847e49f" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Deep A Early Reveal",
+    "mapName": "bind",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 2,
+    "standingPosition": {
+      "public_id": "Valorant/xcd3ysb4ftdtuoebfe55",
+      "asset_id": "23bc8708cfcaf60d24451e778cdad11f"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/vgxd2sr2fcos6mzowzrk",
+      "asset_id": "161c4f5bb67f0bc5b789d957a6962296"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/arwcik07ddeyxujetqkm",
+      "asset_id": "9531c8cfc1504e3e98366d2c99e1f1f0"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Short",
+    "lineupDescription": "Two charge and double bounce",
+    "lineupLocationCoords": { "x": 1424.384, "y": 1040.384, "name": "Trees" },
+    "lineupPositionCoords": { "x": 1501.3922931143397, "y": 639.1105495893872 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:15:00.609Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669deb704064af9b4847e4af" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Far Retake Dart",
+    "mapName": "bind",
+    "teamSide": "Defender",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/z01cdprtgdwdorbryccp",
+      "asset_id": "3d42aedfcef0e027e65e8e8aa87786bc"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/pkzjlcstaprqpwupuxrk",
+      "asset_id": "ce38a11ceee186415a564489525a8e0c"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/mgvyxn1lk9hvglzaxzbz",
+      "asset_id": "bc2609b4896114060b1373343991ee36"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "B Site",
+    "lineupDescription": "Aim at the bottom of the crane handle. Shoot at 2 charges no bounce",
+    "lineupLocationCoords": { "x": 650.24, "y": 757.76, "name": "B Window" },
+    "lineupPositionCoords": {
+      "x": 1307.3303853442828,
+      "y": 408.82375236891977
+    },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:17:36.813Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669debd54064af9b4847e4bf" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B God Dart",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 2,
+    "standingPosition": {
+      "public_id": "Valorant/dph8xsuszq5mbsrnes70",
+      "asset_id": "d9c488f9c6d6aa433aabe978961a550c"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/qq76fmhnbjzfwidtxh5e",
+      "asset_id": "05736816dd0466e8ef2988e8b96a7415"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/rou63g0dmvq9gqwftlku",
+      "asset_id": "f3aea630d4763cbd5a896d9f3dde5dc9"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "B Site",
+    "lineupDescription": "Go to corner and aim slightly below the triangle. Shoot with 2 charges no bounce",
+    "lineupLocationCoords": {
+      "x": 728.064,
+      "y": 589.8240000000001,
+      "name": "Cubby"
+    },
+    "lineupPositionCoords": { "x": 859.6942514213519, "y": 1133.321541377132 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:19:17.871Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669ded794064af9b4847e4cf" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Lamp God Dart",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 2,
+    "standingPosition": {
+      "public_id": "Valorant/t6vug52quyvab8on7qxw",
+      "asset_id": "6a04e1ec99da7ce1e1a6490e89fd010f"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/csx6zkbrtjut5hddhku5",
+      "asset_id": "33fa3091b3814cf86fd59f957c7f1487"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/wab7ubp3hbvujy6xdt0h",
+      "asset_id": "211473bd58475abb67cdb6e20e34a67d"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Sova",
+    "ability": "Recon Bolt",
+    "lineupLocation": "A Site",
+    "lineupDescription": "Go to corner and line up the bottom corner of your HUD with the triangular gap in the leaf. Next position your HUD like shown in the picture. One charge and shoot",
+    "lineupLocationCoords": { "x": 1395.712, "y": 679.936, "name": "Truck" },
+    "lineupPositionCoords": {
+      "x": 1454.8174352495262,
+      "y": 1156.6089703095388
+    },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:26:17.894Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669dee4f4064af9b484821d8" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Short to Tube Post Plant",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "Valorant/hscdfmuxxrcgd1aajnyo",
+      "asset_id": "8f2fd55ad388e4a09fe6f3137d46803e"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/lrl1grtmlml7qi8bechd",
+      "asset_id": "e17481e1c4faf095735ac27c65b40e63"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/rl84akcywfsrpib2010k",
+      "asset_id": "f799533bcfabd5bff5e25e6b9771ebe2"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Gekko",
+    "ability": "Mosh Pit",
+    "lineupLocation": "B Tube",
+    "lineupDescription": "Place the HUD of mosh pit as shown in the image and throw",
+    "lineupLocationCoords": {
+      "x": 592.896,
+      "y": 581.6320000000001,
+      "name": "Tube"
+    },
+    "lineupPositionCoords": { "x": 862.2817435249526, "y": 928.909665192672 },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:29:51.851Z" },
+    "reports": [],
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "669def184064af9b484821e8" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Default Post Plant",
+    "mapName": "bind",
+    "teamSide": "Attacker",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "Valorant/vt4rz9jqv1krhhphqk1d",
+      "asset_id": "34367c0bb359f8eacec78ed5d677c270"
+    },
+    "aimingPosition": {
+      "public_id": "Valorant/a3yprymssvujwdk5h2ap",
+      "asset_id": "f05d6259ab17bb5ccee02da5c915ccf8"
+    },
+    "landingPosition": {
+      "public_id": "Valorant/nwajpjnjsvichj3runrr",
+      "asset_id": "4e8cc7c8042451044167b7cb3448eefd"
+    },
+    "grenadeType": "",
+    "jumpThrow": false,
+    "game": "Valorant",
+    "approved": true,
+    "valorantAgent": "Viper",
+    "ability": "Snake Bite",
+    "lineupLocation": "A Default",
+    "lineupDescription": "Go to corner and position crosshair near the top as shown in picture",
+    "lineupLocationCoords": {
+      "x": 1408,
+      "y": 712.7040000000001,
+      "name": "Default"
+    },
+    "lineupPositionCoords": {
+      "x": 1416.0050536955148,
+      "y": 1045.3468098547062
+    },
+    "comments": [],
+    "date": { "$date": "2024-07-22T05:33:12.32Z" },
+    "reports": [],
+    "__v": 0
+  }
 ]
