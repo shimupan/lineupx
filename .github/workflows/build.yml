@@ -44,11 +44,11 @@ jobs:
     - name: Run Docker Compose Up
       run: docker compose up --detach --wait --wait-timeout 30
     
+    - name: Check Docker Compose Logs
+      run: docker compose logs
+
     - name: Inspect API Status
       run: curl -s http://localhost:1337
 
     - name: Inspect Web Status
       run: curl -s http://localhost:5173
-
-    - name: Check Docker Compose Logs
-      run: docker compose logs
