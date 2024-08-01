@@ -33,6 +33,12 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    - name: Build API Image
+      run: docker build -t api ./src/api
+
+    - name: Build Web Image
+      run: docker build -t web ./src/web
+
     - name: Run Docker Compose Up
       run: docker compose up -d
     
