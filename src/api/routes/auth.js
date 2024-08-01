@@ -291,6 +291,7 @@ router.post('/resetpassword/:token', async (req, res) => {
 });
 
 /////////////////////////////////////////////////////////////////////////////
+/*
 
 function generateDefaultPassword(length = 10) {
    const characters =
@@ -403,5 +404,5 @@ router.get(
       }
    },
 );
-
+*/
 export default router;

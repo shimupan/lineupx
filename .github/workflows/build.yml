@@ -1,0 +1,57 @@
+name: LineupX CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build_web:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: src/web
+
+    - name: Run Build
+      run: npm run build
+      working-directory: src/web
+  
+  build_app:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Build API Image
+      run: docker build -t api ./src/api
+
+    - name: Build Web Image
+      run: docker build -t web ./src/web
+
+    - name: Run Docker Compose Up
+      run: docker compose up --detach --wait --wait-timeout 30
+    
+    - name: Wait For Services To Start
+      run: sleep 30
+    
+    - name: Check Docker Compose Logs
+      run: docker compose logs
+
+    - name: Inspect API Status
+      run: curl -s http://localhost:1337
+
+    - name: Inspect Web Status
+      run: curl -s http://localhost:5173

@@ -5,8 +5,6 @@ import { mongo } from './config/index.js';
 import { auth, user, post, comment, replies } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
-import mongoose from 'mongoose';
-import { updateCS2Posts, updateValorantPosts } from './helper/updatePosts.js';
 
 dotenv.config();
 

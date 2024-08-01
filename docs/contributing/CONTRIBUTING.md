@@ -13,13 +13,7 @@
 4) Also make sure docker is installed and docker desktop is avaliable
 
 ### Setting up Frontend
-1) Navigate to the Frontend Folder
-    
-    ```cd src/web```
-2) Install packages
-
-    ```npm i```
-3) Create a new ```.env``` file and copy the contents of ```.env.example```
+1) Create a new ```.env``` file and copy the contents of ```.env.example```
 
     On local branch:
     
@@ -30,18 +24,13 @@
     ```VITE_CLOUDINARY_CLOUD_NAME=```
 
     Cloud Name is your Cloudinary Cloud Name
-4) Run the command ```npm run dev``` to start the server!
 
 ### Setting up Server
-1) Navigate to the server folder
-
-    ```cd src/api```
-2) Create a new ```.env``` file and copy the contents of ```.env.example```
+1) Create a new ```.env``` file and copy the contents of ```.env.example```
 
     On local branch:
     
     ```
-    MONGO_URI
     ACCESS_TOKEN_SECRET
     REFRESH_TOKEN_SECRET
     EMAIL_USER
@@ -50,19 +39,24 @@
     GOOGLE_CLIENT_ID
     GOOGLE_CLIENT_SECRET
     ``` 
-    doesnt matter
+    doesnt matter you can leave them blank
 
     The following below needs to be setup:
     ```
+    MONGO_URI=mongodb://admin:admin@lineupx_db:27017/LineupX
     PORT=1337
     CLOUDINARY_SECRET=[secret key]
     CLOUDINARY_CLOUD_NAME=[cloud name]
     CLOUDINARY_API_KEY=[api key]
     ```
-3) Go back to the root repository and run
 
-    ```docker compose up```
-4) Now the database and server should be up and running!
+### Running application
+1) Make sure you're in the root directory of the project
+2) Run the following command:
+    ```
+    docker compose up
+    ```
+3) Now the frontend, server, and database should be up and running!
 
 ### Happy Developing!
 

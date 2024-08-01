@@ -24,7 +24,7 @@ import {
    CS2Maps,
    AdminHome,
    AdminUsers,
-   AdminPosts,
+   AdminPosts
    AdminCheck,
    AdminModifyUser,
    AdminModifyPost,
@@ -44,7 +44,7 @@ import axios from 'axios';
 import './App.css';
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
-axios.defaults.baseURL = baseURL || 'http://localhost:3000';
+axios.defaults.baseURL = baseURL || 'http://localhost:1337';
 
 type AuthContextType = {
    _id: string;

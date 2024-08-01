@@ -10,6 +10,8 @@ RUN npm i
 
 COPY . .
 
+RUN if [ ! -f /home/app/.env ]; then cp /home/app/.env.example /home/app/.env; fi
+
 EXPOSE 1337
 
 CMD ["npm", "start"]

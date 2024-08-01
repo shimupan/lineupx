@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
 
   lineupx_db:
@@ -14,7 +12,10 @@ services:
       - MONGO_INITDB_DATABASE=LineupX
     volumes:
       - lineupx_db:/data/db
-      - ./src/api/__test__/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+      - ./src/api/scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+      - ./src/api/scripts/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      - ./src/api/data:/docker-entrypoint-initdb.d/data
+    command: ["sh", "-c", "mongod > /dev/null 2>&1"]
 
   lineupx_api:
     container_name: lineupx_api
@@ -28,8 +29,24 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src/api:/home/app
+      - /home/app/node_modules
     depends_on:
       - lineupx_db
-
+  
+  lineupx_web:
+    container_name: lineupx_web
+    image: web
+    ports:
+      - 5173:5173
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      context: ./src/web
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/web:/home/web
+      - /home/web/node_modules
+    depends_on:
+      - lineupx_api
 volumes:
   lineupx_db:

@@ -1,0 +1,888 @@
+[
+  {
+    "_id": { "$oid": "65b95df59b59b5853363171c" },
+    "Username": "ooccupate",
+    "UserID": { "$oid": "65a70055dc44d590069824da" },
+    "postTitle": "Mid to B smoke",
+    "mapName": "dust2",
+    "lineupLocation": "Xbox",
+    "lineupDescription": "This is a Mid to B lineup that is helpful when going from mid to B",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [
+      { "_id": { "$oid": "65c693022e0dc09b91ed090c" } },
+      {
+        "userId": "65a70055dc44d590069824da",
+        "_id": { "$oid": "6691a81cfe50834533223f64" }
+      }
+    ],
+    "views": 103,
+    "standingPosition": {
+      "public_id": "CS2/hlt7tck9vnjy8ylds8aw",
+      "asset_id": "1f0984b0b6de299dd9c3eae04591d9c7"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/db42ygpjnohxupqz6bba",
+      "asset_id": "9e68b6d0f42216a398c13c2391c6c085"
+    },
+    "landingPosition": {
+      "public_id": "CS2/db0mqyril5mzgcbydg6a",
+      "asset_id": "ad466e0f625a4965ec840ec0e287a1b0"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 925.4460093896714,
+      "y": 726.1517919467954,
+      "name": "Mid"
+    },
+    "lineupPositionCoords": { "x": 996.3243243243244, "y": 866.2486486486487 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "peak",
+        "createdAt": { "$date": "2024-02-13T23:39:07.801Z" },
+        "_id": { "$oid": "65cbfd9b1c4cec9d17ad003b" }
+      }
+    ],
+    "date": { "$date": "2024-01-30T20:37:09.798Z" },
+    "__v": 21,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c2b0112e0dc09b91ed08e3" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Triple Molly",
+    "mapName": "vertigo",
+    "lineupLocation": "Stairs A Site",
+    "lineupDescription": "Go to the box next to the stairs and throw Molly",
+    "teamSide": "CT",
+    "likes": [],
+    "dislikes": [],
+    "views": 19,
+    "standingPosition": {
+      "public_id": "CS2/g2cshdebzox6y6zyesvp",
+      "asset_id": "9f550c2e9ebdfc72bda44e183e6b90c9"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/stddhwvismrhjt4f2vge",
+      "asset_id": "0b3791079232b0402e17633294fd9f3d"
+    },
+    "landingPosition": {
+      "public_id": "CS2/mwr3ivezlbbcxp8zzvq5",
+      "asset_id": "3b8b29e0c5c7922f09ebaebcbfb73efa"
+    },
+    "grenadeType": "molotov",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 639.8290924392294,
+      "y": 180.46461581619292,
+      "name": "B Site"
+    },
+    "lineupPositionCoords": { "x": 635.8765757483759, "y": 552.7073084169413 },
+    "comments": [],
+    "date": { "$date": "2024-02-06T22:17:53.39Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c533b12e0dc09b91ed08f3" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Headshot Molly",
+    "mapName": "vertigo",
+    "lineupLocation": "Headshot",
+    "lineupDescription": "Stand in corner, aim, and throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 7,
+    "standingPosition": {
+      "public_id": "CS2/iarsqynvhikdvpyjunbn",
+      "asset_id": "078c459466c34931a47f19b8d8e70eb2"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/mrmomh598vrsoockrm7q",
+      "asset_id": "40d8f918faa23312408a1e98a55c521e"
+    },
+    "landingPosition": {
+      "public_id": "CS2/k9vgvxwhxc67bcwef28x",
+      "asset_id": "4ad7cfa3fe730c6bc56bd991632ab180"
+    },
+    "grenadeType": "molotov",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 992.555386989061,
+      "y": 369.13216871494006,
+      "name": "Head Shot"
+    },
+    "lineupPositionCoords": { "x": 805.7244114063492, "y": 609.206279881511 },
+    "comments": [],
+    "date": { "$date": "2024-02-08T20:04:01.129Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6950a2e0dc09b91ed0969" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Market Door Smoke",
+    "mapName": "mirage",
+    "lineupLocation": "Garbage Bags",
+    "lineupDescription": "Aim and Jump Throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/evfvlyzcimihc62het8m",
+      "asset_id": "a6271e36bebb10a4c14297e7ae15e8b6"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/oipadamhvgxryiw12hew",
+      "asset_id": "9e85d4d6fe25b26a040e26a86b9aa719"
+    },
+    "landingPosition": {
+      "public_id": "CS2/eptnrgqt8dnimsh3gspk",
+      "asset_id": "98c2b23459230d13e855e13c80fb7130"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 343.9981552854366,
+      "y": 867.8549263761241,
+      "name": "Door"
+    },
+    "lineupPositionCoords": { "x": 1211.0431101356037, "y": 516.9129271505168 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "very cool lineup!",
+        "createdAt": { "$date": "2024-02-09T21:17:31.196Z" },
+        "_id": { "$oid": "65c6966b2e0dc09b91ed098e" }
+      }
+    ],
+    "date": { "$date": "2024-02-09T21:11:38.699Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6963f2e0dc09b91ed0974" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Market Window Smoke",
+    "mapName": "mirage",
+    "lineupLocation": "B Market",
+    "lineupDescription": "Aim and jump throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 6,
+    "standingPosition": {
+      "public_id": "CS2/inwmq9b4qcvciodyamjr",
+      "asset_id": "635bf5a36c0dc6f1de695a1d3910274f"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/u43ylxlizzeaorpq7z6f",
+      "asset_id": "0dd43b0247e7424af2c4cdbf86ba655b"
+    },
+    "landingPosition": {
+      "public_id": "CS2/ywgx42rsxosevstcd6ne",
+      "asset_id": "438c5289fb805025f6d8e13885474912"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 521.0232895213625,
+      "y": 755.5950851533419,
+      "name": "Window"
+    },
+    "lineupPositionCoords": {
+      "x": 1218.7634663018753,
+      "y": 478.66208230883393
+    },
+    "comments": [
+      {
+        "username": "ooccupate",
+        "user": "65a70055dc44d590069824da",
+        "text": "Yo this is fire",
+        "createdAt": { "$date": "2024-02-09T21:17:38.454Z" },
+        "_id": { "$oid": "65c696722e0dc09b91ed0994" }
+      }
+    ],
+    "date": { "$date": "2024-02-09T21:16:47.81Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6980c2e0dc09b91ed09e4" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Window Smoke",
+    "mapName": "mirage",
+    "lineupLocation": "Mid Nest",
+    "lineupDescription": "Go to garbage can, aim, jump throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 4,
+    "standingPosition": {
+      "public_id": "CS2/w3jvpwk841f18cj4sb4d",
+      "asset_id": "5c78b17d1b6c51189281c7c05b0b9be5"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/ihfyn4x65xrwbnpulnw2",
+      "asset_id": "d92af36961b5a5edfd758d1feaf91faf"
+    },
+    "landingPosition": {
+      "public_id": "CS2/b3q0qsj3glorsr36dgzi",
+      "asset_id": "587ac667b87c6d5694a93588bb1e2ef2"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 840.5320683862042,
+      "y": 941.2555917910202,
+      "name": "Snipers"
+    },
+    "lineupPositionCoords": { "x": 1847.9724938530037, "y": 672.3727995433281 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T21:24:28.845Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c699cc2e0dc09b91ed0a31" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Connector Smoke",
+    "mapName": "mirage",
+    "lineupLocation": "Mid",
+    "lineupDescription": "Throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 0,
+    "standingPosition": {
+      "public_id": "CS2/v86drurha0phvzepadbf",
+      "asset_id": "3499e0987d3dcc9274c0b1c74f2d56f2"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/c7zhyqztoswvhkrpsb2y",
+      "asset_id": "57272abd2f2dc6307888d98a1fec3fab"
+    },
+    "landingPosition": {
+      "public_id": "CS2/hnydsencxesbedyadtz8",
+      "asset_id": "54bdf857f26634317767a93a751f8a28"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 1021.8748888230062,
+      "y": 1006.0208848041638,
+      "name": "Connector Mid"
+    },
+    "lineupPositionCoords": { "x": 1442.6537951237492, "y": 929.250139517515 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T21:31:56.908Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c69a312e0dc09b91ed0a35" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Cat Smoke",
+    "mapName": "mirage",
+    "lineupLocation": "Mid",
+    "lineupDescription": "Throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/ej9pkrsvkmu5waorirzu",
+      "asset_id": "8e2c01c19555dcd1e4a96eab3506526b"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/hdujehbcjzuzciyzfkzc",
+      "asset_id": "89b88f1720d9fe41176e9810d446d6e6"
+    },
+    "landingPosition": {
+      "public_id": "CS2/mbd1zxtfjlleqlhfjwse",
+      "asset_id": "7980fbc3dc23370682ef4b37d834433f"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 965.7449682116151,
+      "y": 820.3603781664855,
+      "name": "Cat Walk"
+    },
+    "lineupPositionCoords": { "x": 1446.5139732068849, "y": 927.4955184707844 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "skibidi toilet",
+        "createdAt": { "$date": "2024-02-09T21:34:11.289Z" },
+        "_id": { "$oid": "65c69a532e0dc09b91ed0a50" }
+      }
+    ],
+    "date": { "$date": "2024-02-09T21:33:37.122Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c69c522e0dc09b91ed0a70" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Door Smoke",
+    "mapName": "dust2",
+    "lineupLocation": "B Site",
+    "lineupDescription": "Throw through opening in B main",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 3,
+    "standingPosition": {
+      "public_id": "CS2/hwnfgwmavhs4la5ar0z2",
+      "asset_id": "4cabfb1fde192a15af810b7fbb636578"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/jjxradshxmkewdf9smdl",
+      "asset_id": "afab11a4d172d8f8106a80e4d3ba0a24"
+    },
+    "landingPosition": {
+      "public_id": "CS2/jrzmrs4pmcu2nevjcdxa",
+      "asset_id": "726b711dfab70aa0103785b348f944f9"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 504.0659314725539,
+      "y": 463.7830641870807,
+      "name": "B Door"
+    },
+    "lineupPositionCoords": { "x": 280.74019209988614, "y": 911.7038701485667 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T21:42:42.89Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c69cab2e0dc09b91ed0a75" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Pushing Cat Smoke",
+    "mapName": "dust2",
+    "lineupLocation": "A Cat",
+    "lineupDescription": "Throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 2,
+    "standingPosition": {
+      "public_id": "CS2/rzapfykamwarcylyxnfs",
+      "asset_id": "20b257e8ba4ef3f5d2054d0d497c1cdb"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/jqsruy9s7ggcyeycbn4y",
+      "asset_id": "149967be3187723686b7cccc008651f6"
+    },
+    "landingPosition": {
+      "public_id": "CS2/ccnlngphdslyufgja0sb",
+      "asset_id": "9ed2e089d74122d245c41e35d1c21bbf"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 1283.2215472438277,
+      "y": 471.7336316949509,
+      "name": "A Cat"
+    },
+    "lineupPositionCoords": { "x": 1326.8484526296766, "y": 803.2679183802692 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T21:44:11.384Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c69d1a2e0dc09b91ed0a7a" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Mid to B Smoke",
+    "mapName": "dust2",
+    "lineupLocation": "Mid",
+    "lineupDescription": "Throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/oclnj6xki12e2oklzmsu",
+      "asset_id": "79e55b2b133c2c43663e6f6ff1a5c6c9"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/tko2ncvlknvvly7bmeml",
+      "asset_id": "40db894d6f0b3a53a1ee25b5e6eb9826"
+    },
+    "landingPosition": {
+      "public_id": "CS2/rwf5042micv7pr2evhjt",
+      "asset_id": "49b29a8166f97f1cfaa54c92c5a86ed3"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 925.4460093896714,
+      "y": 726.1517919467954,
+      "name": "Mid"
+    },
+    "lineupPositionCoords": { "x": 991.0129593968655, "y": 882.226159991358 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T21:46:02.64Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c69e342e0dc09b91ed0aa0" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Long Deep Mid Smoke",
+    "mapName": "dust2",
+    "lineupLocation": "Mid Cross",
+    "lineupDescription": "Line up with the crack in the wall and jump throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/ufn347t4rdjk7d3ztvwr",
+      "asset_id": "f0e07a160a34494bc73e4ec8d86ed219"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/jdeghqrb38proodwhsnb",
+      "asset_id": "8d98071498e01eab4bc88d4e1fe7dabc"
+    },
+    "landingPosition": {
+      "public_id": "CS2/gkbscazmrrjxyin0umcj",
+      "asset_id": "07cc1d8defac04f8b5efb67a2f4473fb"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 1410.43062736975,
+      "y": 463.7830641870807,
+      "name": "Deep Mid Cross"
+    },
+    "lineupPositionCoords": { "x": 1373.1705896273056, "y": 1003.646301615297 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "rizzly bear",
+        "createdAt": { "$date": "2024-02-09T22:02:40.933Z" },
+        "_id": { "$oid": "65c6a1002e0dc09b91ed0ae7" }
+      }
+    ],
+    "date": { "$date": "2024-02-09T21:50:44.925Z" },
+    "__v": 1,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6a0492e0dc09b91ed0abf" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Cat to Deep Mid Cross Smoke",
+    "mapName": "dust2",
+    "lineupLocation": "Mid Cross",
+    "lineupDescription": " Aim and throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/y0k7y4fgolbshke1tcy0",
+      "asset_id": "5c7d7314f17a670a137777c03e911edb"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/eczirw1asr8tiphfd45p",
+      "asset_id": "1f8636ed478c0bad7e66062db64cd156"
+    },
+    "landingPosition": {
+      "public_id": "CS2/kff4smdtq5vgcows51zr",
+      "asset_id": "05dbfa168fd92a2f3a3432872a0d5e58"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 1410.43062736975,
+      "y": 463.7830641870807,
+      "name": "Deep Mid Cross"
+    },
+    "lineupPositionCoords": { "x": 1218.7634663018753, "y": 814.4975755416449 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T21:59:37.782Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6a1da2e0dc09b91ed0af9" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Car Molly",
+    "mapName": "dust2",
+    "lineupLocation": "A Site Car",
+    "lineupDescription": "Jump on barrel and jump throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/y8edl37c38flb10cq0xt",
+      "asset_id": "fb2b80082fe183975abeccb3e8cf45a1"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/drqfbvpnlorarrphid14",
+      "asset_id": "46a40bbedbafb0f856a4478a235f83da"
+    },
+    "landingPosition": {
+      "public_id": "CS2/irhv2ihd8ltf8t4wet7a",
+      "asset_id": "6ca5e7402bc23af75669763413b7a007"
+    },
+    "grenadeType": "molotov",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 1855.6624078104778,
+      "y": 575.0910092972626,
+      "name": "A Car"
+    },
+    "lineupPositionCoords": {
+      "x": 1504.4166444539214,
+      "y": 1094.8868316518563
+    },
+    "comments": [],
+    "date": { "$date": "2024-02-09T22:06:18.723Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6a2762e0dc09b91ed0aff" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Jungle Smoke",
+    "mapName": "mirage",
+    "lineupLocation": "A Site Car",
+    "lineupDescription": "Jump on barrel and jump throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/xihidtwtn43j6h7y0lh9",
+      "asset_id": "e245883512a9905131986ae8614bdd77"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/caxselful7v4qbaqemlh",
+      "asset_id": "e3233a678ba4cb6cd29102b4a73572f0"
+    },
+    "landingPosition": {
+      "public_id": "CS2/osnftnjpraofacd0sgbm",
+      "asset_id": "1bbd6c5003f5feab4579899e6e8716f0"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 931.2034786046052,
+      "y": 1247.8113120532332,
+      "name": "Jungle"
+    },
+    "lineupPositionCoords": {
+      "x": 1612.5016307817225,
+      "y": 1267.8930396779645
+    },
+    "comments": [],
+    "date": { "$date": "2024-02-09T22:08:54.232Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6ae3a2e0dc09b91ed0b71" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "CT Smoke",
+    "mapName": "mirage",
+    "lineupLocation": "CT",
+    "lineupDescription": "Aim + Throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 1,
+    "standingPosition": {
+      "public_id": "CS2/vnqauoqcge7i8sbr6mea",
+      "asset_id": "a5fc4c5aecfda3fa8a043954aeba6443"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/kt4gl1za6bgkcelfvrzl",
+      "asset_id": "c1993dd8b88695261b37c947e1febbb8"
+    },
+    "landingPosition": {
+      "public_id": "CS2/h6gbfebi2yetj9e4voub",
+      "asset_id": "b11aa46577b5c659a5e55b4843fde64a"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 939.8388510063577,
+      "y": 1632.0853839312185,
+      "name": "CT"
+    },
+    "lineupPositionCoords": { "x": 1581.6045483259632, "y": 1133.321541377132 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T22:59:06.664Z" },
+    "__v": 0,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "65c6b27d2e0dc09b91ed0b9b" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "A Ramp Long Flash",
+    "mapName": "dust2",
+    "lineupLocation": "A Site",
+    "lineupDescription": "lineup is  in the open so you are exposed",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 5,
+    "standingPosition": {
+      "public_id": "CS2/icxiihlm0wrx5khzahxz",
+      "asset_id": "ebc2d88cba02aad6679c15e22a576873"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/h3wgemtjahy1v0gqnxan",
+      "asset_id": "60649e109f4b54b0938e3562c849cbd8"
+    },
+    "landingPosition": {
+      "public_id": "CS2/h1ncilx83vilrpitugns",
+      "asset_id": "641050c2f3b9c6e2c3b1be29eb8e4cb0"
+    },
+    "grenadeType": "flash",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 1660.8735038676593,
+      "y": 467.7583479410158,
+      "name": "Mid Cross"
+    },
+    "lineupPositionCoords": { "x": 1677.3417561591914, "y": 931.4971572962728 },
+    "comments": [],
+    "date": { "$date": "2024-02-09T23:17:17.345Z" },
+    "__v": 1,
+    "reports": [
+      {
+        "userId": "65a70095dc44d590069824e2",
+        "reason": "a",
+        "createdAt": { "$date": "2024-07-12T21:56:56.447Z" },
+        "_id": { "$oid": "6691a6a8fe5083453321a802" }
+      }
+    ]
+  },
+  {
+    "_id": { "$oid": "65c6b2d42e0dc09b91ed0ba1" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "B Entry Flash",
+    "mapName": "dust2",
+    "lineupLocation": "B Site",
+    "lineupDescription": "Go to Corner and Jump Throw",
+    "teamSide": "T",
+    "likes": [],
+    "dislikes": [],
+    "views": 24,
+    "standingPosition": {
+      "public_id": "CS2/jcdiw5m60q7he55fprcn",
+      "asset_id": "919f3efd9cf2819858aef0dc3e44234f"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/cg69akeydfd6ff1izkc7",
+      "asset_id": "b3124e2caef9025d253d32ecbe370d5e"
+    },
+    "landingPosition": {
+      "public_id": "CS2/jautyg78okbtsz85kdim",
+      "asset_id": "2b87da3c76773884b300749dab081790"
+    },
+    "grenadeType": "flash",
+    "jumpThrow": false,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocationCoords": {
+      "x": 214.46756925914946,
+      "y": 436.08630628850017,
+      "name": "Big Box"
+    },
+    "lineupPositionCoords": { "x": 404.2956411876184, "y": 1019.4718888186986 },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "yea",
+        "createdAt": { "$date": "2024-05-11T02:00:42.498Z" },
+        "_id": { "$oid": "663ed14a4747eec764bf1865" }
+      },
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "as",
+        "createdAt": { "$date": "2024-05-22T20:53:08.091Z" },
+        "_id": { "$oid": "664e5b344747eec764c2ea87" }
+      },
+      {
+        "username": "iso",
+        "user": "668b1c1a27c2fa4d2160d05c",
+        "text": "cool",
+        "createdAt": { "$date": "2024-07-07T22:54:43.324Z" },
+        "_id": { "$oid": "668b1cb327c2fa4d2160fcfd" }
+      },
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "W",
+        "_id": { "$oid": "6696cee05180067a636cc4e8" },
+        "createdAt": { "$date": "2024-07-16T19:49:52.302Z" }
+      }
+    ],
+    "date": { "$date": "2024-02-09T23:18:44.113Z" },
+    "__v": 6,
+    "reports": []
+  },
+  {
+    "_id": { "$oid": "6696d0935180067a636d9321" },
+    "Username": "kagiriez",
+    "UserID": { "$oid": "65a70095dc44d590069824e2" },
+    "postTitle": "Front Toilet Smoke",
+    "mapName": "overpass",
+    "teamSide": "T",
+    "likes": [
+      {
+        "userId": "65a70095dc44d590069824e2",
+        "_id": { "$oid": "6696d0fe5180067a636d9971" }
+      }
+    ],
+    "dislikes": [],
+    "views": 8,
+    "standingPosition": {
+      "public_id": "CS2/nzbuit4rzs1rdtd8b0an",
+      "asset_id": "9eb92e033110039395f80c2a2070d979"
+    },
+    "aimingPosition": {
+      "public_id": "CS2/kdnebd6xlricho4tizxk",
+      "asset_id": "d2f20d87d5992974f8aa7a2abae1ebff"
+    },
+    "landingPosition": {
+      "public_id": "CS2/jh7ntkxnqi9de5d3ax1p",
+      "asset_id": "d5e560e4b9d08359618f0159290a0807"
+    },
+    "grenadeType": "smoke",
+    "jumpThrow": true,
+    "game": "CS2",
+    "approved": true,
+    "valorantAgent": "",
+    "ability": "",
+    "lineupLocation": "Toilets",
+    "lineupDescription": "Jump Throw\n\nCredit: @NartOutHere",
+    "lineupLocationCoords": {
+      "x": 836.6995824205308,
+      "y": 1170.2856695832547,
+      "name": "Mid"
+    },
+    "lineupPositionCoords": {
+      "x": 1522.0922299431459,
+      "y": 1521.4453569172456
+    },
+    "comments": [
+      {
+        "username": "kagiriez",
+        "user": "65a70095dc44d590069824e2",
+        "text": "nice",
+        "_id": { "$oid": "6696d0f75180067a636d98dc" },
+        "createdAt": { "$date": "2024-07-16T19:58:47.362Z" }
+      }
+    ],
+    "date": { "$date": "2024-07-16T19:57:07.371Z" },
+    "reports": [],
+    "__v": 2
+  }
+]
