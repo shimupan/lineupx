@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CDN_URL } from '../../Constants';
 
+// TODO - Add a left right arrow to cycle between images in the preview
 interface PreviewImageProps {
    images: string[];
    currentImage: number;

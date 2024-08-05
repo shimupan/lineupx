@@ -322,10 +322,10 @@ const PostPage = () => {
             setFollowerCount(user.followers.length);
          });
          getPostByMap(postData.game, postData.mapName).then((posts) => {
-            let filter: PostType[] = [];
-            for (let i = 0; i < posts.length; i++) {
-               filter.push(posts[i].post!);
-            }
+            // Limit the number of related posts to 20
+            let filter: PostType[] = posts
+               .slice(0, 20)
+               .map((post) => post.post!);
             setRelatedPosts(filter);
          });
       } else {
@@ -336,10 +336,9 @@ const PostPage = () => {
             currPostData?.game ?? '',
             currPostData?.mapName ?? '',
          ).then((posts) => {
-            let filter: PostType[] = [];
-            for (let i = 0; i < posts.length; i++) {
-               filter.push(posts[i].post!);
-            }
+            let filter: PostType[] = posts
+               .slice(0, 20)
+               .map((post) => post.post!);
             setRelatedPosts(filter);
          });
       }

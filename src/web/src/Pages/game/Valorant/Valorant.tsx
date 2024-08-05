@@ -10,10 +10,13 @@ import {
    Carousel,
    ValorantPopup,
    BottomNav,
+   PostSkeleton,
 } from '../../../Components';
 import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
 import { useLocalStorage } from '../../../hooks';
 import useIsMobile from '../../../hooks/isMobile';
+
+const MINIMUM_SKELETON_TIME = 600;
 
 const Valorant: React.FC = () => {
    const isMobile = useIsMobile();
@@ -24,6 +27,7 @@ const Valorant: React.FC = () => {
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
    const [isLoading, setIsLoading] = useState(false);
+   const [newPostsReady, setNewPostsReady] = useState(false);
 
    const pageRef = useRef(page);
    useEffect(() => {
@@ -32,95 +36,104 @@ const Valorant: React.FC = () => {
 
    const fetchInitialData = async () => {
       setIsLoading(true);
+      setNewPostsReady(false);
+      const startTime = Date.now();
       try {
          const postsResponse = await axios.get(
             '/post/Valorant?page=1&limit=20&recent=true',
          );
-         setPosts(postsResponse.data.reverse());
-         setPage(2);
-         setHasMore(postsResponse.data.length === 20);
-         setIsLoading(false);
+         const loadTime = Date.now() - startTime;
+         const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
+
+         setTimeout(() => {
+            setPosts(postsResponse.data.reverse());
+            setPage(2);
+            setHasMore(postsResponse.data.length === 20);
+            setNewPostsReady(true);
+            setIsLoading(false);
+         }, delay);
       } catch (err) {
          console.log(err);
          setHasMore(false);
          setIsLoading(false);
       }
    };
-   // Function to fetch data
+
    const fetchData = async () => {
       setIsLoading(true);
+      setNewPostsReady(false);
       const currentPage = pageRef.current;
-      axios
-         .get(`/post/Valorant?page=${currentPage}&limit=20&recent=true`)
-         .then(async (res) => {
-            if (res.data.length > 0) {
-               setPosts((prevPosts) => [...prevPosts, ...res.data.reverse()]);
+      const startTime = Date.now();
+      try {
+         const res = await axios.get(
+            `/post/Valorant?page=${currentPage}&limit=20&recent=true`,
+         );
+         const loadTime = Date.now() - startTime;
+         const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
+
+         if (res.data.length > 0) {
+            const newPosts = res.data.reverse();
+            setTimeout(() => {
+               setPosts((prevPosts) => [...prevPosts, ...newPosts]);
                setPage((prevPage) => prevPage + 1);
-            } else {
-               setHasMore(false);
-            }
-            setIsLoading(false);
-            const titles = res.data.map(
-               (post: PostType) => `${post.postTitle}`,
-            );
-
-            const agentsResponse = await axios.get(
-               'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
-            );
-
-            const mapsResponse = await fetch(
-               'https://valorant-api.com/v1/maps',
-            );
-            const mapsData = await mapsResponse.json();
-            const mapTitles = mapsData.data.map(
-               (map: { displayName: string }) => `${map.displayName}`,
-            );
-
-            // Extract displayNames for suggestions
-            const displayNames = agentsResponse.data.data.map(
-               (agent: { displayName: string }) => `${agent.displayName}`,
-            );
-
-            const abilities = agentsResponse.data.data.flatMap(
-               (agent: {
-                  displayName: string;
-                  abilities: {
-                     displayName: string;
-                  }[];
-               }) => {
-                  return agent.abilities.map(
-                     (ability) => `${ability.displayName}`,
-                  );
-               },
-            );
-
-            const itemsToRemove = [
-               'The Range',
-               'Kasbah',
-               'District',
-               'Piazza',
-               'Drift',
-            ].map((item) => item.toLowerCase().trim());
-            const filteredSuggestions = suggestions.filter(
-               (suggestion) =>
-                  !itemsToRemove.includes(suggestion.toLowerCase().trim()),
-            );
-            setSuggestions((prevSuggestions) => [
-               ...new Set([
-                  ...titles,
-                  ...prevSuggestions,
-                  ...mapTitles,
-                  ...displayNames,
-                  ...abilities,
-                  ...filteredSuggestions,
-               ]),
-            ]);
-         })
-         .catch((err) => {
-            console.log(err);
+               setNewPostsReady(true);
+               setIsLoading(false);
+            }, delay);
+         } else {
             setHasMore(false);
             setIsLoading(false);
-         });
+         }
+
+         const titles = res.data.map((post: PostType) => `${post.postTitle}`);
+
+         const agentsResponse = await axios.get(
+            'https://valorant-api.com/v1/agents?isPlayableCharacter=true',
+         );
+
+         const mapsResponse = await fetch('https://valorant-api.com/v1/maps');
+         const mapsData = await mapsResponse.json();
+         const mapTitles = mapsData.data.map(
+            (map: { displayName: string }) => `${map.displayName}`,
+         );
+
+         const displayNames = agentsResponse.data.data.map(
+            (agent: { displayName: string }) => `${agent.displayName}`,
+         );
+
+         const abilities = agentsResponse.data.data.flatMap(
+            (agent: {
+               displayName: string;
+               abilities: { displayName: string }[];
+            }) => agent.abilities.map((ability) => `${ability.displayName}`),
+         );
+
+         const itemsToRemove = [
+            'The Range',
+            'Kasbah',
+            'District',
+            'Piazza',
+            'Drift',
+         ].map((item) => item.toLowerCase().trim());
+         const filteredSuggestions = suggestions.filter(
+            (suggestion) =>
+               !itemsToRemove.includes(suggestion.toLowerCase().trim()),
+         );
+
+         setSuggestions((prevSuggestions) => [
+            ...new Set([
+               ...titles,
+               ...prevSuggestions,
+               ...mapTitles,
+               ...displayNames,
+               ...abilities,
+               ...filteredSuggestions,
+            ]),
+         ]);
+      } catch (err) {
+         console.log(err);
+         setHasMore(false);
+         setIsLoading(false);
+      }
    };
 
    const getSuggestions = async () => {
@@ -183,6 +196,7 @@ const Valorant: React.FC = () => {
          console.log(err);
       }
    };
+
    useEffect(() => {
       document.title = 'Valorant';
       getSuggestions();
@@ -255,6 +269,12 @@ const Valorant: React.FC = () => {
                         key={post.landingPosition.public_id}
                      />
                   ))}
+                  {isLoading &&
+                     (newPostsReady
+                        ? null
+                        : Array(10)
+                             .fill(null)
+                             .map((_, index) => <PostSkeleton key={index} />))}
                </article>
             </main>
             <Footer />

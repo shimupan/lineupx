@@ -44,6 +44,7 @@ export { default as Dropzone } from './Components/upload/Dropzone';
 export { default as Carousel } from './Components/game/Carousel';
 export { default as Loading } from './Components/global/Loading';
 export { default as Posts } from './Components/post/Posts';
+export { default as PostSkeleton } from './Components/post/PostSkeleton';
 export { default as ProfileEdit } from './Components/profile/ProfileEdit';
 export { default as AgentSelector } from './Components/game/valorant/AgentSelector';
 export { default as ValorantPopup } from './Components/game/valorant/ValorantPopup';
