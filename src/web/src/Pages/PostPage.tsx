@@ -14,6 +14,8 @@ import { AuthContext } from '../App';
 import {
    incrementLikeCount,
    incrementDislikeCount,
+   removeLike,
+   removeDislike,
 } from '../Components/post/helper';
 import { getUserByID } from '../util/getUser';
 import { getPostByMap } from '../util/getPost';
@@ -529,62 +531,109 @@ const PostPage = () => {
                   </div>
                   <div className="flex">
                      <div className="flex">
-                        <span>
-                           <AiOutlineLike
-                              className={`text-white h-5 w-5 cursor-pointer ${
-                                 isLiked
-                                    ? 'animate-pulse text-yellow-500'
-                                    : 'fill-white'
-                              }`}
+                        <div
+                           className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200"
+                           style={{
+                              backgroundColor: '#212121',
+                              transition: 'background-color 0.2s',
+                           }}
+                           onMouseEnter={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                 '#1a1a1a')
+                           }
+                           onMouseLeave={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                 '#212121')
+                           }
+                        >
+                           <span
+                              className="flex items-center cursor-pointer"
                               onClick={() => {
-                                 console.log(user_Id!);
-                                 incrementLikeCount(
-                                    postData?._id || currPostData?._id,
-                                    user_Id!,
-                                    postData?.game || currPostData?.game,
-                                 );
-                                 setIsLiked(true);
-                                 setIsDisliked(false);
+                                 if (isLiked) {
+                                    // Remove like
+                                    removeLike(
+                                       postData?._id || currPostData?._id,
+                                       user_Id!,
+                                       postData?.game || currPostData?.game,
+                                    );
+                                    setIsLiked(false);
+                                 } else {
+                                    // Add like
+                                    incrementLikeCount(
+                                       postData?._id || currPostData?._id,
+                                       user_Id!,
+                                       postData?.game || currPostData?.game,
+                                    );
+                                    setIsLiked(true);
+                                    setIsDisliked(false);
+                                 }
                               }}
-                           />
-                        </span>
-                        <p className="mr-1">
-                           {(postData?.likes?.length ?? 0) ||
-                              (currPostData?.likes?.length ?? 0)}
-                        </p>
-                     </div>
-                     <div className="flex">
-                        <span>
-                           <AiOutlineDislike
-                              className={`text-white h-5 w-5 cursor-pointer ${
-                                 isDisliked
-                                    ? 'animate-pulse text-yellow-500'
-                                    : ''
-                              }`}
+                           >
+                              <AiOutlineLike
+                                 className={`text-white h-5 w-5 ${isLiked ? 'animate-pulse text-yellow-500' : 'fill-white'}`}
+                              />
+                              <p className="ml-1 text-white">
+                                 {(postData?.likes?.length ?? 0) ||
+                                    (currPostData?.likes?.length ?? 0)}
+                              </p>
+                           </span>
+                           <span className="mx-2 text-white">|</span>
+                           <span
+                              className="flex items-center cursor-pointer"
                               onClick={() => {
-                                 incrementDislikeCount(
-                                    postData?._id || currPostData?._id,
-                                    user_Id!,
-                                    postData?.game || currPostData?.game,
-                                 );
-                                 setIsDisliked(true);
-                                 setIsLiked(false);
+                                 if (isDisliked) {
+                                    removeDislike(
+                                       postData?._id || currPostData?._id,
+                                       user_Id!,
+                                       postData?.game || currPostData?.game,
+                                    );
+                                    setIsDisliked(false);
+                                 } else {
+                                    incrementDislikeCount(
+                                       postData?._id || currPostData?._id,
+                                       user_Id!,
+                                       postData?.game || currPostData?.game,
+                                    );
+                                    setIsDisliked(true);
+                                    setIsLiked(false);
+                                 }
                               }}
-                           />
-                        </span>
-                        <p className="mr-1">
-                           {(postData?.dislikes?.length ?? 0) ||
-                              (currPostData?.dislikes?.length ?? 0)}
-                        </p>
+                           >
+                              <AiOutlineDislike
+                                 className={`text-white h-5 w-5 ${isDisliked ? 'animate-pulse text-yellow-500' : ''}`}
+                              />
+                              <p className="ml-1 text-white">
+                                 {(postData?.dislikes?.length ?? 0) ||
+                                    (currPostData?.dislikes?.length ?? 0)}
+                              </p>
+                           </span>
+                        </div>
                      </div>
+
                      <button
-                        className={`flex mt-[-2px] ${
-                           isSaved ? 'animate-pulse text-yellow-500' : ''
+                        className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ${
+                           isSaved ? 'animate-pulse bg-yellow-100' : ''
                         }`}
+                        style={{
+                           backgroundColor: '#212121',
+                           transition: 'background-color 0.2s',
+                        }}
+                        onMouseEnter={(e) =>
+                           (e.currentTarget.style.backgroundColor = '#1a1a1a')
+                        }
+                        onMouseLeave={(e) =>
+                           (e.currentTarget.style.backgroundColor = '#212121')
+                        }
                         onClick={() => savePost()}
                      >
-                        <AiOutlineStar className="text-2xl" />
-                        <p>Save</p>
+                        <AiOutlineStar
+                           className={`text-xl mr-1 ${isSaved ? 'text-yellow-500' : 'text-white'}`}
+                        />
+                        <span
+                           className={`text-sm font-medium ${isSaved ? 'text-yellow-600' : 'text-white'}`}
+                        >
+                           Save
+                        </span>
                      </button>
                   </div>
                </div>

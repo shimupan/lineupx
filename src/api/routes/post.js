@@ -777,6 +777,62 @@ router.post('/post/:id/increment-dislike', async (req, res) => {
    }
 });
 
+
+router.post('/post/:id/remove-like', async (req, res) => {
+   const { id } = req.params;
+   const { userId, game } = req.body;
+
+   try {
+       const PostData = mongoose.model('PostData', PostDataSchema);
+       const post = await PostData.findById(id);
+       if (!post) {
+           return res.status(404).send('Post not found');
+       }
+
+       // Remove like if it exists
+       if (post.likes.some((like) => like.userId === userId)) {
+           await PostData.updateOne(
+               { _id: id },
+               { $pull: { likes: { userId: userId } } },
+           );
+           return res.send(post);
+       }
+
+       res.status(400).send('Like not found');
+   } catch (error) {
+       console.error('Failed to remove like:', error);
+       res.status(500).send('Server error');
+   }
+});
+
+// Remove dislike for a specific post
+router.post('/post/:id/remove-dislike', async (req, res) => {
+   const { id } = req.params;
+   const { userId, game } = req.body;
+
+   try {
+       const PostData = mongoose.model('PostData', PostDataSchema, game);
+       const post = await PostData.findById(id);
+       if (!post) {
+           return res.status(404).send('Post not found');
+       }
+
+       // Remove dislike if it exists
+       if (post.dislikes.some((dislike) => dislike.userId === userId)) {
+           await PostData.updateOne(
+               { _id: id },
+               { $pull: { dislikes: { userId: userId } } },
+           );
+           return res.send(post);
+       }
+
+       res.status(400).send('Dislike not found');
+   } catch (error) {
+       console.error('Failed to remove dislike:', error);
+       res.status(500).send('Server error');
+   }
+});
+
 /*
 router.post('/save-coordinates', (req, res) => {
    const { x, y } = req.body;
