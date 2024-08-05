@@ -609,11 +609,8 @@ const PostPage = () => {
                            </span>
                         </div>
                      </div>
-
                      <button
-                        className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ${
-                           isSaved ? 'animate-pulse bg-yellow-100' : ''
-                        }`}
+                        className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 ${isSaved ? 'animate-pulse bg-yellow-100' : ''}`}
                         style={{
                            backgroundColor: '#212121',
                            transition: 'background-color 0.2s',

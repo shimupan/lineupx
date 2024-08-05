@@ -218,7 +218,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                {isHovering && (
                   <PreviewImage
                      images={images}
-                     currentImage={currentImage}
                      onClick={async () => {
                         navigate(`/game/${postData.game}/${postData._id}`, {
                            state: { postData },
