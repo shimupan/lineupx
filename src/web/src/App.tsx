@@ -37,6 +37,7 @@ import {
    TOS,
    ManagePosts,
    EditPosts,
+   ServerStatus,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -251,6 +252,7 @@ function App() {
                <Route path="/verifyemail" element={<VerifyEmail />} />
                <Route path="*" element={<PageNotFound />}></Route>
                <Route path="/tos" element={<TOS />} />
+               <Route path="/server-status" element={<ServerStatus />} />
             </Routes>
          </AuthContext.Provider>
       </>

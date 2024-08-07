@@ -1,20 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
-import useIsMobile from '../../../hooks/isMobile';
-import {
-   Header,
-   SideNavWrapper,
-   Searchbar,
-   Footer,
-   Carousel,
-   BottomNav,
-   Posts,
-} from '../../../Components';
+import { Searchbar, Carousel, Posts, Layout } from '../../../Components';
 import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 
 const CS2: React.FC = () => {
-   const isMobile = useIsMobile();
    const [posts, setPosts] = useState<PostType[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
@@ -136,49 +126,50 @@ const CS2: React.FC = () => {
    }, [hasMore, page, isLoading]);
 
    return (
-      <div className="flex flex-col min-h-screen">
-         <Header />
-         <main className="flex-1">
-            {!isMobile && <SideNavWrapper />}
-            <div
-               className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
-               style={{
-                  backgroundImage: `url(${CS2_BANNER})`,
-                  backgroundSize: '100%',
-                  backgroundPosition: '90% 10%',
-               }}
-            >
-               <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-               <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
+      <Layout>
+         <div className="flex flex-col min-h-screen">
+            <main className="flex-1">
+               <div
+                  className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
+                  style={{
+                     backgroundImage: `url(${CS2_BANNER})`,
+                     backgroundSize: '100%',
+                     backgroundPosition: '90% 10%',
+                  }}
+               >
+                  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+                  <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
 
-               <div className="w-full px-4 z-10">
-                  <Searchbar
-                     onChange={(e) => handleSearch(e.target.value)}
-                     onSearch={handleSearch}
-                     placeholder="Search for CS2 Lineups"
-                     suggestions={suggestions}
-                     game={'CS2'}
-                  />
+                  <div className="w-full px-4 z-10">
+                     <Searchbar
+                        onChange={(e) => handleSearch(e.target.value)}
+                        onSearch={handleSearch}
+                        placeholder="Search for CS2 Lineups"
+                        suggestions={suggestions}
+                        game={'CS2'}
+                     />
+                  </div>
                </div>
-            </div>
-            <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
-               <div className="w-full sm:w-3/4 md:w-1/2 ">
-                  <Carousel images={CS2_MAPS} />
+               <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
+                  <div className="w-full sm:w-3/4 md:w-1/2 ">
+                     <Carousel images={CS2_MAPS} />
+                  </div>
                </div>
-            </div>
-            {/* TODO: STYLING BELOW */}
-            <h1 className="text-3xl font-bold text-center mt-10 mb-5">
-               Recently added Lineups
-            </h1>
-            <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
-               {posts.map((post) => (
-                  <Posts postData={post} key={post.landingPosition.asset_id} />
-               ))}
-            </article>
-         </main>
-         <Footer className="mt-auto" />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
-      </div>
+               {/* TODO: STYLING BELOW */}
+               <h1 className="text-3xl font-bold text-center mt-10 mb-5">
+                  Recently added Lineups
+               </h1>
+               <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
+                  {posts.map((post) => (
+                     <Posts
+                        postData={post}
+                        key={post.landingPosition.asset_id}
+                     />
+                  ))}
+               </article>
+            </main>
+         </div>
+      </Layout>
    );
 };
 
