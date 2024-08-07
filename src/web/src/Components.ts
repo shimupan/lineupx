@@ -72,3 +72,4 @@ export { default as CS2Radar } from './Components/game/cs2/CS2Radar';
 export { default as DeletePopup } from './Components/post/DeletePopup';
 export { default as LoadingSpinner } from './Components/global/LoadingSpinner';
 export { default as BottomNav } from './Components/global/bottombar/BottomNav';
+export { default as SharePopup } from './Components/post/SharePopup';

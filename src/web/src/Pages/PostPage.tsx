@@ -7,6 +7,7 @@ import {
    WidePosts,
    Comments,
    BottomNav,
+   SharePopup,
 } from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
@@ -22,6 +23,7 @@ import { getPostByMap } from '../util/getPost';
 import { follow } from '../util/followStatus';
 import axios from 'axios';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
+import { FaShare } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
@@ -42,6 +44,8 @@ const PostPage = () => {
    const location = useLocation();
    const postData = location.state?.postData;
    const [currPostData, setcurrPostData] = useState<PostType | null>(null);
+   const shareUrl = `${window.location.origin}/post/${postData?._id || currPostData?._id}`;
+   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
    const imagePositions = [
       postData?.landingPosition?.public_id ||
          currPostData?.landingPosition?.public_id,
@@ -610,6 +614,15 @@ const PostPage = () => {
                         </div>
                      </div>
                      <button
+                        className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 bg-[#212121] hover:bg-[#1a1a1a]"
+                        onClick={() => setIsSharePopupOpen(!isSharePopupOpen)}
+                     >
+                        <FaShare className="text-xl mr-1 text-white" />
+                        <span className="text-sm font-medium text-white">
+                           Share
+                        </span>
+                     </button>
+                     <button
                         className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 ${isSaved ? 'animate-pulse bg-yellow-100' : ''}`}
                         style={{
                            backgroundColor: '#212121',
@@ -713,6 +726,15 @@ const PostPage = () => {
          </div>
          <Footer />
          <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         {isSharePopupOpen && (
+            <div className="absolute z-10 mt-2">
+               <SharePopup
+                  shareUrl={shareUrl}
+                  isOpen={isSharePopupOpen}
+                  onClose={() => setIsSharePopupOpen(false)}
+               />
+            </div>
+         )}
       </>
    );
 };
