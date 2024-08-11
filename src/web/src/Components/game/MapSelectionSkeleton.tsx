@@ -1,18 +1,16 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 
 const MapSelectionSkeleton: React.FC = () => {
    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
-         {Array.from({ length: 8 }).map((_, index) => (
-            <div key={index} className="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-               <Skeleton height={200} />
-               <div className="p-4">
-                  <Skeleton height={20} width="80%" />
-               </div>
-            </div>
-         ))}
+      <div className="relative w-full">
+         <Skeleton
+            height={200}
+            className="w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse"
+         />
+         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4">
+            <Skeleton width={100} height={20} className="bg-gray-300 animate-pulse" />
+         </div>
       </div>
    );
 };
