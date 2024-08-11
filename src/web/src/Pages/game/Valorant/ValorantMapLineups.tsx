@@ -317,6 +317,7 @@ const ValorantLineups: React.FC = () => {
                               'District',
                               'Piazza',
                               'Drift',
+                              'Basic Training',
                            ].includes(map.displayName),
                      )
                      .map((map) => (

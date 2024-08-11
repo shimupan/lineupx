@@ -1,14 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
-import useIsMobile from '../../../hooks/isMobile';
 import {
-   Header,
-   SideNavWrapper,
+   Layout,
    Searchbar,
-   Footer,
    Carousel,
-   BottomNav,
    Posts,
    PostSkeleton,
 } from '../../../Components';
@@ -153,18 +149,18 @@ const CS2: React.FC = () => {
 
    return (
       <Layout>
-         <div className="flex flex-col min-h-screen">
-            <main className="flex-1">
-               <div
-                  className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
-                  style={{
-                     backgroundImage: `url(${CS2_BANNER})`,
-                     backgroundSize: '100%',
-                     backgroundPosition: '90% 10%',
-                  }}
-               >
-                  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-                  <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
+      <div className="flex flex-col min-h-screen">
+         <main className="flex-1">
+            <div
+               className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
+               style={{
+                  backgroundImage: `url(${CS2_BANNER})`,
+                  backgroundSize: '100%',
+                  backgroundPosition: '90% 10%',
+               }}
+            >
+               <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+               <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
 
                <div className="w-full px-4 z-10">
                   <Searchbar
@@ -196,9 +192,8 @@ const CS2: React.FC = () => {
                           .map((_, index) => <PostSkeleton key={index} />))}
             </article>
          </main>
-         <Footer className="mt-auto" />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
       </div>
+      </Layout>
    );
 };
 
