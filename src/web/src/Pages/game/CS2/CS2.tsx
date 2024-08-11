@@ -17,7 +17,6 @@ import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 const MINIMUM_SKELETON_TIME = 500; // 500ms minimum skeleton display time
 
 const CS2: React.FC = () => {
-   const isMobile = useIsMobile();
    const [posts, setPosts] = useState<PostType[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
@@ -153,20 +152,19 @@ const CS2: React.FC = () => {
    }, [hasMore, page, isLoading]);
 
    return (
-      <div className="flex flex-col min-h-screen">
-         <Header />
-         <main className="flex-1">
-            {!isMobile && <SideNavWrapper />}
-            <div
-               className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
-               style={{
-                  backgroundImage: `url(${CS2_BANNER})`,
-                  backgroundSize: '100%',
-                  backgroundPosition: '90% 10%',
-               }}
-            >
-               <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-               <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
+      <Layout>
+         <div className="flex flex-col min-h-screen">
+            <main className="flex-1">
+               <div
+                  className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
+                  style={{
+                     backgroundImage: `url(${CS2_BANNER})`,
+                     backgroundSize: '100%',
+                     backgroundPosition: '90% 10%',
+                  }}
+               >
+                  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+                  <h1 className="text-lg mb-4 pt-10 font-bold z-10">CS2</h1>
 
                <div className="w-full px-4 z-10">
                   <Searchbar

@@ -30,6 +30,7 @@ export { default as PrivatePolicy } from './Pages/policies/PrivatePolicy';
 export { default as TOS } from './Pages/policies/TOS';
 export { default as ManagePosts } from './Pages/user/PostManagement/ManagePosts';
 export { default as EditPosts } from './Pages/user/PostManagement/EditPosts';
+export { default as ServerStatus } from './Pages/ServerStatus/ServerStatus';
 // Components
 export { default as Header } from './Components/global/Header';
 export { default as Game } from './Components/game/Game';
@@ -74,3 +75,5 @@ export { default as LoadingSpinner } from './Components/global/LoadingSpinner';
 export { default as BottomNav } from './Components/global/bottombar/BottomNav';
 export { default as SharePopup } from './Components/post/SharePopup';
 export { default as MapSelectionSkeleton } from './Components/game/MapSelectionSkeleton';
+export { default as ServerStatusBannner } from './Components/global/ServerStatusBanner';
+export { default as Layout } from './Components/global/Layout';
