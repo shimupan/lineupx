@@ -52,7 +52,7 @@ const CS2Lineups: React.FC = () => {
       <Layout>
          <main className="bg-gradient-to-br from-purple-800 to-blue-600 min-h-screen p-4 flex justify-center items-center">
             <div className="container mx-auto py-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 w-full">
+               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 w-full">
                   {!showContent
                      ? Array(8)
                           .fill(null)

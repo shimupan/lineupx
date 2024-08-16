@@ -9,7 +9,11 @@ const MapSelectionSkeleton: React.FC = () => {
             className="w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse"
          />
          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4">
-            <Skeleton width={100} height={20} className="bg-gray-300 animate-pulse" />
+            <Skeleton
+               width={100}
+               height={20}
+               className="bg-gray-300 animate-pulse"
+            />
          </div>
       </div>
    );
