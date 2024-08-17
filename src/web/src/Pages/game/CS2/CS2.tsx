@@ -1,34 +1,48 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
-import { Searchbar, Carousel, Posts, Layout } from '../../../Components';
+import {
+   Layout,
+   Searchbar,
+   Carousel,
+   Posts,
+   PostSkeleton,
+} from '../../../Components';
 import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
+
+const MINIMUM_SKELETON_TIME = 500; // 500ms minimum skeleton display time
 
 const CS2: React.FC = () => {
    const [posts, setPosts] = useState<PostType[]>([]);
    const [page, setPage] = useState(1);
    const [hasMore, setHasMore] = useState(true);
    const [isLoading, setIsLoading] = useState(false);
-   /*
-   const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
-   const [searchTerm, setSearchTerm] = useState('');
-   */
+   const [newPostsReady, setNewPostsReady] = useState(false);
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const pageRef = useRef(page);
+
    useEffect(() => {
       pageRef.current = page;
    }, [page]);
 
    const fetchInitialData = async () => {
       setIsLoading(true);
+      setNewPostsReady(false);
+      const startTime = Date.now();
       try {
          const postsResponse = await axios.get(
             '/post/CS2?page=1&limit=20&recent=true',
          );
-         setPosts(postsResponse.data.reverse());
-         setPage(2);
-         setHasMore(postsResponse.data.length === 20);
-         setIsLoading(false);
+         const loadTime = Date.now() - startTime;
+         const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
+
+         setTimeout(() => {
+            setPosts(postsResponse.data.reverse());
+            setPage(2);
+            setHasMore(postsResponse.data.length === 20);
+            setNewPostsReady(true);
+            setIsLoading(false);
+         }, delay);
       } catch (err) {
          console.log(err);
          setHasMore(false);
@@ -36,66 +50,74 @@ const CS2: React.FC = () => {
       }
    };
 
-   const fetchData = () => {
+   const fetchData = async () => {
       setIsLoading(true);
+      setNewPostsReady(false);
       const currentPage = pageRef.current;
-      axios
-         .get(`/post/CS2?page=${currentPage}&limit=20&recent=true`)
-         .then((res) => {
-            if (res.data.length > 0) {
-               setPosts((prevPosts) => [...prevPosts, ...res.data].reverse());
+      const startTime = Date.now();
+      try {
+         const res = await axios.get(
+            `/post/CS2?page=${currentPage}&limit=20&recent=true`,
+         );
+         const loadTime = Date.now() - startTime;
+         const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
+
+         if (res.data.length > 0) {
+            const newPosts = res.data.reverse();
+            setTimeout(() => {
+               setPosts((prevPosts) => [...prevPosts, ...newPosts]);
                setPage((prevPage) => prevPage + 1);
-            } else {
-               setHasMore(false);
-            }
-            setIsLoading(false);
-            const titles = res.data.map((post: PostType) => post.postTitle);
-            const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
-            const maps = [
-               'Dust2',
-               'Inferno',
-               'Mirage',
-               'Nuke',
-               'Ancient',
-               'Anubis',
-               'Vertigo',
-               'Overpass',
-            ];
-            setSuggestions((prevSuggestions) => [
-               ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
-            ]);
-         })
-         .catch((err) => {
-            console.log(err);
+               setNewPostsReady(true);
+               setIsLoading(false);
+            }, delay);
+         } else {
             setHasMore(false);
             setIsLoading(false);
-         });
+         }
+
+         const titles = res.data.map((post: PostType) => post.postTitle);
+         const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
+         const maps = [
+            'Dust2',
+            'Inferno',
+            'Mirage',
+            'Nuke',
+            'Ancient',
+            'Anubis',
+            'Vertigo',
+            'Overpass',
+         ];
+         setSuggestions((prevSuggestions) => [
+            ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
+         ]);
+      } catch (err) {
+         console.log(err);
+         setHasMore(false);
+         setIsLoading(false);
+      }
    };
 
-   const getSuggestions = () => {
-      axios
-         .get(`/post/CS2`)
-         .then((res) => {
-            setIsLoading(false);
-            const titles = res.data.map((post: PostType) => post.postTitle);
-            const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
-            const maps = [
-               'Dust2',
-               'Inferno',
-               'Mirage',
-               'Nuke',
-               'Ancient',
-               'Anubis',
-               'Vertigo',
-               'Overpass',
-            ];
-            setSuggestions((prevSuggestions) => [
-               ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
-            ]);
-         })
-         .catch((err) => {
-            console.log(err);
-         });
+   const getSuggestions = async () => {
+      try {
+         const res = await axios.get(`/post/CS2`);
+         const titles = res.data.map((post: PostType) => post.postTitle);
+         const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
+         const maps = [
+            'Dust2',
+            'Inferno',
+            'Mirage',
+            'Nuke',
+            'Ancient',
+            'Anubis',
+            'Vertigo',
+            'Overpass',
+         ];
+         setSuggestions((prevSuggestions) => [
+            ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
+         ]);
+      } catch (err) {
+         console.log(err);
+      }
    };
 
    useEffect(() => {
@@ -155,7 +177,6 @@ const CS2: React.FC = () => {
                      <Carousel images={CS2_MAPS} />
                   </div>
                </div>
-               {/* TODO: STYLING BELOW */}
                <h1 className="text-3xl font-bold text-center mt-10 mb-5">
                   Recently added Lineups
                </h1>
@@ -166,6 +187,12 @@ const CS2: React.FC = () => {
                         key={post.landingPosition.asset_id}
                      />
                   ))}
+                  {isLoading &&
+                     (newPostsReady
+                        ? null
+                        : Array(10)
+                             .fill(null)
+                             .map((_, index) => <PostSkeleton key={index} />))}
                </article>
             </main>
          </div>
