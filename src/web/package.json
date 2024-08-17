@@ -15,7 +15,7 @@
     "@fontsource/inter": "^5.0.19",
     "@fontsource/roboto": "^5.0.13",
     "@tailwindcss/forms": "^0.5.7",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "cors": "^2.8.5",
     "debounce": "^2.1.0",
     "express-session": "^1.18.0",
