@@ -54,6 +54,12 @@ jobs:
 
     - name: Wait for Services
       run: sleep 60
+
+    - name: Wait for MongoDB
+      run: |
+        while ! docker compose logs lineupx_api | grep -q "database connected"; do
+          sleep 5
+        done
     
     - name: Check Docker Compose Logs
       run: docker compose logs
