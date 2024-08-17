@@ -21,19 +21,27 @@ export default function useValorant() {
 
    // MAPS
    const [allMaps, setAllMaps] = useState<ValorantMaps>();
+   const [isLoading, setIsLoading] = useState(true); // Loading state
 
    useEffect(() => {
+      setIsLoading(true); // Set loading to true when fetching begins
+
       // GET AGENTS
       axios
          .get('https://valorant-api.com/v1/agents?isPlayableCharacter=true')
          .then((response) => {
             setAllAgents(response.data);
-            console.log(response.data);
          });
+
       // GET MAPS
-      axios.get('https://valorant-api.com/v1/maps').then((response) => {
-         setAllMaps(response.data);
-      });
+      axios
+         .get('https://valorant-api.com/v1/maps')
+         .then((response) => {
+            setAllMaps(response.data);
+         })
+         .finally(() => {
+            setIsLoading(false); // Set loading to false when fetching is complete
+         });
    }, []);
 
    return {
@@ -41,5 +49,6 @@ export default function useValorant() {
       agentDetails,
       setAgentDetails,
       allMaps,
+      isLoading, // Return the loading state
    };
 }

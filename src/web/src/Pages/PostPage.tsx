@@ -1,18 +1,27 @@
 import { useState, useEffect, useContext } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
-import { WidePosts, Comments, Layout } from '../Components';
+import {
+   Layout,
+   WidePosts,
+   Comments,
+   SharePopup,
+   PostPageSkeleton,
+} from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
 import { AuthContext } from '../App';
 import {
    incrementLikeCount,
    incrementDislikeCount,
+   removeLike,
+   removeDislike,
 } from '../Components/post/helper';
 import { getUserByID } from '../util/getUser';
 import { getPostByMap } from '../util/getPost';
 import { follow } from '../util/followStatus';
 import axios from 'axios';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
+import { FaShare } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
@@ -31,6 +40,8 @@ const PostPage = () => {
    const location = useLocation();
    const postData = location.state?.postData;
    const [currPostData, setcurrPostData] = useState<PostType | null>(null);
+   const shareUrl = `${window.location.origin}/post/${postData?._id || currPostData?._id}`;
+   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
    const imagePositions = [
       postData?.landingPosition?.public_id ||
          currPostData?.landingPosition?.public_id,
@@ -65,6 +76,7 @@ const PostPage = () => {
    const [user, setUser] = useState<UserType>();
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
    const [isSaved, setIsSaved] = useState(false);
+   const [isLoading, setIsLoading] = useState(true);
    /*
    const handleGearClick = () => {
       setPopupVisible(!isPopupVisible);
@@ -280,6 +292,7 @@ const PostPage = () => {
 
    useEffect(() => {
       const fetchPostData = async () => {
+         setIsLoading(true);
          try {
             const response = await axios.get(`/post/detail/${game}/${id}`);
             setcurrPostData(response.data);
@@ -295,6 +308,8 @@ const PostPage = () => {
             );
          } catch (error) {
             console.error('Failed to fetch post data:', error);
+         } finally {
+            setIsLoading(false);
          }
       };
       if (Auth?.saved.includes(postData?._id || currPostData?._id)) {
@@ -313,10 +328,10 @@ const PostPage = () => {
             setFollowerCount(user.followers.length);
          });
          getPostByMap(postData.game, postData.mapName).then((posts) => {
-            let filter: PostType[] = [];
-            for (let i = 0; i < posts.length; i++) {
-               filter.push(posts[i].post!);
-            }
+            // Limit the number of related posts to 20
+            let filter: PostType[] = posts
+               .slice(0, 20)
+               .map((post) => post.post!);
             setRelatedPosts(filter);
          });
       } else {
@@ -327,14 +342,32 @@ const PostPage = () => {
             currPostData?.game ?? '',
             currPostData?.mapName ?? '',
          ).then((posts) => {
-            let filter: PostType[] = [];
-            for (let i = 0; i < posts.length; i++) {
-               filter.push(posts[i].post!);
-            }
+            let filter: PostType[] = posts
+               .slice(0, 20)
+               .map((post) => post.post!);
             setRelatedPosts(filter);
          });
       }
    }, [postData?.UserID || currPostData?.UserID]);
+
+   if (isLoading) {
+      return (
+         <>
+            <Layout>
+               <div
+                  style={{
+                     position: 'relative',
+                     width: '100%',
+                     backgroundColor: 'black',
+                     overflow: 'hidden',
+                  }}
+               >
+                  <PostPageSkeleton />;
+               </div>
+            </Layout>
+         </>
+      );
+   }
 
    return (
       <>
@@ -520,62 +553,119 @@ const PostPage = () => {
                      </div>
                      <div className="flex">
                         <div className="flex">
-                           <span>
-                              <AiOutlineLike
-                                 className={`text-white h-5 w-5 cursor-pointer ${
-                                    isLiked
-                                       ? 'animate-pulse text-yellow-500'
-                                       : 'fill-white'
-                                 }`}
+                           <div
+                              className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200"
+                              style={{
+                                 backgroundColor: '#212121',
+                                 transition: 'background-color 0.2s',
+                              }}
+                              onMouseEnter={(e) =>
+                                 (e.currentTarget.style.backgroundColor =
+                                    '#1a1a1a')
+                              }
+                              onMouseLeave={(e) =>
+                                 (e.currentTarget.style.backgroundColor =
+                                    '#212121')
+                              }
+                           >
+                              <span
+                                 className="flex items-center cursor-pointer"
                                  onClick={() => {
-                                    console.log(user_Id!);
-                                    incrementLikeCount(
-                                       postData?._id || currPostData?._id,
-                                       user_Id!,
-                                       postData?.game || currPostData?.game,
-                                    );
-                                    setIsLiked(true);
-                                    setIsDisliked(false);
+                                    if (isLiked) {
+                                       // Remove like
+                                       removeLike(
+                                          postData?._id || currPostData?._id,
+                                          user_Id!,
+                                          postData?.game || currPostData?.game,
+                                       );
+                                       setIsLiked(false);
+                                    } else {
+                                       // Add like
+                                       incrementLikeCount(
+                                          postData?._id || currPostData?._id,
+                                          user_Id!,
+                                          postData?.game || currPostData?.game,
+                                       );
+                                       setIsLiked(true);
+                                       setIsDisliked(false);
+                                    }
                                  }}
-                              />
-                           </span>
-                           <p className="mr-1">
-                              {(postData?.likes?.length ?? 0) ||
-                                 (currPostData?.likes?.length ?? 0)}
-                           </p>
-                        </div>
-                        <div className="flex">
-                           <span>
-                              <AiOutlineDislike
-                                 className={`text-white h-5 w-5 cursor-pointer ${
-                                    isDisliked
-                                       ? 'animate-pulse text-yellow-500'
-                                       : ''
-                                 }`}
+                              >
+                                 <AiOutlineLike
+                                    className={`text-white h-5 w-5 ${isLiked ? 'animate-pulse text-yellow-500' : 'fill-white'}`}
+                                 />
+                                 <p className="ml-1 text-white">
+                                    {(postData?.likes?.length ?? 0) ||
+                                       (currPostData?.likes?.length ?? 0)}
+                                 </p>
+                              </span>
+                              <span className="mx-2 text-white">|</span>
+                              <span
+                                 className="flex items-center cursor-pointer"
                                  onClick={() => {
-                                    incrementDislikeCount(
-                                       postData?._id || currPostData?._id,
-                                       user_Id!,
-                                       postData?.game || currPostData?.game,
-                                    );
-                                    setIsDisliked(true);
-                                    setIsLiked(false);
+                                    if (isDisliked) {
+                                       removeDislike(
+                                          postData?._id || currPostData?._id,
+                                          user_Id!,
+                                          postData?.game || currPostData?.game,
+                                       );
+                                       setIsDisliked(false);
+                                    } else {
+                                       incrementDislikeCount(
+                                          postData?._id || currPostData?._id,
+                                          user_Id!,
+                                          postData?.game || currPostData?.game,
+                                       );
+                                       setIsDisliked(true);
+                                       setIsLiked(false);
+                                    }
                                  }}
-                              />
-                           </span>
-                           <p className="mr-1">
-                              {(postData?.dislikes?.length ?? 0) ||
-                                 (currPostData?.dislikes?.length ?? 0)}
-                           </p>
+                              >
+                                 <AiOutlineDislike
+                                    className={`text-white h-5 w-5 ${isDisliked ? 'animate-pulse text-yellow-500' : ''}`}
+                                 />
+                                 <p className="ml-1 text-white">
+                                    {(postData?.dislikes?.length ?? 0) ||
+                                       (currPostData?.dislikes?.length ?? 0)}
+                                 </p>
+                              </span>
+                           </div>
                         </div>
                         <button
-                           className={`flex mt-[-2px] ${
-                              isSaved ? 'animate-pulse text-yellow-500' : ''
-                           }`}
+                           className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 bg-[#212121] hover:bg-[#1a1a1a]"
+                           onClick={() =>
+                              setIsSharePopupOpen(!isSharePopupOpen)
+                           }
+                        >
+                           <FaShare className="text-xl mr-1 text-white" />
+                           <span className="text-sm font-medium text-white">
+                              Share
+                           </span>
+                        </button>
+                        <button
+                           className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 ${isSaved ? 'animate-pulse bg-yellow-100' : ''}`}
+                           style={{
+                              backgroundColor: '#212121',
+                              transition: 'background-color 0.2s',
+                           }}
+                           onMouseEnter={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                 '#1a1a1a')
+                           }
+                           onMouseLeave={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                 '#212121')
+                           }
                            onClick={() => savePost()}
                         >
-                           <AiOutlineStar className="text-2xl" />
-                           <p>Save</p>
+                           <AiOutlineStar
+                              className={`text-xl mr-1 ${isSaved ? 'text-yellow-500' : 'text-white'}`}
+                           />
+                           <span
+                              className={`text-sm font-medium ${isSaved ? 'text-yellow-600' : 'text-white'}`}
+                           >
+                              Save
+                           </span>
                         </button>
                      </div>
                   </div>
@@ -657,6 +747,15 @@ const PostPage = () => {
                </div>
             </div>
          </Layout>
+         {isSharePopupOpen && (
+            <div className="absolute z-10 mt-2">
+               <SharePopup
+                  shareUrl={shareUrl}
+                  isOpen={isSharePopupOpen}
+                  onClose={() => setIsSharePopupOpen(false)}
+               />
+            </div>
+         )}
       </>
    );
 };
