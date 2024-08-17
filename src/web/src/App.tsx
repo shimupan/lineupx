@@ -47,6 +47,12 @@ import './App.css';
 const baseURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.baseURL = baseURL || 'http://localhost:1337';
 
+type FollowingType = {
+   type: string;
+   ref: string;
+   required: boolean;
+};
+
 type AuthContextType = {
    _id: string;
    setid: React.Dispatch<React.SetStateAction<string>>;
@@ -65,6 +71,8 @@ type AuthContextType = {
    setProfilePicture: React.Dispatch<React.SetStateAction<string>>;
    saved: string[];
    setSaved: React.Dispatch<React.SetStateAction<string[]>>;
+   following: FollowingType[];
+   setFollowing: React.Dispatch<React.SetStateAction<FollowingType[]>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -85,6 +93,7 @@ function App() {
    const [saved, setSaved] = useState<string[]>([]);
    const [accessTokenC] = useCookies('accessToken', '');
    const [refreshTokenC] = useCookies('refreshToken', '');
+   const [following, setFollowing] = useState<FollowingType[]>([]);
    const location = useLocation();
 
    // Login users
@@ -109,6 +118,7 @@ function App() {
                setid(response.data._id);
                setProfilePicture(response.data.ProfilePicture);
                setSaved(response.data.saved);
+               setFollowing(response.data.following);
             })
             .catch((error) => {
                return error;
@@ -140,6 +150,7 @@ function App() {
                username,
                ProfilePicture,
                Verified,
+               following,
                setAccessToken,
                setRefreshToken,
                setEmail,
@@ -149,6 +160,7 @@ function App() {
                setProfilePicture,
                saved,
                setSaved,
+               setFollowing,
             }}
          >
             <ScrollToTop />
