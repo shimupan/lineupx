@@ -50,7 +50,7 @@ jobs:
       run: docker build -t web ./src/web
 
     - name: Run Docker Compose Up
-      run: docker compose up --detach --wait --wait-timeout 30
+      run: docker compose up --detach --wait --wait-timeout 120
     
     - name: Check Docker Compose Logs
       run: docker compose logs
