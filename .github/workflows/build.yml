@@ -53,7 +53,7 @@ jobs:
       run: docker compose up --detach --wait --wait-timeout 30
 
     - name: Wait for Services
-      run: sleep 120
+      run: sleep 60
     
     - name: Check Docker Compose Logs
       run: docker compose logs
@@ -64,5 +64,5 @@ jobs:
     - name: Inspect Web Status
       run: curl -s http://localhost:5173
 
-    - name: Dump DB Data
-      run: docker exec lineupx_db mongo LineupX --eval 'db.users.find().pretty()'
+    - name: Test Query
+      run: curl -s http://loclahost:1337/user/ooccupate
