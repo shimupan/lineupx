@@ -7,12 +7,14 @@ import Cookies from 'universal-cookie';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { IoLogOut } from 'react-icons/io5';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { FollowingSideNav } from '../../../Components';
 
 type SideNavProps = {
    children: React.ReactNode;
 };
 
 export const SideNavContext = createContext<boolean>(true);
+
 const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
@@ -63,7 +65,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
       return () => window.removeEventListener('resize', handleResize);
    }, []);
 
-   // Do not render the SideNav component on mobile
    if (isMobile) {
       return null;
    }
@@ -98,7 +99,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      className="p-1.5 rounded-lg bg-gray-300 hover:bg-gray-300 text-white text-2xl block md:hidden"
                      onClick={() => {
                         setExpanded((curr) => !curr);
-                        console.log(expanded);
                      }}
                   >
                      {expanded ? <FaAngleLeft /> : <GiHamburgerMenu />}
@@ -111,7 +111,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                   } border-t flex p-3 position-relative`}
                >
                   <div style={{ position: 'absolute', top: '5', left: '10' }}>
-                     {' '}
                      <Link
                         to={`/user/${
                            Auth?.username ? Auth?.username : 'Guest'
@@ -126,6 +125,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                                    }`
                            }
                            className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
+                           alt="User avatar"
                         />
                      </Link>
                   </div>
@@ -165,6 +165,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      {children}
                   </ul>
                </SideNavContext.Provider>
+               {expanded && <FollowingSideNav />}
             </nav>
          </aside>
       </>
