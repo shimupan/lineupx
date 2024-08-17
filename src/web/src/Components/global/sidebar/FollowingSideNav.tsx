@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../../App';
+import { SideNavContext } from './SideNav';
 
-const FollowersSidebar: React.FC = () => {
+const FollowingSideNav: React.FC = () => {
    const [followingUsers, setFollowingUsers] = useState<
       {
          id: string;
@@ -13,6 +14,7 @@ const FollowersSidebar: React.FC = () => {
       }[]
    >([]);
    const Auth = useContext(AuthContext);
+   const expanded = useContext(SideNavContext);
 
    useEffect(() => {
       const fetchFollowingUsers = async () => {
@@ -36,9 +38,11 @@ const FollowersSidebar: React.FC = () => {
 
    return (
       <div className="mt-4">
-         <h3 className="text-white text-sm font-semibold mb-2 px-3">
-            Followers
-         </h3>
+         {expanded && (
+            <h3 className="text-white text-sm font-semibold mb-2 px-3">
+               Following
+            </h3>
+         )}
          <ul>
             {followingUsers.map((follower) => (
                <li key={follower.id} className="px-3 py-2 hover:bg-[#190527]">
@@ -54,9 +58,11 @@ const FollowersSidebar: React.FC = () => {
                         alt={follower.username}
                         className="w-6 h-6 rounded-full mr-2"
                      />
-                     <span className="text-white text-sm">
-                        {follower.username}
-                     </span>
+                     {expanded && (
+                        <span className="text-white text-sm">
+                           {follower.username}
+                        </span>
+                     )}
                   </Link>
                </li>
             ))}
@@ -65,4 +71,4 @@ const FollowersSidebar: React.FC = () => {
    );
 };
 
-export default FollowersSidebar;
+export default FollowingSideNav;

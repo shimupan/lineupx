@@ -7,7 +7,6 @@ import Cookies from 'universal-cookie';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { IoLogOut } from 'react-icons/io5';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { FollowingSideNav } from '../../../Components';
 
 type SideNavProps = {
    children: React.ReactNode;
@@ -157,15 +156,10 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                   </div>
                </div>
                <SideNavContext.Provider value={expanded}>
-                  <ul
-                     className={`${
-                        expanded ? '' : 'hidden'
-                     } md:inline flex-1 px-3`}
-                  >
+                  <ul className={`${expanded ? '' : 'hidden'} md:inline flex-1 px-3`}>
                      {children}
                   </ul>
                </SideNavContext.Provider>
-               {expanded && <FollowingSideNav />}
             </nav>
          </aside>
       </>
