@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CDN_URL } from '../../Constants';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 interface PreviewImageProps {
    images: string[];
-   currentImage: number;
    onClick: () => void;
 }
 
-const PreviewImage: React.FC<PreviewImageProps> = ({
-   images,
-   currentImage,
-   onClick,
-}) => {
-   const [isAnimating, setIsAnimating] = useState(false);
+const PreviewImage: React.FC<PreviewImageProps> = ({ images, onClick }) => {
+   const [currentImage, setCurrentImage] = useState(0);
 
-   useEffect(() => {
-      setIsAnimating(true);
-      const timeout = setTimeout(() => {
-         setIsAnimating(false);
-      }, 500);
+   const handlePrevClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
+   };
 
-      return () => clearTimeout(timeout);
-   }, [currentImage]);
+   const handleNextClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setCurrentImage((prev) => (prev + 1) % images.length);
+   };
 
    return (
       <div
@@ -32,12 +29,22 @@ const PreviewImage: React.FC<PreviewImageProps> = ({
             <img
                src={`${CDN_URL}/${images[currentImage]}`}
                alt="Preview"
-               className={`max-w-full max-h-full object-contain transition-all duration-500 ${
-                  isAnimating
-                     ? 'opacity-0 transform scale-95'
-                     : 'opacity-100 transform scale-100'
-               }`}
+               className="max-w-full max-h-full object-contain"
             />
+            <div className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-2">
+               <FaArrowLeft
+                  className="text-white cursor-pointer"
+                  size={24}
+                  onClick={handlePrevClick}
+               />
+            </div>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-2">
+               <FaArrowRight
+                  className="text-white cursor-pointer"
+                  size={24}
+                  onClick={handleNextClick}
+               />
+            </div>
          </div>
       </div>
    );

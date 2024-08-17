@@ -5,6 +5,7 @@ import {
    PreviewImage,
    ReportPopup,
    PostOptionBar,
+   SharePopup,
 } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import axios from 'axios';
@@ -31,18 +32,15 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       left: 0,
    });
    const [showOptions, setShowOptions] = useState(false);
-   const onShare = () => {
-      copyPostLinkToClipboard();
-      setShowOptions(false);
-   };
+   const [showReportPopup, setShowReportPopup] = useState(false);
+   const [showSharePopup, setShowSharePopup] = useState(false);
+   const [valorantAgents, setValorantAgents] = useState<ValorantAgent['data']>(
+      [],
+   );
    const onReport = () => {
       setShowReportPopup(true);
       setShowOptions(false);
    };
-   const [showReportPopup, setShowReportPopup] = useState(false);
-   const [valorantAgents, setValorantAgents] = useState<ValorantAgent['data']>(
-      [],
-   );
    const [user, setUser] = useState<UserType>();
    const navigate = useNavigate();
    const Auth = useContext(AuthContext);
@@ -100,17 +98,9 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       postData.ability,
    );
 
-   const copyPostLinkToClipboard = async () => {
-      const postUrl = `${window.location.origin}/game/${
-         postData.game
-      }/${encodeURIComponent(postData._id)}`;
-
-      try {
-         await navigator.clipboard.writeText(postUrl);
-         alert('Link copied to clipboard!');
-      } catch (err) {
-         console.error('Failed to copy: ', err);
-      }
+   const onShare = () => {
+      setShowSharePopup(true);
+      setShowOptions(false);
    };
 
    return (
@@ -218,7 +208,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                {isHovering && (
                   <PreviewImage
                      images={images}
-                     currentImage={currentImage}
                      onClick={async () => {
                         navigate(`/game/${postData.game}/${postData._id}`, {
                            state: { postData },
@@ -339,6 +328,13 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
                   left: optionsBarPosition.left,
                   width: '150px',
                }}
+            />
+         )}
+         {showSharePopup && (
+            <SharePopup
+               shareUrl={`${window.location.origin}/game/${postData.game}/${encodeURIComponent(postData._id)}`}
+               isOpen={showSharePopup}
+               onClose={() => setShowSharePopup(false)}
             />
          )}
       </>
