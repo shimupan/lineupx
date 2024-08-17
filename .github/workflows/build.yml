@@ -1,9 +1,11 @@
-name: Building Application
+name: LineupX CI
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build_web:
@@ -22,7 +24,7 @@ jobs:
       run: npm install
       working-directory: src/web
 
-    - name: Run build
+    - name: Run Build
       run: npm run build
       working-directory: src/web
   
@@ -33,6 +35,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    - name: Run Setup Script
+      run: |
+        chmod +x scripts/setup.sh
+        ./scripts/setup.sh
+
     - name: Build API Image
       run: docker build -t api ./src/api
 
@@ -40,19 +47,22 @@ jobs:
       run: docker build -t web ./src/web
 
     - name: Run Docker Compose Up
-      run: docker compose up -d
+      run: docker compose up --detach --wait --wait-timeout 30
+
+    - name: Wait for DB
+      run: |
+        while ! docker compose logs lineupx_api | grep -q "database connected"; do
+          sleep 5
+        done
     
     - name: Check Docker Compose Logs
       run: docker compose logs
-    
-    - name: Inspect Docker Compose Services
-      run: |
-        services=("lineupx_db" "lineupx_api" "lineupx_web")
-        for service in "${services[@]}"; do
-          if ! docker compose ps $service | grep -q "Up"; then
-            echo "Service $service is not running as expected"
-            exit 1
-          else
-            echo "Service $service is running"
-          fi
-        done
+
+    - name: Inspect API Status
+      run: curl -s http://localhost:1337
+
+    - name: Inspect Web Status
+      run: curl -s http://localhost:5173
+
+    - name: Test Query
+      run: curl -s http://localhost:1337/user/ooccupate
