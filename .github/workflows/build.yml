@@ -40,8 +40,8 @@ jobs:
         chmod +x scripts/setup.sh
         ./scripts/setup.sh
     
-    - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.11.0
+    #- name: Start MongoDB
+    #  uses: supercharge/mongodb-github-action@1.11.0
 
     - name: Build API Image
       run: docker build -t api ./src/api
