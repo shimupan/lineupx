@@ -24,7 +24,7 @@ import {
    CS2Maps,
    AdminHome,
    AdminUsers,
-   AdminPosts
+   AdminPosts,
    AdminCheck,
    AdminModifyUser,
    AdminModifyPost,
