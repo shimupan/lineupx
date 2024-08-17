@@ -6,12 +6,13 @@ check_and_copy_env() {
 
   if [ ! -f .env ]; then
     cp .env.example .env
+  fi
 
   cd - > /dev/null || exit 1
 }
 
 # Navigate to src/api and check .env
-check_and_copy_env "src/api"
+check_and_copy_env "../src/api"
 
 # Navigate to src/web and check .env
-check_and_copy_env "src/web"
+check_and_copy_env "../src/web"
