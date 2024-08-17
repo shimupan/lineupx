@@ -39,6 +39,9 @@ jobs:
       run: |
         chmod +x scripts/setup.sh
         ./scripts/setup.sh
+    
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.11.0
 
     - name: Build API Image
       run: docker build -t api ./src/api
@@ -48,9 +51,6 @@ jobs:
 
     - name: Run Docker Compose Up
       run: docker compose up --detach --wait --wait-timeout 30
-    
-    - name: Wait For Services To Start
-      run: sleep 60
     
     - name: Check Docker Compose Logs
       run: docker compose logs
