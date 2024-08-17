@@ -73,5 +73,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build_app
+    steps:
     - name: Test
       run: curl -s http://localhost:1337/user/ooccupate
