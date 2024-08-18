@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { SideNav, SideNavItems } from '../../../Components';
+import { SideNav, SideNavItems, FollowingSideNav } from '../../../Components';
 import { AuthContext } from '../../../App';
 import { MdOutlineSettings, MdHome } from 'react-icons/md';
 import { RiAdminFill } from 'react-icons/ri';
@@ -17,9 +17,11 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
    const [activeItem, setActiveItem] = useState<string>('/');
    const navigate = useNavigate();
    const location = useLocation();
+
    useEffect(() => {
       setActiveItem(location.pathname);
    }, [location.pathname]);
+
    const handleClick = (item: string) => {
       navigate(item);
    };
@@ -95,6 +97,10 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                   active={activeItem === '/about'}
                   onClick={() => handleClick('/about')}
                />
+
+               {/* Add a separator before the Following section */}
+               <div className="border-t border-gray-700 my-4"></div>
+               <FollowingSideNav />
             </SideNav>
          </div>
       </>

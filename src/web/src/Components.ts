@@ -77,4 +77,5 @@ export { default as SharePopup } from './Components/post/SharePopup';
 export { default as MapSelectionSkeleton } from './Components/game/MapSelectionSkeleton';
 export { default as ServerStatusBannner } from './Components/global/ServerStatusBanner';
 export { default as Layout } from './Components/global/Layout';
+export { default as FollowingSideNav } from './Components/global/sidebar/FollowingSideNav';
 export { default as PostPageSkeleton } from './Components/post/PostPageSkeleton';
