@@ -433,7 +433,7 @@ const ProfilePage = () => {
                                     ) : (
                                        <div className="flex flex-col items-center justify-center h-screen">
                                           <div className="text-center">
-                                          <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
+                                             <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
                                              <h2 className="text-2xl font-semibold mb-4">
                                                 No Posts Available
                                              </h2>
@@ -468,7 +468,7 @@ const ProfilePage = () => {
                         ) : (
                            <div className="flex flex-col items-center justify-center h-screen">
                               <div className="text-center">
-                              <FaSave className="text-6xl mx-auto mb-4" />
+                                 <FaSave className="text-6xl mx-auto mb-4" />
                                  <h2 className="text-2xl font-semibold mb-4">
                                     Save
                                  </h2>

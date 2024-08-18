@@ -93,21 +93,22 @@ select {
 
 @layer utilities {
    .scrollbar-thin {
-     scrollbar-width: thin;
-     scrollbar-color: theme('colors.scrollbar-thumb') theme('colors.scrollbar-track');
+      scrollbar-width: thin;
+      scrollbar-color: theme('colors.scrollbar-thumb')
+         theme('colors.scrollbar-track');
    }
- 
+
    .scrollbar-thin::-webkit-scrollbar {
-     width: 8px;
+      width: 8px;
    }
- 
+
    .scrollbar-thin::-webkit-scrollbar-track {
-     background: theme('colors.scrollbar-track');
+      background: theme('colors.scrollbar-track');
    }
- 
+
    .scrollbar-thin::-webkit-scrollbar-thumb {
-     background-color: theme('colors.scrollbar-thumb');
-     border-radius: 20px;
-     border: 3px solid theme('colors.scrollbar-track');
+      background-color: theme('colors.scrollbar-thumb');
+      border-radius: 20px;
+      border: 3px solid theme('colors.scrollbar-track');
    }
- }
+}
