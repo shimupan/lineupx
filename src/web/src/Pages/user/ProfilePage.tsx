@@ -15,12 +15,13 @@ import { GAMES } from '../../Constants';
 import { AuthContext } from '../../App';
 import { UserType, PostType } from '../../global.types';
 import { sendVerificationEmail } from '../../util/sendVerificationEmail';
-import { CiEdit } from 'react-icons/ci';
+// import { CiEdit } from 'react-icons/ci';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
-import { FaRegSave, FaRegNewspaper } from 'react-icons/fa';
+import { FaRegSave, FaRegNewspaper, FaSave } from 'react-icons/fa';
+import { MdOutlineVideogameAsset } from 'react-icons/md';
 
 const ProfilePage = () => {
    const { id } = useParams<{ id: string }>();
@@ -305,13 +306,13 @@ const ProfilePage = () => {
                               {Auth?.username === user.username && (
                                  <>
                                     <div className="flex items-center justify-center space-x-4">
-                                       <button
-                                          className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Adjusted padding to match
-                                          onClick={() => setOpen(!open)}
-                                       >
-                                          <CiEdit className="text-white mr-2" />
-                                          Edit Profile
-                                       </button>
+                                       {/* <button
+                                             className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Adjusted padding to match
+                                             onClick={() => setOpen(!open)}
+                                          >
+                                             <CiEdit className="text-white mr-2" />
+                                             Edit Profile
+                                          </button> */}
                                        <button
                                           className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Made padding consistent with the first button
                                           onClick={() =>
@@ -432,6 +433,7 @@ const ProfilePage = () => {
                                     ) : (
                                        <div className="flex flex-col items-center justify-center h-screen">
                                           <div className="text-center">
+                                          <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
                                              <h2 className="text-2xl font-semibold mb-4">
                                                 No Posts Available
                                              </h2>
@@ -466,6 +468,7 @@ const ProfilePage = () => {
                         ) : (
                            <div className="flex flex-col items-center justify-center h-screen">
                               <div className="text-center">
+                              <FaSave className="text-6xl mx-auto mb-4" />
                                  <h2 className="text-2xl font-semibold mb-4">
                                     Save
                                  </h2>

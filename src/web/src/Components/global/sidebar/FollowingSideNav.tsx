@@ -13,6 +13,7 @@ const FollowingSideNav: React.FC = () => {
          isFollowing: boolean;
       }[]
    >([]);
+   const [showAll, setShowAll] = useState(false);
    const Auth = useContext(AuthContext);
    const expanded = useContext(SideNavContext);
 
@@ -28,6 +29,13 @@ const FollowingSideNav: React.FC = () => {
                ProfilePicture: user.ProfilePicture,
                isFollowing: true,
             }));
+
+            if (users.length > 1) {
+               const secondUser = users[1];
+               for (let i = 0; i < 20; i++) {
+                  users.push({ ...secondUser, id: `${secondUser.id}-${i}` });
+               }
+            }
             setFollowingUsers(users);
          } catch (error) {
             console.error(error);
@@ -35,6 +43,14 @@ const FollowingSideNav: React.FC = () => {
       };
       fetchFollowingUsers();
    }, [Auth?.following]);
+
+   useEffect(() => {
+      if (!expanded) {
+         setShowAll(false);
+      }
+   }, [expanded]);
+
+   const displayedUsers = showAll ? followingUsers : followingUsers.slice(0, 7);
 
    return (
       <div className="mt-4">
@@ -44,7 +60,7 @@ const FollowingSideNav: React.FC = () => {
             </h3>
          )}
          <ul>
-            {followingUsers.map((follower) => (
+            {displayedUsers.map((follower) => (
                <li key={follower.id} className="px-3 py-2 hover:bg-[#190527]">
                   <Link
                      to={`/user/${follower.username}`}
@@ -67,6 +83,14 @@ const FollowingSideNav: React.FC = () => {
                </li>
             ))}
          </ul>
+         {followingUsers.length > 7 && expanded && (
+            <button
+               className="text-white text-sm px-3 py-2 hover:bg-[#190527] w-full text-left"
+               onClick={() => setShowAll(!showAll)}
+            >
+               {showAll ? 'Show less' : 'Show more'}
+            </button>
+         )}
       </div>
    );
 };

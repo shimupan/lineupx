@@ -4,7 +4,7 @@ import { useCookies } from '../../hooks';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../assets/lineupx_compact.webp';
-import { FaUserCircle, FaSignOutAlt, FaUpload } from 'react-icons/fa';
+import { FaUserCircle, FaSignOutAlt, FaUpload, FaEdit } from 'react-icons/fa';
 import { MdAdminPanelSettings } from 'react-icons/md';
 
 const Header: React.FC = () => {
@@ -122,6 +122,13 @@ const Header: React.FC = () => {
                                  >
                                     <FaUserCircle className="mr-2 text-xl" />
                                     View Profile
+                                 </Link>
+                                 <Link
+                                    to={`/manage-posts/${Auth.username}`}
+                                    className="block px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                 >
+                                    <FaEdit className="mr-2 text-xl" />
+                                    Post Studio
                                  </Link>
                                  <button
                                     onClick={logout}

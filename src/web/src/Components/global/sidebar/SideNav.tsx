@@ -156,9 +156,11 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                   </div>
                </div>
                <SideNavContext.Provider value={expanded}>
-                  <ul className={`${expanded ? '' : 'hidden'} md:inline flex-1 px-3`}>
-                     {children}
-                  </ul>
+                  <div
+                     className={`flex-1 overflow-y-auto scrollbar-thin ${expanded ? '' : 'hidden'} md:inline`}
+                  >
+                     <ul className="px-3">{children}</ul>
+                  </div>
                </SideNavContext.Provider>
             </nav>
          </aside>

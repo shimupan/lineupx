@@ -11,12 +11,11 @@ type ProfileEditProps = {
 
 const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
    const [newUsername, setNewUsername] = useState(user.username);
-   const [newEmail, setNewEmail] = useState(user.email);
 
    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
       const id = toast.loading('Saving Changes...');
-      if (newUsername === user.username && newEmail === user.email) {
+      if (newUsername === user.username) {
          toast.update(id, {
             render: 'No changes detected.',
             type: 'info',
@@ -30,7 +29,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
          .post('/user/update', {
             user: user,
             newUsername: newUsername,
-            newEmail: newEmail,
          })
          .then((response) => {
             toast.update(id, {
@@ -53,6 +51,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
    }
 
    return (
+      <>
       <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg">
             <div className="flex justify-between items-center">
@@ -88,21 +87,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
                      className="text-gray-700 mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                   />
                </div>
-               <div className="mb-4">
-                  <label
-                     htmlFor="email"
-                     className="block text-sm font-medium text-gray-700"
-                  >
-                     Confirm your Email
-                  </label>
-                  <input
-                     type="email"
-                     id="email"
-                     value={newEmail}
-                     onChange={(e) => setNewEmail(e.target.value)}
-                     className="text-gray-700 mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                  />
-               </div>
                <button
                   type="submit"
                   className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
@@ -111,8 +95,9 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ user, setOpen }) => {
                </button>
             </form>
          </div>
-         <ToastContainer position="top-center" />
       </div>
+      <ToastContainer position="top-center" />
+      </>
    );
 };
 
