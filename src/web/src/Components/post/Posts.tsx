@@ -69,11 +69,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
          setUser(response);
       });
 
-      const interval = setInterval(() => {
-         setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-      }, 1000);
-
-      return () => clearInterval(interval); // Clean up on component unmount
    }, [currentImage]);
 
    const valorantAgentIcon = valorantAgents.find(
