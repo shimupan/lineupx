@@ -52,7 +52,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    const handleMouseLeave = () => {
       setIsHovering(false);
    };
-   const [currentImage, setCurrentImage] = useState(0);
+   //const [currentImage, setCurrentImage] = useState(0);
    const images = [
       postData.landingPosition.public_id,
       postData.standingPosition.public_id,
@@ -69,7 +69,7 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
          setUser(response);
       });
 
-   }, [currentImage]);
+   }, []);
 
    const valorantAgentIcon = valorantAgents.find(
       (agent) =>
