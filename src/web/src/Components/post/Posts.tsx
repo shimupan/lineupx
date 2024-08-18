@@ -68,7 +68,6 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
       getUserByID(postData.UserID).then((response) => {
          setUser(response);
       });
-
    }, []);
 
    const valorantAgentIcon = valorantAgents.find(
