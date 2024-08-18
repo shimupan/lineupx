@@ -135,7 +135,7 @@ const ProfilePage = () => {
             setLoading(false);
          });
    }, [id]);
-   
+
    function handleVerification() {
       const id = toast.loading('Sending verification email...');
       sendVerificationEmail(user).then((response) => {
