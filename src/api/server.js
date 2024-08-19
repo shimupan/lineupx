@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { mongo } from './config/index.js';
-import { auth, user, post, comment, replies, health } from './routes/index.js';
+import { auth, user, post, comment, replies, health, leaderboard} from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
 
@@ -35,6 +35,7 @@ app.use(post);
 app.use(comment);
 app.use(replies);
 app.use(health);
+app.use(leaderboard);
 app.use(passport.initialize());
 app.use(passport.session());
 
