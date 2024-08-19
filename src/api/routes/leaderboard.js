@@ -7,8 +7,7 @@ const router = express.Router();
 
 router.get('/leaderboard', async (req, res) => {
     try {
-       const games = await mongoose.connection.db.listCollections().toArray();
-       const gameNames = games.map(game => game.name).filter(name => name.endsWith('PostData'));
+       const gameNames = ['CS2', 'Valorant'];
  
        let userPostCounts = {};
  
