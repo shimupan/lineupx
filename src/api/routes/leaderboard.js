@@ -76,4 +76,55 @@ router.get('/leaderboard', async (req, res) => {
     }
  });
 
+router.get('/leaderboard/position/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const gameNames = ['CS2', 'Valorant'];
+
+        let userPostCounts = {};
+
+        for (const gameName of gameNames) {
+            const PostData = mongoose.model('PostData', PostDataSchema, gameName);
+            
+            const postCounts = await PostData.aggregate([
+                { $match: { approved: true } },
+                {
+                    $group: {
+                        _id: '$UserID',
+                        totalPosts: { $sum: 1 }
+                    }
+                }
+            ]);
+
+            postCounts.forEach(count => {
+                const id = count._id.toString();
+                userPostCounts[id] = (userPostCounts[id] || 0) + count.totalPosts;
+            });
+        }
+
+        const sortedUsers = Object.entries(userPostCounts)
+            .sort(([, a], [, b]) => b - a)
+            .map(([id, posts]) => ({ id, posts }));
+
+        const userPosition = sortedUsers.findIndex(user => user.id === userId) + 1;
+
+        if (userPosition === 0) {
+            return res.status(404).json({ message: 'User not found on leaderboard' });
+        }
+
+        const user = await User.findById(userId, 'username ProfilePicture');
+
+        res.json({
+            position: userPosition,
+            username: user.username,
+            ProfilePicture: user.ProfilePicture,
+            totalPosts: userPostCounts[userId] || 0
+        });
+
+    } catch (error) {
+        console.error('Error fetching user leaderboard position:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 export default router;
