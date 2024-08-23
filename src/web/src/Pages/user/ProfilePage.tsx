@@ -8,18 +8,17 @@ import {
    FollowerPopup,
    FollowingPopup,
    UnapprovedPostsPopup,
+   LeaderboardPosition,
+   VerificationMessage,
 } from '../../Components';
 import { getUserByUsername } from '../../util/getUser';
 import { follow } from '../../util/followStatus';
 import { GAMES } from '../../Constants';
 import { AuthContext } from '../../App';
 import { UserType, PostType } from '../../global.types';
-import { sendVerificationEmail } from '../../util/sendVerificationEmail';
-// import { CiEdit } from 'react-icons/ci';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { RiUserFollowLine } from 'react-icons/ri';
-import { RiUserUnfollowFill } from 'react-icons/ri';
+import { RiUserFollowLine, RiUserUnfollowFill } from 'react-icons/ri';
 import { FaRegSave, FaRegNewspaper, FaSave } from 'react-icons/fa';
 import { MdOutlineVideogameAsset } from 'react-icons/md';
 
@@ -135,12 +134,6 @@ const ProfilePage = () => {
             setLoading(false);
          });
    }, [id]);
-   function handleVerification() {
-      const id = toast.loading('Sending verification email...');
-      sendVerificationEmail(user).then((response) => {
-         toast.update(id, response);
-      });
-   }
 
    const handleFollowers = async () => {
       follow(user._id, Auth?._id!).then((response) => {
@@ -259,6 +252,7 @@ const ProfilePage = () => {
                                  <h1 className="text-4xl font-bold">
                                     {user.username}
                                  </h1>
+                                 <LeaderboardPosition userId={user._id} />
                                  {Auth?.username &&
                                     Auth?.username !== user.username && (
                                        <button
@@ -331,19 +325,7 @@ const ProfilePage = () => {
                            </div>
                         </div>
                         {!verified && Auth?.username === user.username && (
-                           <div className="max-w-2xl mx-auto bg-red-600 text-white shadow-lg rounded-lg p-4">
-                              <p className="font-bold">Verification Needed</p>
-                              <p>
-                                 Your account is not verified. Please check your
-                                 email to verify your account.
-                              </p>
-                              <button
-                                 className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                 onClick={handleVerification}
-                              >
-                                 Send Verification Email
-                              </button>
-                           </div>
+                           <VerificationMessage user={user} />
                         )}
                      </div>
                   </div>

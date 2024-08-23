@@ -80,3 +80,5 @@ export { default as ServerStatusBannner } from './Components/global/ServerStatus
 export { default as Layout } from './Components/global/Layout';
 export { default as FollowingSideNav } from './Components/global/sidebar/FollowingSideNav';
 export { default as PostPageSkeleton } from './Components/post/PostPageSkeleton';
+export { default as LeaderboardPosition } from './Components/profile/LeaderboardPosition';
+export { default as VerificationMessage } from './Components/profile/VerificationMessage';
