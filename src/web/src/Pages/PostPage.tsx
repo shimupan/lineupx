@@ -498,177 +498,171 @@ const PostPage = () => {
                   <div className="ml-2 text-lg font-bold text-center">
                      <p>{postData?.postTitle || currPostData?.postTitle}</p>
                   </div>
-                  <div className="flex justify-between ml-2 mr-2">
-                     <div className="flex">
-                        <div className="flex">
-                           <div>
-                              <Link
-                                 to={`/user/${
-                                    postData?.Username || currPostData?.Username
-                                 }`}
-                              >
-                                 <img
-                                    className="rounded-full cursor-pointer w-10 h-10"
-                                    src={`${user?.ProfilePicture}`}
-                                 />
-                              </Link>
-                           </div>
-                           <div className="flex flex-col ml-1">
-                              <Link
-                                 to={`/user/${
-                                    postData?.Username || currPostData?.Username
-                                 }`}
-                              >
-                                 <p className="cursor-pointer font-bold">
-                                    {postData?.Username ||
-                                       currPostData?.Username}
-                                 </p>
-                              </Link>
-                              <p className="text-sm text-gray-500">
-                                 {followerCount} followers
-                              </p>
-                           </div>
-                        </div>
-                        {Auth?.username &&
-                           Auth?.username !== user?.username && (
-                              <button
-                                 className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
-                                 onClick={handleFollowers}
-                              >
-                                 <div className="flex text-center items-center gap-x-1">
-                                    {followers?.has(Auth?._id!) ? (
-                                       <>
-                                          <RiUserUnfollowFill />
-                                          <p>Unfollow</p>
-                                       </>
-                                    ) : (
-                                       <>
-                                          <RiUserFollowLine />
-                                          <p>Follow</p>
-                                       </>
-                                    )}
-                                 </div>
-                              </button>
-                           )}
-                     </div>
-                     <div className="flex">
-                        <div className="flex">
-                           <div
-                              className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200"
-                              style={{
-                                 backgroundColor: '#212121',
-                                 transition: 'background-color 0.2s',
-                              }}
-                              onMouseEnter={(e) =>
-                                 (e.currentTarget.style.backgroundColor =
-                                    '#1a1a1a')
-                              }
-                              onMouseLeave={(e) =>
-                                 (e.currentTarget.style.backgroundColor =
-                                    '#212121')
-                              }
-                           >
-                              <span
-                                 className="flex items-center cursor-pointer"
-                                 onClick={() => {
-                                    if (isLiked) {
-                                       // Remove like
-                                       removeLike(
-                                          postData?._id || currPostData?._id,
-                                          user_Id!,
-                                          postData?.game || currPostData?.game,
-                                       );
-                                       setIsLiked(false);
-                                    } else {
-                                       // Add like
-                                       incrementLikeCount(
-                                          postData?._id || currPostData?._id,
-                                          user_Id!,
-                                          postData?.game || currPostData?.game,
-                                       );
-                                       setIsLiked(true);
-                                       setIsDisliked(false);
-                                    }
-                                 }}
-                              >
-                                 <AiOutlineLike
-                                    className={`text-white h-5 w-5 ${isLiked ? 'animate-pulse text-yellow-500' : 'fill-white'}`}
-                                 />
-                                 <p className="ml-1 text-white">
-                                    {(postData?.likes?.length ?? 0) ||
-                                       (currPostData?.likes?.length ?? 0)}
-                                 </p>
-                              </span>
-                              <span className="mx-2 text-white">|</span>
-                              <span
-                                 className="flex items-center cursor-pointer"
-                                 onClick={() => {
-                                    if (isDisliked) {
-                                       removeDislike(
-                                          postData?._id || currPostData?._id,
-                                          user_Id!,
-                                          postData?.game || currPostData?.game,
-                                       );
-                                       setIsDisliked(false);
-                                    } else {
-                                       incrementDislikeCount(
-                                          postData?._id || currPostData?._id,
-                                          user_Id!,
-                                          postData?.game || currPostData?.game,
-                                       );
-                                       setIsDisliked(true);
-                                       setIsLiked(false);
-                                    }
-                                 }}
-                              >
-                                 <AiOutlineDislike
-                                    className={`text-white h-5 w-5 ${isDisliked ? 'animate-pulse text-yellow-500' : ''}`}
-                                 />
-                                 <p className="ml-1 text-white">
-                                    {(postData?.dislikes?.length ?? 0) ||
-                                       (currPostData?.dislikes?.length ?? 0)}
-                                 </p>
-                              </span>
-                           </div>
-                        </div>
-                        <button
-                           className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 bg-[#212121] hover:bg-[#1a1a1a]"
-                           onClick={() =>
-                              setIsSharePopupOpen(!isSharePopupOpen)
-                           }
-                        >
-                           <FaShare className="text-xl mr-1 text-white" />
-                           <span className="text-sm font-medium text-white">
-                              Share
-                           </span>
-                        </button>
-                        <button
-                           className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 ${isSaved ? 'animate-pulse bg-yellow-100' : ''}`}
-                           style={{
-                              backgroundColor: '#212121',
-                              transition: 'background-color 0.2s',
-                           }}
-                           onMouseEnter={(e) =>
-                              (e.currentTarget.style.backgroundColor =
-                                 '#1a1a1a')
-                           }
-                           onMouseLeave={(e) =>
-                              (e.currentTarget.style.backgroundColor =
-                                 '#212121')
-                           }
-                           onClick={() => savePost()}
-                        >
-                           <AiOutlineStar
-                              className={`text-xl mr-1 ${isSaved ? 'text-yellow-500' : 'text-white'}`}
-                           />
-                           <span
-                              className={`text-sm font-medium ${isSaved ? 'text-yellow-600' : 'text-white'}`}
-                           >
-                              Save
-                           </span>
-                        </button>
-                     </div>
-                  </div>
+                  <div className="overflow-x-auto">
+  <div className="flex justify-between ml-2 mr-2 min-w-max">
+    <div className="flex">
+      <div className="flex">
+        <div>
+          <Link
+            to={`/user/${postData?.Username || currPostData?.Username}`}
+          >
+            <img
+              className="rounded-full cursor-pointer w-10 h-10"
+              src={`${user?.ProfilePicture}`}
+            />
+          </Link>
+        </div>
+        <div className="flex flex-col ml-1">
+          <Link
+            to={`/user/${postData?.Username || currPostData?.Username}`}
+          >
+            <p className="cursor-pointer font-bold">
+              {postData?.Username || currPostData?.Username}
+            </p>
+          </Link>
+          <p className="text-sm text-gray-500">
+            {followerCount} followers
+          </p>
+        </div>
+      </div>
+      {Auth?.username && Auth?.username !== user?.username && (
+        <button
+          className="ml-5 flex items-center justify-center px-5 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
+          onClick={handleFollowers}
+        >
+          <div className="flex text-center items-center gap-x-1">
+            {followers?.has(Auth?._id!) ? (
+              <>
+                <RiUserUnfollowFill />
+                <p>Unfollow</p>
+              </>
+            ) : (
+              <>
+                <RiUserFollowLine />
+                <p>Follow</p>
+              </>
+            )}
+          </div>
+        </button>
+      )}
+    </div>
+    <div className="flex">
+      <div className="flex">
+        <div
+          className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200"
+          style={{
+            backgroundColor: '#212121',
+            transition: 'background-color 0.2s',
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = '#1a1a1a')
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor = '#212121')
+          }
+        >
+          <span
+            className="flex items-center cursor-pointer"
+            onClick={() => {
+              if (isLiked) {
+                // Remove like
+                removeLike(
+                  postData?._id || currPostData?._id,
+                  user_Id!,
+                  postData?.game || currPostData?.game,
+                );
+                setIsLiked(false);
+              } else {
+                // Add like
+                incrementLikeCount(
+                  postData?._id || currPostData?._id,
+                  user_Id!,
+                  postData?.game || currPostData?.game,
+                );
+                setIsLiked(true);
+                setIsDisliked(false);
+              }
+            }}
+          >
+            <AiOutlineLike
+              className={`text-white h-5 w-5 ${isLiked ? 'animate-pulse text-yellow-500' : 'fill-white'}`}
+            />
+            <p className="ml-1 text-white">
+              {(postData?.likes?.length ?? 0) ||
+                (currPostData?.likes?.length ?? 0)}
+            </p>
+          </span>
+          <span className="mx-2 text-white">|</span>
+          <span
+            className="flex items-center cursor-pointer"
+            onClick={() => {
+              if (isDisliked) {
+                removeDislike(
+                  postData?._id || currPostData?._id,
+                  user_Id!,
+                  postData?.game || currPostData?.game,
+                );
+                setIsDisliked(false);
+              } else {
+                incrementDislikeCount(
+                  postData?._id || currPostData?._id,
+                  user_Id!,
+                  postData?.game || currPostData?.game,
+                );
+                setIsDisliked(true);
+                setIsLiked(false);
+              }
+            }}
+          >
+            <AiOutlineDislike
+              className={`text-white h-5 w-5 ${isDisliked ? 'animate-pulse text-yellow-500' : ''}`}
+            />
+            <p className="ml-1 text-white">
+              {(postData?.dislikes?.length ?? 0) ||
+                (currPostData?.dislikes?.length ?? 0)}
+            </p>
+          </span>
+        </div>
+      </div>
+      <button
+        className="flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 bg-[#212121] hover:bg-[#1a1a1a]"
+        onClick={() =>
+          setIsSharePopupOpen(!isSharePopupOpen)
+        }
+      >
+        <FaShare className="text-xl mr-1 text-white" />
+        <span className="text-sm font-medium text-white">
+          Share
+        </span>
+      </button>
+      <button
+        className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 ${isSaved ? 'animate-pulse bg-yellow-100' : ''}`}
+        style={{
+          backgroundColor: '#212121',
+          transition: 'background-color 0.2s',
+        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.backgroundColor =
+            '#1a1a1a')
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.backgroundColor =
+            '#212121')
+        }
+        onClick={() => savePost()}
+      >
+        <AiOutlineStar
+          className={`text-xl mr-1 ${isSaved ? 'text-yellow-500' : 'text-white'}`}
+        />
+        <span
+          className={`text-sm font-medium ${isSaved ? 'text-yellow-600' : 'text-white'}`}
+        >
+          Save
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
                   <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
                      <div className="flex flex-row space-x-2 font-bold">
                         <p>{postData?.views || currPostData?.views} views</p>
