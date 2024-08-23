@@ -29,9 +29,7 @@ const Leaderboard: React.FC = () => {
          });
    }, []);
 
-   const sortedUsers = [...users].sort(
-      (a, b) => b.totalPosts - a.totalPosts,
-   );
+   const sortedUsers = [...users].sort((a, b) => b.totalPosts - a.totalPosts);
 
    const UserLink: React.FC<{ user: User; children: React.ReactNode }> = ({
       user,
@@ -88,13 +86,15 @@ const Leaderboard: React.FC = () => {
                                     </div>
                                     <div
                                        className={`w-${
-                                          index === 0 ? '24 md:w-40' : '20 md:w-32'
+                                          index === 0
+                                             ? '24 md:w-40'
+                                             : '20 md:w-32'
                                        } h-${
                                           index === 0
                                              ? '32 md:h-52'
                                              : index === 1
-                                             ? '24 md:h-40'
-                                             : '20 md:h-32'
+                                               ? '24 md:h-40'
+                                               : '20 md:h-32'
                                        } bg-gradient-to-t from-pink-600 to-purple-600 rounded-t-lg`}
                                     ></div>
                                     {index === 0 ? (
