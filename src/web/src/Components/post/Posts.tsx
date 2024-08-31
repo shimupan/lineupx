@@ -21,13 +21,14 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { CiDesktopMouse2 } from 'react-icons/ci';
 import { useValorantAgents } from '../../contexts/ValorantAgentContext';
-import { useUser } from '../../contexts/UserContext';
 
 interface PostsProps {
    postData: PostType;
-}
+   userCache: Record<string, UserType>;
+   fetchUsers: (userIds: string[]) => void;
+ }
 
-const Posts: React.FC<PostsProps> = ({ postData }) => {
+ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
    const [optionsBarPosition, setOptionsBarPosition] = useState({
       top: 0,
       left: 0,
@@ -35,12 +36,11 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    const [showOptions, setShowOptions] = useState(false);
    const [showReportPopup, setShowReportPopup] = useState(false);
    const [showSharePopup, setShowSharePopup] = useState(false);
-   const { getUser } = useUser();
    const onReport = () => {
       setShowReportPopup(true);
       setShowOptions(false);
    };
-   const [user, setUser] = useState<UserType>();
+   const [user, setUser] = useState<UserType | null>(null);
    const navigate = useNavigate();
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
@@ -61,8 +61,18 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    const valorantContext = postData.game === 'Valorant' ? useValorantAgents() : null;
 
    useEffect(() => {
-      getUser(postData.UserID).then(setUser);
-   }, [postData.UserID, getUser]);
+      if (userCache[postData.UserID]) {
+        setUser(userCache[postData.UserID]);
+      } else {
+        fetchUsers([postData.UserID]);
+      }
+    }, [postData.UserID, userCache, fetchUsers]);
+  
+    useEffect(() => {
+      if (userCache[postData.UserID]) {
+        setUser(userCache[postData.UserID]);
+      }
+    }, [userCache, postData.UserID]);
 
    const onShare = () => {
       setShowSharePopup(true);

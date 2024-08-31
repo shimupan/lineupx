@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
 import { useLocalStorage } from '../../../hooks';
 import { ValorantAgentProvider } from '../../../contexts/ValorantAgentContext';
 import { UserProvider } from '../../../contexts/UserContext';
+import useUserCache from '../../../hooks/useUserCache';
 
 const MINIMUM_SKELETON_TIME = 600;
 
@@ -25,13 +26,14 @@ const Valorant: React.FC = () => {
    const [hasMore, setHasMore] = useState(true);
    const [isLoading, setIsLoading] = useState(false);
    const [newPostsReady, setNewPostsReady] = useState(false);
+   const { userCache, fetchUsers } = useUserCache();
 
    const pageRef = useRef(page);
    useEffect(() => {
       pageRef.current = page;
    }, [page]);
 
-   const fetchInitialData = async () => {
+   const fetchInitialData = useCallback(async () => {
       setIsLoading(true);
       setNewPostsReady(false);
       const startTime = Date.now();
@@ -43,18 +45,23 @@ const Valorant: React.FC = () => {
          const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
 
          setTimeout(() => {
-            setPosts(postsResponse.data.reverse());
+            const newPosts = postsResponse.data.reverse();
+            setPosts(newPosts);
             setPage(2);
-            setHasMore(postsResponse.data.length === 20);
+            setHasMore(newPosts.length === 20);
             setNewPostsReady(true);
             setIsLoading(false);
+
+            // Fetch user data for all posts
+            const userIds = newPosts.map((post: PostType) => post.UserID);
+            fetchUsers(userIds);
          }, delay);
       } catch (err) {
          console.log(err);
          setHasMore(false);
          setIsLoading(false);
       }
-   };
+   }, [fetchUsers]);
 
    const fetchData = async () => {
       setIsLoading(true);
@@ -67,7 +74,6 @@ const Valorant: React.FC = () => {
          );
          const loadTime = Date.now() - startTime;
          const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
-
          if (res.data.length > 0) {
             const newPosts = res.data.reverse();
             setTimeout(() => {
@@ -75,6 +81,10 @@ const Valorant: React.FC = () => {
                setPage((prevPage) => prevPage + 1);
                setNewPostsReady(true);
                setIsLoading(false);
+
+               // Fetch user data for new posts
+               const userIds = newPosts.map((post: PostType) => post.UserID);
+               fetchUsers(userIds);
             }, delay);
          } else {
             setHasMore(false);
@@ -266,6 +276,8 @@ const Valorant: React.FC = () => {
                               <Posts
                                  postData={post}
                                  key={post.landingPosition.public_id}
+                                 userCache={userCache}
+                                 fetchUsers={fetchUsers}
                               />
                            ))}
                            {isLoading &&
