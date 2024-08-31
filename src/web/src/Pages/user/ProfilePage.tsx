@@ -24,8 +24,10 @@ import { FaRegSave, FaRegNewspaper, FaSave } from 'react-icons/fa';
 import { MdOutlineVideogameAsset } from 'react-icons/md';
 import { ValorantAgentProvider } from '../../contexts/ValorantAgentContext';
 import { UserProvider } from '../../contexts/UserContext';
+import useUserCache from '../../hooks/useUserCache';
 
 const ProfilePage = () => {
+   const { userCache, fetchUsers } = useUserCache();
    const { id } = useParams<{ id: string }>();
    const [user, setUser] = useState<UserType>({
       role: '',
@@ -431,9 +433,11 @@ const ProfilePage = () => {
                                                                .public_id
                                                          }
                                                       >
-                                                         <Posts
-                                                            postData={post}
-                                                         />
+                        <Posts
+                           postData={post}
+                           userCache={userCache}
+                           fetchUsers={fetchUsers}
+                        />
                                                       </div>
                                                    ))}
                                                 </div>
@@ -478,7 +482,11 @@ const ProfilePage = () => {
                                                             .public_id
                                                       }
                                                    >
-                                                      <Posts postData={post} />
+                        <Posts
+                           postData={post}
+                           userCache={userCache}
+                           fetchUsers={fetchUsers}
+                        />
                                                    </div>
                                                 ))}
                                              </div>
@@ -525,7 +533,11 @@ const ProfilePage = () => {
                                                       .public_id
                                                 }
                                              >
-                                                <Posts postData={post} />
+                        <Posts
+                           postData={post}
+                           userCache={userCache}
+                           fetchUsers={fetchUsers}
+                        />
                                              </div>
                                           </ValorantAgentProvider>
                                        </UserProvider>
@@ -538,7 +550,11 @@ const ProfilePage = () => {
                                                 post.landingPosition.public_id
                                              }
                                           >
-                                             <Posts postData={post} />
+                        <Posts
+                           postData={post}
+                           userCache={userCache}
+                           fetchUsers={fetchUsers}
+                        />
                                           </div>
                                        </UserProvider>
                                     );

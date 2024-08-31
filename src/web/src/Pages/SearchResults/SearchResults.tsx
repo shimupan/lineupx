@@ -1,16 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Posts, FilterMenu, Layout } from '../../Components';
-/*
-import {
-   getPostByMap,
-   getPostByCoordinate,
-   getPostByGrenade,
-} from '../../util/getPost';
-*/
 import { PostType } from '../../global.types';
 import { ValorantAgentProvider } from '../../contexts/ValorantAgentContext';
 import { UserProvider } from '../../contexts/UserContext';
+import useUserCache from '../../hooks/useUserCache';
 import axios from 'axios';
 
 export const SearchResults = () => {
@@ -20,83 +14,28 @@ export const SearchResults = () => {
    const searchParams = new URLSearchParams(location.search);
    const filter = searchParams.get('filter');
    const [posts, setPosts] = useState<PostType[]>([]);
-   useEffect(() => {
-      if (filter) {
-         console.log(filter);
-         axios
-            .get(`/post/${game}?page=1&search=${query}&filter=${filter}`)
-            .then((res) => {
-               setPosts(res.data);
-            });
+   const { userCache, fetchUsers } = useUserCache();
 
-         /*
-         if (filter === 'map') {
-            getPostByMap(game!, query!)
-               .then((coords) => {
-                  let p: PostType[] = [];
-                  coords.forEach((coord) => {
-                     p.push(coord.post!);
-                  });
-                  setPosts(p);
-               })
-               .catch((error) => {
-                  console.error(error);
-               });
-         } else if (filter === 'location') {
-            const mapName = query?.split('+')[1];
-            const location = query?.split('+')[0];
-            getPostByCoordinate(location!, game!, mapName!)
-               .then((coords) => {
-                  let p: PostType[] = [];
-                  coords.forEach((coord) => {
-                     p.push(coord.post!);
-                  });
-                  setPosts(p);
-               })
-               .catch((error) => {
-                  console.error(error);
-               });
-         } else if (filter === 'utility') {
-            const mapName = query?.split('+')[1];
-            const utility = query?.split('+')[0];
-            getPostByGrenade(utility!, game!, mapName!)
-               .then((coords) => {
-                  let p: PostType[] = [];
-                  coords.forEach((coord) => {
-                     p.push(coord.post!);
-                  });
-                  setPosts(p);
-               })
-               .catch((error) => {
-                  console.error(error);
-               });
-         } else if (filter === 'all') {
-            const mapName = query?.split('+')[2];
-            const utility = query?.split('+')[1];
-            const location = query?.split('+')[0];
-            getPostByGrenade(utility!, game!, mapName!)
-               .then((coords) => {
-                  let p: PostType[] = [];
-                  coords.forEach((coord) => {
-                     if (coord.post?.lineupLocationCoords.name === location) {
-                        p.push(coord.post!);
-                     }
-                  });
-                  setPosts(p);
-               })
-               .catch((error) => {
-                  console.error(error);
-               });
+   const fetchPosts = useCallback(async () => {
+      try {
+         let url = `/post/${game}?page=1&search=${query}`;
+         if (filter) {
+            url += `&filter=${filter}`;
          }
-      */
-      } else {
-         // normal search
-         console.log('searching');
-         axios.get(`/post/${game}?page=1&search=${query}`).then((res) => {
-            setPosts(res.data);
-         });
+         const res = await axios.get(url);
+         setPosts(res.data);
+
+         // Fetch user data for all posts
+         const userIds = res.data.map((post: PostType) => post.UserID);
+         fetchUsers(userIds);
+      } catch (error) {
+         console.error('Error fetching posts:', error);
       }
-   }, [filter]);
+   }, [game, query, filter, fetchUsers]);
+
+   useEffect(() => {
+      fetchPosts();
+   }, [fetchPosts]);
 
    const handleFilterChange = (filter: string) => {
       const newSearchParams = new URLSearchParams(location.search);
@@ -105,47 +44,43 @@ export const SearchResults = () => {
    };
 
    return (
-      <>
-         <Layout>
-            <div className="flex flex-col items-center justify-center mt-4">
-               <h1 className="text-4xl font-bold">
-                  Search Results for {query} in {game}{' '}
-               </h1>
-               <div className="relative inline-block text-left mt-4">
-                  <FilterMenu onFilterChange={handleFilterChange} />
-               </div>
+      <Layout>
+         <div className="flex flex-col items-center justify-center mt-4">
+            <h1 className="text-4xl font-bold">
+               Search Results for {query} in {game}{' '}
+            </h1>
+            <div className="relative inline-block text-left mt-4">
+               <FilterMenu onFilterChange={handleFilterChange} />
             </div>
-            <article className="pt-4 pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
-               {!posts ? (
-                  <p className="text-lg mt-2">
-                     Sorry, we couldn't find any results for your search.
-                  </p>
-               ) : (
-                  posts.map((post) => {
-                     if (post.game === 'Valorant') {
-                        return (
-                           <UserProvider>
-                              <ValorantAgentProvider>
-                                 <div key={post.landingPosition.public_id}>
-                                    <Posts postData={post} />
-                                 </div>
-                              </ValorantAgentProvider>
-                           </UserProvider>
-                        );
-                     } else {
-                        return (
-                           <UserProvider>
-                              <div key={post.landingPosition.public_id}>
-                                 <Posts postData={post} />
-                              </div>
-                           </UserProvider>
-                        );
-                     }
-                  })
-               )}
-            </article>
-         </Layout>
-      </>
+         </div>
+         <article className="pt-4 pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
+            {posts.length === 0 ? (
+               <p className="text-lg mt-2">
+                  Sorry, we couldn't find any results for your search.
+               </p>
+            ) : (
+               posts.map((post) => (
+                  <UserProvider key={post.landingPosition.public_id}>
+                     {post.game === 'Valorant' ? (
+                        <ValorantAgentProvider>
+                           <Posts
+                              postData={post}
+                              userCache={userCache}
+                              fetchUsers={fetchUsers}
+                           />
+                        </ValorantAgentProvider>
+                     ) : (
+                        <Posts
+                           postData={post}
+                           userCache={userCache}
+                           fetchUsers={fetchUsers}
+                        />
+                     )}
+                  </UserProvider>
+               ))
+            )}
+         </article>
+      </Layout>
    );
 };
 

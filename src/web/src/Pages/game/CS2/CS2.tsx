@@ -10,6 +10,7 @@ import {
 } from '../../../Components';
 import { CS2_MAPS, CS2_BANNER } from '../../../Constants';
 import { UserProvider } from '../../../contexts/UserContext';
+import useUserCache from '../../../hooks/useUserCache';
 
 const MINIMUM_SKELETON_TIME = 500; // 500ms minimum skeleton display time
 const POSTS_PER_PAGE = 20;
@@ -22,6 +23,7 @@ const CS2: React.FC = () => {
    const [newPostsReady, setNewPostsReady] = useState(false);
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const pageRef = useRef(page);
+   const { userCache, fetchUsers } = useUserCache();
 
    useEffect(() => {
       pageRef.current = page;
@@ -54,7 +56,9 @@ const CS2: React.FC = () => {
       setHasMore(initialPosts.length === POSTS_PER_PAGE);
       setNewPostsReady(true);
       setIsLoading(false);
-   }, [fetchPosts]);
+      const userIds = initialPosts.map(post => post.UserID);
+      fetchUsers(userIds);
+   }, [fetchPosts, fetchUsers])
 
    const fetchMoreData = useCallback(async () => {
       const newPosts = await fetchPosts(pageRef.current);
@@ -62,11 +66,15 @@ const CS2: React.FC = () => {
          setPosts(prevPosts => [...prevPosts, ...newPosts]);
          setPage(prevPage => prevPage + 1);
          setNewPostsReady(true);
+
+         // Fetch user data for new posts
+         const userIds = newPosts.map(post => post.UserID);
+         fetchUsers(userIds);
       } else {
          setHasMore(false);
       }
       setIsLoading(false);
-   }, [fetchPosts]);
+   }, [fetchPosts, fetchUsers]);
 
    const updateSuggestions = useCallback((newPosts: PostType[]) => {
       const titles = newPosts.map(post => post.postTitle);
@@ -145,6 +153,8 @@ const CS2: React.FC = () => {
                         <Posts
                            postData={post}
                            key={post.landingPosition.asset_id}
+                           userCache={userCache}
+                           fetchUsers={fetchUsers}
                         />
                      ))}
                      {isLoading &&
