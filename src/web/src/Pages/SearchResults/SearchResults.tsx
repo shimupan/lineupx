@@ -9,6 +9,8 @@ import {
 } from '../../util/getPost';
 */
 import { PostType } from '../../global.types';
+import { ValorantAgentProvider } from '../../contexts/ValorantAgentContext';
+import { UserProvider } from '../../contexts/UserContext';
 import axios from 'axios';
 
 export const SearchResults = () => {
@@ -119,11 +121,27 @@ export const SearchResults = () => {
                      Sorry, we couldn't find any results for your search.
                   </p>
                ) : (
-                  posts.map((post) => (
-                     <div key={post.landingPosition.public_id}>
-                        <Posts postData={post} />
-                     </div>
-                  ))
+                  posts.map((post) => {
+                     if (post.game === 'Valorant') {
+                        return (
+                           <UserProvider>
+                              <ValorantAgentProvider>
+                                 <div key={post.landingPosition.public_id}>
+                                    <Posts postData={post} />
+                                 </div>
+                              </ValorantAgentProvider>
+                           </UserProvider>
+                        );
+                     } else {
+                        return (
+                           <UserProvider>
+                              <div key={post.landingPosition.public_id}>
+                                 <Posts postData={post} />
+                              </div>
+                           </UserProvider>
+                        );
+                     }
+                  })
                )}
             </article>
          </Layout>
