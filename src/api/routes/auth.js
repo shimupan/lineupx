@@ -9,7 +9,6 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import rateLimit from 'express-rate-limit';
 
-
 const authLimit = rateLimit({
    windowMs: 15 * 60 * 1000,
    max: 10,
@@ -174,12 +173,7 @@ router.post('/register', authLimit, async (req, res) => {
       </body>
       </html>
    `;
-   await sendEmail(
-      email,
-      'Verify Your Email',
-      emailContent,
-      true 
-   );
+      await sendEmail(email, 'Verify Your Email', emailContent, true);
 
       // Generate access and refresh tokens
       const accessToken = await signInAccessToken(newUser.id);
