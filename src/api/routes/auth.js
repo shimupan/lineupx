@@ -9,6 +9,7 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import rateLimit from 'express-rate-limit';
 
+
 const authLimit = rateLimit({
    windowMs: 15 * 60 * 1000,
    max: 10,
@@ -144,11 +145,41 @@ router.post('/register', authLimit, async (req, res) => {
       const verificationUrl = `http://${process.env.EMAIL_DOMAIN}/verifyemail?userId=${newUser.id}`;
 
       // Send email verification code
-      await sendEmail(
-         email,
-         'Verify Your Email',
-         `Your verification code is: <b><h2>${verificationCode}</h2></b>. You can also verify your email by clicking on the following link: ${verificationUrl}`,
-      );
+      const emailContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Verify Your Email</title>
+      </head>
+      <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+         <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f8f8; padding: 20px;">
+            <tr>
+               <td>
+                  <h1 style="color: #4a4a4a; text-align: center;">Verify Your Email</h1>
+                  <p>Thank you for registering with LineupX. To complete your registration, please use the verification code below or click the verification link.</p>
+                  <div style="background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 5px; padding: 20px; margin: 20px 0; text-align: center;">
+                     <h2 style="color: #4a4a4a; margin: 0;">Your Verification Code</h2>
+                     <p style="font-size: 24px; font-weight: bold; color: #007bff; margin: 10px 0;">${verificationCode}</p>
+                  </div>
+                  <p style="text-align: center;">
+                     <a href="${verificationUrl}" style="display: inline-block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;">Verify Email</a>
+                  </p>
+                  <p>If you didn't request this verification, please ignore this email.</p>
+                  <p>Best regards,<br>The LineupX Team</p>
+               </td>
+            </tr>
+         </table>
+      </body>
+      </html>
+   `;
+   await sendEmail(
+      email,
+      'Verify Your Email',
+      emailContent,
+      true 
+   );
 
       // Generate access and refresh tokens
       const accessToken = await signInAccessToken(newUser.id);
