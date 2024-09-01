@@ -34,11 +34,13 @@ const CS2: React.FC = () => {
       setNewPostsReady(false);
       const startTime = Date.now();
       try {
-         const response = await axios.get(`/post/CS2?page=${pageNum}&limit=${POSTS_PER_PAGE}&recent=true`);
+         const response = await axios.get(
+            `/post/CS2?page=${pageNum}&limit=${POSTS_PER_PAGE}&recent=true`,
+         );
          const loadTime = Date.now() - startTime;
          const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
 
-         return new Promise<PostType[]>(resolve => {
+         return new Promise<PostType[]>((resolve) => {
             setTimeout(() => {
                resolve(response.data.reverse());
             }, delay);
@@ -56,19 +58,19 @@ const CS2: React.FC = () => {
       setHasMore(initialPosts.length === POSTS_PER_PAGE);
       setNewPostsReady(true);
       setIsLoading(false);
-      const userIds = initialPosts.map(post => post.UserID);
+      const userIds = initialPosts.map((post) => post.UserID);
       fetchUsers(userIds);
-   }, [fetchPosts, fetchUsers])
+   }, [fetchPosts, fetchUsers]);
 
    const fetchMoreData = useCallback(async () => {
       const newPosts = await fetchPosts(pageRef.current);
       if (newPosts.length > 0) {
-         setPosts(prevPosts => [...prevPosts, ...newPosts]);
-         setPage(prevPage => prevPage + 1);
+         setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+         setPage((prevPage) => prevPage + 1);
          setNewPostsReady(true);
 
          // Fetch user data for new posts
-         const userIds = newPosts.map(post => post.UserID);
+         const userIds = newPosts.map((post) => post.UserID);
          fetchUsers(userIds);
       } else {
          setHasMore(false);
@@ -77,10 +79,21 @@ const CS2: React.FC = () => {
    }, [fetchPosts, fetchUsers]);
 
    const updateSuggestions = useCallback((newPosts: PostType[]) => {
-      const titles = newPosts.map(post => post.postTitle);
+      const titles = newPosts.map((post) => post.postTitle);
       const nades = ['Flash', 'Smoke', 'Molotov', 'HE', 'Decoy'];
-      const maps = ['Dust2', 'Inferno', 'Mirage', 'Nuke', 'Ancient', 'Anubis', 'Vertigo', 'Overpass'];
-      setSuggestions(prevSuggestions => [...new Set([...titles, ...prevSuggestions, ...nades, ...maps])]);
+      const maps = [
+         'Dust2',
+         'Inferno',
+         'Mirage',
+         'Nuke',
+         'Ancient',
+         'Anubis',
+         'Vertigo',
+         'Overpass',
+      ];
+      setSuggestions((prevSuggestions) => [
+         ...new Set([...titles, ...prevSuggestions, ...nades, ...maps]),
+      ]);
    }, []);
 
    useEffect(() => {

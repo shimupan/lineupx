@@ -26,9 +26,9 @@ interface PostsProps {
    postData: PostType;
    userCache: Record<string, UserType>;
    fetchUsers: (userIds: string[]) => void;
- }
+}
 
- const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
+const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
    const [optionsBarPosition, setOptionsBarPosition] = useState({
       top: 0,
       left: 0,
@@ -58,21 +58,22 @@ interface PostsProps {
    ];
 
    // Conditionally use ValorantAgentContext
-   const valorantContext = postData.game === 'Valorant' ? useValorantAgents() : null;
+   const valorantContext =
+      postData.game === 'Valorant' ? useValorantAgents() : null;
 
    useEffect(() => {
       if (userCache[postData.UserID]) {
-        setUser(userCache[postData.UserID]);
+         setUser(userCache[postData.UserID]);
       } else {
-        fetchUsers([postData.UserID]);
+         fetchUsers([postData.UserID]);
       }
-    }, [postData.UserID, userCache, fetchUsers]);
-  
-    useEffect(() => {
+   }, [postData.UserID, userCache, fetchUsers]);
+
+   useEffect(() => {
       if (userCache[postData.UserID]) {
-        setUser(userCache[postData.UserID]);
+         setUser(userCache[postData.UserID]);
       }
-    }, [userCache, postData.UserID]);
+   }, [userCache, postData.UserID]);
 
    const onShare = () => {
       setShowSharePopup(true);
@@ -82,20 +83,29 @@ interface PostsProps {
    const renderIcon = () => {
       if (postData.game === 'Valorant') {
          const valorantAgentIcon = valorantContext?.valorantAgents.find(
-            (agent) => agent.displayName === (postData.valorantAgent === 'KAYO' ? 'KAY/O' : postData.valorantAgent)
+            (agent) =>
+               agent.displayName ===
+               (postData.valorantAgent === 'KAYO'
+                  ? 'KAY/O'
+                  : postData.valorantAgent),
          )?.displayIcon;
 
          const findAbilityIcon = (agentName: string, abilityName: string) => {
             const agent = valorantContext?.valorantAgents.find(
-               (agent) => agent.displayName === (agentName === 'KAYO' ? 'KAY/O' : agentName)
+               (agent) =>
+                  agent.displayName ===
+                  (agentName === 'KAYO' ? 'KAY/O' : agentName),
             );
             const ability = agent?.abilities.find(
-               (ability) => ability.displayName === abilityName
+               (ability) => ability.displayName === abilityName,
             );
             return ability?.displayIcon;
          };
 
-         const abilityIcon = findAbilityIcon(postData.valorantAgent, postData.ability);
+         const abilityIcon = findAbilityIcon(
+            postData.valorantAgent,
+            postData.ability,
+         );
 
          return (
             <>

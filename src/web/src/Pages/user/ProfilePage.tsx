@@ -433,11 +433,15 @@ const ProfilePage = () => {
                                                                .public_id
                                                          }
                                                       >
-                        <Posts
-                           postData={post}
-                           userCache={userCache}
-                           fetchUsers={fetchUsers}
-                        />
+                                                         <Posts
+                                                            postData={post}
+                                                            userCache={
+                                                               userCache
+                                                            }
+                                                            fetchUsers={
+                                                               fetchUsers
+                                                            }
+                                                         />
                                                       </div>
                                                    ))}
                                                 </div>
@@ -482,11 +486,11 @@ const ProfilePage = () => {
                                                             .public_id
                                                       }
                                                    >
-                        <Posts
-                           postData={post}
-                           userCache={userCache}
-                           fetchUsers={fetchUsers}
-                        />
+                                                      <Posts
+                                                         postData={post}
+                                                         userCache={userCache}
+                                                         fetchUsers={fetchUsers}
+                                                      />
                                                    </div>
                                                 ))}
                                              </div>
@@ -533,11 +537,11 @@ const ProfilePage = () => {
                                                       .public_id
                                                 }
                                              >
-                        <Posts
-                           postData={post}
-                           userCache={userCache}
-                           fetchUsers={fetchUsers}
-                        />
+                                                <Posts
+                                                   postData={post}
+                                                   userCache={userCache}
+                                                   fetchUsers={fetchUsers}
+                                                />
                                              </div>
                                           </ValorantAgentProvider>
                                        </UserProvider>
@@ -550,11 +554,11 @@ const ProfilePage = () => {
                                                 post.landingPosition.public_id
                                              }
                                           >
-                        <Posts
-                           postData={post}
-                           userCache={userCache}
-                           fetchUsers={fetchUsers}
-                        />
+                                             <Posts
+                                                postData={post}
+                                                userCache={userCache}
+                                                fetchUsers={fetchUsers}
+                                             />
                                           </div>
                                        </UserProvider>
                                     );

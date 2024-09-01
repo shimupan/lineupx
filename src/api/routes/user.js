@@ -54,7 +54,7 @@ router.get('/user/id/:id', async (req, res) => {
    }
 });
 
-// getting a specific user by 
+// getting a specific user by
 router.get('/users/ids', async (req, res) => {
    const ids = req.query.ids.split(',');
    try {
