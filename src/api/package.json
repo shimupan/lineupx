@@ -23,7 +23,7 @@
     "formidable": "^3.5.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
-    "natural": "^7.0.6",
+    "natural": "^8.0.1",
     "nodemailer": "^6.9.7",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"
