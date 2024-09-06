@@ -22,8 +22,12 @@ import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { FaRegSave, FaRegNewspaper, FaSave } from 'react-icons/fa';
 import { MdOutlineVideogameAsset } from 'react-icons/md';
+import { ValorantAgentProvider } from '../../contexts/ValorantAgentContext';
+import { UserProvider } from '../../contexts/UserContext';
+import useUserCache from '../../hooks/useUserCache';
 
 const ProfilePage = () => {
+   const { userCache, fetchUsers } = useUserCache();
    const { id } = useParams<{ id: string }>();
    const [user, setUser] = useState<UserType>({
       role: '',
@@ -413,44 +417,107 @@ const ProfilePage = () => {
                         </div>
                         {GAMES.map((game, index) => {
                            if (game === selectedGame) {
-                              return (
-                                 <React.Fragment key={index}>
-                                    <div className="text-center text-4xl font-bold text-indigo-600 py-4">
-                                       {game}
-                                    </div>
-                                    {posts[index].length > 0 ? (
-                                       <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
-                                          {posts[index].map((post) => (
-                                             <div
-                                                key={
-                                                   post.landingPosition
-                                                      .public_id
-                                                }
-                                             >
-                                                <Posts postData={post} />
+                              if (selectedGame === 'Valorant') {
+                                 return (
+                                    <UserProvider>
+                                       <ValorantAgentProvider>
+                                          <React.Fragment key={index}>
+                                             <div className="text-center text-4xl font-bold text-indigo-600 py-4">
+                                                {game}
                                              </div>
-                                          ))}
-                                       </div>
-                                    ) : (
-                                       <div className="flex flex-col items-center justify-center h-screen">
-                                          <div className="text-center">
-                                             <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
-                                             <h2 className="text-2xl font-semibold mb-4">
-                                                No Posts Available
-                                             </h2>
-                                             <p className="text-gray-500">
-                                                You currently have zero approved
-                                                lineups for {game}.
-                                             </p>
-                                             <p className="text-gray-500">
-                                                Please check back later or
-                                                select a different game.
-                                             </p>
+                                             {posts[index].length > 0 ? (
+                                                <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
+                                                   {posts[index].map((post) => (
+                                                      <div
+                                                         key={
+                                                            post.landingPosition
+                                                               .public_id
+                                                         }
+                                                      >
+                                                         <Posts
+                                                            postData={post}
+                                                            userCache={
+                                                               userCache
+                                                            }
+                                                            fetchUsers={
+                                                               fetchUsers
+                                                            }
+                                                         />
+                                                      </div>
+                                                   ))}
+                                                </div>
+                                             ) : (
+                                                <div className="flex flex-col items-center justify-center h-screen">
+                                                   <div className="text-center">
+                                                      <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
+                                                      <h2 className="text-2xl font-semibold mb-4">
+                                                         No Valorant Posts
+                                                         Available
+                                                      </h2>
+                                                      <p className="text-gray-500">
+                                                         You currently have zero
+                                                         approved lineups for
+                                                         Valorant.
+                                                      </p>
+                                                      <p className="text-gray-500">
+                                                         Please check back later
+                                                         or select a different
+                                                         game.
+                                                      </p>
+                                                   </div>
+                                                </div>
+                                             )}
+                                          </React.Fragment>
+                                       </ValorantAgentProvider>
+                                    </UserProvider>
+                                 );
+                              } else {
+                                 return (
+                                    <UserProvider>
+                                       <React.Fragment key={index}>
+                                          <div className="text-center text-4xl font-bold text-indigo-600 py-4">
+                                             {game}
                                           </div>
-                                       </div>
-                                    )}
-                                 </React.Fragment>
-                              );
+                                          {posts[index].length > 0 ? (
+                                             <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
+                                                {posts[index].map((post) => (
+                                                   <div
+                                                      key={
+                                                         post.landingPosition
+                                                            .public_id
+                                                      }
+                                                   >
+                                                      <Posts
+                                                         postData={post}
+                                                         userCache={userCache}
+                                                         fetchUsers={fetchUsers}
+                                                      />
+                                                   </div>
+                                                ))}
+                                             </div>
+                                          ) : (
+                                             <div className="flex flex-col items-center justify-center h-screen">
+                                                <div className="text-center">
+                                                   <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
+                                                   <h2 className="text-2xl font-semibold mb-4">
+                                                      No Posts Available
+                                                   </h2>
+                                                   <p className="text-gray-500">
+                                                      You currently have zero
+                                                      approved lineups for{' '}
+                                                      {game}.
+                                                   </p>
+                                                   <p className="text-gray-500">
+                                                      Please check back later or
+                                                      select a different game.
+                                                   </p>
+                                                </div>
+                                             </div>
+                                          )}
+                                       </React.Fragment>
+                                    </UserProvider>
+                                 );
+                              }
                            }
                            return null;
                         })}
@@ -459,12 +526,45 @@ const ProfilePage = () => {
                   {selectedTab === 'Saved' && (
                      <>
                         {savedPosts.length > 0 ? (
-                           <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
-                              {savedPosts.map((post) => (
-                                 <div key={post.landingPosition.public_id}>
-                                    <Posts postData={post} />
-                                 </div>
-                              ))}
+                           <div className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
+                              {savedPosts.map((post) => {
+                                 if (post.game === 'Valorant') {
+                                    return (
+                                       <UserProvider>
+                                          <ValorantAgentProvider>
+                                             <div
+                                                key={
+                                                   post.landingPosition
+                                                      .public_id
+                                                }
+                                             >
+                                                <Posts
+                                                   postData={post}
+                                                   userCache={userCache}
+                                                   fetchUsers={fetchUsers}
+                                                />
+                                             </div>
+                                          </ValorantAgentProvider>
+                                       </UserProvider>
+                                    );
+                                 } else {
+                                    return (
+                                       <UserProvider>
+                                          <div
+                                             key={
+                                                post.landingPosition.public_id
+                                             }
+                                          >
+                                             <Posts
+                                                postData={post}
+                                                userCache={userCache}
+                                                fetchUsers={fetchUsers}
+                                             />
+                                          </div>
+                                       </UserProvider>
+                                    );
+                                 }
+                              })}
                            </div>
                         ) : (
                            <div className="flex flex-col items-center justify-center h-screen">

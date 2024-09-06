@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Posts from '../../../Components/post/Posts';
 import { PostType } from '../../../global.types';
 import axios from 'axios';
@@ -11,6 +11,9 @@ import {
 } from '../../../Components';
 import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
 import { useLocalStorage } from '../../../hooks';
+import { ValorantAgentProvider } from '../../../contexts/ValorantAgentContext';
+import { UserProvider } from '../../../contexts/UserContext';
+import useUserCache from '../../../hooks/useUserCache';
 
 const MINIMUM_SKELETON_TIME = 600;
 
@@ -23,13 +26,14 @@ const Valorant: React.FC = () => {
    const [hasMore, setHasMore] = useState(true);
    const [isLoading, setIsLoading] = useState(false);
    const [newPostsReady, setNewPostsReady] = useState(false);
+   const { userCache, fetchUsers } = useUserCache();
 
    const pageRef = useRef(page);
    useEffect(() => {
       pageRef.current = page;
    }, [page]);
 
-   const fetchInitialData = async () => {
+   const fetchInitialData = useCallback(async () => {
       setIsLoading(true);
       setNewPostsReady(false);
       const startTime = Date.now();
@@ -41,18 +45,23 @@ const Valorant: React.FC = () => {
          const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
 
          setTimeout(() => {
-            setPosts(postsResponse.data.reverse());
+            const newPosts = postsResponse.data.reverse();
+            setPosts(newPosts);
             setPage(2);
-            setHasMore(postsResponse.data.length === 20);
+            setHasMore(newPosts.length === 20);
             setNewPostsReady(true);
             setIsLoading(false);
+
+            // Fetch user data for all posts
+            const userIds = newPosts.map((post: PostType) => post.UserID);
+            fetchUsers(userIds);
          }, delay);
       } catch (err) {
          console.log(err);
          setHasMore(false);
          setIsLoading(false);
       }
-   };
+   }, [fetchUsers]);
 
    const fetchData = async () => {
       setIsLoading(true);
@@ -65,7 +74,6 @@ const Valorant: React.FC = () => {
          );
          const loadTime = Date.now() - startTime;
          const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
-
          if (res.data.length > 0) {
             const newPosts = res.data.reverse();
             setTimeout(() => {
@@ -73,6 +81,10 @@ const Valorant: React.FC = () => {
                setPage((prevPage) => prevPage + 1);
                setNewPostsReady(true);
                setIsLoading(false);
+
+               // Fetch user data for new posts
+               const userIds = newPosts.map((post: PostType) => post.UserID);
+               fetchUsers(userIds);
             }, delay);
          } else {
             setHasMore(false);
@@ -221,61 +233,67 @@ const Valorant: React.FC = () => {
 
    return (
       <>
-         {value && open && (
-            <ValorantPopup setOpen={setOpen} setValue={setValue} />
-         )}
-         <div className="flex flex-col min-h-screen">
-            <Layout>
-               <main className="flex-1">
-                  <div
-                     className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
-                     style={{
-                        backgroundImage: `url(${VALORANT_BANNER})`,
-                        backgroundSize: '100%',
-                        backgroundPosition: '90% 10%',
-                     }}
-                  >
-                     <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-                     <h1 className="text-lg mb-4 pt-10 font-bold z-10">
-                        Valorant
-                     </h1>
-                     <div className="w-full px-4 z-10">
-                        <Searchbar
-                           onChange={(e) => handleSearch(e.target.value)}
-                           onSearch={handleSearch}
-                           placeholder="Search for Valorant Lineups"
-                           suggestions={suggestions}
-                           game={'Valorant'}
-                        />
-                     </div>
-                  </div>
-                  <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
-                     <div className="w-full sm:w-3/4 md:w-1/2">
-                        <Carousel images={VALORANT_MAPS} />
-                     </div>
-                  </div>
-                  <h1 className="text-3xl font-bold text-center mt-10 mb-5">
-                     Recently added Lineups
-                  </h1>
-                  <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
-                     {posts.map((post) => (
-                        <Posts
-                           postData={post}
-                           key={post.landingPosition.public_id}
-                        />
-                     ))}
-                     {isLoading &&
-                        (newPostsReady
-                           ? null
-                           : Array(10)
-                                .fill(null)
-                                .map((_, index) => (
-                                   <PostSkeleton key={index} />
-                                )))}
-                  </article>
-               </main>
-            </Layout>
-         </div>
+         <UserProvider>
+            <ValorantAgentProvider>
+               {value && open && (
+                  <ValorantPopup setOpen={setOpen} setValue={setValue} />
+               )}
+               <div className="flex flex-col min-h-screen">
+                  <Layout>
+                     <main className="flex-1">
+                        <div
+                           className="flex flex-col items-center h-96 relative bg-center bg-no-repeat"
+                           style={{
+                              backgroundImage: `url(${VALORANT_BANNER})`,
+                              backgroundSize: '100%',
+                              backgroundPosition: '90% 10%',
+                           }}
+                        >
+                           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+                           <h1 className="text-lg mb-4 pt-10 font-bold z-10">
+                              Valorant
+                           </h1>
+                           <div className="w-full px-4 z-10">
+                              <Searchbar
+                                 onChange={(e) => handleSearch(e.target.value)}
+                                 onSearch={handleSearch}
+                                 placeholder="Search for Valorant Lineups"
+                                 suggestions={suggestions}
+                                 game={'Valorant'}
+                              />
+                           </div>
+                        </div>
+                        <div className="flex flex-col items-center pt-5 pb-5 bg-black bg-opacity-50 backdrop-blur-md px-4 sm:px-8">
+                           <div className="w-full sm:w-3/4 md:w-1/2">
+                              <Carousel images={VALORANT_MAPS} />
+                           </div>
+                        </div>
+                        <h1 className="text-3xl font-bold text-center mt-10 mb-5">
+                           Recently added Lineups
+                        </h1>
+                        <article className="pl-4 pr-4 md:pl-0 md:pr-2 md:ml-20 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2 lg:grid-cols-5">
+                           {posts.map((post) => (
+                              <Posts
+                                 postData={post}
+                                 key={post.landingPosition.public_id}
+                                 userCache={userCache}
+                                 fetchUsers={fetchUsers}
+                              />
+                           ))}
+                           {isLoading &&
+                              (newPostsReady
+                                 ? null
+                                 : Array(10)
+                                      .fill(null)
+                                      .map((_, index) => (
+                                         <PostSkeleton key={index} />
+                                      )))}
+                        </article>
+                     </main>
+                  </Layout>
+               </div>
+            </ValorantAgentProvider>
+         </UserProvider>
       </>
    );
 };
