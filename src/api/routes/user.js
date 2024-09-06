@@ -54,6 +54,21 @@ router.get('/user/id/:id', async (req, res) => {
    }
 });
 
+// getting a specific user by
+router.get('/users/ids', async (req, res) => {
+   const ids = req.query.ids.split(',');
+   try {
+      const users = await User.find({ _id: { $in: ids } });
+      if (users.length === 0) {
+         res.status(404).send('No users found');
+      } else {
+         res.send(users);
+      }
+   } catch (error) {
+      res.status(500).send('Server error');
+   }
+});
+
 // Update user information
 router.patch('/user/:id', async (req, res) => {
    const { id } = req.params;
