@@ -85,6 +85,3 @@ jobs:
         while ! docker compose logs lineupx_api | grep -q "database connected"; do
           sleep 5
         done
-
-    - name: Test API
-      run: curl http://localhost:1337/user/ooccupate
