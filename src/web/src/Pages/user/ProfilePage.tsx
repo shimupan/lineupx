@@ -139,6 +139,13 @@ const ProfilePage = () => {
          });
    }, [id]);
 
+   function handleVerification() {
+      const id = toast.loading('Sending verification email...');
+      sendVerificationEmail(user).then((response) => {
+         toast.update(id, response);
+      });
+   }
+
    const handleFollowers = async () => {
       follow(user._id, Auth?._id!).then((response) => {
          if (response === 200) {
