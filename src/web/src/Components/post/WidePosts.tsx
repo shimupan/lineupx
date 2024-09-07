@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Tooltip, PostOptionBar, ReportPopup } from '../../Components';
 import { timeAgo } from './helper';
 import { PostType, UserType } from '../../global.types';
-import { getUserByID } from '../../util/getUser';
 import { CDN_URL } from '../../Constants';
 import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -12,12 +11,13 @@ import axios from 'axios';
 
 type WidePostsProps = {
    post: PostType;
+   userCache: Record<string, UserType>;
+   fetchUsers: (userIds: string[]) => Promise<void>;
 };
 
-const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
+const WidePosts: React.FC<WidePostsProps> = ({ post, userCache, fetchUsers }) => {
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
-   const [user, setUser] = useState<UserType>();
    const [optionsBarPosition, setOptionsBarPosition] = useState({
       top: 0,
       left: 0,
@@ -25,6 +25,14 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
    const [showOptions, setShowOptions] = useState(false);
    const [showReportPopup, setShowReportPopup] = useState(false);
    const threeDotsRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+      if (post.UserID && !userCache[post.UserID]) {
+         fetchUsers([post.UserID]);
+      }
+   }, [post.UserID, userCache, fetchUsers]);
+
+   const user = userCache[post.UserID];
 
    const onShare = () => {
       copyPostLinkToClipboard();
@@ -46,7 +54,6 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
          })
          .catch((error) => {
             console.error('Failed to increment view count:', error);
-            // Handle error
          });
    };
 
@@ -105,14 +112,6 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
       setShowOptions(false);
       document.body.style.overflow = '';
    };
-
-   useEffect(() => {
-      if (post.UserID) {
-         getUserByID(post.UserID).then((user) => {
-            setUser(user);
-         });
-      }
-   }, [post.UserID]);
 
    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -177,8 +176,8 @@ const WidePosts: React.FC<WidePostsProps> = ({ post }) => {
                         {post.Username}
                      </Link>
                   </Tooltip>
-                  {user?.role == 'admin' && (
-                     <Tooltip text={user?.role}>
+                  {user?.role === 'admin' && (
+                     <Tooltip text={user.role}>
                         <span className="flex justify-center items-center ml-1 mt-0.2">
                            <FaCheckCircle size={13} />
                         </span>

@@ -35,9 +35,7 @@ router.post('/users', async (req, res) => {
 // getting a specific user by username
 router.get('/user/:id', async (req, res) => {
    const username = req.params.id;
-   const user = await User.findOne({ username: username }).select(
-      '-email -password',
-   );
+   const user = await User.findOne({ username: username }).select('-email -password');
    if (!user) {
       res.status(404).send('User not found');
    } else {

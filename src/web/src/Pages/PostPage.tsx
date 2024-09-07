@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
 import {
    Layout,
@@ -10,6 +10,7 @@ import {
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
 import { AuthContext } from '../App';
+import useUserCache from '../hooks/useUserCache';
 import {
    incrementLikeCount,
    incrementDislikeCount,
@@ -25,6 +26,7 @@ import { FaShare } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
+
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -50,7 +52,7 @@ const PostPage = () => {
       postData?.aimingPosition?.public_id ||
          currPostData?.aimingPosition?.public_id,
    ].filter(Boolean);
-
+   const { userCache, fetchUsers } = useUserCache();
    const imageTitles = [
       'Landing Position',
       'Standing Position',
@@ -290,65 +292,69 @@ const PostPage = () => {
       }
    }, [postData, currPostData]);
 
-   useEffect(() => {
-      const fetchPostData = async () => {
-         setIsLoading(true);
-         try {
-            const response = await axios.get(`/post/detail/${game}/${id}`);
-            setcurrPostData(response.data);
-            console.log(response.data.likes);
-            // Check if the user has already liked or disliked the post
-            setIsLiked(
-               response.data.likes.some((like: any) => like.userId === user_Id),
-            );
-            setIsDisliked(
-               response.data.dislikes.some(
-                  (dislike: any) => dislike.userId === user_Id,
-               ),
-            );
-         } catch (error) {
-            console.error('Failed to fetch post data:', error);
-         } finally {
-            setIsLoading(false);
-         }
-      };
-      if (Auth?.saved.includes(postData?._id || currPostData?._id)) {
-         setIsSaved(true);
+   const fetchPostData = useCallback(async () => {
+      setIsLoading(true);
+      try {
+         const response = await axios.get(`/post/detail/${game}/${id}`);
+         setcurrPostData(response.data);
+         console.log(response.data.likes);
+         setIsLiked(
+            response.data.likes.some((like: any) => like.userId === user_Id),
+         );
+         setIsDisliked(
+            response.data.dislikes.some(
+               (dislike: any) => dislike.userId === user_Id,
+            ),
+         );
+         
+         // Fetch user data for the post author
+         fetchUsers([response.data.UserID]);
+      } catch (error) {
+         console.error('Failed to fetch post data:', error);
+      } finally {
+         setIsLoading(false);
       }
+   }, [id, user_Id, game, fetchUsers]);
+
+   useEffect(() => {
       if (id) {
          fetchPostData();
       }
-   }, [id, user_Id]);
+   }, [id, fetchPostData]);
 
    useEffect(() => {
-      if (postData) {
-         getUserByID(postData.UserID).then((user) => {
+      if (Auth?.saved.includes(postData?._id || currPostData?._id)) {
+         setIsSaved(true);
+      }
+   }, [Auth?.saved, postData?._id, currPostData?._id]);
+
+   useEffect(() => {
+      const fetchRelatedData = async () => {
+         const userId = postData?.UserID || currPostData?.UserID;
+         if (userId) {
+            const user = userCache[userId] || await getUserByID(userId);
             setUser(user);
             setFollowers(new Set(user.followers));
             setFollowerCount(user.followers.length);
-         });
-         getPostByMap(postData.game, postData.mapName).then((posts) => {
-            // Limit the number of related posts to 20
+         }
+
+         const game = postData?.game || currPostData?.game;
+         const mapName = postData?.mapName || currPostData?.mapName;
+         if (game && mapName) {
+            const posts = await getPostByMap(game, mapName);
             let filter: PostType[] = posts
                .slice(0, 20)
                .map((post) => post.post!);
             setRelatedPosts(filter);
-         });
-      } else {
-         getUserByID(currPostData?.UserID ?? '').then((user) => {
-            setUser(user);
-         });
-         getPostByMap(
-            currPostData?.game ?? '',
-            currPostData?.mapName ?? '',
-         ).then((posts) => {
-            let filter: PostType[] = posts
-               .slice(0, 20)
-               .map((post) => post.post!);
-            setRelatedPosts(filter);
-         });
-      }
-   }, [postData?.UserID || currPostData?.UserID]);
+
+            // Fetch user data for related posts
+            const userIds = filter.map(post => post.UserID);
+            fetchUsers(userIds);
+         }
+      };
+
+      fetchRelatedData();
+   }, [postData, currPostData, userCache, fetchUsers]);
 
    if (isLoading) {
       return (
@@ -741,11 +747,11 @@ const PostPage = () => {
                   </div>
                </div>
                <div className="relative lg:flex-grow bg-black">
-                  {relatedPosts.map((post, index) => {
-                     if (post._id !== (postData?._id || currPostData?._id)) {
-                        return <WidePosts post={post} key={index} />;
-                     }
-                  })}
+               {relatedPosts.map((post, index) => {
+            if (post._id !== (postData?._id || currPostData?._id)) {
+               return <WidePosts post={post} key={index} userCache={userCache} fetchUsers={fetchUsers} />;
+            }
+         })}
                </div>
             </div>
          </Layout>
