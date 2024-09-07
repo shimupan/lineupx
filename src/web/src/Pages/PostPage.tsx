@@ -27,7 +27,6 @@ import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
 
-
 //import gear from '../assets/svg/gear.svg';
 
 export type Comment = {
@@ -306,7 +305,7 @@ const PostPage = () => {
                (dislike: any) => dislike.userId === user_Id,
             ),
          );
-         
+
          // Fetch user data for the post author
          fetchUsers([response.data.UserID]);
       } catch (error) {
@@ -332,7 +331,7 @@ const PostPage = () => {
       const fetchRelatedData = async () => {
          const userId = postData?.UserID || currPostData?.UserID;
          if (userId) {
-            const user = userCache[userId] || await getUserByID(userId);
+            const user = userCache[userId] || (await getUserByID(userId));
             setUser(user);
             setFollowers(new Set(user.followers));
             setFollowerCount(user.followers.length);
@@ -348,7 +347,7 @@ const PostPage = () => {
             setRelatedPosts(filter);
 
             // Fetch user data for related posts
-            const userIds = filter.map(post => post.UserID);
+            const userIds = filter.map((post) => post.UserID);
             fetchUsers(userIds);
          }
       };
@@ -747,11 +746,18 @@ const PostPage = () => {
                   </div>
                </div>
                <div className="relative lg:flex-grow bg-black">
-               {relatedPosts.map((post, index) => {
-            if (post._id !== (postData?._id || currPostData?._id)) {
-               return <WidePosts post={post} key={index} userCache={userCache} fetchUsers={fetchUsers} />;
-            }
-         })}
+                  {relatedPosts.map((post, index) => {
+                     if (post._id !== (postData?._id || currPostData?._id)) {
+                        return (
+                           <WidePosts
+                              post={post}
+                              key={index}
+                              userCache={userCache}
+                              fetchUsers={fetchUsers}
+                           />
+                        );
+                     }
+                  })}
                </div>
             </div>
          </Layout>

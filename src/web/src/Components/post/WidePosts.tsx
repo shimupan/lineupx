@@ -15,7 +15,11 @@ type WidePostsProps = {
    fetchUsers: (userIds: string[]) => Promise<void>;
 };
 
-const WidePosts: React.FC<WidePostsProps> = ({ post, userCache, fetchUsers }) => {
+const WidePosts: React.FC<WidePostsProps> = ({
+   post,
+   userCache,
+   fetchUsers,
+}) => {
    const Auth = useContext(AuthContext);
    const user_Id = Auth?._id;
    const [optionsBarPosition, setOptionsBarPosition] = useState({
