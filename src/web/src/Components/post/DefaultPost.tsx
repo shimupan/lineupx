@@ -21,9 +21,9 @@ const Posts: React.FC<PostsProps> = ({ postData }) => {
    const [user, setUser] = useState<UserType>();
    const [currentImage, setCurrentImage] = useState(0);
    const images = [
-      postData.landingPosition.public_id,
-      postData.standingPosition.public_id,
-      postData.aimingPosition.public_id,
+      `${postData.landingPosition.public_id}/f_auto,q_auto`,
+      `${postData.standingPosition.public_id}/f_auto,q_auto`,
+      `${postData.aimingPosition.public_id}/f_auto,q_auto`,
    ];
 
    useEffect(() => {
