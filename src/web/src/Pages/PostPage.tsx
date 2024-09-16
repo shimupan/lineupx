@@ -25,8 +25,7 @@ import { FaShare } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
-
-//import gear from '../assets/svg/gear.svg';
+import socket from '../services/socket';
 
 export type Comment = {
    _id: string;
@@ -63,11 +62,6 @@ const PostPage = () => {
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    const [followerCount, setFollowerCount] = useState(0);
    const [followers, setFollowers] = useState<Set<string>>();
-   /*
-   const [viewMode, setViewMode] = useState('carousel');
-   const [isPopupVisible, setPopupVisible] = useState(false);
-   const popupRef = useRef<HTMLDivElement>(null);
-   */
    const [comments, setComments] = useState<Comment[]>([]);
    const [userComments, setUserComments] = useState<Comment[]>([]);
    const [newComment, setNewComment] = useState('');
@@ -77,11 +71,10 @@ const PostPage = () => {
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
    const [isSaved, setIsSaved] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
-   /*
-   const handleGearClick = () => {
-      setPopupVisible(!isPopupVisible);
-   };
-   */
+   const [views, setViews] = useState(0);
+   const [likes, setLikes] = useState<any[]>([]);
+   const [dislikes, setDislikes] = useState<any[]>([]);
+
    const handleArrowClick = (direction: 'prev' | 'next') => {
       let newIndex = currentImageIndex;
 
@@ -105,11 +98,6 @@ const PostPage = () => {
             `${CDN_URL}/${imagePositions[newIndex]}`;
       }
    };
-   /*
-   const handleViewModeChange = () => {
-      setViewMode(viewMode === 'carousel' ? 'all' : 'carousel');
-   };
-   */
 
    const handleFullScreenToggle = (imageSrc: string) => {
       const fullScreenContainer = document.getElementById(
@@ -160,6 +148,7 @@ const PostPage = () => {
          }
       }
    };
+
    const savePost = async () => {
       try {
          await axios.post(`/user/${user_Id}/save-post`, {
@@ -171,6 +160,7 @@ const PostPage = () => {
          console.error('Error saving post:', error);
       }
    };
+
    const fetchComments = async () => {
       try {
          const postId = location.pathname.split('/')[2];
@@ -222,7 +212,6 @@ const PostPage = () => {
       });
    };
 
-   // Handle the submission of a new comment
    const handleCommentSubmit = async () => {
       if (newComment.trim() && verified) {
          try {
@@ -268,7 +257,6 @@ const PostPage = () => {
          .post(`/post/${postData._id}/increment-view-count`, {
             game: postData.game || currPostData?.game,
          })
-
          .then((response) => {
             console.log('Successfully incremented view count:', response);
          })
@@ -296,8 +284,9 @@ const PostPage = () => {
          try {
             const response = await axios.get(`/post/detail/${game}/${id}`);
             setcurrPostData(response.data);
-            console.log(response.data.likes);
-            // Check if the user has already liked or disliked the post
+            setViews(response.data.views);
+            setLikes(response.data.likes);
+            setDislikes(response.data.dislikes);
             setIsLiked(
                response.data.likes.some((like: any) => like.userId === user_Id),
             );
@@ -349,6 +338,41 @@ const PostPage = () => {
          });
       }
    }, [postData?.UserID || currPostData?.UserID]);
+
+   useEffect(() => {
+      socket.on('viewUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setViews(data.views);
+         }
+      });
+
+      socket.on('likeUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setLikes(data.likes);
+            setIsLiked(data.likes.some((like: any) => like.userId === user_Id));
+         }
+      });
+
+      socket.on('dislikeUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setDislikes(data.dislikes);
+            setIsDisliked(data.dislikes.some((dislike: any) => dislike.userId === user_Id));
+         }
+      });
+
+      socket.on('commentUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setComments(data.comments);
+         }
+      });
+
+      return () => {
+         socket.off('viewUpdate');
+         socket.off('likeUpdate');
+         socket.off('dislikeUpdate');
+         socket.off('commentUpdate');
+      };
+   }, [postData?._id, currPostData?._id, user_Id]);
 
    if (isLoading) {
       return (
@@ -572,22 +596,17 @@ const PostPage = () => {
                                  className="flex items-center cursor-pointer"
                                  onClick={() => {
                                     if (isLiked) {
-                                       // Remove like
                                        removeLike(
                                           postData?._id || currPostData?._id,
                                           user_Id!,
                                           postData?.game || currPostData?.game,
                                        );
-                                       setIsLiked(false);
                                     } else {
-                                       // Add like
                                        incrementLikeCount(
                                           postData?._id || currPostData?._id,
                                           user_Id!,
                                           postData?.game || currPostData?.game,
                                        );
-                                       setIsLiked(true);
-                                       setIsDisliked(false);
                                     }
                                  }}
                               >
@@ -595,8 +614,7 @@ const PostPage = () => {
                                     className={`text-white h-5 w-5 ${isLiked ? 'animate-pulse text-yellow-500' : 'fill-white'}`}
                                  />
                                  <p className="ml-1 text-white">
-                                    {(postData?.likes?.length ?? 0) ||
-                                       (currPostData?.likes?.length ?? 0)}
+                                    {likes.length}
                                  </p>
                               </span>
                               <span className="mx-2 text-white">|</span>
@@ -609,15 +627,12 @@ const PostPage = () => {
                                           user_Id!,
                                           postData?.game || currPostData?.game,
                                        );
-                                       setIsDisliked(false);
                                     } else {
                                        incrementDislikeCount(
                                           postData?._id || currPostData?._id,
                                           user_Id!,
                                           postData?.game || currPostData?.game,
                                        );
-                                       setIsDisliked(true);
-                                       setIsLiked(false);
                                     }
                                  }}
                               >
@@ -625,8 +640,7 @@ const PostPage = () => {
                                     className={`text-white h-5 w-5 ${isDisliked ? 'animate-pulse text-yellow-500' : ''}`}
                                  />
                                  <p className="ml-1 text-white">
-                                    {(postData?.dislikes?.length ?? 0) ||
-                                       (currPostData?.dislikes?.length ?? 0)}
+                                    {dislikes.length}
                                  </p>
                               </span>
                            </div>
@@ -656,7 +670,7 @@ const PostPage = () => {
                               (e.currentTarget.style.backgroundColor =
                                  '#212121')
                            }
-                           onClick={() => savePost()}
+                           onClick={savePost}
                         >
                            <AiOutlineStar
                               className={`text-xl mr-1 ${isSaved ? 'text-yellow-500' : 'text-white'}`}
@@ -671,7 +685,7 @@ const PostPage = () => {
                   </div>
                   <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
                      <div className="flex flex-row space-x-2 font-bold">
-                        <p>{postData?.views || currPostData?.views} views</p>
+                        <p>{views} views</p>
                         <p>
                            {new Date(
                               postData?.date || currPostData?.date,

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import socket from '../../services/socket';
 
 export function timeAgo(date: Date) {
    const now = new Date();
@@ -22,17 +22,7 @@ export const incrementLikeCount = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/increment-like`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully incremented like count:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to increment like count:', error);
-      });
+   socket.emit('incrementLike', { postId, userId: user_Id, game });
 };
 
 export const incrementDislikeCount = async (
@@ -40,17 +30,7 @@ export const incrementDislikeCount = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/increment-dislike`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully incremented dislike count:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to increment dislike count:', error);
-      });
+   socket.emit('incrementDislike', { postId, userId: user_Id, game });
 };
 
 export const removeLike = async (
@@ -58,17 +38,7 @@ export const removeLike = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/remove-like`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully removed like:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to remove like:', error);
-      });
+   socket.emit('removeLike', { postId, userId: user_Id, game });
 };
 
 export const removeDislike = async (
@@ -76,15 +46,5 @@ export const removeDislike = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/remove-dislike`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully removed dislike:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to remove dislike:', error);
-      });
+   socket.emit('removeDislike', { postId, userId: user_Id, game });
 };
