@@ -38,6 +38,7 @@ import {
    ManagePosts,
    EditPosts,
    ServerStatus,
+   Leaderboard,
 } from './Components';
 import { useCookies } from './hooks';
 import { setupInterceptors } from './axiosConfig';
@@ -265,6 +266,7 @@ function App() {
                <Route path="*" element={<PageNotFound />}></Route>
                <Route path="/tos" element={<TOS />} />
                <Route path="/server-status" element={<ServerStatus />} />
+               <Route path="/leaderboard" element={<Leaderboard />} />
             </Routes>
          </AuthContext.Provider>
       </>

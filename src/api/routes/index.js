@@ -4,3 +4,4 @@ export { default as post } from './post.js';
 export { default as comment } from './comment.js';
 export { default as replies } from './replies.js';
 export { default as health } from './health.js';
+export { default as leaderboard } from './leaderboard.js';
