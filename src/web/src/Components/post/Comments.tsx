@@ -41,40 +41,6 @@ const Comments: React.FC<CommentProps> = ({
          });
       }
    }, [comment.username]);
-
-   const handleOptionsClick = (event: React.MouseEvent<SVGElement>) => {
-      event.stopPropagation();
-      if (threeDotsRef.current) {
-         const rect = threeDotsRef.current.getBoundingClientRect();
-         const CommentOptionBarWidth = 200;
-         const CommentOptionBarHeight = 50;
-         const windowWidth = window.innerWidth;
-         const windowHeight = window.innerHeight;
-
-         let adjustedLeft =
-            rect.left - CommentOptionBarWidth / 2 + rect.width / 2;
-         let adjustedTop = rect.bottom;
-
-         if (adjustedLeft + CommentOptionBarWidth > windowWidth) {
-            adjustedLeft = windowWidth - CommentOptionBarWidth;
-         }
-
-         if (adjustedLeft < 0) {
-            adjustedLeft = 0;
-         }
-
-         if (rect.bottom + CommentOptionBarHeight > windowHeight) {
-            adjustedTop = rect.top - CommentOptionBarHeight;
-         }
-
-         setOptionsBarPosition({
-            top: adjustedTop,
-            left: adjustedLeft,
-         });
-         setShowOptions(true);
-      }
-   };
-
    const closeCommentOptionBar = () => {
       setShowOptions(false);
       document.body.style.overflow = '';
@@ -174,7 +140,39 @@ const Comments: React.FC<CommentProps> = ({
                      <div ref={threeDotsRef}>
                         <BsThreeDotsVertical
                            className="cursor-pointer"
-                           onClick={handleOptionsClick}
+                           onClick={(event: React.MouseEvent<SVGElement>) => {
+                              const rect =
+                                 event.currentTarget.getBoundingClientRect();
+                              const top = rect.top + window.scrollY;
+                              const left = rect.left + window.scrollX;
+                              const PostOptionBarWidth = 200;
+                              const PostOptionBarHeight = 100;
+                              const windowWidth = window.innerWidth;
+                              const windowHeight = window.innerHeight;
+
+                              let adjustedLeft = left;
+                              let adjustedTop = top + rect.height;
+
+                              if (left + PostOptionBarWidth > windowWidth) {
+                                 adjustedLeft =
+                                    windowWidth - PostOptionBarWidth;
+                              } else {
+                                 adjustedLeft += 25;
+                              }
+
+                              if (
+                                 top + rect.height + PostOptionBarHeight >
+                                 windowHeight
+                              ) {
+                                 adjustedTop = top - PostOptionBarHeight;
+                              }
+
+                              setOptionsBarPosition({
+                                 top: adjustedTop + 40,
+                                 left: adjustedLeft - 95,
+                              });
+                              setShowOptions(true);
+                           }}
                            size="24"
                         />
                      </div>
@@ -218,25 +216,17 @@ const Comments: React.FC<CommentProps> = ({
          </div>
 
          {showOptions && (
-            <>
-               <div className="fixed inset-0 z-50 pointer-events-none">
-                  <div
-                     className="pointer-events-auto"
-                     style={{
-                        position: 'absolute',
-                        top: optionsBarPosition.top,
-                        left: optionsBarPosition.left,
-                     }}
-                  >
-                     <CommentOptionBar
-                        onClose={closeCommentOptionBar}
-                        onDelete={() => handleDelete()}
-                        onEdit={() => onEdit()}
-                        style={{ width: '200px' }}
-                     />
-                  </div>
-               </div>
-            </>
+            <CommentOptionBar
+               onClose={closeCommentOptionBar}
+               onDelete={handleDelete}
+               onEdit={onEdit}
+               style={{
+                  position: 'absolute',
+                  top: optionsBarPosition.top,
+                  left: optionsBarPosition.left,
+                  width: '150px',
+               }}
+            />
          )}
 
          {showDeleteConfirmation && (

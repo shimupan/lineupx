@@ -24,7 +24,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
          {children}
 
          <Footer />
-         <div className="pt-20">{isMobile && <BottomNav />}</div>
+         {isMobile && (
+            <div className="pt-20">
+               <BottomNav />
+            </div>
+         )}
       </>
    );
 };
