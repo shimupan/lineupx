@@ -12,6 +12,9 @@
     You will need these later
 4) Also make sure docker is installed and docker desktop is avaliable
 
+### IF DOCKER DOES NOT WORK [click here](#troubleshooting-docker-issues)
+
+
 ### Setting up Frontend
 1) Create a new ```.env``` file and copy the contents of ```.env.example```
 
@@ -87,6 +90,47 @@ If the database for Valorant is not set up yet, follow these steps to initialize
      ```
 
    ![Running the init scripts](https://github.com/user-attachments/assets/8f45612a-d893-49a5-9340-5f696ba1dda7)
+
+
+### Troubleshooting Docker Issues
+
+If Docker doesn't work as expected, follow these steps to run the project without Docker.
+
+#### Alternative Setup (Without Docker)
+
+1) **Install MongoDB Locally**  
+   - Download and install MongoDB from the official website: [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community).
+   - After installation, make sure MongoDB is running on your system.
+   - Naviagte to the api folder
+   - Set the `MONGO_URI` in your `.env` file to:
+     ``` 
+     MONGO_URI=mongodb://localhost:27017/LineupX
+     ```
+
+2) **Run the Server and Frontend Manually**
+   
+   - **Backend**:  
+     Navigate to the `server` directory and install the dependencies:
+     ```bash
+     cd src/api
+     npm install
+     npm start
+     ```
+     This will start the backend server.
+
+   - **Frontend**:  
+     Navigate to the `frontend` directory and install the dependencies:
+     ```bash
+     cd src/web
+     npm install
+     npm run dev
+     ```
+     This will start the frontend in development mode.
+
+
+
+By following this alternative setup, you can get the application up and running even if Docker is not available.
+
 
 ### Happy Developing!
 
