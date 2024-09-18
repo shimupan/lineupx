@@ -47,7 +47,7 @@ app.use(leaderboard);
 app.use(passport.initialize());
 app.use(passport.session());
 
-const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
+const PORT = process.env.PORT || 1337; 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // await updateCS2Posts();
