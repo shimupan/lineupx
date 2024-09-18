@@ -49,7 +49,18 @@
     CLOUDINARY_CLOUD_NAME=[cloud name]
     CLOUDINARY_API_KEY=[api key]
     ```
+    For the images to load you need to make the CLOUDINARY_CLOUD_NAME=ddwqqjmyo
 
+
+
+
+### Running application
+1) Make sure you're in the root directory of the project
+2) Run the following command:
+    ```
+    docker compose up
+    ```
+3) Now the frontend, server, and database should be up and running!
 
 ## Setting up the Database (if Valorant Data is Missing)
 
@@ -76,16 +87,6 @@ If the database for Valorant is not set up yet, follow these steps to initialize
      ```
 
    ![Running the init scripts](https://github.com/user-attachments/assets/8f45612a-d893-49a5-9340-5f696ba1dda7)
-
-
-
-### Running application
-1) Make sure you're in the root directory of the project
-2) Run the following command:
-    ```
-    docker compose up
-    ```
-3) Now the frontend, server, and database should be up and running!
 
 ### Happy Developing!
 
