@@ -1,6 +1,8 @@
 [
   {
-    "_id": "ObjectId('66a099bdf8e2b66f1e149f48')",
+    "_id": {
+      "$oid": "66a099bdf8e2b66f1e149f48"
+    },
     "role": "admin",
     "username": "admin",
     "password": "admin",
