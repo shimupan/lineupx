@@ -98,14 +98,15 @@ If the database for Valorant is not set up yet, follow these steps to initialize
 If Docker doesn't work as expected, follow these steps to run the project without Docker.
 
 #### Alternative Setup (Without Docker)
-
+Video Tutorial: [https://www.youtube.com/watch?v=x5ob0yxvhas](https://www.youtube.com/watch?v=x5ob0yxvhas)
 1) **Install MongoDB Locally**  
    - Download and install MongoDB from the official website: [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community).
+   - Download and install MongoDBCompass [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass).
    - After installation, make sure MongoDB is running on your system.
-   - Naviagte to the api folder
+   - Navigate to the api folder
    - Set the `MONGO_URI` in your `.env` file to:
      ``` 
-     MONGO_URI=mongodb://localhost:27017/LineupX
+     MONGO_URI=mongodb://127.0.0.1:27017/lineupx
      ```
 
 2) **Run the Server and Frontend Manually**
