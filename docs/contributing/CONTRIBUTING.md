@@ -91,6 +91,7 @@ If the database for Valorant is not set up yet, follow these steps to initialize
 
    ![Running the init scripts](https://github.com/user-attachments/assets/8f45612a-d893-49a5-9340-5f696ba1dda7)
 
+<<<<<<< fix-docker
 
 ### Troubleshooting Docker Issues
 
@@ -132,6 +133,8 @@ If Docker doesn't work as expected, follow these steps to run the project withou
 By following this alternative setup, you can get the application up and running even if Docker is not available.
 
 
+=======
+>>>>>>> main
 ### Happy Developing!
 
     

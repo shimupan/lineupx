@@ -95,7 +95,7 @@ Contributions make the community such an amazing place to learn, inspire, and cr
 
 ## Contact
 
-Project Link: [https://github.com/shimupan/lineupx](https://github.com/shimupan/Watchey)
+Project Link: [https://github.com/shimupan/lineupx](https://github.com/shimupan/lineupx)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
