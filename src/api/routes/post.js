@@ -466,8 +466,7 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
       post.views += 1;
       await post.save();
 
-      // Emit the updated view count
-      req.app.get('io').emit('viewUpdate', { postId: id, views: post.views });
+      req.io.emit('viewUpdate', { postId: id, views: post.views });
 
       res.send(post);
    } catch (error) {

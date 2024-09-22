@@ -13,10 +13,8 @@ import {
 } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
-import { Server } from 'socket.io';
 import http from 'http';
-import mongoose from 'mongoose';
-import PostDataSchema from './model/postData.js';
+import setupSocket, { getIo } from './sockets/socket.js';
 
 dotenv.config();
 
@@ -40,9 +38,20 @@ app.use(
    }),
 );
 
+const server = http.createServer(app);
+
+setupSocket(server);
+
+// Middleware to attach io to the request object
+app.use((req, res, next) => {
+   req.io = getIo(); // Attach the io instance to the request object
+   next(); // Call next to pass control to the next middleware
+});
+
+// Define your routes after the middleware
 app.use(auth);
 app.use(user);
-app.use(post);
+app.use(post); 
 app.use(comment);
 app.use(replies);
 app.use(health);
@@ -50,94 +59,5 @@ app.use(leaderboard);
 app.use(passport.initialize());
 app.use(passport.session());
 
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
-});
-
-app.set('io', io);
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-
-  socket.on('incrementLike', async ({ postId, userId, game }) => {
-    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
-      const post = await PostData.findById(postId);
-      if (!post) {
-        console.error('Post not found');
-        return;
-      }
-      if (!post.likes.some(like => like.userId === userId)) {
-        post.likes.push({ userId });
-        await post.save();
-      }
-      io.emit('likeUpdate', { postId, likes: post.likes });
-    } catch (error) {
-      console.error('Error incrementing like:', error);
-    }
-  });
-
-  socket.on('incrementDislike', async ({ postId, userId, game }) => {
-    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
-      const post = await PostData.findById(postId);
-      if (!post) {
-        console.error('Post not found');
-        return;
-      }
-      if (!post.dislikes.some(dislike => dislike.userId === userId)) {
-        post.dislikes.push({ userId });
-        await post.save();
-      }
-      io.emit('dislikeUpdate', { postId, dislikes: post.dislikes });
-    } catch (error) {
-      console.error('Error incrementing dislike:', error);
-    }
-  });
-
-  socket.on('removeLike', async ({ postId, userId, game }) => {
-    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
-      const post = await PostData.findById(postId);
-      if (!post) {
-        console.error('Post not found');
-        return;
-      }
-      post.likes = post.likes.filter(like => like.userId !== userId);
-      await post.save();
-      io.emit('likeUpdate', { postId, likes: post.likes });
-    } catch (error) {
-      console.error('Error removing like:', error);
-    }
-  });
-
-  socket.on('removeDislike', async ({ postId, userId, game }) => {
-    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
-      const post = await PostData.findById(postId);
-      if (!post) {
-        console.error('Post not found');
-        return;
-      }
-      post.dislikes = post.dislikes.filter(dislike => dislike.userId !== userId);
-      await post.save();
-      io.emit('dislikeUpdate', { postId, dislikes: post.dislikes });
-    } catch (error) {
-      console.error('Error removing dislike:', error);
-    }
-  });
-});
-
 const PORT = process.env.PORT || 1337;
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-
-// await updateCS2Posts();
-// await updateValorantPosts();
