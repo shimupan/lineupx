@@ -52,3 +52,39 @@ export const incrementDislikeCount = async (
          console.error('Failed to increment dislike count:', error);
       });
 };
+
+export const removeLike = async (
+   postId: string,
+   user_Id: string,
+   game: string,
+) => {
+   axios
+      .post(`/post/${postId}/remove-like`, {
+         userId: user_Id,
+         game: game,
+      })
+      .then((response) => {
+         console.log('Successfully removed like:', response);
+      })
+      .catch((error) => {
+         console.error('Failed to remove like:', error);
+      });
+};
+
+export const removeDislike = async (
+   postId: string,
+   user_Id: string,
+   game: string,
+) => {
+   axios
+      .post(`/post/${postId}/remove-dislike`, {
+         userId: user_Id,
+         game: game,
+      })
+      .then((response) => {
+         console.log('Successfully removed dislike:', response);
+      })
+      .catch((error) => {
+         console.error('Failed to remove dislike:', error);
+      });
+};

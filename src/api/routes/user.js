@@ -35,7 +35,9 @@ router.post('/users', async (req, res) => {
 // getting a specific user by username
 router.get('/user/:id', async (req, res) => {
    const username = req.params.id;
-   const user = await User.findOne({ username: username });
+   const user = await User.findOne({ username: username }).select(
+      '-email -password',
+   );
    if (!user) {
       res.status(404).send('User not found');
    } else {
@@ -51,6 +53,21 @@ router.get('/user/id/:id', async (req, res) => {
       res.status(404).send('User not found');
    } else {
       res.send(user);
+   }
+});
+
+// getting a specific user by
+router.get('/users/ids', async (req, res) => {
+   const ids = req.query.ids.split(',');
+   try {
+      const users = await User.find({ _id: { $in: ids } });
+      if (users.length === 0) {
+         res.status(404).send('No users found');
+      } else {
+         res.send(users);
+      }
+   } catch (error) {
+      res.status(500).send('Server error');
    }
 });
 

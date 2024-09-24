@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-   Header,
-   Footer,
-   SideNavWrapper,
-   GrenadeSelection,
-   CS2Radar,
-   BottomNav,
-} from '../../../Components';
+import { Layout, GrenadeSelection, CS2Radar } from '../../../Components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
@@ -142,117 +135,114 @@ const CS2Lineups: React.FC = () => {
 
    return (
       <>
-         <Header />
-         {!isMobile && <SideNavWrapper />}
-         <div className="text-center pt-12">
-            {!selectedDot && !activeButton ? (
-               <>
-                  <p>
-                     Please choose a landing position for your grenade or select
-                     a grenade to see all possible lineups
-                  </p>
-                  <button
-                     className="btn mt-1"
-                     onClick={() =>
-                        navigate(`/search/CS2/${mapName}?filter=map`)
-                     }
-                  >
-                     Expanded Posts for {mapName}
-                  </button>
-               </>
-            ) : selectedDot && !activeButton ? (
-               <>
-                  <p>Showing all lineups for {selectedDot}</p>
-                  <button
-                     className="btn mt-1"
-                     onClick={() =>
-                        navigate(
-                           `/search/CS2/${selectedDot}+${mapName}?filter=location`,
-                        )
-                     }
-                  >
-                     Expanded Posts for {selectedDot}
-                  </button>
-               </>
-            ) : !selectedDot && activeButton ? (
-               <>
-                  <p>Showing all lineups for {activeButton}</p>
-                  <button
-                     className="btn mt-1"
-                     onClick={() =>
-                        navigate(
-                           `/search/CS2/${activeButton}+${mapName}?filter=utility`,
-                        )
-                     }
-                  >
-                     Expanded Posts for {activeButton}
-                  </button>
-               </>
-            ) : (
-               <>
-                  <p>
-                     Showing all lineups for {selectedDot} {activeButton}
-                  </p>
-                  <button
-                     className="btn mt-1"
-                     onClick={() =>
-                        navigate(
-                           `/search/CS2/${selectedDot}+${activeButton}+${mapName}?filter=all`,
-                        )
-                     }
-                  >
-                     Expanded Posts for {selectedDot} {activeButton}
-                  </button>
-               </>
-            )}
-         </div>
-         <div className="flex flex-1">
-            <div className="flex-1 flex justify-center items-center">
-               <div className="flex flex-col sm:flex-row justify-center items-center">
-                  <CS2Radar
-                     mapImage={mapImage}
-                     mapName={mapName!}
-                     coordinates={coordinates}
-                     complementCoordinates={complementCoordinates}
-                     activeButton={activeButton}
-                     selectedDot={selectedDot}
-                     setSelectedDot={setSelectedDot}
-                     grenadeIcons={grenadeIcons}
-                  />
+         <Layout>
+            <div className="text-center pt-12">
+               {!selectedDot && !activeButton ? (
+                  <>
+                     <p>
+                        Please choose a landing position for your grenade or
+                        select a grenade to see all possible lineups
+                     </p>
+                     <button
+                        className="btn mt-1"
+                        onClick={() =>
+                           navigate(`/search/CS2/${mapName}?filter=map`)
+                        }
+                     >
+                        Expanded Posts for {mapName}
+                     </button>
+                  </>
+               ) : selectedDot && !activeButton ? (
+                  <>
+                     <p>Showing all lineups for {selectedDot}</p>
+                     <button
+                        className="btn mt-1"
+                        onClick={() =>
+                           navigate(
+                              `/search/CS2/${selectedDot}+${mapName}?filter=location`,
+                           )
+                        }
+                     >
+                        Expanded Posts for {selectedDot}
+                     </button>
+                  </>
+               ) : !selectedDot && activeButton ? (
+                  <>
+                     <p>Showing all lineups for {activeButton}</p>
+                     <button
+                        className="btn mt-1"
+                        onClick={() =>
+                           navigate(
+                              `/search/CS2/${activeButton}+${mapName}?filter=utility`,
+                           )
+                        }
+                     >
+                        Expanded Posts for {activeButton}
+                     </button>
+                  </>
+               ) : (
+                  <>
+                     <p>
+                        Showing all lineups for {selectedDot} {activeButton}
+                     </p>
+                     <button
+                        className="btn mt-1"
+                        onClick={() =>
+                           navigate(
+                              `/search/CS2/${selectedDot}+${activeButton}+${mapName}?filter=all`,
+                           )
+                        }
+                     >
+                        Expanded Posts for {selectedDot} {activeButton}
+                     </button>
+                  </>
+               )}
+            </div>
+            <div className="flex flex-1">
+               <div className="flex-1 flex justify-center items-center">
+                  <div className="flex flex-col sm:flex-row justify-center items-center">
+                     <CS2Radar
+                        mapImage={mapImage}
+                        mapName={mapName!}
+                        coordinates={coordinates}
+                        complementCoordinates={complementCoordinates}
+                        activeButton={activeButton}
+                        selectedDot={selectedDot}
+                        setSelectedDot={setSelectedDot}
+                        grenadeIcons={grenadeIcons}
+                     />
+                  </div>
                </div>
             </div>
-         </div>
 
-         <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-               {maps.map((map) => (
-                  <div
-                     key={map.name}
-                     className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer"
-                     onClick={() => handleClick(map.name)}
-                  >
-                     <img
-                        src={map.image}
-                        alt={map.name}
-                        className="w-full h-auto sm:h-48 object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
-                     />
-                     <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
-                        <div className="font-bold text-xl mb-2 text-white text-center">
-                           {map.name}
+            <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
+               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+                  {maps.map((map) => (
+                     <div
+                        key={map.name}
+                        className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer"
+                        onClick={() => handleClick(map.name)}
+                     >
+                        <img
+                           src={map.image}
+                           alt={map.name}
+                           className="w-full h-auto sm:h-48 object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
+                           <div className="font-bold text-xl mb-2 text-white text-center">
+                              {map.name}
+                           </div>
                         </div>
                      </div>
-                  </div>
-               ))}
+                  ))}
+               </div>
+               <GrenadeSelection
+                  isMobile={isMobile}
+                  activeButton={activeButton}
+                  setActiveButton={setActiveButton!}
+               />
             </div>
-            <GrenadeSelection
-               isMobile={isMobile}
-               activeButton={activeButton}
-               setActiveButton={setActiveButton!}
-            />
-         </div>
-
-         <Footer />
-         <div style={{ paddingTop: '80px' }}>{isMobile && <BottomNav />}</div>
+         </Layout>
       </>
    );
 };

@@ -2,11 +2,17 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { mongo } from './config/index.js';
-import { auth, user, post, comment, replies } from './routes/index.js';
+import {
+   auth,
+   user,
+   post,
+   comment,
+   replies,
+   health,
+   leaderboard,
+} from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
-import mongoose from 'mongoose';
-import { updateCS2Posts, updateValorantPosts } from './helper/updatePosts.js';
 
 dotenv.config();
 
@@ -36,10 +42,12 @@ app.use(user);
 app.use(post);
 app.use(comment);
 app.use(replies);
+app.use(health);
+app.use(leaderboard);
 app.use(passport.initialize());
 app.use(passport.session());
 
-const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
+const PORT = process.env.PORT || 1337;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // await updateCS2Posts();

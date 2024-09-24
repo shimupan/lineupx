@@ -10,6 +10,10 @@ module.exports = {
   theme: {
     extend: {
       backdropBlur: ['responsive'],
+      colors: {
+        'scrollbar-thumb': '#4f46e5', // Indigo color for the scrollbar thumb
+        'scrollbar-track': '#1d0532', // Dark purple color for the scrollbar track
+      },
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
       },
@@ -83,6 +87,26 @@ module.exports = {
     }
   },
   plugins: [
-    scrollbar
+    scrollbar,
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.scrollbar-thin': {
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'var(--scrollbar-thumb) var(--scrollbar-track)',
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'var(--scrollbar-track)',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'var(--scrollbar-thumb)',
+            borderRadius: '20px',
+            border: '3px solid var(--scrollbar-track)',
+          },
+        },
+      }
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    }
   ],
 };

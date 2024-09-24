@@ -13,6 +13,7 @@ type SideNavProps = {
 };
 
 export const SideNavContext = createContext<boolean>(true);
+
 const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const Auth = useContext(AuthContext);
    const navigate = useNavigate();
@@ -63,7 +64,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
       return () => window.removeEventListener('resize', handleResize);
    }, []);
 
-   // Do not render the SideNav component on mobile
    if (isMobile) {
       return null;
    }
@@ -98,7 +98,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                      className="p-1.5 rounded-lg bg-gray-300 hover:bg-gray-300 text-white text-2xl block md:hidden"
                      onClick={() => {
                         setExpanded((curr) => !curr);
-                        console.log(expanded);
                      }}
                   >
                      {expanded ? <FaAngleLeft /> : <GiHamburgerMenu />}
@@ -111,7 +110,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                   } border-t flex p-3 position-relative`}
                >
                   <div style={{ position: 'absolute', top: '5', left: '10' }}>
-                     {' '}
                      <Link
                         to={`/user/${
                            Auth?.username ? Auth?.username : 'Guest'
@@ -126,6 +124,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                                    }`
                            }
                            className="ml-[2px] w-10 h-10 rounded-md cursor-pointer"
+                           alt="User avatar"
                         />
                      </Link>
                   </div>
@@ -157,13 +156,11 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
                   </div>
                </div>
                <SideNavContext.Provider value={expanded}>
-                  <ul
-                     className={`${
-                        expanded ? '' : 'hidden'
-                     } md:inline flex-1 px-3`}
+                  <div
+                     className={`flex-1 overflow-y-auto scrollbar-thin ${expanded ? '' : 'hidden'} md:inline`}
                   >
-                     {children}
-                  </ul>
+                     <ul className="px-3">{children}</ul>
+                  </div>
                </SideNavContext.Provider>
             </nav>
          </aside>

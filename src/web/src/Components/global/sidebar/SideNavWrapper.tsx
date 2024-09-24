@@ -1,25 +1,32 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { SideNav, SideNavItems } from '../../../Components';
+import { SideNav, SideNavItems, FollowingSideNav } from '../../../Components';
 import { AuthContext } from '../../../App';
 import { MdOutlineSettings, MdHome } from 'react-icons/md';
 import { RiAdminFill } from 'react-icons/ri';
+import { FaTrophy } from 'react-icons/fa';
 import cs2Logo from '../../../assets/svg/csgo.svg';
-import valorantLogo from '../../../assets/svg/valorant.svg';
+import { SiValorant } from 'react-icons/si';
 import questionMark from '../../../assets/svg/questionmark.svg';
 
 type SideNavWrapperProps = {
    className?: string;
 };
 
+const IconWrapper = ({ children }: { children: React.ReactNode }) => (
+   <div className="w-6 h-6 flex items-center justify-center">{children}</div>
+);
+
 const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
    const Auth = useContext(AuthContext);
    const [activeItem, setActiveItem] = useState<string>('/');
    const navigate = useNavigate();
    const location = useLocation();
+
    useEffect(() => {
       setActiveItem(location.pathname);
    }, [location.pathname]);
+
    const handleClick = (item: string) => {
       navigate(item);
    };
@@ -29,19 +36,24 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
          <div className={`side-nav-wrapper ${className}`}>
             <SideNav>
                <SideNavItems
-                  icon={<MdHome size={25} />}
+                  icon={
+                     <IconWrapper>
+                        <MdHome size={24} />
+                     </IconWrapper>
+                  }
                   text="Home"
                   active={activeItem === '/'}
                   onClick={() => handleClick('/')}
                />
                <SideNavItems
                   icon={
-                     <img
-                        src={cs2Logo}
-                        alt="CS2"
-                        width={25}
-                        style={{ filter: 'brightness(0) invert(1)' }}
-                     />
+                     <IconWrapper>
+                        <img
+                           src={cs2Logo}
+                           alt="CS2"
+                           className="w-6 h-6 filter brightness-0 invert"
+                        />
+                     </IconWrapper>
                   }
                   text="CS2"
                   active={activeItem === '/game/CS2'}
@@ -49,12 +61,9 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                />
                <SideNavItems
                   icon={
-                     <img
-                        src={valorantLogo}
-                        alt="Valorant"
-                        width={25}
-                        style={{ filter: 'brightness(0) invert(1)' }}
-                     />
+                     <IconWrapper>
+                        <SiValorant size={24} />
+                     </IconWrapper>
                   }
                   text="Valorant"
                   active={activeItem === '/game/Valorant'}
@@ -62,14 +71,22 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                />
                {Auth?.role === 'admin' && (
                   <SideNavItems
-                     icon={<RiAdminFill size={25} />}
+                     icon={
+                        <IconWrapper>
+                           <RiAdminFill size={24} />
+                        </IconWrapper>
+                     }
                      text="Admin"
                      active={activeItem === '/admin'}
                      onClick={() => handleClick('/admin')}
                   />
                )}
                <SideNavItems
-                  icon={<MdOutlineSettings size={25} />}
+                  icon={
+                     <IconWrapper>
+                        <MdOutlineSettings size={24} />
+                     </IconWrapper>
+                  }
                   text="Profile"
                   active={
                      activeItem ===
@@ -84,17 +101,31 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                />
                <SideNavItems
                   icon={
-                     <img
-                        src={questionMark}
-                        alt="About"
-                        width={25}
-                        style={{ filter: 'brightness(0) invert(1)' }}
-                     />
+                     <IconWrapper>
+                        <FaTrophy size={24} />
+                     </IconWrapper>
+                  }
+                  text="Leaderboard"
+                  active={activeItem === '/leaderboard'}
+                  onClick={() => handleClick('/leaderboard')}
+               />
+               <SideNavItems
+                  icon={
+                     <IconWrapper>
+                        <img
+                           src={questionMark}
+                           alt="About"
+                           className="w-6 h-6 filter brightness-0 invert"
+                        />
+                     </IconWrapper>
                   }
                   text="About"
                   active={activeItem === '/about'}
                   onClick={() => handleClick('/about')}
                />
+
+               <div className="border-t border-gray-700 my-4"></div>
+               <FollowingSideNav />
             </SideNav>
          </div>
       </>
