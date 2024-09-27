@@ -21,7 +21,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const [expanded, setExpanded] = useState<boolean>(false);
    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768);
    const approved = Auth?.role === 'admin';
-   const isSpecialRoute =false;
+   const isSpecialRoute = false;
 
    const logout = async () => {
       try {

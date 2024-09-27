@@ -132,21 +132,21 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
 
                {location.pathname.startsWith('/game/CS2') && (
                   <SideNavItems
-                  icon={
-                     <IconWrapper>
-                        <img
-                           src={grenade}
-                           alt="Lineups"
-                           className="w-10 h-8 filter brightness-0 invert"
-                        />
-                     </IconWrapper>
-                  }
-                  text="Lineups"
-                  active={activeItem === '/game/CS2/Lineups'}
-                  onClick={() => handleClick('/game/CS2/Lineups')}
+                     icon={
+                        <IconWrapper>
+                           <img
+                              src={grenade}
+                              alt="Lineups"
+                              className="w-10 h-8 filter brightness-0 invert"
+                           />
+                        </IconWrapper>
+                     }
+                     text="Lineups"
+                     active={activeItem === '/game/CS2/Lineups'}
+                     onClick={() => handleClick('/game/CS2/Lineups')}
                   />
                )}
-               
+
                {location.pathname.startsWith('/game/Valorant') && (
                   <SideNavItems
                      icon={
