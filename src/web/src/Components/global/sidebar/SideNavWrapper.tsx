@@ -6,6 +6,8 @@ import { MdOutlineSettings, MdHome } from 'react-icons/md';
 import { RiAdminFill } from 'react-icons/ri';
 import { FaTrophy } from 'react-icons/fa';
 import cs2Logo from '../../../assets/svg/csgo.svg';
+import grenade from '../../../assets/svg/grenade.svg';
+import molly from '../../../assets/svg/molly.svg';
 import { SiValorant } from 'react-icons/si';
 import questionMark from '../../../assets/svg/questionmark.svg';
 
@@ -124,6 +126,43 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                   onClick={() => handleClick('/about')}
                />
 
+               {location.pathname.startsWith('/game') && (
+                  <div className="border-t border-gray-700 my-4"></div>
+               )}
+
+               {location.pathname.startsWith('/game/CS2') && (
+                  <SideNavItems
+                  icon={
+                     <IconWrapper>
+                        <img
+                           src={grenade}
+                           alt="Lineups"
+                           className="w-10 h-8 filter brightness-0 invert"
+                        />
+                     </IconWrapper>
+                  }
+                  text="Lineups"
+                  active={activeItem === '/game/CS2/Lineups'}
+                  onClick={() => handleClick('/game/CS2/Lineups')}
+                  />
+               )}
+               
+               {location.pathname.startsWith('/game/Valorant') && (
+                  <SideNavItems
+                     icon={
+                        <IconWrapper>
+                           <img
+                              src={molly}
+                              alt="Lineups"
+                              className="w-6 h-6 filter brightness-0 invert"
+                           />
+                        </IconWrapper>
+                     }
+                     text="Lineups"
+                     active={activeItem === '/game/Valorant/Agents'}
+                     onClick={() => handleClick('/game/Valorant/Agents')}
+                  />
+               )}
                <div className="border-t border-gray-700 my-4"></div>
                <FollowingSideNav />
             </SideNav>
