@@ -23,11 +23,20 @@ const FlippingViewCount: React.FC<FlippingViewCountProps> = ({ number }) => {
   const displayNumber = abbreviateNumber(currentNumber);
   const newNumber = abbreviateNumber(number);
 
+  const getPadding = (num: string) => {
+    const length = num.length;
+    return `pl-${Math.min(length + 2, 8)}`;  // Increase padding with number length, max of pl-8
+  };
+
   return (
     <div className="flip-container inline-flex items-center">
       <div className={`flipper ${isFlipping ? 'flip' : ''}`}>
-        <span className="front text-white px-2 py-1 rounded">{displayNumber}</span>
-        <span className="back text-white px-2 py-1 rounded">{newNumber}</span>
+        <span className={`front text-white px-2 py-1 ${getPadding(displayNumber)} rounded`}>
+          {displayNumber}
+        </span>
+        <span className={`back text-white px-2 py-1 ${getPadding(newNumber)} rounded`}>
+          {newNumber}
+        </span>
       </div>
       <span className="view-text px-2 text-sm"> views</span>
     </div>

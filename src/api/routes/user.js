@@ -324,6 +324,12 @@ router.post('/user/:id/follow', async (req, res) => {
       await user.save();
       await userToFollow.save();
 
+      io.emit('userFollowUpdate', {
+         userId: id,
+         userIdToFollow,
+         isFollowing: !isFollowing,
+      });
+
       res.status(200).send(user);
    } catch (error) {
       console.error('Failed to follow/unfollow user:', error);
