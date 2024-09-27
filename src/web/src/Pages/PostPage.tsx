@@ -266,10 +266,6 @@ const PostPage = () => {
          });
    };
 
-   useEffect(() => {
-      fetchComments();
-      incrementViewCount();
-   }, []);
 
    const handleLikeDislike = async (action: 'like' | 'dislike') => {
       if (!user_Id) {
@@ -330,6 +326,8 @@ const PostPage = () => {
                   (dislike: any) => dislike.userId === user_Id,
                ),
             );
+            await fetchComments();
+            await incrementViewCount();
          } catch (error) {
             console.error('Failed to fetch post data:', error);
          } finally {
