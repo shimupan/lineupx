@@ -11,6 +11,7 @@ import {
 import cloudinary from '../config/cloudinary.js';
 import { Formidable } from 'formidable';
 import fs from 'fs';
+import { console } from 'inspector';
 
 const router = express.Router();
 const cloudinaryObject = cloudinary();
@@ -33,8 +34,13 @@ router.post('/users', async (req, res) => {
 });
 
 // getting a specific user by username
+
+//Should pass in current users name for access to extended information
 router.get('/user/:id', async (req, res) => {
    const username = req.params.id;
+   //const currentUsername = req.query.Users_User_Name;
+   console.log("Hello backend");
+   console.log("print!");
    const user = await User.findOne({ username: username }).select(
       '-email -password',
    );
@@ -46,6 +52,8 @@ router.get('/user/:id', async (req, res) => {
 });
 
 // getting a specific user by id
+
+//Should pass in current users id for access to extended information
 router.get('/user/id/:id', async (req, res) => {
    const id = req.params.id;
    const user = await User.findOne({ _id: id });

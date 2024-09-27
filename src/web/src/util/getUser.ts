@@ -29,6 +29,7 @@ export async function getUsersByIDs(ids: string[]) {
 
 export async function getUserByUsername(username: string) {
    try {
+      console.log("hello")
       const response = await axios.get(`user/${username}`);
       return response.data;
    } catch (error) {
