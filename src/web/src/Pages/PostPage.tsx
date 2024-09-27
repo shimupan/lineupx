@@ -700,6 +700,7 @@ const PostPage = () => {
                   <div className="bg-black md:ml-[10px]">
                      <div className="flex items-start space-x-3">
                         {Auth?.username && (
+                          Auth.Verified ? (
                            <>
                               <img
                                  className="w-10 h-10 rounded-full"
@@ -732,7 +733,10 @@ const PostPage = () => {
                                  </div>
                               </div>
                            </>
-                        )}
+                          ):( <div className="text-red-500 text-sm font-semibold align-content:center">
+               Please verify your account to comment.
+            </div>
+                        ))}
                      </div>
                      {comments.map((comment, index) => (
                         <Comments
