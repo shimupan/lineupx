@@ -21,6 +21,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { CiDesktopMouse2 } from 'react-icons/ci';
 import { useValorantAgents } from '../../contexts/ValorantAgentContext';
+import { abbreviateNumber } from '../../util/updatePost';
 
 interface PostsProps {
    postData: PostType;
@@ -318,7 +319,7 @@ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
 
                   <div>
                      <span className="text-gray-300">
-                        {postData.views} views
+                        {abbreviateNumber(postData.views)} views
                      </span>
                      <span className="ml-1 mr-1 text-gray-300">•</span>
                      <span className="text-gray-300">
