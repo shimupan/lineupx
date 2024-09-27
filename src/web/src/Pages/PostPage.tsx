@@ -723,40 +723,45 @@ const PostPage = () => {
                   </div>
                   <div className="bg-black md:ml-[10px]">
                      <div className="flex items-start space-x-3">
-                        {Auth?.username && (
-                           <>
-                              <img
-                                 className="w-10 h-10 rounded-full"
-                                 src={`${Auth?.ProfilePicture}`}
-                                 alt="PFP"
-                              />
-                              <div className="flex-1">
-                                 <div className="flex items-center">
-                                    <h4 className="text-sm font-bold">
-                                       {Auth?.username}
-                                    </h4>
+                        {Auth?.username &&
+                           (Auth.Verified ? (
+                              <>
+                                 <img
+                                    className="w-10 h-10 rounded-full"
+                                    src={`${Auth?.ProfilePicture}`}
+                                    alt="PFP"
+                                 />
+                                 <div className="flex-1">
+                                    <div className="flex items-center">
+                                       <h4 className="text-sm font-bold">
+                                          {Auth?.username}
+                                       </h4>
+                                    </div>
+                                    <textarea
+                                       className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Add a public comment..."
+                                       onChange={(e) => {
+                                          setNewComment(e.target.value);
+                                       }}
+                                    ></textarea>
+                                    <div className="mt-2 flex justify-end space-x-2">
+                                       <button className="text-sm text-gray-500">
+                                          CANCEL
+                                       </button>
+                                       <button
+                                          className="text-sm text-blue-500 font-semibold"
+                                          onClick={handleCommentSubmit}
+                                       >
+                                          COMMENT
+                                       </button>
+                                    </div>
                                  </div>
-                                 <textarea
-                                    className="mt-1 text-sm w-full rounded border-gray-300 focus:ring focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Add a public comment..."
-                                    onChange={(e) => {
-                                       setNewComment(e.target.value);
-                                    }}
-                                 ></textarea>
-                                 <div className="mt-2 flex justify-end space-x-2">
-                                    <button className="text-sm text-gray-500">
-                                       CANCEL
-                                    </button>
-                                    <button
-                                       className="text-sm text-blue-500 font-semibold"
-                                       onClick={handleCommentSubmit}
-                                    >
-                                       COMMENT
-                                    </button>
-                                 </div>
+                              </>
+                           ) : (
+                              <div className="text-red-500 text-sm font-semibold align-content:center">
+                                 Please verify your account to comment.
                               </div>
-                           </>
-                        )}
+                           ))}
                      </div>
                      {comments.map((comment, index) => (
                         <Comments
