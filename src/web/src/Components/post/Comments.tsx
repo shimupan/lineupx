@@ -36,7 +36,7 @@ const Comments: React.FC<CommentProps> = ({
    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
    useEffect(() => {
       if (comment.username) {
-         getUserByUsername(comment.username).then((user) => {
+         getUserByUsername(comment.username, Auth!.username).then((user) => {
             setUser(user);
          });
       }

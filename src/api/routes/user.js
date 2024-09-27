@@ -35,6 +35,49 @@ router.post('/users', async (req, res) => {
 // getting a specific user by username
 router.get('/user/:id', async (req, res) => {
    const username = req.params.id;
+   const currentUserName = req.query.CurrentUser;
+   const Params = req.query.Params.split(",");
+   console.log(currentUserName);
+   console.log(Params);
+
+   const unincludedParams = ["email", "password", "_id", "role", "likes", "dislikes", "saved", "comments", "followers", "following", "__v"];
+
+
+
+
+   
+   //If the current user is not signed in or not the same user requesting data. Return limited data.
+   if(currentUserName == "" || currentUserName != username){
+      console.log("Different User");
+   }else{
+      console.log("Same User");
+   }
+
+   //No specify: Common info, Username, Profile Picture
+
+   /*
+      2 followers
+
+      1 following
+
+      63 posts
+
+      182 views
+   */
+
+   //Specific querys must be user themselves
+   //
+
+   let unincludedString = "";
+   for(let i = 0; i < unincludedParams.length; i++){
+      unincludedString += "-";
+      unincludedString += unincludedParams[i];
+      if (i < unincludedParams.length - 1) {
+         unincludedString += " ";
+     }
+   }
+
+
    const user = await User.findOne({ username: username }).select(
       '-email -password',
    );
