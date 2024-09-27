@@ -25,7 +25,7 @@ const FlippingViewCount: React.FC<FlippingViewCountProps> = ({ number }) => {
             <span className="front">{currentNumber}</span>
             <span className="back">{number}</span>
          </div>
-         <span className="view-text"> views</span>
+         <span className="view-text px-2"> views</span>
       </div>
    );
 };
