@@ -153,7 +153,9 @@ const WidePosts: React.FC<WidePostsProps> = ({
                )}
             </div>
             <div>
-               <span className="text-gray-300">{abbreviateNumber(post.views)} views</span>
+               <span className="text-gray-300">
+                  {abbreviateNumber(post.views)} views
+               </span>
                <span className="ml-1 mr-1 text-gray-300">•</span>
                <span className="text-gray-300">
                   {timeAgo(new Date(post.date))}
