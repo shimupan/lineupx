@@ -324,10 +324,15 @@ router.post('/user/:id/follow', async (req, res) => {
       await user.save();
       await userToFollow.save();
 
-      io.emit('userFollowUpdate', {
-         userId: id,
-         userIdToFollow,
+      req.io.emit('followingUpdate', {
+         userId: userIdToFollow,
+         followedUserId: id,
          isFollowing: !isFollowing,
+         updatedUser: {
+            id: userToFollow._id,
+            username: userToFollow.username,
+            ProfilePicture: userToFollow.ProfilePicture,
+         }
       });
 
       res.status(200).send(user);

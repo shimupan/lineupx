@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../../App';
 import { SideNavContext } from './SideNav';
+import socket from '../../../services/socket'; 
 
 const FollowingSideNav: React.FC = () => {
    const [followingUsers, setFollowingUsers] = useState<
@@ -29,13 +30,6 @@ const FollowingSideNav: React.FC = () => {
                ProfilePicture: user.ProfilePicture,
                isFollowing: true,
             }));
-
-            if (users.length > 1) {
-               const secondUser = users[1];
-               for (let i = 0; i < 20; i++) {
-                  users.push({ ...secondUser, id: `${secondUser.id}-${i}` });
-               }
-            }
             setFollowingUsers(users);
          } catch (error) {
             console.error(error);
@@ -43,6 +37,34 @@ const FollowingSideNav: React.FC = () => {
       };
       fetchFollowingUsers();
    }, [Auth?.following]);
+
+   useEffect(() => {
+      socket.on('followingUpdate', (data) => {
+         if (data.userId === Auth?._id) {
+            setFollowingUsers((prevUsers) => {
+               if (data.isFollowing) {
+                  return [
+                     ...prevUsers,
+                     {
+                        id: data.updatedUser.id,
+                        username: data.updatedUser.username,
+                        ProfilePicture: data.updatedUser.ProfilePicture,
+                        isFollowing: true,
+                     },
+                  ];
+               } else {
+                  return prevUsers.filter(
+                     (user) => user.id !== data.followedUserId,
+                  );
+               }
+            });
+         }
+      });
+
+      return () => {
+         socket.off('followingUpdate');
+      };
+   }, [Auth?._id]);
 
    useEffect(() => {
       if (!expanded) {

@@ -125,7 +125,7 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                />
 
                <div className="border-t border-gray-700 my-4"></div>
-               <FollowingSideNav />
+               {Auth?.username && <FollowingSideNav />}
             </SideNav>
          </div>
       </>
