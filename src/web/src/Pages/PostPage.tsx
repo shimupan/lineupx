@@ -165,8 +165,7 @@ const PostPage = () => {
 
    const fetchComments = async () => {
       try {
-         const postId = location.pathname.split('/')[2];
-         const commentsUrl = `/post/${postId}`;
+         const commentsUrl = `/post/${postData?.game || currPostData?.game}`;
 
          const response = await axios.get(commentsUrl);
 
@@ -256,9 +255,12 @@ const PostPage = () => {
 
    const incrementViewCount = async () => {
       axios
-         .post(`/post/${postData._id}/increment-view-count`, {
-            game: postData.game || currPostData?.game,
-         })
+         .post(
+            `/post/${postData._id || currPostData?._id}/increment-view-count`,
+            {
+               game: postData.game || currPostData?.game,
+            },
+         )
          .then((response) => {
             console.log('Successfully incremented view count:', response);
          })
@@ -701,7 +703,7 @@ const PostPage = () => {
                      </div>
                   </div>
                   <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
-                     <div className="flex flex-row space-x-2 font-bold">
+                     <div className="flex flex-row space-x-2 font-bold items-center">
                         <FlippingViewCount number={views} />
                         <p>
                            {new Date(

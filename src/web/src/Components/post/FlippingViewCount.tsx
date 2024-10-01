@@ -2,45 +2,51 @@ import React, { useState, useEffect } from 'react';
 import { abbreviateNumber } from '../../util/updatePost';
 
 interface FlippingViewCountProps {
-  number: number;
+   number: number;
 }
 
 const FlippingViewCount: React.FC<FlippingViewCountProps> = ({ number }) => {
-  const [currentNumber, setCurrentNumber] = useState(number);
-  const [isFlipping, setIsFlipping] = useState(false);
+   const [currentNumber, setCurrentNumber] = useState(number);
+   const [isFlipping, setIsFlipping] = useState(false);
 
-  useEffect(() => {
-    if (number !== currentNumber) {
-      setIsFlipping(true);
-      const timer = setTimeout(() => {
-        setCurrentNumber(number);
-        setIsFlipping(false);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [number, currentNumber]);
+   useEffect(() => {
+      if (number !== currentNumber) {
+         setIsFlipping(true);
+         const timer = setTimeout(() => {
+            setCurrentNumber(number);
+            setIsFlipping(false);
+         }, 500);
+         return () => clearTimeout(timer);
+      }
+   }, [number, currentNumber]);
 
-  const displayNumber = abbreviateNumber(currentNumber);
-  const newNumber = abbreviateNumber(number);
+   const displayNumber = abbreviateNumber(currentNumber);
+   const newNumber = abbreviateNumber(number);
 
-  const getPadding = (num: string) => {
-    const length = num.length;
-    return `pl-${Math.min(length + 2, 8)}`;  // Increase padding with number length, max of pl-8
-  };
+   // Calculate width based on the length of the number
+   const numberLength = displayNumber.length;
+   const dynamicWidth = `${numberLength + 0.25}ch`; 
 
-  return (
-    <div className="flip-container inline-flex items-center">
-      <div className={`flipper ${isFlipping ? 'flip' : ''}`}>
-        <span className={`front text-white px-2 py-1 ${getPadding(displayNumber)} rounded`}>
-          {displayNumber}
-        </span>
-        <span className={`back text-white px-2 py-1 ${getPadding(newNumber)} rounded`}>
-          {newNumber}
-        </span>
+   return (
+      <div className="flex items-center whitespace-nowrap">
+         <div className="flip-container">
+            <div
+               className={`flipper ${isFlipping ? 'flip' : ''}`}
+               style={{ width: dynamicWidth }}
+            >
+               <div className="front">
+                  <span className="text-white font-medium">
+                     {displayNumber}
+                  </span>
+               </div>
+               <div className="back">
+                  <span className="text-white font-medium">{newNumber}</span>
+               </div>
+            </div>
+         </div>
+         <span className="text-white text-sm ml-1">views</span>
       </div>
-      <span className="view-text px-2 text-sm"> views</span>
-    </div>
-  );
+   );
 };
 
 export default FlippingViewCount;

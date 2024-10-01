@@ -116,12 +116,12 @@ select {
 .flip-container {
    display: inline-flex;
    align-items: center;
+   position: relative; 
 }
 
 .flipper {
    display: inline-block;
    position: relative;
-   width: 1em;
    height: 1em;
    line-height: 1;
    transition: transform 0.6s;
