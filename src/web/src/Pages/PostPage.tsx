@@ -152,6 +152,10 @@ const PostPage = () => {
    };
 
    const savePost = async () => {
+      if (!user_Id) {
+         alert('You must be logged in to save posts.');
+         return;
+      }
       try {
          await axios.post(`/user/${user_Id}/save-post`, {
             postId: postData?._id || currPostData?._id,
