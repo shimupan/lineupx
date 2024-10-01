@@ -1,5 +1,5 @@
 import { useState, useContext, createContext, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -20,7 +20,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768);
-   const approved = Auth?.role === 'admin';
    const isSpecialRoute = false;
 
    const logout = async () => {
