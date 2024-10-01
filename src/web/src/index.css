@@ -116,7 +116,7 @@ select {
 .flip-container {
    display: inline-flex;
    align-items: center;
-   position: relative; 
+   position: relative;
 }
 
 .flipper {

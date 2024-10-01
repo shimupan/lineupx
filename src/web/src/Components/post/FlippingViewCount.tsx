@@ -25,7 +25,7 @@ const FlippingViewCount: React.FC<FlippingViewCountProps> = ({ number }) => {
 
    // Calculate width based on the length of the number
    const numberLength = displayNumber.length;
-   const dynamicWidth = `${numberLength + 0.25}ch`; 
+   const dynamicWidth = `${numberLength + 0.25}ch`;
 
    return (
       <div className="flex items-center whitespace-nowrap">

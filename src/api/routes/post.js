@@ -534,7 +534,9 @@ router.post('/post/:id/comment', async (req, res) => {
       await post.save();
 
       // Emit the updated comments
-      req.app.get('io').emit('commentUpdate', { postId: id, comments: post.comments });
+      req.app
+         .get('io')
+         .emit('commentUpdate', { postId: id, comments: post.comments });
 
       res.status(200).send(post);
    } catch (error) {

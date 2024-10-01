@@ -332,7 +332,7 @@ router.post('/user/:id/follow', async (req, res) => {
             id: userToFollow._id,
             username: userToFollow.username,
             ProfilePicture: userToFollow.ProfilePicture,
-         }
+         },
       });
 
       res.status(200).send(user);

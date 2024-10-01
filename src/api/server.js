@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 // Define your routes after the middleware
 app.use(auth);
 app.use(user);
-app.use(post); 
+app.use(post);
 app.use(comment);
 app.use(replies);
 app.use(health);

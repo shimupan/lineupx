@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../../App';
 import { SideNavContext } from './SideNav';
-import socket from '../../../services/socket'; 
+import socket from '../../../services/socket';
 
 const FollowingSideNav: React.FC = () => {
    const [followingUsers, setFollowingUsers] = useState<
