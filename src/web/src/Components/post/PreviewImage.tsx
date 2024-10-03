@@ -19,7 +19,6 @@ const PreviewImage: React.FC<PreviewImageProps> = ({ images, onClick }) => {
       e.stopPropagation();
       setCurrentImage((prev) => (prev + 1) % images.length);
    };
-
    return (
       <div
          className="absolute top-0 left-0 w-full h-full bg-black rounded-lg cursor-pointer overflow-hidden"
