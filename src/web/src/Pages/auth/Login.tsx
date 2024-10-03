@@ -98,7 +98,7 @@ const Login: React.FC = () => {
    return (
       <Layout>
          <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 backdrop-blur-lg bg-white/10 p-8 rounded-xl shadow-2xl">
+            <div className="max-w-md w-full space-y-8 backdrop-blur-lg bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-8 rounded-xl shadow-2xl">
                <div>
                   <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
                      Sign in to your account
@@ -148,18 +148,12 @@ const Login: React.FC = () => {
                            type="checkbox"
                            className="h-4 w-4 text-purple-500 focus:ring-purple-400 border-gray-600 rounded bg-gray-900/50"
                         />
-                        <label
-                           htmlFor="remember-me"
-                           className="ml-2 block text-sm text-gray-200"
-                        >
+                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-200">
                            Remember me
                         </label>
                      </div>
 
-                     <Link
-                        to="/forgotpassword"
-                        className="text-sm text-purple-300 hover:text-purple-200"
-                     >
+                     <Link to="/forgotpassword" className="text-sm text-purple-300 hover:text-purple-200">
                         Forgot password?
                      </Link>
                   </div>
@@ -186,10 +180,7 @@ const Login: React.FC = () => {
 
                <p className="mt-2 text-center text-sm text-gray-200">
                   Not registered yet?{' '}
-                  <Link
-                     to="/register"
-                     className="font-medium text-purple-300 hover:text-purple-200"
-                  >
+                  <Link to="/register" className="font-medium text-purple-300 hover:text-purple-200">
                      Create an account
                   </Link>
                </p>

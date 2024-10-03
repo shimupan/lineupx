@@ -51,7 +51,7 @@ const ForgotPassword: React.FC = () => {
    return (
       <Layout>
          <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 backdrop-blur-lg bg-white/10 p-8 rounded-xl shadow-2xl">
+            <div className="max-w-md w-full space-y-8 backdrop-blur-lg bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-8 rounded-xl shadow-2xl">
                <div>
                   <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
                      Reset your password
