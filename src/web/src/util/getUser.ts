@@ -29,6 +29,7 @@ export async function getUsersByIDs(ids: string[]) {
 
 export async function getUserByUsername(username: string, currUser: string, params: string[] = []) {
    try {
+      //currUser = "" is treated as a guest or invalid user signin, this case will not be able to access profile data specific to username
       if(!currUser){
          currUser = "";
       }

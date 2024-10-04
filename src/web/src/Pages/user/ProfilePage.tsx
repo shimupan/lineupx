@@ -82,7 +82,10 @@ const ProfilePage = () => {
    // If you search for an non exisitant user
    useEffect(() => {
       // Fetch Users
-      getUserByUsername(id!, Auth!.username, ["saved", "likes"])
+      if(!Auth && !id){
+         return;
+      }
+      getUserByUsername(id!, Auth!.username, ["followers", "following"])
          .then((response) => {
             setUser(response);
             setFollowers(new Set(response.followers));
@@ -137,7 +140,7 @@ const ProfilePage = () => {
          .finally(() => {
             setLoading(false);
          });
-   }, [id]);
+   }, [id, Auth]);
 
    const handleFollowers = async () => {
       follow(user._id, Auth?._id!).then((response) => {
