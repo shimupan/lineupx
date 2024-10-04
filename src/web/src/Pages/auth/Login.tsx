@@ -86,10 +86,11 @@ const Login: React.FC = () => {
          navigate(`/user/${Auth?.username}`);
       }
    };
-
+   /* Goolge Login doesn't work rn on server side 
    const handleGoogleSignIn = () => {
       window.location.href = axios.defaults.baseURL + '/google';
    };
+   */
 
    const isValidEmail = (email: string) => {
       return email.includes('@');
@@ -172,7 +173,7 @@ const Login: React.FC = () => {
                         Sign in
                      </button>
                   </div>
-
+                  {/*
                   <div>
                      <button
                         type="button"
@@ -182,6 +183,7 @@ const Login: React.FC = () => {
                         Sign in with Google
                      </button>
                   </div>
+                  */}
                </form>
 
                <p className="mt-2 text-center text-sm text-gray-200">
