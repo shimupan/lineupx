@@ -29,13 +29,7 @@ const FollowingSideNav: React.FC = () => {
                ProfilePicture: user.ProfilePicture,
                isFollowing: true,
             }));
-
-            if (users.length > 1) {
-               const secondUser = users[1];
-               for (let i = 0; i < 20; i++) {
-                  users.push({ ...secondUser, id: `${secondUser.id}-${i}` });
-               }
-            }
+            
             setFollowingUsers(users);
          } catch (error) {
             console.error(error);
