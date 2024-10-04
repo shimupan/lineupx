@@ -148,12 +148,18 @@ const Login: React.FC = () => {
                            type="checkbox"
                            className="h-4 w-4 text-purple-500 focus:ring-purple-400 border-gray-600 rounded bg-gray-900/50"
                         />
-                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-200">
+                        <label
+                           htmlFor="remember-me"
+                           className="ml-2 block text-sm text-gray-200"
+                        >
                            Remember me
                         </label>
                      </div>
 
-                     <Link to="/forgotpassword" className="text-sm text-purple-300 hover:text-purple-200">
+                     <Link
+                        to="/forgotpassword"
+                        className="text-sm text-purple-300 hover:text-purple-200"
+                     >
                         Forgot password?
                      </Link>
                   </div>
@@ -180,7 +186,10 @@ const Login: React.FC = () => {
 
                <p className="mt-2 text-center text-sm text-gray-200">
                   Not registered yet?{' '}
-                  <Link to="/register" className="font-medium text-purple-300 hover:text-purple-200">
+                  <Link
+                     to="/register"
+                     className="font-medium text-purple-300 hover:text-purple-200"
+                  >
                      Create an account
                   </Link>
                </p>
