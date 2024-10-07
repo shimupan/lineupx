@@ -30,6 +30,7 @@ const FollowingSideNav: React.FC = () => {
                ProfilePicture: user.ProfilePicture,
                isFollowing: true,
             }));
+           
             setFollowingUsers(users);
          } catch (error) {
             console.error(error);

@@ -53,9 +53,9 @@ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
       setIsHovering(false);
    };
    const images = [
-      `${postData.landingPosition.public_id}/f_auto,q_auto`,
-      `${postData.standingPosition.public_id}/f_auto,q_auto`,
-      `${postData.aimingPosition.public_id}/f_auto,q_auto`,
+      `${postData.landingPosition.public_id}`,
+      `${postData.standingPosition.public_id}`,
+      `${postData.aimingPosition.public_id}`,
    ];
 
    // Conditionally use ValorantAgentContext
