@@ -36,7 +36,7 @@ const useUserCache = () => {
             }
          }
       },
-      [userCache],
+      [],
    );
 
    return { userCache, fetchUsers };
