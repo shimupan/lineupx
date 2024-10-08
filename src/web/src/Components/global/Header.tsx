@@ -162,38 +162,6 @@ const Header: React.FC = () => {
                   )}
                </div>
             </div>
-            {location.pathname.startsWith('/game/CS2') && (
-               <div className="w-full flex justify-center items-center mt-0 px-6 py-1 space-x-6 bg-[#212121] shadow-lg">
-                  <Link
-                     to="/game/CS2"
-                     className="text-white hover:text-gray-400 text-sm"
-                  >
-                     Home
-                  </Link>
-                  <Link
-                     to="/game/CS2/Lineups"
-                     className="text-white hover:text-gray-400 text-sm"
-                  >
-                     Lineups
-                  </Link>
-               </div>
-            )}
-            {location.pathname.startsWith('/game/Valorant') && (
-               <div className="w-full flex justify-center items-center mt-0 px-6 py-1 space-x-6 bg-[#212121] shadow-lg">
-                  <Link
-                     to="/game/Valorant"
-                     className="text-white hover:text-gray-400 text-sm"
-                  >
-                     Home
-                  </Link>
-                  <Link
-                     to="/game/Valorant/Agents"
-                     className="text-white hover:text-gray-400 text-sm"
-                  >
-                     Lineups
-                  </Link>
-               </div>
-            )}
          </nav>
       </>
    );
