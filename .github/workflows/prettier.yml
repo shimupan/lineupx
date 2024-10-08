@@ -22,15 +22,15 @@ jobs:
         run: npm install
 
       - name: Check for unformatted files
+        id: prettier_check
         run: |
-          npx prettier --check "src/**/*.{js,jsx,ts,tsx,json,css,md}"
+          npx prettier --check "src/**/*.{js,jsx,ts,tsx,json,css,md}" || echo "Prettier found unformatted files"
 
       - name: Prettify Code
         run: |
           npx prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,md}"
 
       - name: Commit changes
-        if: success()
         run: |
           git config --local user.email "${{ github.event.pusher.email }}"
           git config --local user.name "${{ github.event.pusher.name }}"
@@ -44,8 +44,11 @@ jobs:
           fi
 
       - name: Push changes
-        if: success()
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.REPO_SCOPED_TOKEN }}
           branch: ${{ github.head_ref }}
+
+      - name: Fail if Prettier found unformatted files
+        if: steps.prettier_check.outcome == 'failure'
+        run: exit 1
