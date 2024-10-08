@@ -7,16 +7,15 @@ const useUserCache = () => {
    const userCacheRef = useRef(userCache);
    const fetchingUsers = useRef<Set<string>>(new Set());
 
-  useEffect(() => {
-    userCacheRef.current = userCache;
-  }, [userCache]);
-   
-  const fetchUsers = useCallback(
-      async (userIds: string[]) => {
-         const uniqueUserIds = [...new Set(userIds)];
-         const usersToFetch = uniqueUserIds.filter(
-            (id) => !userCacheRef.current[id] && !fetchingUsers.current.has(id),
-         );
+   useEffect(() => {
+      userCacheRef.current = userCache;
+   }, [userCache]);
+
+   const fetchUsers = useCallback(async (userIds: string[]) => {
+      const uniqueUserIds = [...new Set(userIds)];
+      const usersToFetch = uniqueUserIds.filter(
+         (id) => !userCacheRef.current[id] && !fetchingUsers.current.has(id),
+      );
 
       if (usersToFetch.length > 0) {
          usersToFetch.forEach((id) => fetchingUsers.current.add(id));
