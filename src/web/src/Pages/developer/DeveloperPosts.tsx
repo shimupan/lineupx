@@ -45,7 +45,7 @@ const DeveloperPosts: React.FC = () => {
             <div className="flex flex-col md:flex-row">
                <main className="flex-1 p-2 md:p-6 md:ml-32">
                   <h1 className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6 pl-2">
-                     Admin Posts
+                     Posts
                   </h1>
                   {loading ? (
                      <div className="flex justify-center items-center h-64">
@@ -96,7 +96,7 @@ const DeveloperPosts: React.FC = () => {
                                        onClick={(e) => {
                                           e.stopPropagation();
                                           navigate(
-                                             `/admin/post/${p.postTitle}`,
+                                             `/developer/post/${p.postTitle}`,
                                              {
                                                 state: p,
                                              },
