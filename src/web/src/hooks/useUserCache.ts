@@ -1,16 +1,22 @@
-import { useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { UserType } from '../global.types';
 import { getUsersByIDs } from '../util/getUser';
 
 const useUserCache = () => {
    const [userCache, setUserCache] = useState<Record<string, UserType>>({});
+   const userCacheRef = useRef(userCache);
    const fetchingUsers = useRef<Set<string>>(new Set());
 
-   const fetchUsers = useCallback(async (userIds: string[]) => {
-      const uniqueUserIds = [...new Set(userIds)];
-      const usersToFetch = uniqueUserIds.filter(
-         (id) => !userCache[id] && !fetchingUsers.current.has(id),
-      );
+  useEffect(() => {
+    userCacheRef.current = userCache;
+  }, [userCache]);
+   
+  const fetchUsers = useCallback(
+      async (userIds: string[]) => {
+         const uniqueUserIds = [...new Set(userIds)];
+         const usersToFetch = uniqueUserIds.filter(
+            (id) => !userCacheRef.current[id] && !fetchingUsers.current.has(id),
+         );
 
       if (usersToFetch.length > 0) {
          usersToFetch.forEach((id) => fetchingUsers.current.add(id));
