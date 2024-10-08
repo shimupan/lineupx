@@ -76,16 +76,16 @@ const ProfilePage = () => {
    const totalViews = posts
       .flat()
       .reduce((total, post) => total + post.views, 0);
-   
+
    // Gets called twice during dev mode
    // So there should be 2 error messages
    // If you search for an non exisitant user
    useEffect(() => {
       // Fetch Users
-      if(!Auth && !id){
+      if (!Auth && !id) {
          return;
       }
-      getUserByUsername(id!, Auth!.username, ["followers", "following"])
+      getUserByUsername(id!, Auth!.username, ['followers', 'following'])
          .then((response) => {
             setUser(response);
             setFollowers(new Set(response.followers));
