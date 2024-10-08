@@ -85,7 +85,11 @@ const ProfilePage = () => {
       if (!Auth && !id) {
          return;
       }
-      getUserByUsername(id!, Auth!.username, ['followers', 'following'])
+      getUserByUsername(id!, Auth!.username, [
+         'followers',
+         'following',
+         'saved',
+      ])
          .then((response) => {
             setUser(response);
             setFollowers(new Set(response.followers));
