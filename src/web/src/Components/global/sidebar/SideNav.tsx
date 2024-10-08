@@ -1,5 +1,5 @@
 import { useState, useContext, createContext, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -20,21 +20,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
    const cookies = new Cookies();
    const [expanded, setExpanded] = useState<boolean>(false);
    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768);
-   const location = useLocation();
-   const approved = Auth?.role === 'admin';
-   const isSpecialRoute =
-      location.pathname.startsWith('/game/Valorant') ||
-      location.pathname.startsWith('/game/CS2');
-
-   let topPosition = 'top-[50px]';
-   if (isSpecialRoute) {
-      topPosition = 'top-[90px]';
-   }
-   if (isSpecialRoute && approved && isMobile) {
-      topPosition = 'top-[115px]';
-   } else if (approved && isMobile) {
-      topPosition = 'top-[75px]';
-   }
+   const isSpecialRoute = false;
 
    const logout = async () => {
       try {
@@ -73,7 +59,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }: any) => {
          <aside
             className={`${
                expanded ? 'h-full' : ''
-            } md:h-screen fixed ${topPosition} bottom-0 z-20 transition-all duration-700`}
+            } md:h-screen fixed top-[63px] bottom-0 z-20 transition-all duration-700`}
             onMouseEnter={() => setExpanded(true)}
             onMouseLeave={() => setExpanded(false)}
          >
