@@ -51,7 +51,7 @@ export const handleSubmit = async (
 
    const id = toast.loading('Uploading Post...');
    try {
-      const user = await getUserByUsername(username);
+      const user = await getUserByUsername(username, username);
 
       await axios.post('/post', {
          postName: state.postName,
