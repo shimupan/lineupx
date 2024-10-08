@@ -75,6 +75,39 @@ const DeveloperPostsInfo = () => {
                         <strong>Username:</strong> {post?.Username}
                      </p>
                      <p>
+                        <strong>Likes:</strong> {post?.likes.length}
+                     </p>
+                     <p>
+                        <strong>Dislikes:</strong> {post?.dislikes.length}
+                     </p>
+                     <p>
+                        <strong>
+                           {post?.game === 'CS2' ? 'Grenade Type' : 'Ability'}:
+                        </strong>{' '}
+                        {post?.game === 'CS2'
+                           ? post?.grenadeType
+                           : post?.ability}
+                     </p>
+                     {post?.game === 'Valorant' && (
+                        <p>
+                           <strong>Agent:</strong> {post?.valorantAgent}
+                        </p>
+                     )}
+                     <p>
+                        <strong>Lineup Description:</strong>{' '}
+                        {post?.lineupDescription}
+                     </p>
+                     <p>
+                        <strong>Lineup Location:</strong> {post?.lineupLocation}
+                     </p>
+                     <p>
+                        <strong>Map:</strong> {post?.mapName}
+                     </p>
+                     <p>
+                        <strong>Team Side:</strong> {post?.teamSide}
+                     </p>
+
+                     <p>
                         <strong>Created At:</strong>{' '}
                         {post?.date
                            ? new Date(post.date).toLocaleString()
