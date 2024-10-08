@@ -1,19 +1,4 @@
-name: Prettier
-
-on:
-  pull_request:
-    branches: [main]
-
-jobs:
-  prettier:
-    runs-on: ubuntu-latest
-
-    permissions:
-        contents: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -26,8 +11,8 @@ jobs:
       - name: Commit changes
         if: success()
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "${{ github.event.pusher.email }}"
+          git config --local user.name "${{ github.event.pusher.name }}"
           git add .
           FILES=$(git diff --name-only --staged)
           if [ -z "$FILES" ]; then
