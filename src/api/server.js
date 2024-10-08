@@ -3,13 +3,13 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { mongo } from './config/index.js';
 import {
-auth,
-user,
-post,
-comment,
-replies,
-health,
-leaderboard,
+   auth,
+   user,
+   post,
+   comment,
+   replies,
+   health,
+   leaderboard,
 } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
@@ -26,15 +26,15 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-res.send('server is running');
+   res.send('server is running');
 });
 
 app.use(
-session({
-secret: 'mrpopo',
-resave: false,
-saveUninitialized: false,
-}),
+   session({
+      secret: 'mrpopo',
+      resave: false,
+      saveUninitialized: false,
+   }),
 );
 
 app.use(auth);
