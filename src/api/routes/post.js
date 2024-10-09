@@ -466,6 +466,8 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
       post.views += 1;
       await post.save();
 
+      req.io.emit('viewUpdate', { postId: id, views: post.views });
+
       res.send(post);
    } catch (error) {
       console.error('Failed to increment view count:', error);
@@ -530,6 +532,11 @@ router.post('/post/:id/comment', async (req, res) => {
 
       post.comments.push(comment);
       await post.save();
+
+      // Emit the updated comments
+      req.app
+         .get('io')
+         .emit('commentUpdate', { postId: id, comments: post.comments });
 
       res.status(200).send(post);
    } catch (error) {

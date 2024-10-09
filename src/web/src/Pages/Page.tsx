@@ -15,8 +15,9 @@ const GREETINGS = [
    'Greetings ',
    'Salutations ',
    'Bonjour ',
-   'Ciao ',
    'Hola ',
+   'Ni hao ',
+   "Kon'nichiwa",
 ];
 
 const Page: React.FC = () => {
