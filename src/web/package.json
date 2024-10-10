@@ -18,7 +18,7 @@
     "axios": "^1.7.2",
     "cors": "^2.8.5",
     "debounce": "^2.1.0",
-    "express-session": "^1.18.0",
+    "express-session": "^1.18.1",
     "framer-motion": "^11.3.21",
     "fuse.js": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
@@ -42,7 +42,7 @@
     "swiper": "^11.1.5",
     "tailwind-scrollbar": "^3.1.0",
     "typeface-inter": "^3.18.1",
-    "universal-cookie": "^7.2.0"
+    "universal-cookie": "^7.2.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
