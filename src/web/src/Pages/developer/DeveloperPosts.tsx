@@ -95,12 +95,9 @@ const DeveloperPosts: React.FC = () => {
                                     <button
                                        onClick={(e) => {
                                           e.stopPropagation();
-                                          navigate(
-                                             `/developer/post/${p._id}`,
-                                             {
-                                                state: p,
-                                             },
-                                          );
+                                          navigate(`/developer/post/${p._id}`, {
+                                             state: p,
+                                          });
                                        }}
                                        className="text-blue-400 hover:text-blue-300"
                                     >

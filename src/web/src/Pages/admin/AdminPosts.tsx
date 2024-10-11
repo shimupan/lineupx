@@ -95,12 +95,9 @@ const AdminPosts: React.FC = () => {
                                     <button
                                        onClick={(e) => {
                                           e.stopPropagation();
-                                          navigate(
-                                             `/admin/post/${p._id}`,
-                                             {
-                                                state: p,
-                                             },
-                                          );
+                                          navigate(`/admin/post/${p._id}`, {
+                                             state: p,
+                                          });
                                        }}
                                        className="text-blue-400 hover:text-blue-300"
                                     >
