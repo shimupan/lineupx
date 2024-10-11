@@ -241,7 +241,10 @@ function App() {
                )}
                {role === 'developer' && Verified && (
                   <Route element={<RequireAuth allowedRoles={['developer']} />}>
-                     <Route path="/developer/posts" element={<DeveloperPosts />}></Route>
+                     <Route
+                        path="/developer/posts"
+                        element={<DeveloperPosts />}
+                     ></Route>
                      <Route
                         path="/developer/post/:id"
                         element={<DeveloperPostsInfo />}
