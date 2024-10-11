@@ -1,3 +1,6 @@
+import ddTrace from 'dd-trace';
+ddTrace.init();
+
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
