@@ -10,6 +10,7 @@ import {
    UnapprovedPostsPopup,
    LeaderboardPosition,
    VerificationMessage,
+   FiltersPopup,
 } from '../../Components';
 import { getUserByUsername } from '../../util/getUser';
 import { follow } from '../../util/followStatus';
@@ -54,6 +55,7 @@ const ProfilePage = () => {
    });
    const [loading, setLoading] = useState(true);
    const [showFollowerPopup, setShowFollowerPopup] = useState(false);
+   const [showFiltersPopup, setShowFiltersPopup] = useState(false);
    const [showFollowingPopup, setShowFollowingPopup] = useState(false);
    const [followingCount, setFollowingCount] = useState(0);
    const [following, setFollowing] = useState<Set<string>>();
@@ -79,7 +81,7 @@ const ProfilePage = () => {
 
    // Gets called twice during dev mode
    // So there should be 2 error messages
-   // If you search for an non exisitant user
+   // If you search for an non-existent user
    useEffect(() => {
       // Fetch Users
       getUserByUsername(id!)
@@ -304,13 +306,6 @@ const ProfilePage = () => {
                               {Auth?.username === user.username && (
                                  <>
                                     <div className="flex items-center justify-center space-x-4">
-                                       {/* <button
-                                             className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Adjusted padding to match
-                                             onClick={() => setOpen(!open)}
-                                          >
-                                             <CiEdit className="text-white mr-2" />
-                                             Edit Profile
-                                          </button> */}
                                        <button
                                           className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Made padding consistent with the first button
                                           onClick={() =>
@@ -390,11 +385,32 @@ const ProfilePage = () => {
                               <button
                                  key={game}
                                  onClick={() => setSelectedGame(game)}
-                                 className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4 origin-left hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border text-left p-3 text-gray-50 text-base font-bold rounded-lg overflow-hidden before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg after:absolute after:z-10 after:w-20 after:h-20 after:content[''] after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg"
+                                 className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 
+                                 hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 
+                                 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4 origin-left 
+                                 hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border text-left p-3 text-gray-50 text-base font-bold rounded-lg overflow-hidden 
+                                 before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg 
+                                 after:absolute after:z-10 after:w-20 after:h-20 after:content[''] after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg"
                               >
                                  {game}
                               </button>
                            ))}
+                        </div>
+                        <div className="flex space-x-4 justify-center">
+                           <button
+                              onClick={() => {
+                                 setShowFiltersPopup(true);
+                              }}
+                              className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 
+                              hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 
+                              hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4 origin-left 
+                              hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border text-left p-3 text-gray-50 text-base font-bold rounded-lg overflow-hidden 
+                              before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg 
+                              after:absolute after:z-10 after:w-20 after:h-20 after:content[''] after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg"
+                           >
+                              Filters
+                           </button>
+                           
                         </div>
                         {GAMES.map((game, index) => {
                            if (game === selectedGame) {
@@ -592,6 +608,12 @@ const ProfilePage = () => {
                show={showUnapprovedPostsPopup}
                posts={unapprovedPosts}
                onClose={() => setUnapprovedPostsPopup(false)}
+            />
+         )}
+
+         {showFiltersPopup && (
+            <FiltersPopup
+               onClose={() => setShowFiltersPopup(false)}
             />
          )}
       </>
