@@ -59,7 +59,7 @@ const ManagePosts = () => {
 
    useEffect(() => {
       // Fetch Users
-      getUserByUsername(id!)
+      getUserByUsername(id!, Auth!.username)
          .then((response) => {
             setUser(response);
             // Fetch User Posts
