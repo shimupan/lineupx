@@ -96,7 +96,7 @@ const DeveloperPosts: React.FC = () => {
                                        onClick={(e) => {
                                           e.stopPropagation();
                                           navigate(
-                                             `/developer/post/${p.postTitle}`,
+                                             `/developer/post/${p._id}`,
                                              {
                                                 state: p,
                                              },

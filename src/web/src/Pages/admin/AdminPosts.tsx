@@ -96,7 +96,7 @@ const AdminPosts: React.FC = () => {
                                        onClick={(e) => {
                                           e.stopPropagation();
                                           navigate(
-                                             `/admin/post/${p.postTitle}`,
+                                             `/admin/post/${p._id}`,
                                              {
                                                 state: p,
                                              },
