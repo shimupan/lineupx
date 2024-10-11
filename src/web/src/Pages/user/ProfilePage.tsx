@@ -318,7 +318,7 @@ const ProfilePage = () => {
                                              <CiEdit className="text-white mr-2" />
                                              Edit Profile
                                           </button> */}
-                                        {Auth?.Verified && (
+                                       {Auth?.Verified && (
                                           <button
                                              className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
                                              onClick={() =>
