@@ -40,7 +40,7 @@ router.get('/user/:id', async (req, res) => {
 
    //Default params, user specific params, unaccessible params
    let currentParams = 'username ProfilePicture';
-   const userOnlyParams = ['email', 'verificationCode'];
+   const userOnlyParams = ['email', 'verificationCode', 'saved'];
    const bannedParams = ['password'];
 
    //If the current user is not signed in or not the same user requesting data. Update boolean and return limited data.

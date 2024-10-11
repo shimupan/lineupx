@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../../App';
 
 interface FollowerPopupProps {
    followerIds: string[];
@@ -13,6 +14,7 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
    onClose,
    user,
 }) => {
+   const Auth = useContext(AuthContext);
    const [followers, setFollowers] = useState<
       {
          id: string;
@@ -31,7 +33,11 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
             });
             const followersWithFollowingStatus = response.data.map(
                (follower: any) => {
-                  const isFollowing = user.following.includes(follower._id);
+                  const isFollowing = true;
+                  //const isFollowing = user.following.includes(follower._id);
+                  // if(Auth!._id != user._id){
+                  //    isFollowing = true;
+                  // }
                   return {
                      id: follower._id,
                      username: follower.username,

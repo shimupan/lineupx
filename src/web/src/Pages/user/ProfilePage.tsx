@@ -170,10 +170,10 @@ const ProfilePage = () => {
          }
       });
 
-      if (Auth?.username === user.username) {
-         setShowFollowerPopup(true);
-         setShowFollowingPopup(true);
-      }
+      //FIX!
+      //setShowFollowerPopup(true);
+      //setShowFollowingPopup(true);
+      
    };
 
    const fileInputRef = useRef<HTMLInputElement>(null);
@@ -289,9 +289,8 @@ const ProfilePage = () => {
                               <p
                                  className="mt-2 cursor-pointer"
                                  onClick={() => {
-                                    if (Auth?.username === user.username) {
-                                       setShowFollowerPopup(true);
-                                    }
+                                    //Followers pop up for all
+                                    setShowFollowerPopup(true);
                                  }}
                               >
                                  {followerCount} followers
@@ -299,9 +298,8 @@ const ProfilePage = () => {
                               <p
                                  className="mt-2 cursor-pointer"
                                  onClick={() => {
-                                    if (Auth?.username === user.username) {
-                                       setShowFollowingPopup(true);
-                                    }
+                                    //Following pop up for all
+                                    setShowFollowingPopup(true);
                                  }}
                               >
                                  {followingCount} following

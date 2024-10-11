@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../../App';
 
 interface FollowingPopupProps {
    following: string[];
@@ -13,6 +14,7 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
    onClose,
    curruser,
 }) => {
+   const Auth = useContext(AuthContext);
    const [followingUsers, setFollowingUsers] = useState<
       {
          id: string;
@@ -29,11 +31,19 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
             const response = await axios.post('/users/multiple', {
                ids: following,
             });
+
+            // let loggedInUserFollowingSet = Auth!.following;
+            // if(Auth!.username == ''){
+            //    loggedInUserFollowingSet = [];
+            // }
+            //console.log(Auth!.username);
+            //console.log(loggedInUserFollowingSet);
+
             const users = response.data.map((user: any) => ({
                id: user._id,
                username: user.username,
                ProfilePicture: user.ProfilePicture,
-               isFollowing: true,
+               isFollowing: false,
             }));
             setFollowingUsers(users);
          } catch (error) {
@@ -124,7 +134,7 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
                         </div>
                         {user.isFollowing && (
                            <button
-                              onClick={() => unfollow(user.id)}
+                              onClick={() => unfollow(Auth!._id)}
                               className="px-2 py-1 text-xs font-semibold text-red-500 hover:bg-red-100 rounded-md"
                            >
                               Unfollow
