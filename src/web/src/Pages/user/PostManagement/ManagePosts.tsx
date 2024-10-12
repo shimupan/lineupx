@@ -7,6 +7,7 @@ import { AuthContext } from '../../../App';
 import { UserType, PostType } from '../../../global.types';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import SearchBar from './SearchPost';
 import {
    FaEye,
    FaTrash,
@@ -129,6 +130,7 @@ const ManagePosts = () => {
                <div className="min-h-screen pb-40 text-white">
                   <div className="w-full px-4 pt-20 md:pl-32">
                      <h1 className="text-2xl font-bold mb-6">Manage Posts</h1>
+                     <SearchBar />
                      <div className="bg-gray-800 rounded-lg overflow-hidden shadow-md">
                         <div className="p-4 border-b border-gray-700 flex flex-wrap items-center text-gray-400 font-medium">
                            <div className="w-full sm:w-2/5">Post</div>

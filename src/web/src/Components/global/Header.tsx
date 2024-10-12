@@ -118,21 +118,21 @@ const Header: React.FC = () => {
                                  </div>
                                  <Link
                                     to={`/user/${Auth.username}`}
-                                    className="block px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaUserCircle className="mr-2 text-xl" />
                                     View Profile
                                  </Link>
                                  <Link
                                     to={`/manage-posts/${Auth.username}`}
-                                    className="block px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaEdit className="mr-2 text-xl" />
                                     Post Studio
                                  </Link>
                                  <button
                                     onClick={logout}
-                                    className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaSignOutAlt className="mr-2 text-xl" />
                                     Logout
