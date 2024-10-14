@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MdHome } from 'react-icons/md';
 import cs2Logo from '../../../assets/svg/csgo.svg';
 import valorantLogo from '../../../assets/svg/valorant.svg';
-import { AuthContext } from '../../../App';
+import menu from '../../../assets/svg/menu.svg';
+import Menu from './Menu';
 
 const BottomNav: React.FC = () => {
    const location = useLocation();
-   const Auth = useContext(AuthContext);
+   const [showMenu, setShowMenu] = useState(false);
 
    const isActive = (path: string) => location.pathname === path;
 
@@ -58,29 +59,26 @@ const BottomNav: React.FC = () => {
                </Link>
             </li>
             <li>
-               <Link
-                  to={`/user/${Auth?.username ? Auth?.username : 'Guest'}`}
-                  className={`flex flex-col items-center ${
-                     isActive(
-                        `/user/${Auth?.username ? Auth?.username : 'Guest'}`,
-                     )
-                        ? 'text-indigo-400'
-                        : ''
-                  }`}
+               <button
+                  onClick={() => setShowMenu(true)}
+                  className="flex flex-col items-center"
                >
                   <img
-                     src={
-                        Auth?.ProfilePicture
-                           ? Auth.ProfilePicture
-                           : `https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=${
-                                Auth?.username ? Auth?.username : 'Guest'
-                             }`
-                     }
-                     alt="Profile"
-                     className="w-6 h-6 rounded-full"
+                     src={menu}
+                     alt="Menu"
+                     width={24}
+                     style={{ filter: 'brightness(0) invert(1)' }}
                   />
-                  <span className="text-xs mt-1">You</span>
-               </Link>
+                  <span className="text-xs mt-1">Menu</span>
+               </button>
+               {showMenu && (
+                  <div
+                     className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30"
+                     onClick={() => setShowMenu(false)}
+                  >
+                     <Menu />
+                  </div>
+               )}
             </li>
          </ul>
       </nav>
