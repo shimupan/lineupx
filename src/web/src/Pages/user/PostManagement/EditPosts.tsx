@@ -328,11 +328,7 @@ const EditPost: React.FC = () => {
                                                     ? landingPreview
                                                     : post[`${pos}Position`]
                                                            ?.public_id
-                                                      ? `${CDN_URL}/${
-                                                           post[
-                                                              `${pos}Position`
-                                                           ].public_id
-                                                        }.png`
+                                                      ? `${CDN_URL}/${post[`${pos}Position`].public_id}.png`
                                                       : ''
                                           }
                                           alt={`${pos} position`}
@@ -432,8 +428,8 @@ const EditPost: React.FC = () => {
                               </button>
                            </div>
                         )}
-                        <div className="p-4 max-h-60 overflow-y-auto">
-                           <h3 className="text-lg font-semibold mb-2 break-words">
+                        <div className="p-4 max-h-60 overflow-y-auto w-[40rem] h-32">
+                           <h3 className="text-lg font-semibold mb-2 break-words truncate">
                               {post.postTitle}
                            </h3>
                            <p className="text-gray-400 mb-2 break-words">
