@@ -315,8 +315,9 @@ router.post('/user/:id/pfp', (req, res) => {
 
 // follow/unfollow a user
 router.post('/user/:id/follow', async (req, res) => {
-   const { id } = req.params; // id of the user who wants to follow/unfollow someone
-   const { userIdToFollow } = req.body; // id of the user who is to be followed/unfollowed
+   //Id's are flipped for some reason
+   const { id } = req.params; // id of the user who is to be followed/unfollowed
+   const { userIdToFollow } = req.body; //id of the user who wants to follow/unfollow someone
 
    if (!userIdToFollow) {
       return res.status(400).send('User ID to follow/unfollow is required');

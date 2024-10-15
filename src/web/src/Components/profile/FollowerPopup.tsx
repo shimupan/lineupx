@@ -31,13 +31,17 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
             const response = await axios.post('/users/multiple', {
                ids: followerIds,
             });
+
+            let loggedInUserFollowingSet = Auth!.following;
+            if(Auth!.username == ''){
+               loggedInUserFollowingSet = [];
+            }
+            // console.log("My username: " + Auth!.username);
+            // console.log("My followers: " + loggedInUserFollowingSet);
+            
             const followersWithFollowingStatus = response.data.map(
                (follower: any) => {
-                  const isFollowing = true;
-                  //const isFollowing = user.following.includes(follower._id);
-                  // if(Auth!._id != user._id){
-                  //    isFollowing = true;
-                  // }
+                  let isFollowing = (loggedInUserFollowingSet.some(followed => followed === follower._id));
                   return {
                      id: follower._id,
                      username: follower.username,
@@ -60,7 +64,7 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
    );
    const follow = async (id: string) => {
       try {
-         await axios.post(`/user/${id}/follow`, { userIdToFollow: user._id });
+         await axios.post(`/user/${id}/follow`, { userIdToFollow: Auth!._id });
          setFollowers(
             followers.map((follower) =>
                follower.id === id

@@ -32,19 +32,25 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
                ids: following,
             });
 
-            // let loggedInUserFollowingSet = Auth!.following;
-            // if(Auth!.username == ''){
-            //    loggedInUserFollowingSet = [];
-            // }
-            //console.log(Auth!.username);
-            //console.log(loggedInUserFollowingSet);
+            //Array used to assign unfollow buttons to the homepage user's followers based on the actual person accessing the page.
+            let loggedInUserFollowingSet = Auth!.following;
+            if(Auth!.username == ''){
+               loggedInUserFollowingSet = [];
+            }
+            // console.log("My username: " + Auth!.username);
+            // console.log("My following: " + loggedInUserFollowingSet);
 
             const users = response.data.map((user: any) => ({
                id: user._id,
                username: user.username,
                ProfilePicture: user.ProfilePicture,
-               isFollowing: false,
+               isFollowing: loggedInUserFollowingSet.some(following => following === user._id),
             }));
+            // console.log("Their Following: ");
+            // users.forEach((user: any) => {
+            //    console.log(user.id + " ");
+            // });
+            
             setFollowingUsers(users);
          } catch (error) {
             console.error(error);
@@ -59,14 +65,30 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
    const unfollow = async (id: string) => {
       try {
          await axios.post(`/user/${id}/follow`, {
-            userIdToFollow: curruser._id,
+            userIdToFollow: Auth!._id,
          });
-         setFollowingUsers(
-            followingUsers.filter((follower) => follower.id !== id),
-         );
+         //Only remove follower entry from tab if on your own profile, otherwise remove the button boolean but not the person!
+         if(Auth!._id === curruser._id){
+            setFollowingUsers(
+               followingUsers.filter((follower) => follower.id !== id),
+            );
+         }else{
+            toggleFollow(id);
+         }
       } catch (error) {
          console.error(error);
       }
+   };
+
+   //Flip the following bool from one state to another given the id for the follower.
+   const toggleFollow = (userId: string) => {
+      setFollowingUsers(prevUsers =>
+         prevUsers.map(user =>
+            user.id === userId
+               ? { ...user, isFollowing: !user.isFollowing } // Toggle isFollowing
+               : user // Keep other users unchanged
+         )
+      );
    };
 
    return (
@@ -134,7 +156,7 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
                         </div>
                         {user.isFollowing && (
                            <button
-                              onClick={() => unfollow(Auth!._id)}
+                              onClick={() => unfollow(user.id)}
                               className="px-2 py-1 text-xs font-semibold text-red-500 hover:bg-red-100 rounded-md"
                            >
                               Unfollow
