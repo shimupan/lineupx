@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "node server.js"
+    "build": "node server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +17,7 @@
     "cloudinary": "^2.2.0",
     "cors": "^2.8.5",
     "d3": "^7.9.0",
-    "dd-trace": "^5.23.1",
+    "dd-trace": "^5.22.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^7.1.5",
@@ -27,9 +28,11 @@
     "natural": "^8.0.1",
     "nodemailer": "^6.9.7",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
+    "@types/supertest": "^6.0.2",
     "nodemon": "^3.0.1"
   }
 }
