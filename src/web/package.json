@@ -38,6 +38,8 @@
     "react-router-dom": "^6.27.0",
     "react-select": "^5.8.1",
     "react-tilt": "^1.0.2",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "react-toastify": "^10.0.6",
     "swiper": "^11.1.14",
     "tailwind-scrollbar": "^3.1.0",
