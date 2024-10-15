@@ -343,6 +343,22 @@ router.post('/resetpassword/:token', async (req, res) => {
    res.status(200).send('Your password has been updated');
 });
 
+
+router.get('/rso/signin', function (req, res) {
+   const appCallbackUrl = "https://www.lineupx.net/game/Valorant";
+
+   const provider        = "https://auth.riotgames.com",
+         authorizeUrl    = provider + "/authorize";
+
+   const link = authorizeUrl
+      + "?client_id=" + process.env.RSO_CLIENT_ID
+      + "&redirect_uri=" + appCallbackUrl
+      + "&response_type=code"
+      + "&scope=openid+offline_access";
+   
+   res.send('<a href="' + link + '">Sign In</a>');
+})
+
 /////////////////////////////////////////////////////////////////////////////
 /*
 
