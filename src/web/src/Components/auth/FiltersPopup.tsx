@@ -8,15 +8,14 @@ interface Filters {
    [key: string]: string[];
 }
 
-type FilterCategories = 'mapName' | 'teamSide' | 'grenadeType' | 'jumpThrow' | 'valorantAgent' | 'ability';
+type FilterCategories = 'mapName' | 'teamSide' | 'grenadeType' | 'jumpThrow' | 'valorantAgent';
 
 const initialFilters: Filters = {
    mapName: [],
    teamSide: [],
    grenadeType: [],
    jumpThrow: [],
-   valorantAgent: [],
-   ability: []
+   valorantAgent: []
 };
 
 const FiltersPopup: React.FC<FiltersPopupProps> = ({
@@ -92,12 +91,12 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
                </button>
             </div>
             <div className="max-h-96 overflow-y-auto p-4">
-               {renderCheckboxes("Map Name", "mapName", ["Map 1", "Map 2", "Map 3"])}
-               {renderCheckboxes("Team Side", "teamSide", ["Side 1", "Side 2"])}
-               {renderCheckboxes("Grenade Type", "grenadeType", ["Grenade 1", "Grenade 2", "Grenade 3"])}
-               {renderCheckboxes("Jump Throw", "jumpThrow", ["Yes", "No"])}
-               {renderCheckboxes("Valorant Agent", "valorantAgent", ["Agent 1", "Agent 2"])}
-               {renderCheckboxes("Ability", "ability", ["Ability 1", "Ability 2"])}
+               {renderCheckboxes("Map", "mapName", ["Abyss", "Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Lotus", "Pearl", "Split", "Sunset"])}
+               {renderCheckboxes("Map", "mapName", ["Mirage", "Inferno", "Nuke", "Overpass", "Vertigo", "Ancient", "Anubis", "Dust II"])}
+               {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
+               {renderCheckboxes("Grenade", "grenadeType", ["HE", "Smoke", "Flashbangs", "Decoy", "Molotov", "Incendiary"])}
+               {renderCheckboxes("Jump Throw?", "jumpThrow", ["Yes", "No"])}
+               {renderCheckboxes("Agent", "valorantAgent", ["Brimstone", "Phoenix", "Sage", "Sova", "Viper", "Cypher", "Reyna", "Killjoy", "Breach", "Omen", "Jett", "Raze", "Skye", "Yoru", "Astra", "KAY/O", "Chamber", "Neon", "Fade", "Harbor", "Gekko", "Deadlock", "Iso", "Clove", "Vyse"])}
             </div>
             <div className="p-4 border-t">
                <button
