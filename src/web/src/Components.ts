@@ -23,6 +23,8 @@ export { default as AdminPosts } from './Pages/admin/AdminPosts';
 export { default as AdminCheck } from './Pages/admin/AdminCheck';
 export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
 export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
+export { default as DeveloperPosts } from './Pages/developer/DeveloperPosts';
+export { default as DeveloperPostsInfo } from './Pages/developer/DeveloperPostsInfo';
 export { default as PageNotFound } from './Pages/auth/PageNotFound';
 export { default as SearchResults } from './Pages/SearchResults/SearchResults';
 export { default as GuestPage } from './Pages/user/GuestProfilePage';

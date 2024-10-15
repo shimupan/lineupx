@@ -7,7 +7,7 @@ import { PostType } from '../../global.types';
 import axios from 'axios';
 import { FaEye, FaFlag, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
-const AdminPosts: React.FC = () => {
+const DeveloperPosts: React.FC = () => {
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    const [loading, setLoading] = useState(true);
    const [expandedPost, setExpandedPost] = useState<string | null>(null);
@@ -45,7 +45,7 @@ const AdminPosts: React.FC = () => {
             <div className="flex flex-col md:flex-row">
                <main className="flex-1 p-2 md:p-6 md:ml-32">
                   <h1 className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6 pl-2">
-                     Admin Posts
+                     Posts
                   </h1>
                   {loading ? (
                      <div className="flex justify-center items-center h-64">
@@ -95,7 +95,7 @@ const AdminPosts: React.FC = () => {
                                     <button
                                        onClick={(e) => {
                                           e.stopPropagation();
-                                          navigate(`/admin/post/${p._id}`, {
+                                          navigate(`/developer/post/${p._id}`, {
                                              state: p,
                                           });
                                        }}
@@ -185,4 +185,4 @@ const AdminPosts: React.FC = () => {
    );
 };
 
-export default AdminPosts;
+export default DeveloperPosts;

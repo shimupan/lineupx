@@ -32,6 +32,7 @@ router.post('/login', authLimit, async (req, res, next) => {
 
       if (
          user.role === 'user' ||
+         user.role === 'developer' ||
          (user.role === 'admin' && user.email != 'admin@lineupx.net')
       ) {
          const isMatch = await user.passwordCheck(password);

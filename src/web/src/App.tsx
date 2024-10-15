@@ -28,6 +28,8 @@ import {
    AdminCheck,
    AdminModifyUser,
    AdminModifyPost,
+   DeveloperPosts,
+   DeveloperPostsInfo,
    PageNotFound,
    SearchResults,
    About,
@@ -234,6 +236,18 @@ function App() {
                      <Route
                         path="/admin/post/:id"
                         element={<AdminModifyPost />}
+                     ></Route>
+                  </Route>
+               )}
+               {role === 'developer' && Verified && (
+                  <Route element={<RequireAuth allowedRoles={['developer']} />}>
+                     <Route
+                        path="/developer/posts"
+                        element={<DeveloperPosts />}
+                     ></Route>
+                     <Route
+                        path="/developer/post/:id"
+                        element={<DeveloperPostsInfo />}
                      ></Route>
                   </Route>
                )}
