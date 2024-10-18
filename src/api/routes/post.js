@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
+import gameModels from '../model/postGameIndexing.js'; 
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
 
@@ -21,12 +22,13 @@ const postLimit = rateLimit({
 
 const router = express.Router();
 const cloudinaryObject = cloudinary();
+let projection = {};
 
 // Find all post for a specific user
 router.get('/post/:game/:id', (req, res) => {
    const { game, id } = req.params;
 
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   const PostData = gameModels[game] 
    PostData.find({
       UserID: new mongoose.Types.ObjectId(id),
       approved: true,
@@ -43,7 +45,7 @@ router.get('/post/:game/:id', (req, res) => {
 router.get('/post/unapproved/:game/:id', (req, res) => {
    const { game, id } = req.params;
 
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   const PostData = gameModels[game]
    PostData.find({
       UserID: new mongoose.Types.ObjectId(id),
       approved: false,
@@ -58,7 +60,7 @@ router.get('/post/unapproved/:game/:id', (req, res) => {
 
 router.get('/post/detail/:game/:id', async (req, res) => {
    const { game, id } = req.params;
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   const PostData = gameModels[game];
 
    try {
       const post = await PostData.findById(id);
@@ -82,7 +84,7 @@ router.get('/posts', async (req, res) => {
    console.log(postIdsArray);
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       const posts = await PostData.find({ _id: { $in: postIdsArray } });
       res.status(200).json(posts);
    } catch (error) {
@@ -91,224 +93,125 @@ router.get('/posts', async (req, res) => {
    }
 });
 
-// Find all post for a specific game
-router.get('/post/:game', (req, res) => {
-   const { game } = req.params;
-   const page = Number(req.query.page) || 1;
-   const pageSize = Number(req.query.limit) || 20;
-   const recent = req.query.recent || false;
-   const map = req.query.map || null;
-   const search = req.query.search || null;
-   const filter = req.query.filter || null;
+router.get('/post/:game', async (req, res) => {
+  const { game } = req.params;
+  const page = Number(req.query.page) || 1;
+  const pageSize = Number(req.query.limit) || 20;
+  const recent = req.query.recent === 'true';
+  const map = req.query.map || null;
+  const search = req.query.search || null;
+  const field = req.query.field || null; 
+  const dateRange = req.query.dateRange || null;
+  const sortBy = req.query.sortBy || null;
+  const PostData = gameModels[game];
 
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
-   if (recent) {
-      PostData.find({ approved: true })
-         .skip((page - 1) * pageSize)
-         .limit(pageSize)
-         .then((data) => {
-            res.send(data);
-         })
-         .catch((err) => {
-            res.send(err);
-         });
-   } else if (map) {
-      const parsedMap = map.replace(/\s/g, '').toLowerCase();
-      PostData.find({ mapName: parsedMap, approved: true })
-         .skip((page - 1) * pageSize)
-         .limit(pageSize)
-         .then((data) => {
-            res.send(data);
-         })
-         .catch((err) => {
-            res.send(err);
-         });
-   } else if (search) {
-      // Escape special characters for use in a regular expression
-      const escapeRegExp = (string) =>
-         string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  let query = { approved: true };
+  let sortOption = {};
+  let totalDocuments;
 
-      const words = search.split(' ');
-      const regexes = words.map((word) => new RegExp(escapeRegExp(word), 'i'));
+  try {
+    // Map Filter
+    if (map) {
+      query.mapName = map.trim().toLowerCase();
+    }
 
-      let searchFields = [];
+    // Recent Filter
+    if (recent) {
+      sortOption.date = -1;
+    }
 
-      if (game === 'Valorant') {
-         if (filter === 'agent') {
-            searchFields.push({
-               valorantAgent: { $regex: search, $options: 'i' },
-            });
-         } else if (filter === 'postname') {
-            searchFields.push({ postTitle: { $regex: search, $options: 'i' } });
-         } else if (filter === 'location') {
-            searchFields.push({
-               lineupLocation: { $regex: search, $options: 'i' },
-            });
-         } else if (filter === 'ability') {
-            searchFields.push({ ability: { $regex: search, $options: 'i' } });
-         } else if (filter === 'map') {
-            searchFields.push({ mapName: { $regex: search, $options: 'i' } });
-         } else {
-            searchFields.push(
-               { lineupLocation: { $regex: search, $options: 'i' } },
-               { valorantAgent: { $regex: search, $options: 'i' } },
-               { ability: { $regex: search, $options: 'i' } },
-               { mapName: { $regex: search, $options: 'i' } },
-               { postTitle: { $regex: search, $options: 'i' } },
-            );
-         }
-      } else if (game === 'CS2') {
-         if (filter === 'postname') {
-            searchFields.push({ postTitle: { $regex: search, $options: 'i' } });
-         } else if (filter === 'location') {
-            searchFields.push({
-               lineupLocation: { $regex: search, $options: 'i' },
-            });
-         } else if (filter === 'grenade') {
-            searchFields.push({
-               grenadeType: { $regex: search, $options: 'i' },
-            });
-         } else if (filter === 'map') {
-            searchFields.push({ mapName: { $regex: search, $options: 'i' } });
-         } else {
-            searchFields.push(
-               { grenadeType: { $regex: search, $options: 'i' } },
-               { mapName: { $regex: search, $options: 'i' } },
-               { postTitle: { $regex: search, $options: 'i' } },
-               { lineupLocation: { $regex: search, $options: 'i' } },
-            );
-         }
+    // Date Range Filter
+    if (dateRange) {
+      query.date = getDateRangeFilter(dateRange);
+    }
+
+    // Search Filter
+    if (search) {
+      if (field) {
+        query[field] = search.toLowerCase();
+      } else {
+        query.$text = { $search: search };
+        sortOption = { score: { $meta: 'textScore' } };
+        projection = { score: { $meta: 'textScore' } };
       }
+    }
 
-      let dateFilter = {};
+    if (sortBy) {
+      sortOption = { ...sortOption, ...getSortOption(sortBy) };
+    }
+    totalDocuments = await PostData.countDocuments(query);
 
-      if (filter === 'today') {
-         dateFilter = { date: { $gte: new Date().setHours(0, 0, 0, 0) } };
-      } else if (filter === 'this_week') {
-         const startOfWeek = new Date();
-         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-         dateFilter = { date: { $gte: startOfWeek } };
-      } else if (filter === 'this_month') {
-         const startOfMonth = new Date();
-         startOfMonth.setDate(1);
-         dateFilter = { date: { $gte: startOfMonth } };
-      } else if (filter === 'this_year') {
-         const startOfYear = new Date();
-         startOfYear.setMonth(0, 1);
-         dateFilter = { date: { $gte: startOfYear } };
-      }
+    // Fetch data with pagination and sorting
+    const data = await PostData.find(query, projection )
+      .sort(sortOption)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
 
-      let sortOption = {};
-      if (filter === 'view_count') {
-         sortOption = { views: -1 };
-      } else if (filter === 'upload_date') {
-         sortOption = { date: -1 };
-      }
-
-      PostData.find({
-         $and: [
-            {
-               $or: [
-                  ...searchFields,
-                  {
-                     $and: regexes.map((regex) => ({
-                        $or: [
-                           {
-                              postTitle: {
-                                 $regex: `\\b${regex.source}\\b`,
-                                 $options: 'i',
-                              },
-                           },
-                           {
-                              mapName: {
-                                 $regex: `\\b${regex.source}\\b`,
-                                 $options: 'i',
-                              },
-                           },
-                           ...(game === 'Valorant'
-                              ? [
-                                   {
-                                      lineupLocation: {
-                                         $regex: `\\b${regex.source}\\b`,
-                                         $options: 'i',
-                                      },
-                                   },
-                                   {
-                                      valorantAgent: {
-                                         $regex: `\\b${regex.source}\\b`,
-                                         $options: 'i',
-                                      },
-                                   },
-                                   {
-                                      ability: {
-                                         $regex: `\\b${regex.source}\\b`,
-                                         $options: 'i',
-                                      },
-                                   },
-                                ]
-                              : []),
-                           ...(game === 'CS2'
-                              ? [
-                                   {
-                                      grenadeType: {
-                                         $regex: `\\b${regex.source}\\b`,
-                                         $options: 'i',
-                                      },
-                                   },
-                                ]
-                              : []),
-                        ],
-                     })),
-                  },
-               ],
-            },
-            dateFilter,
-         ],
-         approved: true,
-      })
-         .sort(sortOption)
-         .skip((page - 1) * pageSize)
-         .limit(pageSize)
-         .then((data) => {
-            res.send(data);
-         })
-         .catch((err) => {
-            res.status(500).send(err);
-         });
-   } else {
-      PostData.find({ approved: true })
-         .skip((page - 1) * pageSize)
-         .limit(pageSize)
-         .then((data) => {
-            res.send(data);
-         })
-         .catch((err) => {
-            res.send(err);
-         });
-   }
+    // Send response
+    res.send({
+      success: true,
+      data,
+      pagination: {
+        total: totalDocuments,
+        page,
+        pageSize,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: 'An internal server error occurred.' });
+  }
 });
 
-// Allow authorized users to get all unapproved posts
+// Helper functions
+function getDateRangeFilter(range) {
+  const now = new Date();
+  let startDate;
+  switch (range) {
+    case 'today':
+      startDate = new Date(now.setHours(0, 0, 0, 0));
+      break;
+    case 'this_week':
+      startDate = new Date(now.setDate(now.getDate() - now.getDay()));
+      break;
+    case 'this_month':
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      break;
+    case 'this_year':
+      startDate = new Date(now.getFullYear(), 0, 1);
+      break;
+    default:
+      startDate = null;
+  }
+  return startDate ? { $gte: startDate } : {};
+}
+
+function getSortOption(sortBy) {
+  const sortOptions = {
+    view_count: { views: -1 },
+    upload_date: { date: -1 },
+  };
+  return sortOptions[sortBy] || {};
+}
 router.post('/post/check', async (req, res) => {
    const { role } = req.body;
    if (role != 'admin') {
       return res.status(401).send('Unauthorized');
    }
-   const CS2Data = mongoose.model('PostData', PostDataSchema, 'CS2');
-   const VALData = mongoose.model('PostData', PostDataSchema, 'Valorant');
+   const CS2Data = gameModels['CS2']
+   const VALData = gameModels['VAL']
    const CS2Posts = await CS2Data.find({ approved: false });
    const VALPosts = await VALData.find({ approved: false });
    res.status(200).send([CS2Posts, VALPosts]);
 });
 
-// Delete or approve a post
 router.post('/post/:status', async (req, res) => {
    const { id, status, game, role } = req.body;
 
    if (role != 'admin') {
       return res.status(401).send('Unauthorized');
    }
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   const PostData = gameModels[game];
    if (status === 'approve') {
       PostData.findByIdAndUpdate(id, { approved: true }, { new: true })
          .then((data) => {
@@ -457,7 +360,7 @@ router.post('/post/:id/increment-view-count', async (req, res) => {
    const { game } = req.body;
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game]
       const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');
