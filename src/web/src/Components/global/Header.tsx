@@ -43,6 +43,10 @@ const Header: React.FC = () => {
       }
    };
 
+   const handleRSOSignIn = () => {
+     window.location.href = axios.defaults.baseURL + 'rso/signin';
+   }
+
    const logout = async () => {
       try {
          if (Auth?.refreshToken) {
