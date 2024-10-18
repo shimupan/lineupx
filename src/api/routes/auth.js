@@ -422,121 +422,15 @@ router.get('/rso/getUserInfo/:token', async (req, res) => {
 
 
 router.get('/rso/oauth', async (req, res) => {
-   var appBaseUrl      = "https://www.lineupx.net",
-      appCallbackUrl  = appBaseUrl + "/game/Valorant";
+   const appCallbackUrl=  "https://www.lineupx.net/game/Valorant";
 
-   var provider        = "https://auth.riotgames.com",
-      authorizeUrl    = provider + "/authorize",
-      tokenUrl        = provider + "/token";
+   const accessCode = req.query.code;
 
-   console.log("hit oauth");
-   var accessCode = req.query.code; // req.query in express is ATTACHED TO URL, %3D%3D is not part of it when posting directly to auth token endpoint
-   // but %3D%3D is used when getting to this /oauth since it converts to == when encoded
-   // each access code generated can only be used once as a query to auth token endpoint otherwise it will start failling
-   // res.send({query: req.query});
-
-   // make form-data
-   // var formData = new FormData();
-   // formData.append('grant_type', 'authorization_code');
-   // formData.append('code', accessCode);
-   // formData.append('redirect_uri', appCallbackUrl);
-   // console.log("form:", formData);
-
-   // try getting this post req to token endpoint using raw js fetch?
-   // var fetchConfig = {
-   //    headers: new Headers({
-   //       "Authorization": "Basic "+btoa(`${process.env.RSO_CLIENT_ID}:${process.env.RSO_CLIENT_SECRET}`),
-   //       "Content-Type": "multipart/form-data"
-   //    }),
-   //    body: formData,
-   //
-   // }
-   // const fetchToken = async () => {
-   //    const response = await fetch("https://auth.riotgames.com/token", fetchConfig)
-   //       .then(function(res) {
-   //          return res.json();
-   //       })
-   //       .then(function(resJson) {
-   //          return resJson;
-   //       })
-   //    return response;
-   // }
-   //
-   // console.log("response", fetchToken)
-
-   // originally example app used a deprecated package to make this server-server request
-   // trying to do w axios
-   // // make server-to-server request to token endpoint
-   // // exchange authorization code for tokens
-   // axios.post("https://auth.riotgames.com/token", {
-   //    auth: { // sets "Authorization: Basic ..." header
-   //       user: process.env.RSO_CLIENT_ID,
-   //       pass: process.env.RSO_CLIENT_SECRET
-   //    },
-   //    // headers: { "Content-Type": "multipart/form-data"},
-   //    data: formData,
-   //    // form: { // post information as form-data
-   //    //    grant_type: "authorization_code",
-   //    //    code: accessCode,
-   //    //    redirect_uri: appCallbackUrl
-   //    // }
-   // }).then(function (response, body) {
-   //    if (response.statusCode == 200) {
-   //       // parse the response to JSON
-   //       var payload = JSON.parse(body);
-   //       console.log("payload:",payload);
-   //       // separate the tokens from the entire response body
-   //       var tokens = {
-   //          refresh_token:  payload.refresh_token,
-   //          id_token:       payload.id_token,
-   //          access_token:   payload.access_token
-   //       };
-   //
-   //       // legibly print out our tokens
-   //       res.send("<pre>" + JSON.stringify(tokens, false, 4) + "</pre>");
-   //    }
-   // }).catch(function (error) {
-   //    console.log(error);
-   //    res.send("/token request failed");
-   // });
-
-   // axios({
-   //    url: 'https://auth.riotgames.com/token',
-   //    method:'POST',
-   //    data: formData,
-   //    headers:{
-   //       'Content-Type': 'application/x-www-form-urlencoded',
-   //       'Authorization': 'Basic ' + `${process.env.RSO_CLIENT_ID}:${process.env.RSO_CLIENT_SECRET}`
-   //    },
-   //    // auth:{
-   //    //    user: process.env.RSO_CLIENT_ID,
-   //    //    pass: process.env.RSO_CLIENT_SECRET
-   //    // }
-   // }).then(function (response, body) {
-   //    if (response.statusCode == 200) {
-   //       // parse the response to JSON
-   //       var payload = JSON.parse(body);
-   //       console.log("payload:",payload);
-   //       // separate the tokens from the entire response body
-   //       var tokens = {
-   //          refresh_token:  payload.refresh_token,
-   //          id_token:       payload.id_token,
-   //          access_token:   payload.access_token
-   //       };
-   //
-   //       // legibly print out our tokens
-   //       res.send("<pre>" + JSON.stringify(tokens, false, 4) + "</pre>");
-   //    }
-   // }).catch(function (error) {
-   //    console.log(error);
-   //    res.send("/token request failed");
-   // });
    const params = new URLSearchParams({
       'grant_type': 'authorization_code',
       'code': accessCode,
       'redirect_uri': appCallbackUrl,
    });
-   console.log("params:", params);
 
    try {
       const response = await fetch('https://auth.riotgames.com/token', {
@@ -550,7 +444,6 @@ router.get('/rso/oauth', async (req, res) => {
       if (! response.ok ){ res.status(400).send("/token request failed!"); }
       else {
          const responseJson = await response.json();
-         console.log("RESPONSE:", responseJson);
          res.send(responseJson);
       }
    }
