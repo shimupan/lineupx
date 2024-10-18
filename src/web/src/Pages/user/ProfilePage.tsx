@@ -582,6 +582,7 @@ const ProfilePage = () => {
                followerIds={Array.from(followers || [])}
                onClose={() => setShowFollowerPopup(false)}
                user={user}
+               setFollowingCount={setFollowingCount}
             />
          )}
          {showFollowingPopup && (
@@ -589,6 +590,7 @@ const ProfilePage = () => {
                following={Array.from(following || [])}
                onClose={() => setShowFollowingPopup(false)}
                curruser={user}
+               setFollowingCount={setFollowingCount}
             />
          )}
 

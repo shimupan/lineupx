@@ -7,12 +7,14 @@ interface FollowingPopupProps {
    following: string[];
    onClose: () => void;
    curruser: any;
+   setFollowingCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const FollowingPopup: React.FC<FollowingPopupProps> = ({
    following,
    onClose,
    curruser,
+   setFollowingCount,
 }) => {
    const Auth = useContext(AuthContext);
    const [followingUsers, setFollowingUsers] = useState<
@@ -72,9 +74,12 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
             setFollowingUsers(
                followingUsers.filter((follower) => follower.id !== id),
             );
+            
+            //setFollowingCount(prevCount => prevCount - 1);
          }else{
             toggleFollow(id);
          }
+         window.location.reload();
       } catch (error) {
          console.error(error);
       }

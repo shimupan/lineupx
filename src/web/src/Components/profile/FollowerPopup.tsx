@@ -7,12 +7,14 @@ interface FollowerPopupProps {
    followerIds: string[];
    onClose: () => void;
    user: any;
+   setFollowingCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const FollowerPopup: React.FC<FollowerPopupProps> = ({
    followerIds,
    onClose,
    user,
+   setFollowingCount,
 }) => {
    const Auth = useContext(AuthContext);
    const [followers, setFollowers] = useState<
@@ -72,6 +74,9 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
                   : follower,
             ),
          );
+
+         window.location.reload();
+
       } catch (error) {
          console.error(error);
       }
