@@ -1,18 +1,15 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { PostType } from '../../global.types';
 import { Layout } from '../../Components';
 import { CDN_URL } from '../../Constants';
-import { AuthContext } from '../../App';
-import { approveRejectPosts } from '../../util/updatePost';
-import { MdCancel, MdReport, MdEdit } from 'react-icons/md';
+import { MdReport } from 'react-icons/md';
 
 type PositionKey = 'landingPosition' | 'aimingPosition' | 'standingPosition';
 
-const AdminModifyPost = () => {
+const DeveloperPostsInfo = () => {
    const [post, setPost] = useState<PostType>();
-   const Auth = useContext(AuthContext);
    const location = useLocation();
    const navigate = useNavigate();
 
@@ -20,25 +17,8 @@ const AdminModifyPost = () => {
       setPost(location.state as PostType);
    }, [location.state]);
 
-   const handlePostAction = async (action: 'approve' | 'reject') => {
-      if (post && Auth?.role) {
-         try {
-            await approveRejectPosts(post._id, action, post.game, Auth.role);
-            navigate(-1);
-         } catch (error) {
-            console.error(`Error ${action}ing post:`, error);
-         }
-      }
-   };
-
    const getPositionImage = (position: PositionKey) => {
       return post ? `${CDN_URL}/${post[position].public_id}.png` : '';
-   };
-
-   const handleEdit = (post: PostType) => {
-      navigate(`/edit-post/${post.game}/${Auth?.username}/${post._id}`, {
-         state: { post },
-      });
    };
 
    return (
@@ -167,25 +147,6 @@ const AdminModifyPost = () => {
                         </div>
                      </div>
                   )}
-
-                  <div className="flex justify-center space-x-8">
-                     <button
-                        onClick={() => handlePostAction('reject')}
-                        className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                     >
-                        <MdCancel size={24} />
-                        <span>Delete Post</span>
-                     </button>
-                     {post && (
-                        <button
-                           onClick={() => handleEdit(post)}
-                           className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                           <MdEdit size={24} />
-                           <span>Edit Post</span>
-                        </button>
-                     )}
-                  </div>
                </main>
             </div>
          </div>
@@ -193,4 +154,4 @@ const AdminModifyPost = () => {
    );
 };
 
-export default AdminModifyPost;
+export default DeveloperPostsInfo;
