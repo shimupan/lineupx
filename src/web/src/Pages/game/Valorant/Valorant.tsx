@@ -33,6 +33,22 @@ const Valorant: React.FC = () => {
       pageRef.current = page;
    }, [page]);
 
+   const fetchRSOTokens = async () => {
+     const queryParams = new URLSearchParams(location.search);
+     const code = queryParams.get("code");
+
+     // if user didn't sign in with RSO
+     if (code === null) return;
+
+     try {
+       const res = await axios.get(`/rso/oauth?code=${code}`);
+       console.log("Response: ", res);
+     }
+     catch (error){
+       console.log("error fetching /rso/oauth: ", error);
+     }
+  }
+
    const fetchInitialData = useCallback(async () => {
       setIsLoading(true);
       setNewPostsReady(false);
@@ -209,6 +225,7 @@ const Valorant: React.FC = () => {
       document.title = 'Valorant';
       getSuggestions();
       fetchInitialData();
+      fetchRSOTokens();
    }, []);
 
    const handleSearch = (value: string) => {
