@@ -63,25 +63,35 @@ jobs:
       run: echo "containers_started=true" >> $GITHUB_ENV
 
   api_test:
+
     runs-on: ubuntu-latest
-    needs: build_app 
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
-      
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
 
-    - name: Install dependencies
-      run: npm install
-      working-directory: src/api
+    - name: Run Setup Script
+      run: |
+        chmod +x scripts/setup.sh
+        ./scripts/setup.sh
+
+    - name: Build API Image
+      run: docker build -t api ./src/api
+
+    - name: Build Web Image
+      run: docker build -t web ./src/web
+
+    - name: Run Docker Compose Up
+      run: docker compose up --detach --wait --wait-timeout 30
 
     - name: Wait for DB
-      if: env.containers_started == 'true'
       run: |
         while ! docker compose logs lineupx_api | grep -q "database connected"; do
           sleep 5
         done
+    
+    - name: Change Directory
+      run: cd src/api
+    
+    - name: Run Test
+      run: npm test
