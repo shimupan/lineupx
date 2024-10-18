@@ -74,6 +74,16 @@ const Header: React.FC = () => {
                            </button>
                         )}
 
+                        {Auth?.role === 'developer' && (
+                           <button
+                              onClick={() => navigate('/developer/posts')}
+                              className="bg-indigo-800 text-white p-2 rounded hover:bg-blue-500 hover:text-white text-sm whitespace-nowrap flex items-center"
+                           >
+                              <MdAdminPanelSettings className="mr-2 text-xl" />
+                              Developer Panel
+                           </button>
+                        )}
+
                         {(location.pathname === '/game/CS2' ||
                            location.pathname === '/game/Valorant') && (
                            <Link
