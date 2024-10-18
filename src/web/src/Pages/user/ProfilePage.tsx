@@ -173,7 +173,6 @@ const ProfilePage = () => {
       //FIX!
       //setShowFollowerPopup(true);
       //setShowFollowingPopup(true);
-      
    };
 
    const fileInputRef = useRef<HTMLInputElement>(null);

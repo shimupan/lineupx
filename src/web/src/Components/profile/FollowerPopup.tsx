@@ -35,15 +35,17 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
             });
 
             let loggedInUserFollowingSet = Auth!.following;
-            if(Auth!.username == ''){
+            if (Auth!.username == '') {
                loggedInUserFollowingSet = [];
             }
             // console.log("My username: " + Auth!.username);
             // console.log("My followers: " + loggedInUserFollowingSet);
-            
+
             const followersWithFollowingStatus = response.data.map(
                (follower: any) => {
-                  let isFollowing = (loggedInUserFollowingSet.some(followed => followed === follower._id));
+                  let isFollowing = loggedInUserFollowingSet.some(
+                     (followed) => followed === follower._id,
+                  );
                   return {
                      id: follower._id,
                      username: follower.username,
@@ -76,7 +78,6 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
          );
 
          window.location.reload();
-
       } catch (error) {
          console.error(error);
       }

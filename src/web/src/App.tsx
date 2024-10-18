@@ -56,7 +56,6 @@ type FollowingType = {
    required: boolean;
 };
 
-
 type AuthContextType = {
    _id: string;
    setid: React.Dispatch<React.SetStateAction<string>>;
