@@ -69,7 +69,7 @@ const AdminPosts: React.FC = () => {
                                        className="w-12 h-12 rounded-full object-cover"
                                     />
                                     <div>
-                                       <h3 className="font-medium">
+                                       <h3 className="text-lg font-bold m-0 no-underline w-full sm:w-[50rem] line-clamp-2">
                                           Post Title: {p.postTitle}
                                        </h3>
                                        <p className="text-sm text-gray-400">

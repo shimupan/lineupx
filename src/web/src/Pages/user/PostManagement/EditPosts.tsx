@@ -33,6 +33,7 @@ const EditPost: React.FC = () => {
    const [isLoading, setIsLoading] = useState(false);
    const [previewMode, setPreviewMode] = useState<'grid' | 'arrow'>('grid');
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+   const [titleCharCount, setTitleCharCount] = useState(0);
 
    useEffect(() => {
       if (!post) {
@@ -42,6 +43,7 @@ const EditPost: React.FC = () => {
                   `/post/detail/${game}/${postId}`,
                );
                setPost(response.data);
+               setTitleCharCount(response.data.postTitle.length);
             } catch (error) {
                toast.error('Error fetching post data');
                console.error('Error fetching post:', error);
@@ -51,8 +53,16 @@ const EditPost: React.FC = () => {
          };
 
          fetchPost();
+      } else {
+         setTitleCharCount(post.postTitle.length);
       }
    }, [postId, post]);
+
+   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newTitle = e.target.value.slice(0, 100);
+      setPost({ ...post, postTitle: newTitle } as PostType);
+      setTitleCharCount(newTitle.length);
+   };
 
    const handleSubmit = async (event: React.FormEvent) => {
       setIsLoading(true);
@@ -157,11 +167,18 @@ const EditPost: React.FC = () => {
                            type="text"
                            id="postTitle"
                            value={post.postTitle}
-                           onChange={(e) =>
-                              setPost({ ...post, postTitle: e.target.value })
-                           }
+                           onChange={handleTitleChange}
                            className="w-full bg-gray-800 rounded p-2"
+                           maxLength={100}
                         />
+                        <div className="text-sm text-gray-400 mt-1">
+                           {titleCharCount}/100 characters
+                           {titleCharCount === 100 && (
+                              <span className="text-yellow-500 ml-2">
+                                 Character limit reached
+                              </span>
+                           )}
+                        </div>
                      </div>
                      <div>
                         <label htmlFor="description" className="block mb-2">
@@ -191,7 +208,10 @@ const EditPost: React.FC = () => {
                               id="jumpThrow"
                               value={post.jumpThrow}
                               onChange={(e) =>
-                                 setPost({ ...post, jumpThrow: e.target.value })
+                                 setPost({
+                                    ...post,
+                                    jumpThrow: e.target.value,
+                                 } as PostType)
                               }
                               className="w-full bg-gray-800 text-white rounded p-2"
                            >
@@ -210,7 +230,10 @@ const EditPost: React.FC = () => {
                               id="teamSide"
                               value={post.teamSide}
                               onChange={(e) =>
-                                 setPost({ ...post, teamSide: e.target.value })
+                                 setPost({
+                                    ...post,
+                                    teamSide: e.target.value,
+                                 } as PostType)
                               }
                               className="w-full bg-gray-800 text-white rounded p-2"
                            >
@@ -328,11 +351,7 @@ const EditPost: React.FC = () => {
                                                     ? landingPreview
                                                     : post[`${pos}Position`]
                                                            ?.public_id
-                                                      ? `${CDN_URL}/${
-                                                           post[
-                                                              `${pos}Position`
-                                                           ].public_id
-                                                        }.png`
+                                                      ? `${CDN_URL}/${post[`${pos}Position`].public_id}.png`
                                                       : ''
                                           }
                                           alt={`${pos} position`}
@@ -432,8 +451,8 @@ const EditPost: React.FC = () => {
                               </button>
                            </div>
                         )}
-                        <div className="p-4 max-h-60 overflow-y-auto">
-                           <h3 className="text-lg font-semibold mb-2 break-words">
+                        <div className="p-4 max-h-60 overflow-y-auto w-[40rem] h-32">
+                           <h3 className="text-lg font-semibold mb-2 break-words truncate">
                               {post.postTitle}
                            </h3>
                            <p className="text-gray-400 mb-2 break-words">
