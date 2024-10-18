@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import {
    Layout,
    WidePosts,
    Comments,
    SharePopup,
    PostPageSkeleton,
+   ZoomableImage,
 } from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
@@ -24,8 +24,8 @@ import { follow } from '../util/followStatus';
 import axios from 'axios';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { FaShare } from 'react-icons/fa';
-import { RiUserFollowLine, RiUserUnfollowFill } from 'react-icons/ri';
-import { CgMaximize, CgMinimize } from 'react-icons/cg';
+import { RiUserFollowLine } from 'react-icons/ri';
+import { RiUserUnfollowFill } from 'react-icons/ri';
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -78,6 +78,7 @@ const PostPage = () => {
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
    const [isSaved, setIsSaved] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
+   const [isFullScreen, setIsFullScreen] = useState(false);
    /*
    const handleGearClick = () => {
       setPopupVisible(!isPopupVisible);
@@ -112,55 +113,59 @@ const PostPage = () => {
    };
    */
 
-   const handleFullScreenToggle = (imageSrc: string) => {
+   const handleFullScreenToggle = useCallback(() => {
+      setIsFullScreen((prev) => !prev);
       const fullScreenContainer = document.getElementById(
          'full-screen-container',
       );
-      const fullScreenImage = document.getElementById('full-screen-image');
-
-      if (fullScreenImage) {
-         (fullScreenImage as HTMLImageElement).src = `${CDN_URL}/${imageSrc}`;
-      }
-
       if (fullScreenContainer) {
-         if (fullScreenContainer.classList.contains('hidden')) {
+         if (!isFullScreen) {
             fullScreenContainer.classList.remove('hidden');
             if (fullScreenContainer.requestFullscreen) {
                fullScreenContainer.requestFullscreen();
             } else if ((fullScreenContainer as any).mozRequestFullScreen) {
-               /* Firefox */
                (fullScreenContainer as any).mozRequestFullScreen();
             } else if ((fullScreenContainer as any).webkitRequestFullscreen) {
-               /* Chrome, Safari and Opera */
                (fullScreenContainer as any).webkitRequestFullscreen();
             } else if ((fullScreenContainer as any).msRequestFullscreen) {
-               /* IE/Edge */
                (fullScreenContainer as any).msRequestFullscreen();
             }
-
-            // Add fullscreenchange event listener
-            document.addEventListener('fullscreenchange', () => {
-               if (!document.fullscreenElement) {
-                  fullScreenContainer.classList.add('hidden');
-               }
-            });
          } else {
             if (document.exitFullscreen) {
                document.exitFullscreen();
             } else if ((document as any).mozCancelFullScreen) {
-               /* Firefox */
                (document as any).mozCancelFullScreen();
             } else if ((document as any).webkitExitFullscreen) {
-               /* Chrome, Safari and Opera */
                (document as any).webkitExitFullscreen();
             } else if ((document as any).msExitFullscreen) {
-               /* IE/Edge */
                (document as any).msExitFullscreen();
             }
             fullScreenContainer.classList.add('hidden');
          }
       }
-   };
+   }, [isFullScreen]);
+
+   useEffect(() => {
+      const handleFullscreenChange = () => {
+         if (!document.fullscreenElement) {
+            setIsFullScreen(false);
+            const fullScreenContainer = document.getElementById(
+               'full-screen-container',
+            );
+            if (fullScreenContainer) {
+               fullScreenContainer.classList.add('hidden');
+            }
+         }
+      };
+
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      return () => {
+         document.removeEventListener(
+            'fullscreenchange',
+            handleFullscreenChange,
+         );
+      };
+   }, []);
    const savePost = async () => {
       try {
          await axios.post(`/user/${user_Id}/save-post`, {
@@ -380,106 +385,13 @@ const PostPage = () => {
             <div className="lg:flex">
                <div className="md:ml-[70px] relative lg:w-3/4 bg-black pb-4">
                   <div className="w-full" style={{ aspectRatio: '16/9' }}>
-                     <div
-                        className="relative w-full h-full rounded-r-xl overflow-hidden"
-                        onMouseEnter={() => document.getElementById('fullscreen-button')?.classList.remove('hidden')}
-                        onMouseLeave={() => document.getElementById('fullscreen-button')?.classList.add('hidden')}
-                        onTouchStart={() => {
-                           const fullscreenButton = document.getElementById('fullscreen-button');
-                           fullscreenButton?.classList.remove('hidden');
-                           setTimeout(() => {
-                              fullscreenButton?.classList.add('hidden');
-                           }, 3000);
-                        }}
-                        onTouchEnd={() => document.getElementById('fullscreen-button')?.classList.add('hidden')}
-                     >
-                        <TransformWrapper
-                           initialScale={1}
-                           initialPositionX={0}
-                           initialPositionY={0}
-                        >
-                           {({ zoomIn, zoomOut, resetTransform }) => (
-                              <>
-                                 <div className="absolute top-2 left-2 z-10 flex space-x-2">
-                                    <button onClick={() => zoomIn()} className="bg-gray-800 text-white p-2 rounded">+</button>
-                                    <button onClick={() => zoomOut()} className="bg-gray-800 text-white p-2 rounded">-</button>
-                                    <button onClick={() => resetTransform()} className="bg-gray-800 text-white p-2 rounded">Reset</button>
-                                 </div>
-                                 <TransformComponent
-                                    wrapperStyle={{
-                                       width: '100%',
-                                       height: '100%',
-                                    }}
-                                    contentStyle={{
-                                       width: '100%',
-                                       height: '100%',
-                                    }}
-                                 >
-                                    <img
-                                       src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
-                                       alt={postData?.postTitle || currPostData?.postTitle}
-                                       style={{
-                                          width: '100%',
-                                          height: '100%',
-                                          objectFit: 'contain',
-                                       }}
-                                    />
-                                 </TransformComponent>
-                              </>
-                           )}
-                        </TransformWrapper>
-                        <button
-                           id="fullscreen-button"
-                           className="hidden absolute bottom-0 right-0 mb-2 mr-2 text-white p-2 rounded transform transition-transform duration-500 hover:scale-110"
-                           onClick={() => handleFullScreenToggle(imagePositions[currentImageIndex])}
-                        >
-                           <CgMaximize size={24} />
-                        </button>
-
-                        <div
-                           id="full-screen-container"
-                           className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 z-50 hidden flex justify-center items-center"
-                        >
-                           <div className="relative w-full h-full flex justify-center items-center">
-                              <img
-                                 id="full-screen-image"
-                                 className="max-w-full max-h-full object-contain"
-                                 src=""
-                                 alt="Full-screen image"
-                              />
-                              <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-between items-center p-4">
-                                 <div className="flex justify-center items-center w-full space-x-4">
-                                    <button
-                                       onClick={() => handleArrowClick('prev')}
-                                       className="text-2xl text-white"
-                                    >
-                                       ←
-                                    </button>
-                                    <div
-                                       style={{
-                                          width: '200px',
-                                          textAlign: 'center',
-                                       }}
-                                       className="text-white"
-                                    >
-                                       {imageTitles[currentImageIndex]}
-                                    </div>
-                                    <button
-                                       onClick={() => handleArrowClick('next')}
-                                       className="text-2xl text-white"
-                                    >
-                                       →
-                                    </button>
-                                 </div>
-                                 <button
-                                    onClick={() => handleFullScreenToggle('')}
-                                    className="absolute top-0 right-0 m-4 text-2xl text-white"
-                                 >
-                                    <CgMinimize size={24} />
-                                 </button>
-                              </div>
-                           </div>
-                        </div>
+                     <div className="relative w-full h-full rounded-r-xl overflow-hidden">
+                        <ZoomableImage
+                           src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
+                           alt={postData?.postTitle || currPostData?.postTitle}
+                           isFullScreen={false}
+                           onFullScreenToggle={handleFullScreenToggle}
+                        />
                      </div>
                   </div>
                   <div className="flex justify-between w-full">
@@ -511,6 +423,7 @@ const PostPage = () => {
                                     <img
                                        className="rounded-full cursor-pointer w-10 h-10"
                                        src={`${user?.ProfilePicture}`}
+                                       alt="Profile"
                                     />
                                  </Link>
                               </div>
@@ -571,7 +484,6 @@ const PostPage = () => {
                                     className="flex items-center cursor-pointer"
                                     onClick={() => {
                                        if (isLiked) {
-                                          // Remove like
                                           removeLike(
                                              postData?._id || currPostData?._id,
                                              user_Id!,
@@ -580,7 +492,6 @@ const PostPage = () => {
                                           );
                                           setIsLiked(false);
                                        } else {
-                                          // Add like
                                           incrementLikeCount(
                                              postData?._id || currPostData?._id,
                                              user_Id!,
@@ -593,7 +504,11 @@ const PostPage = () => {
                                     }}
                                  >
                                     <AiOutlineLike
-                                       className={`text-white h-5 w-5 ${isLiked ? 'animate-pulse text-yellow-500' : 'fill-white'}`}
+                                       className={`text-white h-5 w-5 ${
+                                          isLiked
+                                             ? 'animate-pulse text-yellow-500'
+                                             : 'fill-white'
+                                       }`}
                                     />
                                     <p className="ml-1 text-white">
                                        {(postData?.likes?.length ?? 0) ||
@@ -625,7 +540,11 @@ const PostPage = () => {
                                     }}
                                  >
                                     <AiOutlineDislike
-                                       className={`text-white h-5 w-5 ${isDisliked ? 'animate-pulse text-yellow-500' : ''}`}
+                                       className={`text-white h-5 w-5 ${
+                                          isDisliked
+                                             ? 'animate-pulse text-yellow-500'
+                                             : ''
+                                       }`}
                                     />
                                     <p className="ml-1 text-white">
                                        {(postData?.dislikes?.length ?? 0) ||
@@ -646,7 +565,9 @@ const PostPage = () => {
                               </span>
                            </button>
                            <button
-                              className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 ${isSaved ? 'animate-pulse bg-yellow-100' : ''}`}
+                              className={`flex items-center rounded-full px-4 py-0.5 transition-colors duration-200 ml-2 ${
+                                 isSaved ? 'animate-pulse bg-yellow-100' : ''
+                              }`}
                               style={{
                                  backgroundColor: '#212121',
                                  transition: 'background-color 0.2s',
@@ -662,10 +583,14 @@ const PostPage = () => {
                               onClick={() => savePost()}
                            >
                               <AiOutlineStar
-                                 className={`text-xl mr-1 ${isSaved ? 'text-yellow-500' : 'text-white'}`}
+                                 className={`text-xl mr-1 ${
+                                    isSaved ? 'text-yellow-500' : 'text-white'
+                                 }`}
                               />
                               <span
-                                 className={`text-sm font-medium ${isSaved ? 'text-yellow-600' : 'text-white'}`}
+                                 className={`text-sm font-medium ${
+                                    isSaved ? 'text-yellow-600' : 'text-white'
+                                 }`}
                               >
                                  Save
                               </span>
@@ -759,10 +684,49 @@ const PostPage = () => {
                            />
                         );
                      }
+                     return null;
                   })}
                </div>
             </div>
          </Layout>
+         <div
+            id="full-screen-container"
+            className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-90 z-50 hidden flex justify-center items-center"
+         >
+            <div className="relative w-full h-full flex justify-center items-center">
+               <ZoomableImage
+                  src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
+                  alt={postData?.postTitle || currPostData?.postTitle}
+                  isFullScreen={true}
+                  onFullScreenToggle={handleFullScreenToggle}
+               />
+               <div className="absolute bottom-0 w-full h-16 bg-black bg-opacity-50 flex justify-between items-center p-4">
+                  <div className="flex justify-center items-center w-full space-x-4">
+                     <button
+                        onClick={() => handleArrowClick('prev')}
+                        className="text-2xl text-white"
+                     >
+                        ←
+                     </button>
+                     <div
+                        style={{
+                           width: '200px',
+                           textAlign: 'center',
+                        }}
+                        className="text-white"
+                     >
+                        {imageTitles[currentImageIndex]}
+                     </div>
+                     <button
+                        onClick={() => handleArrowClick('next')}
+                        className="text-2xl text-white"
+                     >
+                        →
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
          {isSharePopupOpen && (
             <div className="absolute z-10 mt-2">
                <SharePopup
