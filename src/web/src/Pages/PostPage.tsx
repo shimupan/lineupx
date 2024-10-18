@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import {
    Layout,
    WidePosts,
@@ -23,8 +24,7 @@ import { follow } from '../util/followStatus';
 import axios from 'axios';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { FaShare } from 'react-icons/fa';
-import { RiUserFollowLine } from 'react-icons/ri';
-import { RiUserUnfollowFill } from 'react-icons/ri';
+import { RiUserFollowLine, RiUserUnfollowFill } from 'react-icons/ri';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
 
 //import gear from '../assets/svg/gear.svg';
@@ -379,66 +379,63 @@ const PostPage = () => {
          <Layout>
             <div className="lg:flex">
                <div className="md:ml-[70px] relative lg:w-3/4 bg-black pb-4">
-                  <div className="">
+                  <div className="w-full" style={{ aspectRatio: '16/9' }}>
                      <div
-                        style={{
-                           position: 'relative',
-                           width: '100%',
-                           paddingTop: '56.25%',
-                           backgroundColor: 'black',
-                           overflow: 'hidden',
-                        }}
-                        className="rounded-r-xl"
-                        onMouseEnter={() =>
-                           document
-                              .getElementById('fullscreen-button')
-                              ?.classList.remove('hidden')
-                        }
-                        onMouseLeave={() =>
-                           document
-                              .getElementById('fullscreen-button')
-                              ?.classList.add('hidden')
-                        }
+                        className="relative w-full h-full rounded-r-xl overflow-hidden"
+                        onMouseEnter={() => document.getElementById('fullscreen-button')?.classList.remove('hidden')}
+                        onMouseLeave={() => document.getElementById('fullscreen-button')?.classList.add('hidden')}
                         onTouchStart={() => {
-                           const fullscreenButton =
-                              document.getElementById('fullscreen-button');
+                           const fullscreenButton = document.getElementById('fullscreen-button');
                            fullscreenButton?.classList.remove('hidden');
                            setTimeout(() => {
                               fullscreenButton?.classList.add('hidden');
                            }, 3000);
                         }}
-                        onTouchEnd={() =>
-                           document
-                              .getElementById('fullscreen-button')
-                              ?.classList.add('hidden')
-                        }
+                        onTouchEnd={() => document.getElementById('fullscreen-button')?.classList.add('hidden')}
                      >
-                        <img
-                           src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
-                           alt={postData?.postTitle || currPostData?.postTitle}
-                           style={{
-                              position: 'absolute',
-                              top: '50%',
-                              left: '50%',
-                              transform: 'translate(-50%, -50%)',
-                              maxWidth: '100%',
-                              maxHeight: '100%',
-                              width: 'auto',
-                              height: 'auto',
-                           }}
-                           className="cursor-pointer object-contain"
-                        />
+                        <TransformWrapper
+                           initialScale={1}
+                           initialPositionX={0}
+                           initialPositionY={0}
+                        >
+                           {({ zoomIn, zoomOut, resetTransform }) => (
+                              <>
+                                 <div className="absolute top-2 left-2 z-10 flex space-x-2">
+                                    <button onClick={() => zoomIn()} className="bg-gray-800 text-white p-2 rounded">+</button>
+                                    <button onClick={() => zoomOut()} className="bg-gray-800 text-white p-2 rounded">-</button>
+                                    <button onClick={() => resetTransform()} className="bg-gray-800 text-white p-2 rounded">Reset</button>
+                                 </div>
+                                 <TransformComponent
+                                    wrapperStyle={{
+                                       width: '100%',
+                                       height: '100%',
+                                    }}
+                                    contentStyle={{
+                                       width: '100%',
+                                       height: '100%',
+                                    }}
+                                 >
+                                    <img
+                                       src={`${CDN_URL}/${imagePositions[currentImageIndex]}`}
+                                       alt={postData?.postTitle || currPostData?.postTitle}
+                                       style={{
+                                          width: '100%',
+                                          height: '100%',
+                                          objectFit: 'contain',
+                                       }}
+                                    />
+                                 </TransformComponent>
+                              </>
+                           )}
+                        </TransformWrapper>
                         <button
                            id="fullscreen-button"
                            className="hidden absolute bottom-0 right-0 mb-2 mr-2 text-white p-2 rounded transform transition-transform duration-500 hover:scale-110"
-                           onClick={() =>
-                              handleFullScreenToggle(
-                                 imagePositions[currentImageIndex],
-                              )
-                           }
+                           onClick={() => handleFullScreenToggle(imagePositions[currentImageIndex])}
                         >
                            <CgMaximize size={24} />
                         </button>
+
                         <div
                            id="full-screen-container"
                            className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 z-50 hidden flex justify-center items-center"
