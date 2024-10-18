@@ -356,7 +356,7 @@ router.get('/rso/signin', function (req, res) {
       + "&response_type=code"
       + "&scope=openid+offline_access";
 
-   res.send('<a href="' + link + '">Sign In</a>');
+   res.redirect(link);
 })
 
 

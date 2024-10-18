@@ -6,6 +6,7 @@ import axios from 'axios';
 import logo from '../../assets/lineupx_compact.webp';
 import { FaUserCircle, FaSignOutAlt, FaUpload, FaEdit } from 'react-icons/fa';
 import { MdAdminPanelSettings } from 'react-icons/md';
+import valorantLogo from '../../assets/svg/valorant.svg';
 
 const Header: React.FC = () => {
    const Auth = useContext(AuthContext);
@@ -14,6 +15,10 @@ const Header: React.FC = () => {
    const [, , deleteAccessCookie] = useCookies('accessToken', '');
    const [, , deleteRefreshCookie] = useCookies('refreshToken', '');
    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+   const handleRSOSignIn = () => {
+     window.location.href = axios.defaults.baseURL + 'rso/signin';
+   }
 
    const logout = async () => {
       try {
@@ -158,6 +163,18 @@ const Header: React.FC = () => {
                         >
                            Sign up
                         </Link>
+                        <button
+                           type={'button'}
+                           onClick={handleRSOSignIn}
+                           className={
+                              'bg-red-600 text-white p-2 rounded hover:bg-red-500 text-sm whitespace-nowrap'
+                           }
+                        >
+                           <div className={"flex flex-row gap-2"}>
+                             <img src={valorantLogo} alt={"Riot Games"} className={"w-6 h-6"}/>
+                             <p>{'Sign in'}</p>
+                           </div>
+                        </button>
                      </div>
                   )}
                </div>
