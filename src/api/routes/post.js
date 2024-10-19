@@ -110,22 +110,18 @@ router.get('/post/:game', async (req, res) => {
   let totalDocuments;
 
   try {
-    // Map Filter
     if (map) {
       query.mapName = map.trim().toLowerCase();
     }
 
-    // Recent Filter
     if (recent) {
       sortOption.date = -1;
     }
 
-    // Date Range Filter
     if (dateRange) {
       query.date = getDateRangeFilter(dateRange);
     }
 
-    // Search Filter
     if (search) {
       if (field) {
         query[field] = search.toLowerCase();
@@ -141,22 +137,12 @@ router.get('/post/:game', async (req, res) => {
     }
     totalDocuments = await PostData.countDocuments(query);
 
-    // Fetch data with pagination and sorting
     const data = await PostData.find(query, projection )
       .sort(sortOption)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
-    // Send response
-    res.send({
-      success: true,
-      data,
-      pagination: {
-        total: totalDocuments,
-        page,
-        pageSize,
-      },
-    });
+    res.send(data);
   } catch (err) {
     console.error(err);
     res.status(500).send({ error: 'An internal server error occurred.' });
