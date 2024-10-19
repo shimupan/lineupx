@@ -184,12 +184,12 @@ const PostDataSchema = new mongoose.Schema({
    ],
 });
 PostDataSchema.index({
-  postTitle: 'text',
-  mapName: 'text',
-  lineupLocation: 'text',
-  valorantAgent: 'text',
-  ability: 'text',
-  grenadeType: 'text',
+   postTitle: 'text',
+   mapName: 'text',
+   lineupLocation: 'text',
+   valorantAgent: 'text',
+   ability: 'text',
+   grenadeType: 'text',
 });
 
 export default PostDataSchema;
