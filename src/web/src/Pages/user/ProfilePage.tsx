@@ -220,6 +220,10 @@ const ProfilePage = () => {
       }
    };
 
+   const handleFiltersSubmit = (filters: any) => {
+      console.log('Filters:', filters);
+   };
+
    if (loading) return <Loading />;
 
    return (
@@ -615,6 +619,7 @@ const ProfilePage = () => {
             <FiltersPopup
                onClose={() => setShowFiltersPopup(false)}
                selectedGame={selectedGame}
+               onSubmit={handleFiltersSubmit}
             />
          )}
       </>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 interface FiltersPopupProps {
    onClose: () => void;
    selectedGame: string;
+   onSubmit: (filters: Filters) => void;
 }
 
 interface Filters {
@@ -12,8 +13,8 @@ interface Filters {
 type FilterCategories = 'mapName' | 'teamSide' | 'grenadeType' | 'jumpThrow' | 'valorantAgent';
 
 const initialFilters: Filters = {
-   mapName: [],
    teamSide: [],
+   mapName: [],
    grenadeType: [],
    jumpThrow: [],
    valorantAgent: []
@@ -22,6 +23,7 @@ const initialFilters: Filters = {
 const FiltersPopup: React.FC<FiltersPopupProps> = ({
    onClose,
    selectedGame,
+   onSubmit,
 }) => {
    const [filters, setFilters] = useState<Filters>(initialFilters);
 
@@ -62,8 +64,7 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
    );
 
    const pressedSubmit = () => {
-      // TODO: apply filters
-      console.log('Selected Filters:', filters);
+      onSubmit(filters);
       onClose();
    };
 
@@ -95,13 +96,14 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
             <div className="max-h-96 overflow-y-auto p-4">
                {selectedGame === 'Valorant' && (
                   <>
+                     {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
                      {renderCheckboxes("Map", "mapName", ["Abyss", "Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Lotus", "Pearl", "Split", "Sunset"])}
                      {renderCheckboxes("Agent", "valorantAgent", ["Brimstone", "Phoenix", "Sage", "Sova", "Viper", "Cypher", "Reyna", "Killjoy", "Breach", "Omen", "Jett", "Raze", "Skye", "Yoru", "Astra", "KAY/O", "Chamber", "Neon", "Fade", "Harbor", "Gekko", "Deadlock", "Iso", "Clove", "Vyse"])}
-                     {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
                   </>
                )}
                {selectedGame === 'CS2' && (
                   <>
+                     {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
                      {renderCheckboxes("Map", "mapName", ["Mirage", "Inferno", "Nuke", "Overpass", "Vertigo", "Ancient", "Anubis", "Dust II"])}
                      {renderCheckboxes("Grenade", "grenadeType", ["HE", "Smoke", "Flashbangs", "Decoy", "Molotov", "Incendiary"])}
                      {renderCheckboxes("Jump Throw?", "jumpThrow", ["Yes", "No"])}
