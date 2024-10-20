@@ -614,6 +614,7 @@ const ProfilePage = () => {
          {showFiltersPopup && (
             <FiltersPopup
                onClose={() => setShowFiltersPopup(false)}
+               selectedGame={selectedGame}
             />
          )}
       </>

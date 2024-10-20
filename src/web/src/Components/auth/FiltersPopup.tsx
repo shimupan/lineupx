@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 interface FiltersPopupProps {
    onClose: () => void;
+   selectedGame: string;
 }
 
 interface Filters {
@@ -20,6 +21,7 @@ const initialFilters: Filters = {
 
 const FiltersPopup: React.FC<FiltersPopupProps> = ({
    onClose,
+   selectedGame,
 }) => {
    const [filters, setFilters] = useState<Filters>(initialFilters);
 
@@ -91,12 +93,20 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
                </button>
             </div>
             <div className="max-h-96 overflow-y-auto p-4">
-               {renderCheckboxes("Map", "mapName", ["Abyss", "Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Lotus", "Pearl", "Split", "Sunset"])}
-               {renderCheckboxes("Map", "mapName", ["Mirage", "Inferno", "Nuke", "Overpass", "Vertigo", "Ancient", "Anubis", "Dust II"])}
-               {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
-               {renderCheckboxes("Grenade", "grenadeType", ["HE", "Smoke", "Flashbangs", "Decoy", "Molotov", "Incendiary"])}
-               {renderCheckboxes("Jump Throw?", "jumpThrow", ["Yes", "No"])}
-               {renderCheckboxes("Agent", "valorantAgent", ["Brimstone", "Phoenix", "Sage", "Sova", "Viper", "Cypher", "Reyna", "Killjoy", "Breach", "Omen", "Jett", "Raze", "Skye", "Yoru", "Astra", "KAY/O", "Chamber", "Neon", "Fade", "Harbor", "Gekko", "Deadlock", "Iso", "Clove", "Vyse"])}
+               {selectedGame === 'Valorant' && (
+                  <>
+                     {renderCheckboxes("Map", "mapName", ["Abyss", "Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Lotus", "Pearl", "Split", "Sunset"])}
+                     {renderCheckboxes("Agent", "valorantAgent", ["Brimstone", "Phoenix", "Sage", "Sova", "Viper", "Cypher", "Reyna", "Killjoy", "Breach", "Omen", "Jett", "Raze", "Skye", "Yoru", "Astra", "KAY/O", "Chamber", "Neon", "Fade", "Harbor", "Gekko", "Deadlock", "Iso", "Clove", "Vyse"])}
+                     {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
+                  </>
+               )}
+               {selectedGame === 'CS2' && (
+                  <>
+                     {renderCheckboxes("Map", "mapName", ["Mirage", "Inferno", "Nuke", "Overpass", "Vertigo", "Ancient", "Anubis", "Dust II"])}
+                     {renderCheckboxes("Grenade", "grenadeType", ["HE", "Smoke", "Flashbangs", "Decoy", "Molotov", "Incendiary"])}
+                     {renderCheckboxes("Jump Throw?", "jumpThrow", ["Yes", "No"])}
+                  </>
+               )}
             </div>
             <div className="p-4 border-t">
                <button
