@@ -6,6 +6,7 @@ import {
    Comments,
    SharePopup,
    PostPageSkeleton,
+   MobileComments,
 } from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
@@ -739,15 +740,25 @@ const PostPage = () => {
                               </div>
                            ))}
                      </div>
-                     {comments.map((comment, index) => (
-                        <Comments
-                           className="mt-4"
-                           comment={comment}
+                     {window.innerWidth <= 768 ? (
+                        <MobileComments
+                           comments={comments}
                            postId={postData?._id || currPostData?._id}
                            onDelete={removeComment}
-                           key={index}
+                           className="mt-4"
                         />
-                     ))}
+                     ) : (
+                        // Your existing Comments component
+                        comments.map((comment, index) => (
+                           <Comments
+                              className="mt-4"
+                              comment={comment}
+                              postId={postData?._id || currPostData?._id}
+                              onDelete={removeComment}
+                              key={index}
+                           />
+                        ))
+                     )}
                   </div>
                </div>
                <div className="relative lg:flex-grow bg-black">
