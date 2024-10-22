@@ -42,23 +42,22 @@ const Valorant: React.FC = () => {
       // if user didn't sign in with RSO
       if (code === null) return;
 
-      try {
-         // const res = await axios.get(`/rso/oauth?code=${code}`);
-         const res = await axios.get('/test');
-         const RSOAccessToken = res.data.access_token;
-         const RSORefreshToken = res.data.refresh_token;
-         const expire = new Date();
-         expire.setTime(expire.getTime() + res.data.expires_in * 1000);
+     try {
+       const res = await axios.get(`/rso/oauth?code=${code}`);
 
-         setRSOAccessToken(RSOAccessToken, { path: '/', expires: expire });
-         setRSORefreshToken(RSORefreshToken, { path: '/' });
+       const RSOAccessToken = res.data.access_token;
+       const RSORefreshToken = res.data.refresh_token;
+       const expire = new Date();
+       expire.setTime(expire.getTime() + res.data.expires_in * 1000);
 
-         // Now check who logged in, get their puid, player name, player tag to display on header to show logged in
-         // In header.tsx, check if rsorefresh and rsoaccess cookies exist, this means logged in
-      } catch (error) {
-         console.log('error fetching /rso/oauth: ', error);
-      }
-   };
+       setRSOAccessToken(RSOAccessToken, { path: '/', expires: expire});
+       setRSORefreshToken(RSORefreshToken);
+
+     }
+     catch (error){
+       console.log("error fetching /rso/oauth: ", error);
+     }
+  }
 
    const fetchInitialData = useCallback(async () => {
       setIsLoading(true);
