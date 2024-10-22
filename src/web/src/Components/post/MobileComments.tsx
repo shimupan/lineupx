@@ -191,6 +191,12 @@ const MobileComments: React.FC<MobileCommentsProps> = ({
     setShowDeleteConfirmation(false);
   };
 
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      closeOverlay();
+    }
+  };
+
   return (
     <div className={`w-full ${className}`}>
       {/* Comment Preview Button */}
@@ -232,10 +238,17 @@ const MobileComments: React.FC<MobileCommentsProps> = ({
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-50"
           style={{ backdropFilter: 'blur(4px)' }}
+          onClick={handleBackdropClick}
         >
-          <div className="fixed inset-x-0 bottom-0 bg-gray-900 rounded-t-xl max-h-[90vh] flex flex-col animate-slide-up">
+          <div 
+            className="fixed inset-x-0 bottom-0 bg-gray-900 rounded-t-xl max-h-[70vh] flex flex-col animate-slide-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Drag Handle */}
+            <div className="h-1.5 w-12 bg-gray-600 mx-auto mt-2 rounded-full" />
+            
             {/* Header */}
-            <div className="sticky top-0 z-10 flex justify-between items-center p-4 border-b border-gray-700 bg-gray-900">
+            <div className="sticky top-0 z-10 flex justify-between items-center px-4 pt-2 pb-4 border-b border-gray-700 bg-gray-900">
               <h2 className="text-lg font-semibold">
                 Comments {commentCount.toLocaleString()}
               </h2>
@@ -249,7 +262,7 @@ const MobileComments: React.FC<MobileCommentsProps> = ({
 
             {/* Scrollable Comments */}
             <div className="overflow-y-auto flex-grow">
-              <div className="p-4 space-y-4">
+              <div className="p-3 space-y-3">
                 {comments.map((comment, index) => (
                   <div key={index} className="flex items-start space-x-2">
                     <img
@@ -278,7 +291,7 @@ const MobileComments: React.FC<MobileCommentsProps> = ({
                               <div className="mt-2 flex justify-end">
                                 <button
                                   onClick={handleUpdate}
-                                  className="bg-blue-500 text-white px-4 py-1 rounded mr-2 hover:bg-blue-600 transition-colors"
+                                  className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600 transition-colors text-sm"
                                 >
                                   Update
                                 </button>
@@ -287,7 +300,7 @@ const MobileComments: React.FC<MobileCommentsProps> = ({
                                     setIsEditing(false);
                                     setActiveComment(null);
                                   }}
-                                  className="bg-gray-500 text-white px-4 py-1 rounded hover:bg-gray-600 transition-colors"
+                                  className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors text-sm"
                                 >
                                   Cancel
                                 </button>
