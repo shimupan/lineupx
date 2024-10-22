@@ -85,3 +85,4 @@ export { default as PostPageSkeleton } from './Components/post/PostPageSkeleton'
 export { default as LeaderboardPosition } from './Components/profile/LeaderboardPosition';
 export { default as VerificationMessage } from './Components/profile/VerificationMessage';
 export { default as MobileComments } from './Components/post/MobileComments'
+export { default as ZoomableImage } from './Components/post/ZoomableImage';

@@ -163,7 +163,7 @@ const ManagePosts = () => {
                                        className="w-20 h-12 object-cover rounded mr-4"
                                     />
                                     <div>
-                                       <h3 className="font-medium">
+                                       <h3 className="text-lg font-bold m-0 no-underline w-full sm:w-[25rem] line-clamp-2">
                                           {post.postTitle}
                                        </h3>
                                        <p className="text-sm text-gray-400">
