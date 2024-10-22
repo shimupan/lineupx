@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../../App';
 
 interface FollowingPopupProps {
    following: string[];
    onClose: () => void;
    curruser: any;
+   setFollowingCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const FollowingPopup: React.FC<FollowingPopupProps> = ({
    following,
    onClose,
    curruser,
+   setFollowingCount,
 }) => {
+   const Auth = useContext(AuthContext);
    const [followingUsers, setFollowingUsers] = useState<
       {
          id: string;
@@ -29,12 +33,28 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
             const response = await axios.post('/users/multiple', {
                ids: following,
             });
+
+            //Array used to assign unfollow buttons to the homepage user's followers based on the actual person accessing the page.
+            let loggedInUserFollowingSet = Auth!.following;
+            if (Auth!.username == '') {
+               loggedInUserFollowingSet = [];
+            }
+            // console.log("My username: " + Auth!.username);
+            // console.log("My following: " + loggedInUserFollowingSet);
+
             const users = response.data.map((user: any) => ({
                id: user._id,
                username: user.username,
                ProfilePicture: user.ProfilePicture,
-               isFollowing: true,
+               isFollowing: loggedInUserFollowingSet.some(
+                  (following) => following === user._id,
+               ),
             }));
+            // console.log("Their Following: ");
+            // users.forEach((user: any) => {
+            //    console.log(user.id + " ");
+            // });
+
             setFollowingUsers(users);
          } catch (error) {
             console.error(error);
@@ -49,14 +69,34 @@ const FollowingPopup: React.FC<FollowingPopupProps> = ({
    const unfollow = async (id: string) => {
       try {
          await axios.post(`/user/${id}/follow`, {
-            userIdToFollow: curruser._id,
+            userIdToFollow: Auth!._id,
          });
-         setFollowingUsers(
-            followingUsers.filter((follower) => follower.id !== id),
-         );
+         //Only remove follower entry from tab if on your own profile, otherwise remove the button boolean but not the person!
+         if (Auth!._id === curruser._id) {
+            setFollowingUsers(
+               followingUsers.filter((follower) => follower.id !== id),
+            );
+
+            //setFollowingCount(prevCount => prevCount - 1);
+         } else {
+            toggleFollow(id);
+         }
+         window.location.reload();
       } catch (error) {
          console.error(error);
       }
+   };
+
+   //Flip the following bool from one state to another given the id for the follower.
+   const toggleFollow = (userId: string) => {
+      setFollowingUsers((prevUsers) =>
+         prevUsers.map(
+            (user) =>
+               user.id === userId
+                  ? { ...user, isFollowing: !user.isFollowing } // Toggle isFollowing
+                  : user, // Keep other users unchanged
+         ),
+      );
    };
 
    return (
