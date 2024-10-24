@@ -53,8 +53,7 @@ const AdminModifyPost = () => {
                      <IoIosArrowBack size={24} />
                      <span className="ml-2">Back</span>
                   </button>
-
-                  <h1 className="text-2xl md:text-3xl font-bold mb-6">
+                  <h1 className="text-2xl md:text-3xl font-bold mb-6 w-full sm:w-[75rem] line-clamp-2">
                      {post?.postTitle}
                   </h1>
 
