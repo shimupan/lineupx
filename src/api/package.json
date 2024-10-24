@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "node server.js"
+    "build": "node server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -21,14 +22,21 @@
     "express-rate-limit": "^7.1.5",
     "express-session": "^1.17.3",
     "formidable": "^3.5.1",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "natural": "^8.0.1",
     "nodemailer": "^6.9.7",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-react": "^7.25.7",
+    "@babel/preset-typescript": "^7.25.7",
+    "@types/supertest": "^6.0.2",
+    "babel-jest": "^29.7.0",
     "nodemon": "^3.0.1"
   }
 }
