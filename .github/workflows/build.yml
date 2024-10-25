@@ -57,41 +57,9 @@ jobs:
 
     - name: Check Docker Compose Logs
       run: docker compose logs
-
-    - name: Save Docker Compose Output
-      id: services
-      run: echo "containers_started=true" >> $GITHUB_ENV
-
-  api_test:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-
-    - name: Run Setup Script
-      run: |
-        chmod +x scripts/setup.sh
-        ./scripts/setup.sh
-
-    - name: Build API Image
-      run: docker build -t api ./src/api
-
-    - name: Build Web Image
-      run: docker build -t web ./src/web
-
-    - name: Run Docker Compose Up
-      run: docker compose up --detach --wait --wait-timeout 30
-
-    - name: Wait for DB
-      run: |
-        while ! docker compose logs lineupx_api | grep -q "database connected"; do
-          sleep 5
-        done
     
-    - name: Change Directory
+    - name: Navigate to API
       run: cd src/api
-    
+
     - name: Run Test
-      run: npm test
+      run: npm run test

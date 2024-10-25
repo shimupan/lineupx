@@ -14,6 +14,7 @@ import fs from 'fs';
 
 const router = express.Router();
 const cloudinaryObject = cloudinary();
+
 // single user login
 router.post('/users', async (req, res) => {
    const { accessToken, refreshToken } = req.body;
@@ -50,7 +51,7 @@ router.get('/user/:id', async (req, res) => {
    }
 
    //Add specified params if permitted
-   if (Params.length > 0) {
+   if (Params && Params.length > 0) {
       for (let i = 0; i < Params.length; i++) {
          if (bannedParams.includes(Params[i])) {
             continue;
@@ -66,10 +67,11 @@ router.get('/user/:id', async (req, res) => {
    const user = await User.findOne({ username: username }).select(
       currentParams,
    );
+
    if (!user) {
       res.status(404).send('User not found');
    } else {
-      res.send(user);
+      res.status(200).send(user);
    }
 });
 
