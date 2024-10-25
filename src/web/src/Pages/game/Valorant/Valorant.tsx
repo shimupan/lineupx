@@ -56,6 +56,7 @@ const Valorant: React.FC = () => {
       }
    };
 
+
    const fetchInitialData = useCallback(async () => {
       setIsLoading(true);
       setNewPostsReady(false);
