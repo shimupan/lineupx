@@ -59,7 +59,7 @@ jobs:
       run: docker compose logs
     
     - name: Install Vitest
-      run: npm install -D vitest
+      run: npm install
       working-directory: ./src/api
       
     - name: Run Tests
