@@ -453,6 +453,26 @@ router.get('/rso/oauth', async (req, res) => {
 
 });
 
+// todo
+router.get('/rso/getUserInfo/:token', async (req, res) => {
+   const accessToken = req.params;
+   try {
+      const response = await fetch('https://americas.api.riotgames.com/riot/account/v1/accounts/me', {
+         method: 'GET',
+         headers: {
+            'Authorization': 'Bearer ' + accessToken
+         },
+      });
+      if (! response.ok ){ res.status(400).send("could not get user info"); }
+      else {
+         const responseJson = await response.json();
+         res.send(responseJson);
+      }
+   }
+   catch (error){
+      console.log("error", error);
+   }
+});
 
 /////////////////////////////////////////////////////////////////////////////
 /*
