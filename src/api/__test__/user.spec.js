@@ -77,9 +77,7 @@ describe('Route: /user/:id - Error Handling', () => {
    */
 
    it('Should return 400 for missing CurrentUser parameter', async () => {
-      const res = await req.get(
-         `/user/${user1}?Params=${defaultParams}`,
-      );
+      const res = await req.get(`/user/${user1}?Params=${defaultParams}`);
       expect(res.status).toEqual(400);
    });
 
