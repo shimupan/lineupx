@@ -57,9 +57,14 @@ jobs:
 
     - name: Check Docker Compose Logs
       run: docker compose logs
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
     
     - name: Install Vitest
-      run: npm install
+      run: npm install -D vitest
       working-directory: ./src/api
       
     - name: Run Tests
