@@ -58,8 +58,6 @@ jobs:
     - name: Check Docker Compose Logs
       run: docker compose logs
     
-    - name: Navigate to API
-      run: cd src/api
-
-    - name: Run Test
+    - name: Run Tests
       run: npm run test
+      working-directory: ./src/api
