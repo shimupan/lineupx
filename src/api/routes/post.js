@@ -371,7 +371,7 @@ router.post('/post/:id/report', async (req, res) => {
    }
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema);
+      const PostData = gameModels[game]; 
       const post = await PostData.findById(id);
 
       if (!post) {
@@ -404,7 +404,7 @@ router.post('/post/:id/comment', async (req, res) => {
    }
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
 
       if (!post) {
@@ -433,7 +433,7 @@ router.delete('/post/:id/comment/:commentId', async (req, res) => {
    const { userId, role } = req.body;
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
 
       if (!post) {
@@ -479,7 +479,7 @@ router.put('/post/:id', async (req, res) => {
    } = req.body;
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
 
       if (!post) {
@@ -559,7 +559,7 @@ router.put('/post/:id/comment/:commentId', async (req, res) => {
    }
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
 
       if (!post) {
@@ -594,7 +594,7 @@ router.post('/post/:id/increment-like', async (req, res) => {
    const { userId, game } = req.body;
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');
@@ -633,7 +633,7 @@ router.post('/post/:id/increment-dislike', async (req, res) => {
    const { userId, game } = req.body;
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');
@@ -671,7 +671,7 @@ router.post('/post/:id/remove-like', async (req, res) => {
    const { userId, game } = req.body;
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');
@@ -699,7 +699,7 @@ router.post('/post/:id/remove-dislike', async (req, res) => {
    const { userId, game } = req.body;
 
    try {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       const post = await PostData.findById(id);
       if (!post) {
          return res.status(404).send('Post not found');
@@ -777,7 +777,7 @@ router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
    const { game, LineupLocation, map, agent } = req.params;
    const parsedMap = map.replace(/\s/g, '').toLowerCase();
    if (game === 'CS2') {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       PostData.find({
          'lineupLocationCoords.name': LineupLocation,
          mapName: parsedMap,
@@ -790,7 +790,7 @@ router.get('/location/:map/:game/:LineupLocation/:agent?', async (req, res) => {
             res.send(err);
          });
    } else if (game === 'Valorant') {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       PostData.find({
          'lineupLocationCoords.name': LineupLocation,
          valorantAgent: agent,
@@ -813,7 +813,7 @@ router.get('/grenade/:map/:game/:grenade', async (req, res) => {
    grenade = decodeURIComponent(grenade);
    const parsedMap = map.replace(/\s/g, '').toLowerCase();
    if (game === 'CS2') {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       PostData.find({
          grenadeType: grenade.toLowerCase(),
          mapName: parsedMap,
@@ -826,7 +826,7 @@ router.get('/grenade/:map/:game/:grenade', async (req, res) => {
             res.send(err);
          });
    } else if (game === 'Valorant') {
-      const PostData = mongoose.model('PostData', PostDataSchema, game);
+      const PostData = gameModels[game];
       PostData.find({
          ability: grenade,
          mapName: map,
@@ -850,7 +850,7 @@ router.delete('/post/:game/:id', async (req, res) => {
       return res.status(401).send('Unauthorized');
    }
 
-   const PostData = mongoose.model('PostData', PostDataSchema, game);
+   const PostData = gameModels[game];
 
    try {
       const post = await PostData.findById(id);
