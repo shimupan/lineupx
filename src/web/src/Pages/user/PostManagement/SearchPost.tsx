@@ -23,7 +23,7 @@ const SearchPost = ({
    post,
    searchTerm,
 }: SearchBarProps) => {
-   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+   const [_, setFilteredSuggestions] = useState<string[]>([]);
    const navigate = useNavigate();
 
    const handleSubmit = (event: FormEvent) => {
