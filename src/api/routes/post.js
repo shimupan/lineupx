@@ -93,91 +93,125 @@ router.get('/posts', async (req, res) => {
    }
 });
 
+// Refactored route
 router.get('/post/:game', async (req, res) => {
-   const { game } = req.params;
-   const page = Number(req.query.page) || 1;
-   const pageSize = Number(req.query.limit) || 20;
-   const recent = req.query.recent === 'true';
-   const map = req.query.map || null;
-   const search = req.query.search || null;
-   const field = req.query.field || null;
-   const dateRange = req.query.dateRange || null;
-   const sortBy = req.query.sortBy || null;
-   const PostData = gameModels[game];
+    const { game } = req.params;
+    const page = Number(req.query.page) || 1;
+    const pageSize = Number(req.query.limit) || 20;
+    const recent = req.query.recent === 'true';
+    const map = req.query.map || null;
+    const search = req.query.search || null;
+    const filter = req.query.filter || null; // e.g., date range or sort option
 
-   let query = { approved: true };
-   let sortOption = {};
-   let totalDocuments;
+    const PostData = gameModels[game] || mongoose.model('PostData', PostDataSchema, game);
+    
+    let query = { approved: true };
+    let sortOption = {};
+    let projection = {};
 
-   try {
-      if (map) {
-         query.mapName = map.trim().toLowerCase();
-      }
+    // Array to hold all conditions
+    let conditions = [{ approved: true }];
 
-      if (recent) {
-         sortOption.date = -1;
-      }
+    try {
+        // Map filtering
+        if (map) {
+            const parsedMap = map.replace(/\s/g, '').toLowerCase();
+            conditions.push({ mapName: parsedMap });
+        }
 
-      if (dateRange) {
-         query.date = getDateRangeFilter(dateRange);
-      }
+        // Date range filtering
+        if (filter && ['today', 'this_week', 'this_month', 'this_year'].includes(filter)) {
+            const dateFilter = getDateRangeFilter(filter);
+            if (dateFilter) {
+                conditions.push({ date: dateFilter });
+            }
+        }
 
-      if (search) {
-         if (field) {
-            query[field] = search.toLowerCase();
-         } else {
-            query.$text = { $search: search };
-            sortOption = { score: { $meta: 'textScore' } };
-            projection = { score: { $meta: 'textScore' } };
-         }
-      }
+        // Search filtering using $text or regex
+        if (search) {
+            if (filter && ['today', 'this_week', 'this_month', 'this_year'].includes(filter)) {
+                // If filter is a date range, already handled above
+            }
 
-      if (sortBy) {
-         sortOption = { ...sortOption, ...getSortOption(sortBy) };
-      }
-      totalDocuments = await PostData.countDocuments(query);
+            // Determine if a specific field is being searched
+            const specificField = req.query.field || null;
 
-      const data = await PostData.find(query, projection)
-         .sort(sortOption)
-         .skip((page - 1) * pageSize)
-         .limit(pageSize);
+            if (specificField) {
+                // Use regex for specific field
+                const regex = new RegExp(search, 'i');
+                conditions.push({ [specificField]: regex });
+            } else {
+                // Use $text search
+                conditions.push({ $text: { $search: search } });
+                projection = { score: { $meta: 'textScore' } };
+                sortOption = { score: { $meta: 'textScore' } };
+            }
+        }
 
-      res.send(data);
-   } catch (err) {
-      console.error(err);
-      res.status(500).send({ error: 'An internal server error occurred.' });
-   }
+        // Recent sorting if no text search
+        if (recent && !search) {
+            sortOption = { date: -1 };
+        }
+
+        // Additional sorting based on sortBy parameter
+        if (req.query.sortBy) {
+            const additionalSort = getSortOption(req.query.sortBy);
+            sortOption = { ...sortOption, ...additionalSort };
+        }
+
+        // Combine all conditions with $and
+        query = { $and: conditions };
+
+        // Count total documents matching the query
+        const totalDocuments = await PostData.countDocuments(query);
+
+        // Fetch the data with filters, projection, sorting, and pagination
+        const data = await PostData.find(query, projection)
+            .sort(sortOption)
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .exec();
+
+        res.status(200).send(data);
+    } catch (err) {
+        console.error('Error in /post/:game route:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
-// Helper functions
 function getDateRangeFilter(range) {
-   const now = new Date();
-   let startDate;
-   switch (range) {
-      case 'today':
-         startDate = new Date(now.setHours(0, 0, 0, 0));
-         break;
-      case 'this_week':
-         startDate = new Date(now.setDate(now.getDate() - now.getDay()));
-         break;
-      case 'this_month':
-         startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-         break;
-      case 'this_year':
-         startDate = new Date(now.getFullYear(), 0, 1);
-         break;
-      default:
-         startDate = null;
-   }
-   return startDate ? { $gte: startDate } : {};
-}
+    const now = new Date();
+    let startDate, endDate;
 
+    switch (range) {
+        case 'today':
+            startDate = new Date(now.setHours(0, 0, 0, 0));
+            endDate = new Date(now.setHours(23, 59, 59, 999));
+            break;
+        case 'this_week':
+            const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+            startDate = new Date(firstDayOfWeek.setHours(0, 0, 0, 0));
+            endDate = new Date();
+            break;
+        case 'this_month':
+            startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+            endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+            break;
+        case 'this_year':
+            startDate = new Date(now.getFullYear(), 0, 1);
+            endDate = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+            break;
+        default:
+            return null;
+    }
+    return { $gte: startDate, $lte: endDate };
+}
 function getSortOption(sortBy) {
-   const sortOptions = {
-      view_count: { views: -1 },
-      upload_date: { date: -1 },
-   };
-   return sortOptions[sortBy] || {};
+    const sortOptions = {
+        view_count: { views: -1 },
+        upload_date: { date: -1 },
+    };
+    return sortOptions[sortBy] || {};
 }
 router.post('/post/check', async (req, res) => {
    const { role } = req.body;
