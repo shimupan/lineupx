@@ -84,7 +84,7 @@ const ManagePosts = () => {
    }, [id]);
 
    const filteredPosts = posts.filter((post) =>
-      post.postTitle.toLowerCase().includes(postname.toLowerCase())
+      post.postTitle.toLowerCase().includes(postname.toLowerCase()),
    );
 
    const handleDeleteClick = (postId: string, game: string) => {
