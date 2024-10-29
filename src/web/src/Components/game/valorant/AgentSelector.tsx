@@ -1,72 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Modal from 'react-modal';
 import { ValorantAgent } from '../../../global.types';
 
-interface AgentSelectorProps {
-   agents?: ValorantAgent['data'];
-   onSelectAgent: (agent: ValorantAgent['data'][number]) => void;
-}
+type AgentSelectorProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  agents: ValorantAgent['data'];
+  currentMapName: string;
+  onAgentSelect: (agent: ValorantAgent['data'][0]) => void;
+};
 
 const AgentSelector: React.FC<AgentSelectorProps> = ({
-   agents,
-   onSelectAgent,
+  isOpen,
+  onClose,
+  agents,
+  onAgentSelect
 }) => {
-   const [showDropdown, setShowDropdown] = useState(false);
-   const [selectedAgent, setSelectedAgent] = useState<
-      ValorantAgent['data'][number] | null
-   >(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-   const handleAgentSelect = (agent: ValorantAgent['data'][number]) => {
-      setSelectedAgent(agent);
-      const agentWithModifiedName = {
-         ...agent,
-      };
-      onSelectAgent(agentWithModifiedName);
-      setShowDropdown(false);
-   };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-   return (
-      <>
-         <div className="relative">
-            <button
-               type="button"
-               onClick={() => setShowDropdown(!showDropdown)}
-               className="bg-[#edf2f7] text-black flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-grey-200 text-dark-grey-900 rounded-md"
-            >
-               {selectedAgent ? (
-                  <>
-                     <img
-                        src={selectedAgent.displayIcon}
-                        alt={selectedAgent.displayName}
-                        className="w-6 h-6 mr-2 rounded-full"
-                     />
-                     {selectedAgent.displayName}
-                  </>
-               ) : (
-                  '--'
-               )}
-               <span className="ml-2">▼</span>
-            </button>
-            {showDropdown && agents && (
-               <div className="absolute z-10 w-full mt-1 grid grid-cols-3 gap-2 bg-white border border-gray-300 rounded-md shadow-lg p-2">
-                  {agents.map((agent) => (
-                     <div
-                        key={agent.uuid}
-                        className="cursor-pointer hover:bg-gray-100 flex text-black items-center w-full text-sm font-medium outline-none text-dark-grey-900 rounded-2xl"
-                        onClick={() => handleAgentSelect(agent)}
-                     >
-                        <img
-                           src={agent.displayIcon}
-                           alt={agent.displayName}
-                           className="w-6 h-6 mr-2 rounded-full"
-                        />
-                        {agent.displayName}
-                     </div>
-                  ))}
-               </div>
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      contentLabel="Agent Selector"
+      style={{
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          zIndex: 1000,
+        },
+        content: {
+          width: isMobile ? '70%' : '30%',
+          height: isMobile ? '30%' : '30%',
+          margin: 'auto',
+          backgroundColor: '#1f2937',
+          border: 'none',
+          borderRadius: '0.5rem',
+          padding: '1.5rem',
+        },
+      }}
+    >
+      <div className="grid grid-cols-5 gap-4">
+        {agents.map((agent) => (
+          <div
+            key={agent.displayName}
+            className="flex flex-col items-center cursor-pointer transition-transform duration-300 hover:scale-110"
+            onClick={() => onAgentSelect(agent)}
+          >
+            <img
+              src={agent.displayIcon}
+              alt={agent.displayName}
+              className="w-8 h-8 mb-1"
+            />
+            {!isMobile && (
+              <p className="text-xs text-white text-center">
+                {agent.displayName}
+              </p>
             )}
-         </div>
-      </>
-   );
+          </div>
+        ))}
+      </div>
+    </Modal>
+  );
 };
 
 export default AgentSelector;

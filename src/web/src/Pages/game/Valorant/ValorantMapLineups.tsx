@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Layout, ValorantRadar } from '../../../Components';
+import {
+   Layout,
+   ValorantRadar,
+   MapGrid,
+   AgentSelector,
+   AbilitySelector,
+} from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 import { Coordinate, ValorantMaps, ValorantAgent } from '../../../global.types';
 import { useValorant, useValorantMapFilter } from '../../../hooks/index';
-import Modal from 'react-modal';
 import axios from 'axios';
 
 import splitCoordinates from '../../../assets/valorantjsons/split.json';
@@ -75,6 +80,21 @@ const ValorantLineups: React.FC = () => {
       );
    };
    const [modalIsOpen, setModalIsOpen] = useState(false);
+   const handleAgentSelect = React.useCallback((selectedAgent: ValorantAgent['data'][0]) => {
+      if (selectedAgent) {
+        setAgentDetails((prevState) => ({
+          ...prevState,
+          currentAgent: selectedAgent.fullPortrait,
+          currentBackground: selectedAgent.background,
+          selectedAgentName: selectedAgent.displayName,
+        }));
+  
+        navigate(
+          `/game/Valorant/agents/${selectedAgent.displayName.replace('/', '')}/lineups/${mapName}`
+        );
+        setModalIsOpen(false);
+      }
+    }, [mapName, navigate, setAgentDetails]);
    useEffect(() => {
       const handleResize = () => {
          setIsMobile(window.innerWidth <= 768);
@@ -150,6 +170,8 @@ const ValorantLineups: React.FC = () => {
       }
    }, [selectedAbility, selectedDot]);
 
+
+   
    return (
       <>
          <Layout>
@@ -187,132 +209,22 @@ const ValorantLineups: React.FC = () => {
                agent={agent}
             />
             <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
-               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                  {filteredMaps.map((map) => (
-                     <div
-                        key={map.uuid}
-                        className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer"
-                        onClick={() => handleClick(map.displayName)}
-                     >
-                        <img
-                           src={map.splash}
-                           alt={map.displayName}
-                           className="w-full h-full object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
-                        />
-                        <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
-                           <div className="font-bold text-xl mb-2 text-white text-center">
-                              {map.displayName}
-                           </div>
-                        </div>
-                     </div>
-                  ))}
-               </div>
+               <MapGrid maps={filteredMaps} onMapClick={handleClick} />
 
-               {agent && (
-                  <div className="abilities flex flex-row md:flex-row flex-wrap items-center justify-center gap-4 p-4">
-                     <div className="abilities-horizontal flex flex-row justify-center items-start gap-4">
-                        {agent.abilities.map(
-                           (ability, index) =>
-                              ability.slot !== 'Passive' && (
-                                 <button
-                                    key={index}
-                                    className={`ability bg-1b2838 shadow-lg rounded-full p-2 flex flex-col items-center justify-start w-10 h-10 ${
-                                       selectedAbility === ability
-                                          ? 'bg-black'
-                                          : ''
-                                    }`}
-                                    onClick={() => handleAbilityClick(ability)}
-                                 >
-                                    <img
-                                       src={ability.displayIcon}
-                                       alt={ability.displayName}
-                                       className={`ability-icon w-full h-full ${
-                                          selectedAbility === ability
-                                             ? 'shadow-lg'
-                                             : ''
-                                       }`}
-                                       style={{
-                                          filter:
-                                             selectedAbility === ability
-                                                ? 'grayscale(100%)'
-                                                : 'none',
-                                       }}
-                                    />
-                                 </button>
-                              ),
-                        )}
-                     </div>
-                  </div>
-               )}
+               <AbilitySelector
+                  agent={agent}
+                  selectedAbility={selectedAbility}
+                  onAbilityClick={handleAbilityClick}
+               />
 
-               <Modal
+               <AgentSelector
                   isOpen={modalIsOpen}
-                  onRequestClose={() => setModalIsOpen(false)}
-                  contentLabel="Agent Selector"
-                  style={{
-                     content: {
-                        width: window.innerWidth < 768 ? '70%' : '30%',
-                        height: window.innerWidth < 768 ? '30%' : '30%',
-                        margin: 'auto', // Centers the modal
-                        backgroundColor: '#1f2937', // Adjust as needed
-                     },
-                  }}
-               >
-                  <div
-                     style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(5, 1fr)',
-                        gridGap: '10px',
-                     }}
-                  >
-                     {allAgents?.data.map((agent) => (
-                        <div
-                           key={agent.displayName}
-                           style={{
-                              cursor: 'pointer',
-                              transition: '0.3s',
-                           }}
-                           onMouseOver={(e) => {
-                              e.currentTarget.style.transform = 'scale(1.1)';
-                           }}
-                           onMouseOut={(e) => {
-                              e.currentTarget.style.transform = 'scale(1)';
-                           }}
-                           onClick={() => {
-                              const selectedAgent = allAgents?.data.find(
-                                 (a) => a.displayName === agent.displayName,
-                              );
-                              if (selectedAgent) {
-                                 setAgentDetails((prevState) => ({
-                                    ...prevState,
-                                    currentAgent: selectedAgent.fullPortrait,
-                                    currentBackground: selectedAgent.background,
-                                    selectedAgentName:
-                                       selectedAgent.displayName,
-                                 }));
+                  onClose={() => setModalIsOpen(false)}
+                  agents={allAgents?.data || []}
+                  currentMapName={mapName || ''}
+                  onAgentSelect={handleAgentSelect}
+               />
 
-                                 navigate(
-                                    `/game/Valorant/agents/${selectedAgent.displayName.replace(
-                                       '/',
-                                       '',
-                                    )}/lineups/${mapName}`,
-                                 );
-                              }
-                              setModalIsOpen(false);
-                           }}
-                        >
-                           <img
-                              src={agent.displayIcon}
-                              alt={agent.displayName}
-                              style={{ width: '20px', marginRight: '10px' }}
-                           />
-                           {window.innerWidth >= 768 && (
-                              <p>{agent.displayName}</p>
-                           )}
-                        </div>
-                     ))}
-                  </div>
-               </Modal>
                <button
                   onClick={() => setModalIsOpen(true)}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center space-x-2 md:ml-auto"

@@ -87,3 +87,5 @@ export { default as LeaderboardPosition } from './Components/profile/Leaderboard
 export { default as VerificationMessage } from './Components/profile/VerificationMessage';
 export { default as ZoomableImage } from './Components/post/ZoomableImage';
 export { default as ValorantRadar } from './Components/game/valorant/ValorantRadar';
+export { default as AbilitySelector } from './Components/game/valorant/AbilitySelector';
+export { default as MapGrid } from './Components/game/valorant/MapGrid';
