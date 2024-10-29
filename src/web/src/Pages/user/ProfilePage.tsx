@@ -62,6 +62,9 @@ const ProfilePage = () => {
    const [followerCount, setFollowerCount] = useState(0);
    const [followers, setFollowers] = useState<Set<string>>();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
+   // Will be modified when filters change
+   const [ValorantGlobalPosts, setValorantGlobalPosts] = useState<PostType[]>([]);
+   const [CSGlobalPosts, setCSGlobalPosts] = useState<PostType[]>([]);
    const [open, setOpen] = useState(false);
    const [selectedTab, setSelectedTab] = useState('Posts');
    const Auth = useContext(AuthContext);
@@ -128,6 +131,8 @@ const ProfilePage = () => {
                .slice(2 * numGames)
                .map((response) => response.data);
 
+            setCSGlobalPosts(allPosts[0]);
+            setValorantGlobalPosts(allPosts[1]);
             setPosts(allPosts);
             setUnapprovedPosts(unapprovedPosts.flat());
             setSavedPosts(savedPosts.flat());
@@ -221,7 +226,44 @@ const ProfilePage = () => {
    };
 
    const handleFiltersSubmit = (filters: any) => {
-      console.log('Filters:', filters);
+      // Go through all posts, then check each filter for each post
+      // ValorantGlobalPosts and CSGlobalPosts contains ALL POSTS
+      // Index 0 is CS PostTypes, Index 1 is Valorant PostTypes
+      var csFilteredSubset = [];
+      for(let post_index = 0; post_index < CSGlobalPosts.length; post_index++)
+      {
+         if(filters.teamSide.includes(CSGlobalPosts[post_index].teamSide)) {
+            csFilteredSubset.push(CSGlobalPosts[post_index]);
+         }
+         else if(filters.mapName.includes(CSGlobalPosts[post_index].mapName)) {
+            csFilteredSubset.push(CSGlobalPosts[post_index]);
+         }
+         else if(filters.grenadeType.includes(CSGlobalPosts[post_index].grenadeType)) {
+            csFilteredSubset.push(CSGlobalPosts[post_index]);
+         }
+         else if(filters.jumpThrow.includes(CSGlobalPosts[post_index].jumpThrow)) {
+            csFilteredSubset.push(CSGlobalPosts[post_index]);
+         }
+      }
+
+      var valorantFilteredSubset = [];
+      for(let post_index = 0; post_index < ValorantGlobalPosts.length; post_index++)
+      {
+         if(filters.teamSide.includes(ValorantGlobalPosts[post_index].teamSide)) {
+            valorantFilteredSubset.push(ValorantGlobalPosts[post_index]);
+         }
+         else if(filters.mapName.includes(ValorantGlobalPosts[post_index].mapName)) {
+            valorantFilteredSubset.push(ValorantGlobalPosts[post_index]);
+         }
+         else if(filters.valorantAgent.includes(ValorantGlobalPosts[post_index].valorantAgent)) {
+            valorantFilteredSubset.push(ValorantGlobalPosts[post_index]);
+         }
+      }
+      const updatedPosts = [
+         csFilteredSubset,
+         valorantFilteredSubset
+      ]
+      setPosts(updatedPosts);
    };
 
    if (loading) return <Loading />;
@@ -452,8 +494,7 @@ const ProfilePage = () => {
                                                    <div className="text-center">
                                                       <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
                                                       <h2 className="text-2xl font-semibold mb-4">
-                                                         No Valorant Posts
-                                                         Available
+                                                         No Valorant Posts Available
                                                       </h2>
                                                       <p className="text-gray-500">
                                                          You currently have zero

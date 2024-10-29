@@ -96,15 +96,15 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
             <div className="max-h-96 overflow-y-auto p-4">
                {selectedGame === 'Valorant' && (
                   <>
-                     {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
-                     {renderCheckboxes("Map", "mapName", ["Abyss", "Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Lotus", "Pearl", "Split", "Sunset"])}
+                     {renderCheckboxes("Side", "teamSide", ["Attacker", "Defender"])}
+                     {renderCheckboxes("Map", "mapName", ["abyss", "ascent", "bind", "breeze", "fracture", "haven", "icebox", "lotus", "pearl", "split", "sunset"])}
                      {renderCheckboxes("Agent", "valorantAgent", ["Brimstone", "Phoenix", "Sage", "Sova", "Viper", "Cypher", "Reyna", "Killjoy", "Breach", "Omen", "Jett", "Raze", "Skye", "Yoru", "Astra", "KAY/O", "Chamber", "Neon", "Fade", "Harbor", "Gekko", "Deadlock", "Iso", "Clove", "Vyse"])}
                   </>
                )}
                {selectedGame === 'CS2' && (
                   <>
-                     {renderCheckboxes("Side", "teamSide", ["Attack", "Defense"])}
-                     {renderCheckboxes("Map", "mapName", ["Mirage", "Inferno", "Nuke", "Overpass", "Vertigo", "Ancient", "Anubis", "Dust II"])}
+                     {renderCheckboxes("Side", "teamSide", ["Attacker", "Defender"])}
+                     {renderCheckboxes("Map", "mapName", ["mirage", "inferno", "nuke", "overpass", "vertigo", "ancient", "anubis", "dust2"])}
                      {renderCheckboxes("Grenade", "grenadeType", ["HE", "Smoke", "Flashbangs", "Decoy", "Molotov", "Incendiary"])}
                      {renderCheckboxes("Jump Throw?", "jumpThrow", ["Yes", "No"])}
                   </>
