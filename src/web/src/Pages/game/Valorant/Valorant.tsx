@@ -121,6 +121,7 @@ const Valorant: React.FC = () => {
             'Piazza',
             'Drift',
             'Basic Training',
+            'Glitch',
          ].map((item) => item.toLowerCase().trim());
          const filteredSuggestions = suggestions.filter(
             (suggestion) =>

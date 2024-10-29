@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, MapSelectionSkeleton } from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
-import useValorant from '../../../hooks/useValorant';
+import { useValorantMapFilter, useValorant} from '../../../hooks/index';
 
 const MINIMUM_SKELETON_TIME = 300;
 
@@ -24,18 +24,7 @@ const ValorantLineups: React.FC = () => {
    const handleClick = (mapName: string) => {
       navigate(`/game/Valorant/agents/${agentName}/lineups/${mapName}`);
    };
-
-   const filteredMaps = allMaps?.data.filter(
-      (map) =>
-         ![
-            'The Range',
-            'Kasbah',
-            'District',
-            'Piazza',
-            'Drift',
-            'Basic Training',
-         ].includes(map.displayName),
-   );
+   const { filteredMaps } = useValorantMapFilter(allMaps?.data);
 
    return (
       <Layout>

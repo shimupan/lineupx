@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 import { Coordinate, ValorantMaps, ValorantAgent } from '../../../global.types';
-import { useValorant } from '../../../hooks/index';
+import { useValorant, useValorantMapFilter } from '../../../hooks/index';
 import Modal from 'react-modal';
 import axios from 'axios';
 
@@ -64,6 +64,7 @@ const ValorantLineups: React.FC = () => {
       }
    };
    const { allAgents, setAgentDetails, allMaps } = useValorant();
+   const { filteredMaps } = useValorantMapFilter(allMaps?.data);
    const navigate = useNavigate();
    const handleClick = (mapName: string) => {
       setSelectedDot('');
@@ -187,36 +188,24 @@ const ValorantLineups: React.FC = () => {
             />
             <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                  {allMaps?.data
-                     .filter(
-                        (map) =>
-                           ![
-                              'The Range',
-                              'Kasbah',
-                              'District',
-                              'Piazza',
-                              'Drift',
-                              'Basic Training',
-                           ].includes(map.displayName),
-                     )
-                     .map((map) => (
-                        <div
-                           key={map.uuid}
-                           className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer"
-                           onClick={() => handleClick(map.displayName)}
-                        >
-                           <img
-                              src={map.splash}
-                              alt={map.displayName}
-                              className="w-full h-full object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
-                           />
-                           <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
-                              <div className="font-bold text-xl mb-2 text-white text-center">
-                                 {map.displayName}
-                              </div>
+                  {filteredMaps.map((map) => (
+                     <div
+                        key={map.uuid}
+                        className="group bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition duration-300 ease-in-out relative cursor-pointer"
+                        onClick={() => handleClick(map.displayName)}
+                     >
+                        <img
+                           src={map.splash}
+                           alt={map.displayName}
+                           className="w-full h-full object-cover group-hover:opacity-75 transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 px-6 py-4 opacity-100 group-hover:opacity-0">
+                           <div className="font-bold text-xl mb-2 text-white text-center">
+                              {map.displayName}
                            </div>
                         </div>
-                     ))}
+                     </div>
+                  ))}
                </div>
 
                {agent && (
