@@ -1,47 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Fuse from 'fuse.js';
+import { PostType } from '../../../global.types';
 
-const SearchPost: React.FC = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [results, setResults] = useState<string[]>([]);
+interface SearchBarProps {
+   onSearch: (searchTerm: string) => void;
+   game: string;
+   placeholder: string;
+   className?: string;
+   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+   suggestions: string[];
+   post: PostType[];
+   searchTerm: string;
+}
 
-    const items = ['Post 1', 'Post 2', 'Post 3', 'Another Post', 'More Posts'];
+const SearchPost = ({
+   onSearch,
+   placeholder,
+   className = '',
+   onChange,
+   game,
+   post,
+   searchTerm,
+}: SearchBarProps) => {
+   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+   const navigate = useNavigate();
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
+   const handleSubmit = (event: FormEvent) => {
+      event.preventDefault();
+      onSearch(searchTerm);
+      const sanitizedSearchTerm = searchTerm.replace(/\//g, '');
+      navigate(`/search/${game}/${sanitizedSearchTerm}`);
+   };
 
-    const handleSearch = () => {
-        const filteredItems = items.filter(item =>
-            item.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setResults(filteredItems);
-    };
+   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      onChange(event);
 
-    return (
-        <div className="p-4">
+      const value = event.target.value;
+      if (value.trim() === '') {
+         setFilteredSuggestions([]);
+         return;
+      }
+
+      // Setup Fuse.js for fuzzy search
+      const fuse = new Fuse(post, {
+         keys: ['postTitle'],
+         includeScore: true,
+         threshold: 0.3,
+         isCaseSensitive: false,
+      });
+
+      // Perform the search with Fuse.js
+      const result = fuse.search(value);
+      const filtered = result.map(({ item }) => item.postTitle);
+
+      setFilteredSuggestions(filtered);
+   };
+
+   return (
+      <div className={`p-4 ${className}`}>
+         <form onSubmit={handleSubmit}>
             <input
-            type="text"
-            value={searchTerm}
-            onChange={handleInputChange}
-            placeholder="Search posts..."
-            className="text-black h-11/12 w-11/12 p-2 border border-gray-800 rounded-md"
+               type="text"
+               value={searchTerm}
+               onChange={handleChange}
+               placeholder={placeholder}
+               className="text-black h-11/12 w-full p-2 border border-gray-800 rounded-md"
+               autoComplete="on"
             />
-            
-            <button 
-            onClick={handleSearch} 
-            className="ml-2 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-            >
-            Search
-            </button>
-            <ul className="mt-4">
-            {results.map((result, index) => (
-            <li key={index} className="p-2 border-b border-gray-300">
-            {result}
-            </li>
-            ))}
-            </ul>
-        </div>
-    );
+         </form>
+      </div>
+   );
 };
 
 export default SearchPost;

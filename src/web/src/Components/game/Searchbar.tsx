@@ -34,7 +34,7 @@ const SearchBar = ({
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
       setSearchTerm(value);
-      onChange(event);
+      onChange(event); 
 
       if (value.trim() === '') {
          setFilteredSuggestions([]);
