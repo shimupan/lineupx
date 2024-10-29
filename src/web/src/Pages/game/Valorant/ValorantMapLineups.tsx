@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Layout, Dot } from '../../../Components';
+import { Layout, EnhancedDot } from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
@@ -222,7 +222,7 @@ const ValorantLineups: React.FC = () => {
                                              complementCoordinates &&
                                              coordinates.map(
                                                 (coordinate, index) => (
-                                                   <Dot
+                                                   <EnhancedDot
                                                       key={index}
                                                       coordinate={coordinate}
                                                       selectedDot={selectedDot}
@@ -245,7 +245,7 @@ const ValorantLineups: React.FC = () => {
                                              selectedAbility.displayName,
                                        )
                                        .map((coordinate, index) => (
-                                          <Dot
+                                          <EnhancedDot
                                              key={coordinate.name + index}
                                              coordinate={coordinate}
                                              selectedDot={selectedDot}
@@ -275,7 +275,7 @@ const ValorantLineups: React.FC = () => {
                                           )
                                           .map((coordinate, coordIndex) => (
                                              <>
-                                                <Dot
+                                                <EnhancedDot
                                                    key={
                                                       coordinate.name +
                                                       coordIndex

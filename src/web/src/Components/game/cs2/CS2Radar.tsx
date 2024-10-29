@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { Coordinate } from '../../../global.types';
-import Dot from '../../upload/Dot.tsx';
+import EnhancedDot from '../../upload/Dot.tsx';
 
 interface RadarMapProps {
    mapImage: string;
@@ -62,7 +62,7 @@ const RadarMap: React.FC<RadarMapProps> = ({
                !activeButton &&
                complementCoordinates &&
                coordinates.map((coordinate, index) => (
-                  <Dot
+                  <EnhancedDot
                      key={index}
                      coordinate={coordinate}
                      selectedDot={selectedDot}
@@ -77,7 +77,7 @@ const RadarMap: React.FC<RadarMapProps> = ({
                           coordinate.name === activeButton.toLowerCase(),
                     )
                     .map((coordinate, index) => (
-                       <Dot
+                       <EnhancedDot
                           key={coordinate.name + index}
                           coordinate={coordinate}
                           selectedDot={selectedDot}
@@ -93,7 +93,7 @@ const RadarMap: React.FC<RadarMapProps> = ({
                        />
                     ))
                : complementCoordinates.map((coordinate, index) => (
-                    <Dot
+                    <EnhancedDot
                        key={coordinate.name + index}
                        coordinate={coordinate}
                        selectedDot={selectedDot}
