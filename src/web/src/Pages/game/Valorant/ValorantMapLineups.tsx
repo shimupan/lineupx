@@ -80,21 +80,24 @@ const ValorantLineups: React.FC = () => {
       );
    };
    const [modalIsOpen, setModalIsOpen] = useState(false);
-   const handleAgentSelect = React.useCallback((selectedAgent: ValorantAgent['data'][0]) => {
-      if (selectedAgent) {
-        setAgentDetails((prevState) => ({
-          ...prevState,
-          currentAgent: selectedAgent.fullPortrait,
-          currentBackground: selectedAgent.background,
-          selectedAgentName: selectedAgent.displayName,
-        }));
-  
-        navigate(
-          `/game/Valorant/agents/${selectedAgent.displayName.replace('/', '')}/lineups/${mapName}`
-        );
-        setModalIsOpen(false);
-      }
-    }, [mapName, navigate, setAgentDetails]);
+   const handleAgentSelect = React.useCallback(
+      (selectedAgent: ValorantAgent['data'][0]) => {
+         if (selectedAgent) {
+            setAgentDetails((prevState) => ({
+               ...prevState,
+               currentAgent: selectedAgent.fullPortrait,
+               currentBackground: selectedAgent.background,
+               selectedAgentName: selectedAgent.displayName,
+            }));
+
+            navigate(
+               `/game/Valorant/agents/${selectedAgent.displayName.replace('/', '')}/lineups/${mapName}`,
+            );
+            setModalIsOpen(false);
+         }
+      },
+      [mapName, navigate, setAgentDetails],
+   );
    useEffect(() => {
       const handleResize = () => {
          setIsMobile(window.innerWidth <= 768);
@@ -170,8 +173,6 @@ const ValorantLineups: React.FC = () => {
       }
    }, [selectedAbility, selectedDot]);
 
-
-   
    return (
       <>
          <Layout>
