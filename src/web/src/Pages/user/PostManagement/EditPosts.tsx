@@ -208,7 +208,10 @@ const EditPost: React.FC = () => {
                               id="jumpThrow"
                               value={post.jumpThrow.toString()}
                               onChange={(e) =>
-                                 setPost({ ...post, jumpThrow: e.target.value === 'true' })
+                                 setPost({
+                                    ...post,
+                                    jumpThrow: e.target.value === 'true',
+                                 })
                               }
                               className="w-full bg-gray-800 text-white rounded p-2"
                            >
