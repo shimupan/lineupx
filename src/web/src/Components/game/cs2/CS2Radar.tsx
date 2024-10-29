@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { Coordinate } from '../../../global.types';
-import EnhancedDot from '../../upload/Dot.tsx';
+import { EnhancedDot } from '../../../Components';
 
 interface RadarMapProps {
    mapImage: string;
