@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, MapSelectionSkeleton } from '../../../Components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useValorantMapFilter, useValorant} from '../../../hooks/index';
+import { useValorantMapFilter, useValorant } from '../../../hooks/index';
 
 const MINIMUM_SKELETON_TIME = 300;
 
