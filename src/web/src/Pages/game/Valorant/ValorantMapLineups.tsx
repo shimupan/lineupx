@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import {
    Layout,
    ValorantRadar,
-   MapGrid,
+   ValorantMapGrid,
    AgentSelector,
    AbilitySelector,
 } from '../../../Components';
@@ -210,7 +210,7 @@ const ValorantLineups: React.FC = () => {
                agent={agent}
             />
             <div className="md:pl-32 flex flex-col-reverse md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-full md:h-48 overflow-auto bg-gray-900 p-4 md:fixed bottom-0">
-               <MapGrid maps={filteredMaps} onMapClick={handleClick} />
+               <ValorantMapGrid maps={filteredMaps} onMapClick={handleClick} />
 
                <AbilitySelector
                   agent={agent}

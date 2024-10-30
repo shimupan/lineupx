@@ -1,12 +1,12 @@
 import React from 'react';
 import { ValorantMaps } from '../../../global.types';
 
-type MapGridProps = {
+type ValorantMapGridProps = {
    maps: ValorantMaps['data'];
    onMapClick: (mapName: string) => void;
 };
 
-const MapGrid: React.FC<MapGridProps> = ({ maps, onMapClick }) => {
+const ValorantMapGrid: React.FC<ValorantMapGridProps> = ({ maps, onMapClick }) => {
    return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
          {maps.map((map) => (
@@ -31,4 +31,4 @@ const MapGrid: React.FC<MapGridProps> = ({ maps, onMapClick }) => {
    );
 };
 
-export default MapGrid;
+export default ValorantMapGrid;

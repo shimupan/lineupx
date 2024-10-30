@@ -88,4 +88,5 @@ export { default as VerificationMessage } from './Components/profile/Verificatio
 export { default as ZoomableImage } from './Components/post/ZoomableImage';
 export { default as ValorantRadar } from './Components/game/valorant/ValorantRadar';
 export { default as AbilitySelector } from './Components/game/valorant/AbilitySelector';
-export { default as MapGrid } from './Components/game/valorant/MapGrid';
+export { default as ValorantMapGrid } from './Components/game/valorant/ValorantMapGrid';
+export { default as CS2MapGrid } from './Components/game/cs2/CS2MapGrid';
