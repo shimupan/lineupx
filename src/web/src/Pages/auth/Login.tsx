@@ -86,108 +86,119 @@ const Login: React.FC = () => {
          navigate(`/user/${Auth?.username}`);
       }
    };
+   /* Goolge Login doesn't work rn on server side 
    const handleGoogleSignIn = () => {
       window.location.href = axios.defaults.baseURL + '/google';
    };
+   */
+
    const isValidEmail = (email: string) => {
       return email.includes('@');
    };
+
    return (
-      <>
-         <Layout>
-            <div className="h-screen md:h-full md:w-1/2 lg:w-1/2 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
-               <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
-                  <div className="flex items-center justify-center w-full lg:p-12">
-                     <div className="flex items-center xl:p-10">
-                        <form
-                           className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl"
-                           onSubmit={handleSubmit}
-                        >
-                           {loginError && (
-                              <div className="text-red-500">{loginError}</div>
-                           )}
-                           <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
-                              Sign In
-                           </h3>
-                           <label
-                              htmlFor="email"
-                              className="mb-2 text-sm text-start text-gray-900"
-                           >
-                              Email*
-                           </label>
-                           <input
-                              id="email"
-                              type="email"
-                              placeholder="name@gmail.com"
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                              className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                           />
-                           <label
-                              htmlFor="password"
-                              className="mb-2 text-sm text-start text-gray-900"
-                           >
-                              Password*
-                           </label>
-                           <input
-                              id="password"
-                              type="password"
-                              placeholder="Enter a password"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                              className="flex text-black items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                           />
-                           <div className="flex flex-row justify-between mb-8">
-                              <div className="flex items-center">
-                                 <input
-                                    type="checkbox"
-                                    id="rememberMe"
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
-                                 />
-                                 <label
-                                    htmlFor="rememberMe"
-                                    className="ml-2 text-sm text-gray-900"
-                                 >
-                                    Remember me
-                                 </label>
-                              </div>
-                              <Link
-                                 to="/forgotpassword"
-                                 className="text-sm font-medium text-blue-900"
-                              >
-                                 Forgot password?
-                              </Link>
-                           </div>
-                           <button
-                              type="submit"
-                              className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900"
-                           >
-                              Sign In
-                           </button>
-                           <button
-                              type="button"
-                              className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-red-600"
-                              onClick={handleGoogleSignIn}
-                           >
-                              Sign In with Google
-                           </button>
-                           <p className="text-sm leading-relaxed text-gray-900">
-                              Not registered yet?{' '}
-                              <Link
-                                 to="/register"
-                                 className="font-bold text-blue-900"
-                              >
-                                 Create an Account
-                              </Link>
-                           </p>
-                        </form>
+      <Layout>
+         <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-md w-full space-y-8 backdrop-blur-lg bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-8 rounded-xl shadow-2xl">
+               <div>
+                  <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+                     Sign in to your account
+                  </h2>
+               </div>
+               <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                  {loginError && (
+                     <div className="text-red-300 text-center bg-red-900/50 py-2 rounded-lg">
+                        {loginError}
+                     </div>
+                  )}
+                  <div className="rounded-md shadow-sm -space-y-px">
+                     <div>
+                        <label htmlFor="email" className="sr-only">
+                           Email address
+                        </label>
+                        <input
+                           id="email"
+                           type="email"
+                           required
+                           className="appearance-none rounded-t-lg relative block w-full px-3 py-4 border border-gray-700 placeholder-gray-400 text-white bg-gray-900/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent sm:text-sm"
+                           placeholder="Email address"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
+                        />
+                     </div>
+                     <div>
+                        <label htmlFor="password" className="sr-only">
+                           Password
+                        </label>
+                        <input
+                           id="password"
+                           type="password"
+                           required
+                           className="appearance-none rounded-b-lg relative block w-full px-3 py-4 border border-gray-700 placeholder-gray-400 text-white bg-gray-900/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent sm:text-sm"
+                           placeholder="Password"
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}
+                        />
                      </div>
                   </div>
-               </div>
+
+                  <div className="flex items-center justify-between">
+                     <div className="flex items-center">
+                        <input
+                           id="remember-me"
+                           type="checkbox"
+                           className="h-4 w-4 text-purple-500 focus:ring-purple-400 border-gray-600 rounded bg-gray-900/50"
+                        />
+                        <label
+                           htmlFor="remember-me"
+                           className="ml-2 block text-sm text-gray-200"
+                        >
+                           Remember me
+                        </label>
+                     </div>
+
+                     <Link
+                        to="/forgotpassword"
+                        className="text-sm text-purple-300 hover:text-purple-200"
+                     >
+                        Forgot password?
+                     </Link>
+                  </div>
+
+                  <div>
+                     <button
+                        type="submit"
+                        className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 ease-in-out"
+                     >
+                        Sign in
+                     </button>
+                  </div>
+                  {/*
+                  <div>
+                     <button
+                        type="button"
+                        onClick={handleGoogleSignIn}
+                        className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-300 ease-in-out"
+                     >
+                        Sign in with Google
+                     </button>
+                  </div>
+                  */}
+               </form>
+
+               <p className="mt-2 text-center text-sm text-gray-200">
+                  Not registered yet?{' '}
+                  <Link
+                     to="/register"
+                     className="font-medium text-purple-300 hover:text-purple-200"
+                  >
+                     Create an account
+                  </Link>
+               </p>
             </div>
-         </Layout>
+         </div>
          <ToastContainer position="top-center" />
-      </>
+      </Layout>
    );
 };
 

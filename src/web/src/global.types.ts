@@ -55,11 +55,13 @@ export type PostType = {
       asset_id: string;
    };
    grenadeType: string;
-   jumpThrow: string;
+   jumpThrow: boolean;
    game: string;
+   approved: boolean;
    valorantAgent: string;
    ability: string;
    date: string;
+   __v: number;
    comments: {
       username: string;
       user: string;

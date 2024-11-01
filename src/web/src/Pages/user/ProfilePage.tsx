@@ -82,7 +82,14 @@ const ProfilePage = () => {
    // If you search for an non exisitant user
    useEffect(() => {
       // Fetch Users
-      getUserByUsername(id!)
+      if (!Auth && !id) {
+         return;
+      }
+      getUserByUsername(id!, Auth!.username, [
+         'followers',
+         'following',
+         'saved',
+      ])
          .then((response) => {
             setUser(response);
             setFollowers(new Set(response.followers));
@@ -137,7 +144,7 @@ const ProfilePage = () => {
          .finally(() => {
             setLoading(false);
          });
-   }, [id]);
+   }, [id, Auth]);
 
    const handleFollowers = async () => {
       follow(user._id, Auth?._id!).then((response) => {
@@ -311,18 +318,20 @@ const ProfilePage = () => {
                                              <CiEdit className="text-white mr-2" />
                                              Edit Profile
                                           </button> */}
-                                       <button
-                                          className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out" // Made padding consistent with the first button
-                                          onClick={() =>
-                                             navigate(
-                                                `/manage-posts/${Auth?.username}`,
-                                             )
-                                          }
-                                       >
-                                          <div className="flex text-center items-center gap-x-1">
-                                             Manage Posts
-                                          </div>
-                                       </button>
+                                       {Auth?.Verified && (
+                                          <button
+                                             className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full transition duration-300 ease-in-out"
+                                             onClick={() =>
+                                                navigate(
+                                                   `/manage-posts/${Auth?.username}`,
+                                                )
+                                             }
+                                          >
+                                             <div className="flex text-center items-center gap-x-1">
+                                                Manage Posts
+                                             </div>
+                                          </button>
+                                       )}
                                     </div>
                                  </>
                               )}

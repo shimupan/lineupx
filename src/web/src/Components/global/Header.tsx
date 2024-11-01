@@ -74,6 +74,16 @@ const Header: React.FC = () => {
                            </button>
                         )}
 
+                        {Auth?.role === 'developer' && (
+                           <button
+                              onClick={() => navigate('/developer/posts')}
+                              className="bg-indigo-800 text-white p-2 rounded hover:bg-blue-500 hover:text-white text-sm whitespace-nowrap flex items-center"
+                           >
+                              <MdAdminPanelSettings className="mr-2 text-xl" />
+                              Developer Panel
+                           </button>
+                        )}
+
                         {(location.pathname === '/game/CS2' ||
                            location.pathname === '/game/Valorant') && (
                            <Link
@@ -118,21 +128,21 @@ const Header: React.FC = () => {
                                  </div>
                                  <Link
                                     to={`/user/${Auth.username}`}
-                                    className="block px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaUserCircle className="mr-2 text-xl" />
                                     View Profile
                                  </Link>
                                  <Link
                                     to={`/manage-posts/${Auth.username}`}
-                                    className="block px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaEdit className="mr-2 text-xl" />
                                     Post Studio
                                  </Link>
                                  <button
                                     onClick={logout}
-                                    className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaSignOutAlt className="mr-2 text-xl" />
                                     Logout
