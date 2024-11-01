@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from 'react';
+import { useState, useEffect, useContext, useCallback, useRef } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
 import {
    Layout,
@@ -84,6 +84,8 @@ const PostPage = () => {
       setPopupVisible(!isPopupVisible);
    };
    */
+
+   
    const handleArrowClick = (direction: 'prev' | 'next') => {
       let newIndex = currentImageIndex;
 
@@ -175,6 +177,22 @@ const PostPage = () => {
          console.log('Post saved successfully');
       } catch (error) {
          console.error('Error saving post:', error);
+      }
+   };
+   const addViewedPost = async () => {
+      try {
+         //Guest User data not saved
+         if(!user_Id){
+            //console.log('Guest user');
+            return;
+         }
+         
+         await axios.post(`/user/${user_Id}/viewed-post`, {
+            postId: postData?._id || currPostData?._id,
+         });
+         //console.log('Viewed post added successfully');
+      } catch (error) {
+         console.error('Error adding viewed post:', error);
       }
    };
    const fetchComments = async () => {
@@ -282,6 +300,12 @@ const PostPage = () => {
             console.error('Failed to increment view count:', error);
          });
    };
+
+   useEffect(() => {
+      if ((postData?._id || currPostData?._id)) {
+         addViewedPost();
+      }
+   }, [postData, currPostData]);
 
    useEffect(() => {
       fetchComments();
