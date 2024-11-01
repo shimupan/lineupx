@@ -1,7 +1,7 @@
 import React, { useReducer, useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useValorant } from '../../hooks';
-import { Dropzone } from '../../Components';
+import { Dropzone, DescriptionEditor } from '../../Components';
 import { Layout, ValorantMode, CS2Mode } from '../../Components';
 import { AuthContext } from '../../App';
 import { ToastContainer } from 'react-toastify';
@@ -138,9 +138,7 @@ const Upload: React.FC = () => {
                                  >
                                     Lineup Description*
                                  </label>
-                                 <textarea
-                                    id="lineupDescription"
-                                    placeholder="Enter the description of the lineup"
+                                 <DescriptionEditor
                                     value={state.lineupDescription}
                                     onChange={(e) =>
                                        dispatch({
@@ -148,7 +146,6 @@ const Upload: React.FC = () => {
                                           payload: e.target.value,
                                        })
                                     }
-                                    className="flex text-black items-center w-full px-5 py-4 h-40 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-[#edf2f7] text-dark-grey-900 rounded-2xl"
                                  />
                               </div>
                            </div>

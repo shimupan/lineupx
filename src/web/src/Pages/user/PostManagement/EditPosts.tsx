@@ -15,6 +15,7 @@ import {
    FaArrowRight,
 } from 'react-icons/fa';
 import { AuthContext } from '../../../App';
+import ReactMarkdown from 'react-markdown';
 
 const EditPost: React.FC = () => {
    const { postId, game } = useParams();
@@ -456,7 +457,9 @@ const EditPost: React.FC = () => {
                               {post.postTitle}
                            </h3>
                            <p className="text-gray-400 mb-2 break-words">
-                              {post.lineupDescription}
+                              <ReactMarkdown>
+                                 {post.lineupDescription}
+                              </ReactMarkdown>
                            </p>
                            <div className="flex items-center text-sm text-gray-500 mb-2">
                               <FaEye className="mr-1" /> {post.views || 0}

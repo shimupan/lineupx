@@ -7,6 +7,7 @@ import { CDN_URL } from '../../Constants';
 import { AuthContext } from '../../App';
 import { approveRejectPosts } from '../../util/updatePost';
 import { MdCancel, MdReport, MdEdit } from 'react-icons/md';
+import ReactMarkdown from 'react-markdown';
 
 type PositionKey = 'landingPosition' | 'aimingPosition' | 'standingPosition';
 
@@ -114,7 +115,7 @@ const AdminModifyPost = () => {
                      )}
                      <p>
                         <strong>Lineup Description:</strong>{' '}
-                        {post?.lineupDescription}
+                        <ReactMarkdown>{post?.lineupDescription}</ReactMarkdown>
                      </p>
                      <p>
                         <strong>Lineup Location:</strong> {post?.lineupLocation}

@@ -5,6 +5,7 @@ import { PostType } from '../../global.types';
 import { Layout } from '../../Components';
 import { CDN_URL } from '../../Constants';
 import { MdReport } from 'react-icons/md';
+import ReactMarkdown from 'react-markdown';
 
 type PositionKey = 'landingPosition' | 'aimingPosition' | 'standingPosition';
 
@@ -95,7 +96,7 @@ const DeveloperPostsInfo = () => {
                      )}
                      <p>
                         <strong>Lineup Description:</strong>{' '}
-                        {post?.lineupDescription}
+                        <ReactMarkdown>{post?.lineupDescription}</ReactMarkdown>
                      </p>
                      <p>
                         <strong>Lineup Location:</strong> {post?.lineupLocation}

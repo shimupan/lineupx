@@ -35,6 +35,7 @@
     "react-lazy-load-image-component": "^1.6.2",
     "react-loading-skeleton": "^3.5.0",
     "react-map-interaction": "^2.1.0",
+    "react-markdown": "^9.0.1",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.27.0",
     "react-select": "^5.8.2",

@@ -5,6 +5,7 @@ import { CDN_URL } from '../../Constants';
 import { PostType } from '../../global.types';
 import { approveRejectPosts } from '../../util/updatePost';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 import {
    MdCancel,
    MdCheckCircle,
@@ -107,7 +108,9 @@ const AdminCheck: React.FC = () => {
                                        </p>
                                        <p>
                                           Lineup Description:{' '}
-                                          {p.lineupDescription}
+                                          <ReactMarkdown>
+                                             {p.lineupDescription}
+                                          </ReactMarkdown>
                                        </p>
                                     </div>
                                     <div>

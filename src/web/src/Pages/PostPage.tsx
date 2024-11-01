@@ -26,7 +26,7 @@ import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { FaShare } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
-
+import ReactMarkdown from 'react-markdown';
 //import gear from '../assets/svg/gear.svg';
 
 export type Comment = {
@@ -616,8 +616,10 @@ const PostPage = () => {
                            </i>
                         )}
                      </div>
-                     {postData?.lineupDescription ||
-                        currPostData?.lineupDescription}
+                     <ReactMarkdown>
+                        {postData?.lineupDescription ||
+                           currPostData?.lineupDescription}
+                     </ReactMarkdown>
                   </div>
                   <div className="bg-black md:ml-[10px]">
                      <div className="flex items-start space-x-3">
