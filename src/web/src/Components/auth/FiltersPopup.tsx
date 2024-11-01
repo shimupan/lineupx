@@ -103,10 +103,10 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
                )}
                {selectedGame === 'CS2' && (
                   <>
-                     {renderCheckboxes("Side", "teamSide", ["Attacker", "Defender"])}
+                     {renderCheckboxes("Side", "teamSide", ["T", "CT"])}
                      {renderCheckboxes("Map", "mapName", ["mirage", "inferno", "nuke", "overpass", "vertigo", "ancient", "anubis", "dust2"])}
-                     {renderCheckboxes("Grenade", "grenadeType", ["HE", "Smoke", "Flashbangs", "Decoy", "Molotov", "Incendiary"])}
-                     {renderCheckboxes("Jump Throw?", "jumpThrow", ["Yes", "No"])}
+                     {renderCheckboxes("Grenade", "grenadeType", ["he", "smoke", "flashbangs", "decoy", "molotov", "incendiary"])}
+                     {renderCheckboxes("Jump Throw?", "jumpThrow", ["YES", "NO"])}
                   </>
                )}
             </div>
