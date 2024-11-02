@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../App';
 import { useCookies } from '../../hooks';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -14,10 +14,34 @@ const Header: React.FC = () => {
    const location = useLocation();
    const [, , deleteAccessCookie] = useCookies('accessToken', '');
    const [, , deleteRefreshCookie] = useCookies('refreshToken', '');
+   const [RSOAccessToken, , ] = useCookies('RSOAccessToken', '')
+   const [RSORefreshToken, , ] = useCookies('RSORefreshToken', '')
    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+   const [puuid, setPuuid] = useState('');
+   const [gameName, setGameName] = useState('');
+   const [tagLine, setTagLine] = useState('');
 
    const handleRSOSignIn = () => {
      window.location.href = axios.defaults.baseURL + 'rso/signin';
+   }
+
+   const checkRSOSignedIn = async () => {
+
+     if (!RSOAccessToken && !RSORefreshToken) return; // if these cookies are empty or don't exist, return
+     console.log("Cookies:", RSORefreshToken, RSOAccessToken);
+     try {
+       const res = await axios.get(`/rso/getUserInfo/${RSOAccessToken}`);
+       const resData  = res.data
+       console.log(resData);
+       setPuuid(resData.puuid);
+       setGameName(resData.gameName);
+       setTagLine(resData.tagLine);
+       (RSOAccessToken ? console.log("Access token cookie detected") : console.log("No cookie"))
+     }
+
+     catch (error){
+       console.log("Error fetching", error);
+     }
    }
 
    const logout = async () => {
@@ -48,6 +72,10 @@ const Header: React.FC = () => {
    const toggleDropdown = () => {
       setIsDropdownOpen(!isDropdownOpen);
    };
+
+   useEffect(() => {
+     console.log("this is data:", puuid, tagLine, gameName)
+     checkRSOSignedIn();}, [puuid])
 
    return (
       <>
@@ -146,7 +174,11 @@ const Header: React.FC = () => {
                            )}
                         </div>
                      </>
-                  ) : (
+                  ) : (RSOAccessToken ? (
+                    <div className="rounded-lg px-4 py-2 flex items-center space-x-4 font-bold bg-red-600">
+                      {`${gameName}#${tagLine}`}
+                    </div>
+                  ) : ( // todo: change to display uhh#242
                      <div
                         className="flex items-center space-x-2"
                         id="nav-content"
@@ -176,7 +208,7 @@ const Header: React.FC = () => {
                            </div>
                         </button>
                      </div>
-                  )}
+                  ))}
                </div>
             </div>
             {location.pathname.startsWith('/game/CS2') && (
