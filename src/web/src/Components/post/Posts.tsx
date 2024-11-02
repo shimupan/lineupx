@@ -37,7 +37,7 @@ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
    const [showOptions, setShowOptions] = useState(false);
    const [showReportPopup, setShowReportPopup] = useState(false);
    const [showSharePopup, setShowSharePopup] = useState(false);
-    const [currPostData] = useState<PostType | null>(null);
+   const [currPostData] = useState<PostType | null>(null);
    const onReport = () => {
       setShowReportPopup(true);
       setShowOptions(false);
@@ -71,13 +71,15 @@ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
       }
    }, [postData.UserID, userCache, fetchUsers]);
 
-    useEffect(() => {
-        axios.post(`/user/${user_Id}/save-post`, {
+   useEffect(() => {
+      axios
+         .post(`/user/${user_Id}/save-post`, {
             postId: postData?._id || currPostData?._id,
-        }).then(() => {
+         })
+         .then(() => {
             console.log('Post saved successfully');
-        });
-    }, []);
+         });
+   }, []);
 
    useEffect(() => {
       if (userCache[postData.UserID]) {

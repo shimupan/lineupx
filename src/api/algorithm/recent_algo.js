@@ -21,7 +21,6 @@ const getData = () => {
 
 export default getData;
 
-
 // Get frequencies of items in an array
 const getFrequencies = (arr) => {
    return arr.reduce((acc, val) => {
@@ -35,7 +34,7 @@ const getFrequencies = (arr) => {
 // Get ranked items by frequency
 const getRankedItems = (frequencies) => {
    return Object.entries(frequencies)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .map(([item]) => item);
 };
 
@@ -48,8 +47,8 @@ const getPointsForRank = (rank) => {
 // Calculate scores for all posts
 const calculatePostScores = (allData, trainingData) => {
    // Get frequencies from training data
-   const maps = trainingData.map(entry => entry.mapName?.toLowerCase());
-   const agents = trainingData.map(entry => entry.valorantAgent);
+   const maps = trainingData.map((entry) => entry.mapName?.toLowerCase());
+   const agents = trainingData.map((entry) => entry.valorantAgent);
 
    const mapFrequencies = getFrequencies(maps);
    const agentFrequencies = getFrequencies(agents);
@@ -59,7 +58,7 @@ const calculatePostScores = (allData, trainingData) => {
    const rankedAgents = getRankedItems(agentFrequencies);
 
    // Calculate scores for all posts
-   return allData.map(post => {
+   return allData.map((post) => {
       let score = 0;
 
       // Add points based on map ranking
@@ -80,7 +79,8 @@ const calculatePostScores = (allData, trainingData) => {
          valorantAgent: post.valorantAgent,
          score: score,
          mapPoints: mapRank >= 0 && mapRank < 5 ? getPointsForRank(mapRank) : 0,
-         agentPoints: agentRank >= 0 && agentRank < 5 ? getPointsForRank(agentRank) : 0
+         agentPoints:
+            agentRank >= 0 && agentRank < 5 ? getPointsForRank(agentRank) : 0,
       };
    });
 };
@@ -100,20 +100,18 @@ const analyzeValorantData = () => {
    const scoredPosts = calculatePostScores(limitedData, trainingData);
 
    // Get top 3 posts by total score
-   const topPosts = scoredPosts
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 3);
+   const topPosts = scoredPosts.sort((a, b) => b.score - a.score).slice(0, 3);
 
    // Get rankings for reference
-   const maps = trainingData.map(entry => entry.mapName?.toLowerCase());
-   const agents = trainingData.map(entry => entry.valorantAgent);
+   const maps = trainingData.map((entry) => entry.mapName?.toLowerCase());
+   const agents = trainingData.map((entry) => entry.valorantAgent);
 
    return {
       rankings: {
          maps: getRankedItems(getFrequencies(maps)).slice(0, 5),
-         agents: getRankedItems(getFrequencies(agents)).slice(0, 5)
+         agents: getRankedItems(getFrequencies(agents)).slice(0, 5),
       },
-      topPosts: topPosts
+      topPosts: topPosts,
    };
 };
 
@@ -134,7 +132,9 @@ if (results) {
    results.topPosts.forEach((post, index) => {
       console.log(`\n${index + 1}. Post ID: ${post.id}`);
       console.log(`   Map: ${post.mapName} (${post.mapPoints} points)`);
-      console.log(`   Agent: ${post.valorantAgent} (${post.agentPoints} points)`);
+      console.log(
+         `   Agent: ${post.valorantAgent} (${post.agentPoints} points)`,
+      );
       console.log(`   Total Score: ${post.score} points`);
    });
 }

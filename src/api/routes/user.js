@@ -404,7 +404,7 @@ router.post('/user/:userId/recent-post', async (req, res) => {
          return res.status(404).json({ message: 'User not found' });
       }
 
-      if(user.recent.length < 100){
+      if (user.recent.length < 100) {
          user.recent.unshift(postId);
       } else {
          user.recent.pop(0);
@@ -413,13 +413,11 @@ router.post('/user/:userId/recent-post', async (req, res) => {
 
       await user.save();
       return res.status(200).json({ message: 'Post removed from saved' });
-      } catch (error) {
+   } catch (error) {
       console.error('Failed to save or remove post:', error);
       res.status(500).json({ message: 'Server error' });
    }
 });
-
-
 
 router.post('/user/update', async (req, res) => {
    const { user, newUsername, newEmail } = req.body;
