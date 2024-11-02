@@ -413,7 +413,7 @@ router.post('/user/:userId/recent-post', async (req, res) => {
 
       await user.save();
       return res.status(200).json({ message: 'Post removed from saved' });
-      } (error) {
+      } catch (error) {
       console.error('Failed to save or remove post:', error);
       res.status(500).json({ message: 'Server error' });
    }

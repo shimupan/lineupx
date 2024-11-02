@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1c2d36b-03d7-4c22-9ed3-968085dde860" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/algorithm/recent_algo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/model/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/model/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/algorithm/recent_algo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/algorithm/recent_algo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/routes/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web/src/Components/post/Posts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/web/src/Components/post/Posts.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,10 +41,10 @@
     &quot;accountId&quot;: &quot;55608696-879d-4e54-af37-f677d148c0ec&quot;
   }
 }</component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
   </component>
@@ -62,6 +62,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Node.js.recent_algo.js.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "algo__dev",
@@ -137,6 +138,10 @@
       <workItem from="1729010720294" duration="3000" />
       <workItem from="1729023752253" duration="2030000" />
       <workItem from="1729025818240" duration="5695000" />
+      <workItem from="1729630647831" duration="736000" />
+      <workItem from="1729889477607" duration="5134000" />
+      <workItem from="1730236521206" duration="520000" />
+      <workItem from="1730491381272" duration="8438000" />
     </task>
     <servers />
   </component>
