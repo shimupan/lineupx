@@ -510,9 +510,8 @@ router.get('/rso/oauth', async (req, res) => {
 
 });
 
-// todo
 router.get('/rso/getUserInfo/:token', async (req, res) => {
-   const accessToken = req.params;
+   const accessToken = req.params.token;
    try {
       const response = await fetch('https://americas.api.riotgames.com/riot/account/v1/accounts/me', {
          method: 'GET',
