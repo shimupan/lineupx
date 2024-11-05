@@ -211,22 +211,22 @@ const Valorant: React.FC = () => {
       fetchInitialData();
    }, []);
 
-const handleSearch = async (value: string) => {
-    setIsLoading(true);
-    setNewPostsReady(false);
-    const startTime = Date.now();
-    
-    try {
-        let url = '/post/Valorant';
-        if (value && value !== 'all') {
+   const handleSearch = async (value: string) => {
+      setIsLoading(true);
+      setNewPostsReady(false);
+      const startTime = Date.now();
+
+      try {
+         let url = '/post/Valorant';
+         if (value && value !== 'all') {
             url += `?search=${encodeURIComponent(value.toLowerCase())}`;
-        }
+         }
 
-        const postsResponse = await axios.get(url);
-        const loadTime = Date.now() - startTime;
-        const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
+         const postsResponse = await axios.get(url);
+         const loadTime = Date.now() - startTime;
+         const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
 
-        setTimeout(() => {
+         setTimeout(() => {
             const newPosts = postsResponse.data.reverse();
             setPosts(newPosts);
             setNewPostsReady(true);
@@ -235,13 +235,12 @@ const handleSearch = async (value: string) => {
             // Fetch user data for posts
             const userIds = newPosts.map((post: PostType) => post.UserID);
             fetchUsers(userIds);
-        }, delay);
-
-    } catch (err) {
-        console.error('Error fetching search results:', err);
-        setIsLoading(false);
-    }
-};
+         }, delay);
+      } catch (err) {
+         console.error('Error fetching search results:', err);
+         setIsLoading(false);
+      }
+   };
 
    useEffect(() => {
       const handleScroll = () => {
