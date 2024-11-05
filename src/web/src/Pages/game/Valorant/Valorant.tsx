@@ -42,21 +42,19 @@ const Valorant: React.FC = () => {
       // if user didn't sign in with RSO
       if (code === null) return;
 
-     try {
-       const res = await axios.get(`/rso/oauth?code=${code}`);
-       const RSOAccessToken = res.data.access_token;
-       const RSORefreshToken = res.data.refresh_token;
-       const expire = new Date();
-       expire.setTime(expire.getTime() + res.data.expires_in * 1000);
+      try {
+         const res = await axios.get(`/rso/oauth?code=${code}`);
+         const RSOAccessToken = res.data.access_token;
+         const RSORefreshToken = res.data.refresh_token;
+         const expire = new Date();
+         expire.setTime(expire.getTime() + res.data.expires_in * 1000);
 
-       setRSOAccessToken(RSOAccessToken, { path: '/', expires: expire});
-       setRSORefreshToken(RSORefreshToken, { path: '/' });
-
-     }
-     catch (error){
-       console.log("error fetching /rso/oauth: ", error);
-     }
-  }
+         setRSOAccessToken(RSOAccessToken, { path: '/', expires: expire });
+         setRSORefreshToken(RSORefreshToken, { path: '/' });
+      } catch (error) {
+         console.log('error fetching /rso/oauth: ', error);
+      }
+   };
 
    const fetchInitialData = useCallback(async () => {
       setIsLoading(true);
