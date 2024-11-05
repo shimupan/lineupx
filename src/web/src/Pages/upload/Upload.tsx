@@ -140,12 +140,14 @@ const Upload: React.FC = () => {
                                  </label>
                                  <DescriptionEditor
                                     value={state.lineupDescription}
-                                    onChange={(e) =>
+                                    onChange={(value) =>
                                        dispatch({
                                           type: 'setLineupDescription',
-                                          payload: e.target.value,
+                                          payload: value,
                                        })
                                     }
+                                    bgColor="bg-[#edf2f7] text-dark-grey-900"
+                                    textColor="text-gray-900"
                                  />
                               </div>
                            </div>

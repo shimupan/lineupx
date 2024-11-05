@@ -4,7 +4,12 @@ import axios from 'axios';
 import { PostType } from '../../../global.types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Layout, Dropzone, LoadingSpinner } from '../../../Components';
+import {
+   Layout,
+   Dropzone,
+   LoadingSpinner,
+   DescriptionEditor,
+} from '../../../Components';
 import { CDN_URL } from '../../../Constants';
 import {
    FaEye,
@@ -185,16 +190,14 @@ const EditPost: React.FC = () => {
                         <label htmlFor="description" className="block mb-2">
                            Description
                         </label>
-                        <textarea
-                           id="description"
-                           value={post.lineupDescription}
-                           onChange={(e) =>
+                        <DescriptionEditor
+                           value={post?.lineupDescription || ''}
+                           onChange={(value) =>
                               setPost({
                                  ...post,
-                                 lineupDescription: e.target.value,
-                              })
+                                 lineupDescription: value,
+                              } as PostType)
                            }
-                           className="w-full bg-gray-800 rounded p-2 h-32"
                         />
                      </div>
                      <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -457,7 +460,16 @@ const EditPost: React.FC = () => {
                               {post.postTitle}
                            </h3>
                            <p className="text-gray-400 mb-2 break-words">
-                              <ReactMarkdown>
+                              <ReactMarkdown
+                                 className="whitespace-pre-wrap"
+                                 components={{
+                                    p: ({ children }) => (
+                                       <p className="whitespace-pre-line">
+                                          {children}
+                                       </p>
+                                    ),
+                                 }}
+                              >
                                  {post.lineupDescription}
                               </ReactMarkdown>
                            </p>
