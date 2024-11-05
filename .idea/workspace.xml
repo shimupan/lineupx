@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d1c2d36b-03d7-4c22-9ed3-968085dde860" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/algorithm/recent_algo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/algorithm/recent_algo.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +62,7 @@
     "Node.js.recent_algo.js.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "algo__dev",
+    "git-widget-placeholder": "#384 on algo__dev",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/College/Sophmore/RCOS/lineupx",
@@ -139,7 +138,8 @@
       <workItem from="1729630647831" duration="736000" />
       <workItem from="1729889477607" duration="5134000" />
       <workItem from="1730236521206" duration="520000" />
-      <workItem from="1730491381272" duration="13225000" />
+      <workItem from="1730491381272" duration="13298000" />
+      <workItem from="1730843679426" duration="1291000" />
     </task>
     <servers />
   </component>
