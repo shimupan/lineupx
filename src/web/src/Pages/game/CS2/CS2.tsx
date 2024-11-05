@@ -23,35 +23,42 @@ const CS2: React.FC = () => {
    const [newPostsReady, setNewPostsReady] = useState(false);
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const pageRef = useRef(page);
+    const [searchTerm, setSearchTerm] = useState('');
    const { userCache, fetchUsers } = useUserCache();
 
    useEffect(() => {
       pageRef.current = page;
    }, [page]);
 
-   const fetchPosts = useCallback(async (pageNum: number) => {
-      setIsLoading(true);
-      setNewPostsReady(false);
-      const startTime = Date.now();
-      try {
-         const response = await axios.get(
-            `/post/CS2?page=${pageNum}&limit=${POSTS_PER_PAGE}&recent=true`,
-         );
-         const loadTime = Date.now() - startTime;
-         const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
+ const fetchPosts = useCallback(async (pageNum: number) => {
+   setIsLoading(true);
+   setNewPostsReady(false);
+   const startTime = Date.now();
+   
+   try {
+       const url = `/post/CS2?page=${pageNum}&limit=${POSTS_PER_PAGE}`;
+       console.log('Fetching URL:', url); // Debug log
 
-         return new Promise<PostType[]>((resolve) => {
-            setTimeout(() => {
-               resolve(response.data.reverse());
-            }, delay);
-         });
-      } catch (err) {
-         console.error('Error fetching posts:', err);
-         return [];
-      }
-   }, []);
+       const response = await axios.get(url);
+       console.log('Response data:', response.data); // Debug log
+       
+       const loadTime = Date.now() - startTime;
+       const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
 
-   const fetchInitialData = useCallback(async () => {
+       return new Promise<PostType[]>((resolve) => {
+           setTimeout(() => {
+               // Make sure we're handling the response data correctly
+               const posts = response.data;
+               console.log('Processed posts:', posts); // Debug log
+               resolve(Array.isArray(posts) ? posts.reverse() : []);
+           }, delay);
+       });
+   } catch (err) {
+       console.error('Error fetching posts:', err);
+       return [];
+   }
+}, []);
+const fetchInitialData = useCallback(async () => {
       const initialPosts = await fetchPosts(1);
       setPosts(initialPosts);
       setPage(2);

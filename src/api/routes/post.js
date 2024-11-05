@@ -93,7 +93,6 @@ router.get('/posts', async (req, res) => {
    }
 });
 
-// Refactored route
 router.get('/post/:game', async (req, res) => {
    const { game } = req.params;
    const page = Number(req.query.page) || 1;
@@ -105,12 +104,10 @@ router.get('/post/:game', async (req, res) => {
 
    const PostData =
       gameModels[game] || mongoose.model('PostData', PostDataSchema, game);
-
-   let query = { approved: true };
-   let sortOption = {};
-   let projection = {};
-
-   // Array to hold all conditions
+    
+    let query = {};
+    let sortOption = { views: -1, date: -1 };
+    let projection = {};
    let conditions = [{ approved: true }];
 
    try {
@@ -165,6 +162,55 @@ router.get('/post/:game', async (req, res) => {
          const additionalSort = getSortOption(req.query.sortBy);
          sortOption = { ...sortOption, ...additionalSort };
       }
+=======
+    try {
+        // Map filtering
+        if (map && map !== 'all') {
+            const parsedMap = map.replace(/\s/g, '').toLowerCase();
+            conditions.push({ mapName: parsedMap });
+        }
+
+        // Date range filtering
+        if (filter && filter !== 'all' && ['today', 'this_week', 'this_month', 'this_year'].includes(filter)) {
+            const dateFilter = getDateRangeFilter(filter);
+            if (dateFilter) {
+                conditions.push({ date: dateFilter });
+            }
+        }
+
+        // Determine if a specific field is being searched
+        const specificField = req.query.field && req.query.field !== 'all' ? req.query.field : null;
+
+        // Search filtering using $text or regex
+        if (search && search !== 'all') {
+            if (specificField) {
+                const regex = new RegExp(search, 'i');
+                conditions.push({ [specificField]: regex });
+            } else {
+                conditions.push({ $text: { $search: search } });
+                projection = { score: { $meta: 'textScore' } };
+                sortOption = { score: { $meta: 'textScore' } };
+            }
+        }
+
+        // Recent sorting if no text search
+        if (recent && recent !== 'all' && recent === 'true' && !search) {
+            sortOption = { date: -1 };
+        }
+
+        // Additional sorting based on sortBy parameter
+        if (req.query.sortBy && req.query.sortBy !== 'all') {
+            const additionalSort = getSortOption(req.query.sortBy);
+            sortOption = { ...sortOption, ...additionalSort };
+        }
+
+        // Combine all conditions with $and
+        if (conditions.length > 0) {
+            query = { $and: conditions };
+        } else {
+            query = { approved: true };
+        }
+>>>>>>> 3d4dc79 (Make empty=all)
 
       // Combine all conditions with $and
       query = { $and: conditions };
