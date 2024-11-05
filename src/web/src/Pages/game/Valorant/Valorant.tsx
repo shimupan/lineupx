@@ -43,8 +43,7 @@ const Valorant: React.FC = () => {
       if (code === null) return;
 
      try {
-       // const res = await axios.get(`/rso/oauth?code=${code}`);
-       const res = await axios.get('/test');
+       const res = await axios.get(`/rso/oauth?code=${code}`);
        const RSOAccessToken = res.data.access_token;
        const RSORefreshToken = res.data.refresh_token;
        const expire = new Date();
@@ -52,10 +51,6 @@ const Valorant: React.FC = () => {
 
        setRSOAccessToken(RSOAccessToken, { path: '/', expires: expire});
        setRSORefreshToken(RSORefreshToken, { path: '/' });
-
-       // Now check who logged in, get their puid, player name, player tag to display on header to show logged in
-       // In header.tsx, check if rsorefresh and rsoaccess cookies exist, this means logged in
-
 
      }
      catch (error){
