@@ -8,21 +8,12 @@ const __dirname = dirname(__filename);
 
 // Scoring weights (total = 100%)
 const WEIGHTS = {
-<<<<<<< Updated upstream
-   agent: 0.48, // 35% for agent
-   map: 0.3, // 25% for map
-   ratio: 0.05, // 11% for like/dislike ratio
-   views: 0.05, // 11% for views
-   comments: 0.05, // 11% for comments
-   time: 0.03, // 7% for timestamp
-=======
    agent: 0.48,    // 48% for agent
    map: 0.30,      // 30% for map
    ratio: 0.05,    // 5% for like/dislike ratio
    views: 0.05,    // 5% for views
    comments: 0.05, // 5% for comments
    time: 0.07      // 7% for timestamp
->>>>>>> Stashed changes
 };
 
 // Base points for ranking
@@ -72,14 +63,7 @@ const calculateTimeScore = (date, newestDate) => {
    const MS_PER_MONTH = 2592000000; // 30 days in milliseconds
    const monthsDiff = (newestDate - date) / MS_PER_MONTH;
    const quartersPassed = Math.floor(monthsDiff / 3);
-<<<<<<< Updated upstream
    const score = Math.max(0, 1 - quartersPassed * 0.14);
-=======
-
-   // Score decreases by 14% every quarter (3 months)
-   // Maximum age considered is about 2 years (8 quarters)
-   const score = Math.max(0, 1 - (quartersPassed * 0.14));
->>>>>>> Stashed changes
    return safeNumber(score);
 };
 
@@ -101,7 +85,6 @@ const analyzeValorantData = () => {
    );
 
    // Find maximum values for normalization with NaN protection
-<<<<<<< Updated upstream
    const maxValues = limitedData.reduce(
       (acc, post) => ({
          views: Math.max(acc.views, safeNumber(post.views) || 0),
@@ -117,19 +100,6 @@ const analyzeValorantData = () => {
       }),
       { views: 0, comments: 0, ratio: 0, timestamp: 0 },
    );
-=======
-   const maxValues = limitedData.reduce((acc, post) => {
-      // Get the post date from MongoDB format
-      const postDate = new Date(post.date?.$date).getTime();
-
-      return {
-         views: Math.max(acc.views, safeNumber(post.views)),
-         comments: Math.max(acc.comments, safeNumber(post.comments?.length)),
-         ratio: Math.max(acc.ratio, safeNumber(post.likes?.length / Math.max(1, post.dislikes?.length))),
-         date: Math.max(acc.date, postDate)
-      };
-   }, { views: 0, comments: 0, ratio: 0, date: 0 });
->>>>>>> Stashed changes
 
    // Score posts with NaN protection
    const scoredPosts = limitedData.map((post) => {
@@ -140,7 +110,7 @@ const analyzeValorantData = () => {
       );
 
       // Calculate normalized engagement scores
-<<<<<<< Updated upstream
+
       const likeRatio = safeNumber(
          (post.likes || 0) / Math.max(1, post.dislikes || 1),
       );
@@ -150,14 +120,7 @@ const analyzeValorantData = () => {
          safeNumber(post.comments),
          maxValues.comments,
       );
-=======
-      const likeCount = post.likes?.length || 0;
-      const dislikeCount = post.dislikes?.length || 0;
-      const likeRatio = safeNumber(likeCount / Math.max(1, dislikeCount));
-      const ratioScore = normalizeValue(likeRatio, maxValues.ratio);
-      const viewScore = normalizeValue(safeNumber(post.views), maxValues.views);
-      const commentScore = normalizeValue(safeNumber(post.comments?.length), maxValues.comments);
->>>>>>> Stashed changes
+
 
       // Calculate time score
       const postDate = new Date(post.date?.$date).getTime();
@@ -194,14 +157,12 @@ const analyzeValorantData = () => {
    // Sort posts with tiebreaker and NaN protection
    const topPosts = scoredPosts
       .sort((a, b) => {
-<<<<<<< Updated upstream
+
          if (
             Math.abs(safeNumber(b.totalScore) - safeNumber(a.totalScore)) <
             0.001
          ) {
-=======
-         if (Math.abs(safeNumber(b.totalScore) - safeNumber(a.totalScore)) < 0.001) {
->>>>>>> Stashed changes
+
             return safeNumber(b.scores.agent) - safeNumber(a.scores.agent);
          }
          return safeNumber(b.totalScore) - safeNumber(a.totalScore);
@@ -231,7 +192,7 @@ if (results) {
    results.topPosts.forEach((post, index) => {
       const postDate = new Date(post.date);
       console.log(`\n${index + 1}. Post ID: ${post.id}`);
-<<<<<<< Updated upstream
+
       console.log(
          `   Agent: ${post.valorantAgent} (Score: ${post.scores.agent.toFixed(3)})`,
       );
@@ -248,15 +209,7 @@ if (results) {
       console.log(
          `     - Comments: ${post.comments} (Score: ${post.scores.comments.toFixed(3)})`,
       );
-=======
-      console.log(`   Date: ${postDate.toLocaleDateString()}`);
-      console.log(`   Agent: ${post.valorantAgent} (Score: ${post.scores.agent.toFixed(3)})`);
-      console.log(`   Map: ${post.mapName} (Score: ${post.scores.map.toFixed(3)})`);
-      console.log(`   Engagement Metrics:`);
-      console.log(`     - Likes/Dislikes: ${post.likes}/${post.dislikes} (Score: ${post.scores.ratio.toFixed(3)})`);
-      console.log(`     - Views: ${post.views} (Score: ${post.scores.views.toFixed(3)})`);
-      console.log(`     - Comments: ${post.comments} (Score: ${post.scores.comments.toFixed(3)})`);
->>>>>>> Stashed changes
+
       console.log(`     - Time Score: ${post.scores.time.toFixed(3)}`);
       console.log(`   Total Score: ${post.totalScore.toFixed(3)}`);
    });
