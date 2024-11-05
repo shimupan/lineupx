@@ -343,32 +343,33 @@ router.post('/resetpassword/:token', async (req, res) => {
    res.status(200).send('Your password has been updated');
 });
 
-
 router.get('/rso/signin', function (req, res) {
-   const appCallbackUrl = "https://www.lineupx.net/game/Valorant";
+   const appCallbackUrl = 'https://www.lineupx.net/game/Valorant';
 
-   const provider        = "https://auth.riotgames.com",
-         authorizeUrl    = provider + "/authorize";
+   const provider = 'https://auth.riotgames.com',
+      authorizeUrl = provider + '/authorize';
 
-   const link = authorizeUrl
-      + "?client_id=" + process.env.RSO_CLIENT_ID
-      + "&redirect_uri=" + appCallbackUrl
-      + "&response_type=code"
-      + "&scope=openid+offline_access";
+   const link =
+      authorizeUrl +
+      '?client_id=' +
+      process.env.RSO_CLIENT_ID +
+      '&redirect_uri=' +
+      appCallbackUrl +
+      '&response_type=code' +
+      '&scope=openid+offline_access';
 
    res.redirect(link);
-})
-
+});
 
 router.get('/rso/oauth', async (req, res) => {
-   const appCallbackUrl=  "https://www.lineupx.net/game/Valorant";
+   const appCallbackUrl = 'https://www.lineupx.net/game/Valorant';
 
    const accessCode = req.query.code;
 
    const params = new URLSearchParams({
-      'grant_type': 'authorization_code',
-      'code': accessCode,
-      'redirect_uri': appCallbackUrl,
+      grant_type: 'authorization_code',
+      code: accessCode,
+      redirect_uri: appCallbackUrl,
    });
 
    try {
@@ -376,39 +377,45 @@ router.get('/rso/oauth', async (req, res) => {
          method: 'POST',
          headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic ' + btoa(`${process.env.RSO_CLIENT_ID}:${process.env.RSO_CLIENT_SECRET}`)
+            Authorization:
+               'Basic ' +
+               btoa(
+                  `${process.env.RSO_CLIENT_ID}:${process.env.RSO_CLIENT_SECRET}`,
+               ),
          },
          body: params,
-      })
-      if (! response.ok ){ res.status(400).send("/token request failed!"); }
-      else {
+      });
+      if (!response.ok) {
+         res.status(400).send('/token request failed!');
+      } else {
          const responseJson = await response.json();
          res.send(responseJson);
       }
+   } catch (error) {
+      console.log('error', error);
    }
-   catch (error) {
-      console.log("error", error);
-   }
-
 });
 
 router.get('/rso/getUserInfo/:token', async (req, res) => {
    const accessToken = req.params.token;
    try {
-      const response = await fetch('https://americas.api.riotgames.com/riot/account/v1/accounts/me', {
-         method: 'GET',
-         headers: {
-            'Authorization': 'Bearer ' + accessToken
+      const response = await fetch(
+         'https://americas.api.riotgames.com/riot/account/v1/accounts/me',
+         {
+            method: 'GET',
+            headers: {
+               Authorization: 'Bearer ' + accessToken,
+            },
          },
-      });
-      if (! response.ok ){ res.status(400).send("could not get user info"); }
-      else {
+      );
+      if (!response.ok) {
+         res.status(400).send('could not get user info');
+      } else {
          const responseJson = await response.json();
          res.send(responseJson);
       }
-   }
-   catch (error){
-      console.log("error", error);
+   } catch (error) {
+      console.log('error', error);
    }
 });
 
