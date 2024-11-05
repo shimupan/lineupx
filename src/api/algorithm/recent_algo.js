@@ -8,12 +8,12 @@ const __dirname = dirname(__filename);
 
 // Scoring weights (total = 100%)
 const WEIGHTS = {
-   agent: 0.48,    // 48% for agent
-   map: 0.30,      // 30% for map
-   ratio: 0.05,    // 5% for like/dislike ratio
-   views: 0.05,    // 5% for views
+   agent: 0.48, // 48% for agent
+   map: 0.3, // 30% for map
+   ratio: 0.05, // 5% for like/dislike ratio
+   views: 0.05, // 5% for views
    comments: 0.05, // 5% for comments
-   time: 0.07      // 7% for timestamp
+   time: 0.07, // 7% for timestamp
 };
 
 // Base points for ranking
@@ -121,7 +121,6 @@ const analyzeValorantData = () => {
          maxValues.comments,
       );
 
-
       // Calculate time score
       const postDate = new Date(post.date?.$date).getTime();
       const timeScore = calculateTimeScore(postDate, maxValues.date);
@@ -157,12 +156,10 @@ const analyzeValorantData = () => {
    // Sort posts with tiebreaker and NaN protection
    const topPosts = scoredPosts
       .sort((a, b) => {
-
          if (
             Math.abs(safeNumber(b.totalScore) - safeNumber(a.totalScore)) <
             0.001
          ) {
-
             return safeNumber(b.scores.agent) - safeNumber(a.scores.agent);
          }
          return safeNumber(b.totalScore) - safeNumber(a.totalScore);
