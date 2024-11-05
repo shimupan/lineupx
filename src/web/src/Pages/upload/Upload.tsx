@@ -101,7 +101,6 @@ const Upload: React.FC = () => {
                                  <input
                                     id="postName"
                                     type="postName"
-                                    placeholder="Enter a post name (please be descriptive)"
                                     value={state.postName}
                                     onChange={(e) =>
                                        dispatch({
@@ -120,7 +119,6 @@ const Upload: React.FC = () => {
                                  <input
                                     id="lineupLocation"
                                     type="lineupLocation"
-                                    placeholder="Enter the location of the lineup"
                                     value={state.lineupLocation}
                                     onChange={(e) =>
                                        dispatch({
