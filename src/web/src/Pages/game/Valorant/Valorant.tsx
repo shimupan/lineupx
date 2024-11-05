@@ -10,7 +10,7 @@ import {
    PostSkeleton,
 } from '../../../Components';
 import { VALORANT_MAPS, VALORANT_BANNER } from '../../../Constants';
-import { useLocalStorage } from '../../../hooks';
+import { useLocalStorage, useCookies } from '../../../hooks';
 import { ValorantAgentProvider } from '../../../contexts/ValorantAgentContext';
 import { UserProvider } from '../../../contexts/UserContext';
 import useUserCache from '../../../hooks/useUserCache';
@@ -26,12 +26,39 @@ const Valorant: React.FC = () => {
    const [hasMore, setHasMore] = useState(true);
    const [isLoading, setIsLoading] = useState(false);
    const [newPostsReady, setNewPostsReady] = useState(false);
+   const [, setRSOAccessToken] = useCookies('RSOAccessToken', '');
+   const [, setRSORefreshToken] = useCookies('RSORefreshToken', '');
    const { userCache, fetchUsers } = useUserCache();
 
    const pageRef = useRef(page);
    useEffect(() => {
       pageRef.current = page;
    }, [page]);
+
+   const fetchRSOTokens = async () => {
+      const queryParams = new URLSearchParams(location.search);
+      const code = queryParams.get('code');
+
+      // if user didn't sign in with RSO
+      if (code === null) return;
+
+      try {
+         // const res = await axios.get(`/rso/oauth?code=${code}`);
+         const res = await axios.get('/test');
+         const RSOAccessToken = res.data.access_token;
+         const RSORefreshToken = res.data.refresh_token;
+         const expire = new Date();
+         expire.setTime(expire.getTime() + res.data.expires_in * 1000);
+
+         setRSOAccessToken(RSOAccessToken, { path: '/', expires: expire });
+         setRSORefreshToken(RSORefreshToken, { path: '/' });
+
+         // Now check who logged in, get their puid, player name, player tag to display on header to show logged in
+         // In header.tsx, check if rsorefresh and rsoaccess cookies exist, this means logged in
+      } catch (error) {
+         console.log('error fetching /rso/oauth: ', error);
+      }
+   };
 
    const fetchInitialData = useCallback(async () => {
       setIsLoading(true);
@@ -209,6 +236,7 @@ const Valorant: React.FC = () => {
       document.title = 'Valorant';
       getSuggestions();
       fetchInitialData();
+      fetchRSOTokens();
    }, []);
 
    const handleSearch = (value: string) => {
