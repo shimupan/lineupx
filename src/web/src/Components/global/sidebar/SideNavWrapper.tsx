@@ -163,6 +163,22 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                      onClick={() => handleClick('/game/Valorant/Agents')}
                   />
                )}
+               {location.pathname.startsWith('/game/Valorant') && (
+                  <SideNavItems
+                     icon={
+                        <IconWrapper>
+                           <img
+                              src={molly}
+                              alt="Stats"
+                              className="w-6 h-6 filter brightness-0 invert"
+                           />
+                        </IconWrapper>
+                     }
+                     text="Stats"
+                     active={activeItem === '/game/Valorant/Stats'}
+                     onClick={() => handleClick('/game/Valorant/Stats')}
+                  />
+               )}
                <div className="border-t border-gray-700 my-4"></div>
                <FollowingSideNav />
             </SideNav>

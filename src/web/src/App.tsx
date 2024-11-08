@@ -21,6 +21,7 @@ import {
    ValorantLineups,
    ValorantAgents,
    ValorantMaps,
+   ValorantStats,
    CS2Maps,
    AdminHome,
    AdminUsers,
@@ -189,6 +190,10 @@ function App() {
                <Route
                   path="/game/valorant/lineups/:mapName"
                   element={<ValorantMaps />}
+               />
+               <Route
+                  path="/game/valorant/Stats"
+                  element={<ValorantStats />}
                />
                <Route path="/game/cs2" element={<CS2 />}></Route>
                <Route path="/game/cs2/lineups" element={<CS2Lineups />}></Route>
