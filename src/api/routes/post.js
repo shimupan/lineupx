@@ -117,7 +117,10 @@ router.get('/post/:game', async (req, res) => {
    try {
       // Search filtering with fuzzy matching across multiple fields
       if (search && search !== 'all') {
-         const escapedSearch = search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const escapedSearch = search.replace(
+            /[-[\]{}()*+?.,\\^$|#\s]/g,
+            '\\$&',
+         );
          const fuzzySearchPattern = escapedSearch
             .split('')
             .map((char) => `${char}`)
@@ -154,7 +157,10 @@ router.get('/post/:game', async (req, res) => {
 
       // Grenade filtering with fuzzy matching
       if (grenade && grenade !== 'all') {
-         const escapedGrenade = grenade.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const escapedGrenade = grenade.replace(
+            /[-[\]{}()*+?.,\\^$|#\s]/g,
+            '\\$&',
+         );
          const grenadeRegex = new RegExp(escapedGrenade, 'i');
          conditions.push({ grenadeType: { $regex: grenadeRegex } });
       }
@@ -164,14 +170,22 @@ router.get('/post/:game', async (req, res) => {
          conditions.push({
             'lineupLocationCoords.name': { $regex: location, $options: 'i' },
          });
-         const escapedLocation = location.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const escapedLocation = location.replace(
+            /[-[\]{}()*+?.,\\^$|#\s]/g,
+            '\\$&',
+         );
          const locationRegex = new RegExp(escapedLocation, 'i');
-         conditions.push({ 'lineupLocationCoords.name': { $regex: locationRegex } });
+         conditions.push({
+            'lineupLocationCoords.name': { $regex: locationRegex },
+         });
       }
 
       // Postname filtering with fuzzy matching
       if (postname && postname !== 'all') {
-         const escapedPostname = postname.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const escapedPostname = postname.replace(
+            /[-[\]{}()*+?.,\\^$|#\s]/g,
+            '\\$&',
+         );
          const postnameRegex = new RegExp(escapedPostname, 'i');
          conditions.push({ postTitle: { $regex: postnameRegex } });
       }
