@@ -111,7 +111,7 @@ const EditPost: React.FC = () => {
    const resetEditableFields = (currentPost: PostType): Partial<PostType> => ({
       postTitle: '',
       lineupDescription: '',
-      jumpThrow: 'false',
+      jumpThrow: false,
       teamSide: currentPost.game === 'Valorant' ? 'Attacker' : 'CT',
    });
 
@@ -206,12 +206,12 @@ const EditPost: React.FC = () => {
                            </label>
                            <select
                               id="jumpThrow"
-                              value={post.jumpThrow}
+                              value={post.jumpThrow.toString()}
                               onChange={(e) =>
                                  setPost({
                                     ...post,
-                                    jumpThrow: e.target.value,
-                                 } as PostType)
+                                    jumpThrow: e.target.value === 'true',
+                                 })
                               }
                               className="w-full bg-gray-800 text-white rounded p-2"
                            >
