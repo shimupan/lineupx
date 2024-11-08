@@ -106,7 +106,7 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
                      {renderCheckboxes("Side", "teamSide", ["T", "CT"])}
                      {renderCheckboxes("Map", "mapName", ["mirage", "inferno", "nuke", "overpass", "vertigo", "ancient", "anubis", "dust2"])}
                      {renderCheckboxes("Grenade", "grenadeType", ["he", "smoke", "flashbangs", "decoy", "molotov", "incendiary"])}
-                     {renderCheckboxes("Jump Throw?", "jumpThrow", ["YES", "NO"])}
+                     {renderCheckboxes("Jumpthrow?", "jumpThrow", ["YES", "NO"])}
                   </>
                )}
             </div>

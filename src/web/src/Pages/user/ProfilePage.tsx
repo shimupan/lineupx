@@ -227,6 +227,7 @@ const ProfilePage = () => {
 
    const handleFiltersSubmit = (filters: any) => {
       // Go through all posts, then check each filter for each post
+      // As we parse, we only add posts that match the filters to a subset
       if(selectedGame === "CS2") {
          var csFilteredSubset = [];
          for(let post_index = 0; post_index < CSGlobalPosts.length; post_index++)
@@ -449,22 +450,17 @@ const ProfilePage = () => {
                                  {game}
                               </button>
                            ))}
-                        </div>
-                        <div className="flex space-x-4 justify-center">
                            <button
                               onClick={() => {
                                  setShowFiltersPopup(true);
                               }}
-                              className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 
-                              hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 
-                              hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4 origin-left 
-                              hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border text-left p-3 text-gray-50 text-base font-bold rounded-lg overflow-hidden 
-                              before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg 
-                              after:absolute after:z-10 after:w-20 after:h-20 after:content[''] after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg"
+                              className="flex text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
                            >
+                           <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                           <path d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z"/>
+                           </svg>
                               Filters
                            </button>
-                           
                         </div>
                         {GAMES.map((game, index) => {
                            if (game === selectedGame) {
