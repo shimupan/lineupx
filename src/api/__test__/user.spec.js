@@ -35,7 +35,7 @@ describe('Route: /user/:id -- Simulate an User Visiting Their Own Profile', () =
    });
 });
 
-describe('Route: /user/:id -- Simulate an User Visiting Their Other Profile', () => {
+describe('Route: /user/:id -- Simulate an User Visiting Other Profile', () => {
    let res;
 
    beforeAll(async () => {
@@ -51,13 +51,13 @@ describe('Route: /user/:id -- Simulate an User Visiting Their Other Profile', ()
 
    it('Should return followers', () => {
       expect(res.body.followers).toBeDefined();
+      expect(res.body).toHaveProperty('saved');
    });
 
    it('Should not have passwords, following, email', () => {
       expect(res.body).not.toHaveProperty('password');
       expect(res.body).not.toHaveProperty('following');
       expect(res.body).not.toHaveProperty('email');
-      //expect(res.body).not.toHaveProperty('saved'); -- not passing
    });
 });
 
