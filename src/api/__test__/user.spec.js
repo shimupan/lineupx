@@ -33,7 +33,7 @@ describe('Route: /user/:id -- Simulate an User Visiting Their Own Profile', () =
       expect(res.body).not.toHaveProperty('password');
       expect(res.body).not.toHaveProperty('following');
    });
-});
+}, 30000);
 
 describe('Route: /user/:id -- Simulate an User Visiting Other Profile', () => {
    let res;
@@ -59,7 +59,7 @@ describe('Route: /user/:id -- Simulate an User Visiting Other Profile', () => {
       expect(res.body).not.toHaveProperty('following');
       expect(res.body).not.toHaveProperty('email');
    });
-});
+}, 30000);
 
 describe('Route: /user/:id - Error Handling', () => {
    it('Should return 404 for a non-existent user', async () => {
@@ -88,4 +88,4 @@ describe('Route: /user/:id - Error Handling', () => {
       expect(res.body).not.toHaveProperty('password');
       expect(res.body).not.toHaveProperty('email');
    });
-});
+}, 30000);

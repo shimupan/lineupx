@@ -69,4 +69,3 @@ jobs:
       
     - name: Run Tests
       run: npm run test
-      working-directory: ./src/api
