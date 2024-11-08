@@ -8,7 +8,7 @@ import {
    PostPageSkeleton,
    MobileComments,
    ZoomableImage,
-   CollapsibleDescription
+   CollapsibleDescription,
 } from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
