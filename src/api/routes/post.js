@@ -128,7 +128,9 @@ router.get('/post/:game', async (req, res) => {
 
       // Location filtering
       if (location && location !== 'all') {
-         conditions.push({ 'lineupLocationCoords.name': { $regex: location, $options: 'i' } });
+         conditions.push({
+            'lineupLocationCoords.name': { $regex: location, $options: 'i' },
+         });
       }
 
       // Postname filtering
@@ -198,13 +200,23 @@ function getDateRangeFilter(range) {
          endDate = new Date(now.setHours(23, 59, 59, 999));
          break;
       case 'this_week':
-         const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+         const firstDayOfWeek = new Date(
+            now.setDate(now.getDate() - now.getDay()),
+         );
          startDate = new Date(firstDayOfWeek.setHours(0, 0, 0, 0));
          endDate = new Date();
          break;
       case 'this_month':
          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-         endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+         endDate = new Date(
+            now.getFullYear(),
+            now.getMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999,
+         );
          break;
       case 'this_year':
          startDate = new Date(now.getFullYear(), 0, 1);
