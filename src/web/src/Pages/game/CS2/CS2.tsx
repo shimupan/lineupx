@@ -23,7 +23,6 @@ const CS2: React.FC = () => {
    const [newPostsReady, setNewPostsReady] = useState(false);
    const [suggestions, setSuggestions] = useState<string[]>([]);
    const pageRef = useRef(page);
-   const [searchTerm, setSearchTerm] = useState('');
    const { userCache, fetchUsers } = useUserCache();
 
    useEffect(() => {

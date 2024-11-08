@@ -93,6 +93,7 @@ router.get('/posts', async (req, res) => {
    }
 });
 
+// Find all posts for a specific game with enhanced filtering and text scores
 router.get('/post/:game', async (req, res) => {
    const { game } = req.params;
    const page = Number(req.query.page) || 1;
@@ -100,10 +101,11 @@ router.get('/post/:game', async (req, res) => {
    const recent = req.query.recent;
    const map = req.query.map;
    const search = req.query.search;
-   const filter = req.query.filter; // e.g., date range or sort option
-
-   const PostData =
-      gameModels[game] || mongoose.model('PostData', PostDataSchema, game);
+   const filter = req.query.filter;
+   const grenade = req.query.grenade;
+   const location = req.query.location;
+   const postname = req.query.postname;
+   const PostData = gameModels[game];
 
    let query = {};
    let sortOption = { views: -1, date: -1 };
@@ -116,7 +118,22 @@ router.get('/post/:game', async (req, res) => {
       // Map filtering
       if (map && map !== 'all') {
          const parsedMap = map.replace(/\s/g, '').toLowerCase();
-         conditions.push({ mapName: parsedMap });
+         conditions.push({ mapName: { $regex: parsedMap, $options: 'i' } });
+      }
+
+      // Grenade filtering
+      if (grenade && grenade !== 'all') {
+         conditions.push({ grenadeType: { $regex: grenade, $options: 'i' } });
+      }
+
+      // Location filtering
+      if (location && location !== 'all') {
+         conditions.push({ 'lineupLocationCoords.name': { $regex: location, $options: 'i' } });
+      }
+
+      // Postname filtering
+      if (postname && postname !== 'all') {
+         conditions.push({ postTitle: { $regex: postname, $options: 'i' } });
       }
 
       // Date range filtering
@@ -131,20 +148,11 @@ router.get('/post/:game', async (req, res) => {
          }
       }
 
-      // Determine if a specific field is being searched
-      const specificField =
-         req.query.field && req.query.field !== 'all' ? req.query.field : null;
-
-      // Search filtering using $text or regex
+      // Search filtering using $text
       if (search && search !== 'all') {
-         if (specificField) {
-            const regex = new RegExp(search, 'i');
-            conditions.push({ [specificField]: regex });
-         } else {
-            conditions.push({ $text: { $search: search } });
-            projection = { score: { $meta: 'textScore' } };
-            sortOption = { score: { $meta: 'textScore' } };
-         }
+         conditions.push({ $text: { $search: search } });
+         projection = { score: { $meta: 'textScore' } };
+         sortOption = { score: { $meta: 'textScore' } };
       }
 
       // Recent sorting if no text search
@@ -165,9 +173,6 @@ router.get('/post/:game', async (req, res) => {
          query = { approved: true };
       }
 
-      // Count total documents matching the query
-      const totalDocuments = await PostData.countDocuments(query);
-
       // Fetch the data with filters, projection, sorting, and pagination
       const data = await PostData.find(query, projection)
          .sort(sortOption)
@@ -182,6 +187,7 @@ router.get('/post/:game', async (req, res) => {
    }
 });
 
+// Helper function for date range filtering
 function getDateRangeFilter(range) {
    const now = new Date();
    let startDate, endDate;
@@ -192,23 +198,13 @@ function getDateRangeFilter(range) {
          endDate = new Date(now.setHours(23, 59, 59, 999));
          break;
       case 'this_week':
-         const firstDayOfWeek = new Date(
-            now.setDate(now.getDate() - now.getDay()),
-         );
+         const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
          startDate = new Date(firstDayOfWeek.setHours(0, 0, 0, 0));
          endDate = new Date();
          break;
       case 'this_month':
          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-         endDate = new Date(
-            now.getFullYear(),
-            now.getMonth() + 1,
-            0,
-            23,
-            59,
-            59,
-            999,
-         );
+         endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
          break;
       case 'this_year':
          startDate = new Date(now.getFullYear(), 0, 1);
@@ -219,6 +215,8 @@ function getDateRangeFilter(range) {
    }
    return { $gte: startDate, $lte: endDate };
 }
+
+// Helper function for sorting options
 function getSortOption(sortBy) {
    const sortOptions = {
       view_count: { views: -1 },
