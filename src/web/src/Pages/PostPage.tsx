@@ -617,13 +617,16 @@ const PostPage = () => {
                         )}
                      </div>
                      <ReactMarkdown
-  className="whitespace-pre-wrap"
-  components={{
-    p: ({children}) => <p className="whitespace-pre-line">{children}</p>
-  }}
->
-  {postData?.lineupDescription || currPostData?.lineupDescription}
-</ReactMarkdown>
+                        className="whitespace-pre-wrap"
+                        components={{
+                           p: ({ children }) => (
+                              <p className="whitespace-pre-line">{children}</p>
+                           ),
+                        }}
+                     >
+                        {postData?.lineupDescription ||
+                           currPostData?.lineupDescription}
+                     </ReactMarkdown>
                   </div>
                   <div className="bg-black md:ml-[10px]">
                      <div className="flex items-start space-x-3">
