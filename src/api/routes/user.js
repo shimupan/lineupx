@@ -476,53 +476,52 @@ router.post('/users/multiple', async (req, res) => {
 router.post('/user/:userId/viewed-post', async (req, res) => {
    const { userId } = req.params;
    const { postId } = req.body;
+   let maxViewedPostSpace = 20;
 
    try {
+      //Does the user exist
       const user = await User.findById(userId);
       if (!user) {
          return res.status(404).json({ message: 'User not found' });
       }
 
-      //Check if user has viewed tab
+      //Check if user has a mongodb viewed array initialized
+      //If not add it
       if (!user.viewed) {
-         console.log("No viewed, added it!");
          user.viewed = [];
       }
 
-      //Capping the storage of viewed posts
-      if(user.viewed.length > 5){
-         console.log("Removed oldest VIEWED POST!");
-         while(user.viewed.length > 5){
-            user.viewed.shift();
-         }
-      }
-
-      //If the last viewed post is the same, no need to ADD it!
+      //If the last viewed post is the same, no need to ADD it again.
       const lastViewedPost = user.viewed[user.viewed.length - 1]?.toString();
       if (lastViewedPost === postId.toString()) {
-         console.log("Last viewed post = same");
-         console.log(user.viewed);
          return res.status(200).json({ message: 'Post already viewed right before!' });
       }
 
       // Find index of the postId in the viewed array
       const postIndex = user.viewed.indexOf(postId);
 
-      // If the postId exists in the array, remove it and add to front
+      // If the postId exists in the array, remove it and add it to front
+      //THis case occurs when the user re views a post within the the last x amount of posts. 
       if (postIndex !== -1) {
          user.viewed.splice(postIndex, 1);
          user.viewed.unshift(postId);
-         console.log("ADDED VIEWED POST already in list!");
-         console.log(user.viewed);
-         return res.status(200).json({ message: 'Viewed Post added successfully' });
-      }else {
-         console.log("ADDED VIEWED POST!");
-         user.viewed.push(postId);
-         console.log(user.viewed);
-         await user.save();
          return res.status(200).json({ message: 'Viewed Post added successfully' });
       }
-      
+
+
+      //Adding the valid post
+      user.viewed.push(postId);
+
+      //Capping the storage of viewed posts (Currently set to 20 posts but can be changed)
+      if(user.viewed.length > maxViewedPostSpace){
+         while(user.viewed.length > maxViewedPostSpace){
+            user.viewed.shift();
+         }
+      }
+
+      //Save the user and return
+      await user.save();
+      return res.status(200).json({ message: 'Viewed Post added successfully' });
       
    } catch (error) {
       console.error('Failed to save or add viewed post:', error);
