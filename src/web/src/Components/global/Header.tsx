@@ -189,7 +189,6 @@ const Header: React.FC = () => {
                         {`${gameName}#${tagLine}`}
                      </div>
                   ) : (
-                     // todo: change to display uhh#242
                      <div
                         className="flex items-center space-x-2"
                         id="nav-content"
