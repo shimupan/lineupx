@@ -471,7 +471,6 @@ router.post('/users/multiple', async (req, res) => {
    }
 });
 
-
 // Add a recently viewed post to a user!
 router.post('/user/:userId/viewed-post', async (req, res) => {
    const { userId } = req.params;
@@ -494,35 +493,39 @@ router.post('/user/:userId/viewed-post', async (req, res) => {
       //If the last viewed post is the same, no need to ADD it again.
       const lastViewedPost = user.viewed[user.viewed.length - 1]?.toString();
       if (lastViewedPost === postId.toString()) {
-         return res.status(200).json({ message: 'Post already viewed right before!' });
+         return res
+            .status(200)
+            .json({ message: 'Post already viewed right before!' });
       }
 
       // Find index of the postId in the viewed array
       const postIndex = user.viewed.indexOf(postId);
 
       // If the postId exists in the array, remove it and add it to front
-      //THis case occurs when the user re views a post within the the last x amount of posts. 
+      //THis case occurs when the user re views a post within the the last x amount of posts.
       if (postIndex !== -1) {
          user.viewed.splice(postIndex, 1);
          user.viewed.unshift(postId);
-         return res.status(200).json({ message: 'Viewed Post added successfully' });
+         return res
+            .status(200)
+            .json({ message: 'Viewed Post added successfully' });
       }
-
 
       //Adding the valid post
       user.viewed.push(postId);
 
       //Capping the storage of viewed posts (Currently set to 20 posts but can be changed)
-      if(user.viewed.length > maxViewedPostSpace){
-         while(user.viewed.length > maxViewedPostSpace){
+      if (user.viewed.length > maxViewedPostSpace) {
+         while (user.viewed.length > maxViewedPostSpace) {
             user.viewed.shift();
          }
       }
 
       //Save the user and return
       await user.save();
-      return res.status(200).json({ message: 'Viewed Post added successfully' });
-      
+      return res
+         .status(200)
+         .json({ message: 'Viewed Post added successfully' });
    } catch (error) {
       console.error('Failed to save or add viewed post:', error);
       res.status(500).json({ message: 'Server error' });

@@ -87,7 +87,7 @@ const PostPage = () => {
    */
 
    const viewedPostAdded = useRef<boolean>(false);
-   
+
    const handleArrowClick = (direction: 'prev' | 'next') => {
       let newIndex = currentImageIndex;
 
@@ -184,7 +184,7 @@ const PostPage = () => {
    const addViewedPost = async () => {
       try {
          //Guest User data not saved
-         if(!user_Id){
+         if (!user_Id) {
             return;
          }
          await axios.post(`/user/${user_Id}/viewed-post`, {
@@ -299,7 +299,7 @@ const PostPage = () => {
             console.error('Failed to increment view count:', error);
          });
    };
-   
+
    useEffect(() => {
       //Ensure post data is fetched and addViewedPost() only called once!
       if ((postData?._id || currPostData?._id) && !viewedPostAdded.current) {
