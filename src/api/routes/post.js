@@ -93,18 +93,18 @@ router.get('/posts', async (req, res) => {
    }
 });
 
-// Find all posts for a specific game with enhanced filtering and text scores
 router.get('/post/:game', async (req, res) => {
    const { game } = req.params;
    const page = Number(req.query.page) || 1;
    const pageSize = Number(req.query.limit) || 20;
-   const recent = req.query.recent;
-   const map = req.query.map;
-   const search = req.query.search;
-   const filter = req.query.filter;
-   const grenade = req.query.grenade;
-   const location = req.query.location;
-   const postname = req.query.postname;
+   const recent = req.query.recent || false;
+   const map = req.query.map || 'all';
+   const search = req.query.search || null;
+   const filter = req.query.filter || null;
+   const grenade = req.query.grenade || 'all';
+   const location = req.query.location || 'all';
+   const postname = req.query.postname || 'all';
+
    const PostData = gameModels[game];
 
    let query = {};
@@ -115,27 +115,65 @@ router.get('/post/:game', async (req, res) => {
    let conditions = [{ approved: true }];
 
    try {
-      // Map filtering
+      // Search filtering with fuzzy matching across multiple fields
+      if (search && search !== 'all') {
+         const escapedSearch = search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const fuzzySearchPattern = escapedSearch
+            .split('')
+            .map((char) => `${char}`)
+            .join('.*');
+         const regex = new RegExp(fuzzySearchPattern, 'i');
+
+         conditions.push({
+            $or: [
+               { postTitle: { $regex: regex } },
+               { mapName: { $regex: regex } },
+               { lineupDescription: { $regex: regex } },
+               { 'lineupLocationCoords.name': { $regex: regex } },
+               { grenadeType: { $regex: regex } },
+            ],
+         });
+      }
+
+      // Map filtering with fuzzy matching
       if (map && map !== 'all') {
-         const parsedMap = map.replace(/\s/g, '').toLowerCase();
-         conditions.push({ mapName: { $regex: parsedMap, $options: 'i' } });
+         const escapedMap = map.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const fuzzyMapPattern = escapedMap
+            .split('')
+            .map((char) => `${char}`)
+            .join('.*');
+         const regex = new RegExp(fuzzyMapPattern, 'i');
+
+         conditions.push({
+            $or: [
+               { mapName: { $regex: regex } },
+               { postTitle: { $regex: regex } },
+            ],
+         });
       }
 
-      // Grenade filtering
+      // Grenade filtering with fuzzy matching
       if (grenade && grenade !== 'all') {
-         conditions.push({ grenadeType: { $regex: grenade, $options: 'i' } });
+         const escapedGrenade = grenade.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const grenadeRegex = new RegExp(escapedGrenade, 'i');
+         conditions.push({ grenadeType: { $regex: grenadeRegex } });
       }
 
-      // Location filtering
+      // Location filtering with fuzzy matching
       if (location && location !== 'all') {
          conditions.push({
             'lineupLocationCoords.name': { $regex: location, $options: 'i' },
          });
+         const escapedLocation = location.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const locationRegex = new RegExp(escapedLocation, 'i');
+         conditions.push({ 'lineupLocationCoords.name': { $regex: locationRegex } });
       }
 
-      // Postname filtering
+      // Postname filtering with fuzzy matching
       if (postname && postname !== 'all') {
-         conditions.push({ postTitle: { $regex: postname, $options: 'i' } });
+         const escapedPostname = postname.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+         const postnameRegex = new RegExp(escapedPostname, 'i');
+         conditions.push({ postTitle: { $regex: postnameRegex } });
       }
 
       // Date range filtering
@@ -148,13 +186,6 @@ router.get('/post/:game', async (req, res) => {
          if (dateFilter) {
             conditions.push({ date: dateFilter });
          }
-      }
-
-      // Search filtering using $text
-      if (search && search !== 'all') {
-         conditions.push({ $text: { $search: search } });
-         projection = { score: { $meta: 'textScore' } };
-         sortOption = { score: { $meta: 'textScore' } };
       }
 
       // Recent sorting if no text search
