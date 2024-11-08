@@ -305,8 +305,8 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
             Agent*
          </label>
          <AgentSelector
-            agents={state.agents?.data}
-            onSelectAgent={(selectedAgent) => {
+            agents={state.agents?.data || []}
+            onAgentSelect={(selectedAgent) => {
                dispatch({
                   type: 'setValorantAgent',
                   payload: selectedAgent.displayName,
@@ -318,6 +318,9 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
                   ),
                });
             }}
+            isOpen={true}
+            onClose={() => {}}
+            currentMapName={state.mapName}
          />
 
          <label
