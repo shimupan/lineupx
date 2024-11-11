@@ -1,5 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Layout, GrenadeSelection, CS2Radar, CS2MapGrid} from '../../../Components';
+import {
+   Layout,
+   GrenadeSelection,
+   CS2Radar,
+   CS2MapGrid,
+} from '../../../Components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
