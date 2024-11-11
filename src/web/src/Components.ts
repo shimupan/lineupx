@@ -91,3 +91,4 @@ export { default as ValorantRadar } from './Components/game/valorant/ValorantRad
 export { default as AbilitySelector } from './Components/game/valorant/AbilitySelector';
 export { default as ValorantMapGrid } from './Components/game/valorant/ValorantMapGrid';
 export { default as CS2MapGrid } from './Components/game/cs2/CS2MapGrid';
+export { default as AgentSelect } from './Components/upload/AgentSelect';

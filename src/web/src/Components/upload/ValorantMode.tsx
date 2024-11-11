@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { StateVariables, StateActions } from '../../Pages/upload/upload.types';
-import { AgentSelector } from '../../Components';
+import { AgentSelect } from '../../Components';
 
 import splitCoordinates from '../../assets/valorantjsons/split.json';
 import bindCoordinates from '../../assets/valorantjsons/bind.json';
@@ -304,7 +304,7 @@ const ValorantMode: React.FC<ValorantModeProps> = ({ state, dispatch }) => {
          >
             Agent*
          </label>
-         <AgentSelector
+         <AgentSelect
             agents={state.agents?.data}
             onSelectAgent={(selectedAgent) => {
                dispatch({
