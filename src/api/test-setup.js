@@ -9,7 +9,7 @@ export const getDbStatus = () => mongoose.connection.readyState === 1 ? 'Connect
 const dbUri = process.env.MONGO_URI;
 
 if (!dbUri) {
-    throw new Error('MongoDB URI is not defined in environment variables');
+    throw new Error('MongoURI is not defined in environment variables');
 }
 
 beforeAll(async () => {
