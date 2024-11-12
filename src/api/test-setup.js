@@ -6,10 +6,7 @@ dotenv.config();
 
 export const getDbStatus = () => mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected';
 
-const dbUri =
-   process.env.NODE_ENV === 'test'
-      ? process.env.MONGO_URI
-      : process.env.MONGODB_URI;
+const dbUri = process.env.MONGO_URI;
 
 if (!dbUri) {
     throw new Error('MongoDB URI is not defined in environment variables');
