@@ -35,8 +35,36 @@ router.post('/users', async (req, res) => {
 // getting a specific user by username
 router.get('/user/:id', async (req, res) => {
    const username = req.params.id;
+   const currentUserName = req.query.CurrentUser;
+   const Params = req.query.Params.split(',');
+
+   //Default params, user specific params, unaccessible params
+   let currentParams = 'username ProfilePicture';
+   const userOnlyParams = ['email', 'verificationCode'];
+   const bannedParams = ['password'];
+
+   //If the current user is not signed in or not the same user requesting data. Update boolean and return limited data.
+   let sameUser = true;
+   if (currentUserName == '' || currentUserName != username) {
+      sameUser = false;
+   }
+
+   //Add specified params if permitted
+   if (Params.length > 0) {
+      for (let i = 0; i < Params.length; i++) {
+         if (bannedParams.includes(Params[i])) {
+            continue;
+         }
+         if (!sameUser && userOnlyParams.includes(Params[i])) {
+            continue;
+         }
+         currentParams += ' ' + Params[i];
+      }
+   }
+
+   //Find and return user param data in database
    const user = await User.findOne({ username: username }).select(
-      '-email -password',
+      currentParams,
    );
    if (!user) {
       res.status(404).send('User not found');
@@ -46,6 +74,7 @@ router.get('/user/:id', async (req, res) => {
 });
 
 // getting a specific user by id
+// Only the user themselves can call this function, returning entire user is fine for now
 router.get('/user/id/:id', async (req, res) => {
    const id = req.params.id;
    const user = await User.findOne({ _id: id });
@@ -57,6 +86,7 @@ router.get('/user/id/:id', async (req, res) => {
 });
 
 // getting a specific user by
+// Only the user themselves can call this function, returning entire user is fine for now
 router.get('/users/ids', async (req, res) => {
    const ids = req.query.ids.split(',');
    try {

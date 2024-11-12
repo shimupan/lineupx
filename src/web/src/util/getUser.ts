@@ -27,9 +27,19 @@ export async function getUsersByIDs(ids: string[]) {
    }
 }
 
-export async function getUserByUsername(username: string) {
+export async function getUserByUsername(
+   username: string,
+   currUser: string,
+   params: string[] = [],
+) {
    try {
-      const response = await axios.get(`user/${username}`);
+      //currUser = "" is treated as a guest or invalid user signin, this case will not be able to access profile data specific to username
+      if (!currUser) {
+         currUser = '';
+      }
+      const response = await axios.get(
+         `user/${username}?CurrentUser=${currUser}&Params=${params}`,
+      );
       return response.data;
    } catch (error) {
       throw error;
