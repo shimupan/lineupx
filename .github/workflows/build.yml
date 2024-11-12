@@ -34,11 +34,9 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
-
+    
     - name: Run Setup Script
-      run: |
-        chmod +x scripts/setup.sh
-        ./scripts/setup.sh
+      run: sh ./scripts/setup.sh
 
     - name: Build API Image
       run: docker build -t api ./src/api
@@ -57,31 +55,18 @@ jobs:
 
     - name: Check Docker Compose Logs
       run: docker compose logs
-
-    - name: Save Docker Compose Output
-      id: services
-      run: echo "containers_started=true" >> $GITHUB_ENV
-
-  api_test:
-    runs-on: ubuntu-latest
-    needs: build_app 
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-
-    - name: Install dependencies
-      run: npm install
-      working-directory: src/api
-
-    - name: Wait for DB
-      if: env.containers_started == 'true'
+    
+    - name: Set API directory permissions
       run: |
-        while ! docker compose logs lineupx_api | grep -q "database connected"; do
-          sleep 5
-        done
+        sudo chown -R $USER:$USER ./src/api
+        sudo chmod -R 755 ./src/api
+    
+    - name: Install Vitest
+      run: npm install -D vitest
+      working-directory: ./src/api
+      
+    - name: Run Tests
+      env:
+        MONGO_URI: mongodb://admin:admin@lineupx_db:27017/LineupX
+      run: npm run test:health
+      working-directory: ./src/api

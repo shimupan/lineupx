@@ -7,7 +7,7 @@ const cloudinary = () => {
          api_key: process.env.CLOUDINARY_API_KEY,
          api_secret: process.env.CLOUDINARY_SECRET,
       });
-      console.log('Cloudinary config loaded');
+      //console.log('Cloudinary config loaded');
       return Cloudinary;
    } catch (error) {
       console.error('Failed to load Cloudinary config:', error);
