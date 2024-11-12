@@ -490,7 +490,7 @@ router.post('/user/:userId/viewed-post', async (req, res) => {
       }
 
       //If a post exists in viewed
-      if(user.viewed.length - 1 >= 0){
+      if (user.viewed.length - 1 >= 0) {
          //If the last viewed post is the same, no need to ADD it again.
          const lastViewedPost = user.viewed[user.viewed.length - 1]?.toString();
          if (lastViewedPost === postId.toString()) {
