@@ -474,7 +474,7 @@ router.post('/users/multiple', async (req, res) => {
 router.post('/user/:userId/viewed-post', async (req, res) => {
    const { userId } = req.params;
    const { postId } = req.body;
-   let maxViewedPostSpace = 20;
+   let maxViewedPostSpace = 100;
 
    try {
       //Does the user exist
@@ -489,12 +489,15 @@ router.post('/user/:userId/viewed-post', async (req, res) => {
          user.viewed = [];
       }
 
-      //If the last viewed post is the same, no need to ADD it again.
-      const lastViewedPost = user.viewed[user.viewed.length - 1]?.toString();
-      if (lastViewedPost === postId.toString()) {
-         return res
-            .status(200)
-            .json({ message: 'Post already viewed right before!' });
+      //If a post exists in viewed
+      if(user.viewed.length - 1 >= 0){
+         //If the last viewed post is the same, no need to ADD it again.
+         const lastViewedPost = user.viewed[user.viewed.length - 1]?.toString();
+         if (lastViewedPost === postId.toString()) {
+            return res
+               .status(200)
+               .json({ message: 'Post already viewed right before!' });
+         }
       }
 
       // Find index of the postId in the viewed array
