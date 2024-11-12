@@ -363,6 +363,13 @@ router.get('/rso/signin', function (req, res) {
 });
 
 router.get('/rso/oauth', async (req, res) => {
+
+   // Works fine if we go to 1337/rso/signin, then copy the entire code query including %3D%3D
+   // and then paste the code into 5173/game/Valorant?code=...
+   // since we're running in Strict mode we end up rendering everything twice, so we fetch to this twice
+   // but the access code returned in the url by rso/signin is only one time use and will fail after successfully fetching if u fetch it again
+   // Regardless the rso access and refresh tokens end up in cookies and username and tagline shown properly upon reload of the same 5173 page w the same access code in url
+
    const appCallbackUrl = 'https://www.lineupx.net/game/Valorant';
 
    const accessCode = req.query.code;
@@ -389,7 +396,14 @@ router.get('/rso/oauth', async (req, res) => {
       if (!response.ok) {
          res.status(400).send('/token request failed!');
       } else {
+         // Set Access Control Allow Origin response header
+         let resHeader = new Headers();
+         resHeader.append('Access-Control-Allow-Origin', 'https://www.lineupx.net');
+         console.log("This is raw response:", response);
+
          const responseJson = await response.json();
+         console.log("This is response from oauth endpoint: ", responseJson);
+
          res.send(responseJson);
       }
    } catch (error) {
