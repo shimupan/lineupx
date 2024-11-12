@@ -4,7 +4,15 @@ import PostDataSchema from '../model/postData.js';
 import gameModels from '../model/postGameIndexing.js';
 import cloudinary from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
+import Fuse from 'fuse.js';
 
+const fuseOptions = {
+   keys: ['postTitle', 'mapName', 'lineupDescription', 'lineupLocationCoords.name', 'grenadeType', 'valorantAgent'],
+   threshold: 0.3,
+   includeScore: true,
+   includeMatches: true,    
+   findAllMatches: true,     
+};
 // Function to delete Cloudinary images
 async function deleteCloudinaryImage(public_id) {
    try {
@@ -93,10 +101,9 @@ router.get('/posts', async (req, res) => {
    }
 });
 
+
 router.get('/post/:game', async (req, res) => {
    const { game } = req.params;
-   const page = Number(req.query.page) || 1;
-   const pageSize = Number(req.query.limit) || 20;
    const recent = req.query.recent || false;
    const map = req.query.map || 'all';
    const search = req.query.search || null;
@@ -104,18 +111,49 @@ router.get('/post/:game', async (req, res) => {
    const grenade = req.query.grenade || 'all';
    const location = req.query.location || 'all';
    const postname = req.query.postname || 'all';
+   const agent = req.query.agent || 'all'; // for Valorant-specific agent filtering
 
    const PostData = gameModels[game];
-
-   let query = {};
+   let query = { approved: true };
    let sortOption = { views: -1, date: -1 };
-   let projection = {};
 
-   // Array to hold all conditions
-   let conditions = [{ approved: true }];
+   // Apply filters to the query
+   if (map && map !== 'all') {
+      query.mapName = { $regex: new RegExp(map.split('').join('.*'), 'i') };
+   }
+   if (grenade && grenade !== 'all') {
+      query.grenadeType = { $regex: new RegExp(grenade.split('').join('.*'), 'i') };
+   }
+   if (location && location !== 'all') {
+      query['lineupLocationCoords.name'] = { $regex: new RegExp(location.split('').join('.*'), 'i') };
+   }
+if (postname && postname !== 'all') {
+   query.postTitle = { $regex: new RegExp(postname, 'i') };
+}
+
+   // Add agent filter specifically for Valorant
+   if (game === 'Valorant' && agent && agent !== 'all') {
+      query.valorantAgent = { $regex: new RegExp(agent.split('').join('.*'), 'i') };
+   }
+
+   // Filter by date range if needed
+   if (filter && filter !== 'all') {
+      const dateFilter = getDateRangeFilter(filter);
+      if (dateFilter) {
+         query.date = dateFilter;
+      }
+   }
+
+   // Set sorting by recent if requested
+   if (recent && recent !== 'all' && recent === 'true') {
+      sortOption = { date: -1 };
+   }
 
    try {
-      // Search filtering with fuzzy matching across multiple fields
+      // Perform a MongoDB query with all specified filters
+      let data = await PostData.find(query).sort(sortOption).lean();
+
+      // Apply Fuse.js fuzzy search if there's a search query
       if (search && search !== 'all') {
          const escapedSearch = search.replace(
             /[-[\]{}()*+?.,\\^$|#\s]/g,
@@ -220,14 +258,10 @@ router.get('/post/:game', async (req, res) => {
          query = { approved: true };
       }
 
-      // Fetch the data with filters, projection, sorting, and pagination
-      const data = await PostData.find(query, projection)
-         .sort(sortOption)
-         .skip((page - 1) * pageSize)
-         .limit(pageSize)
-         .exec();
-
       res.status(200).send(data);
+         const fuse = new Fuse(data, fuseOptions);
+         data = fuse.search(search).map(result => result.item);
+      res.status(200).json(data);
    } catch (err) {
       console.error('Error in /post/:game route:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -245,23 +279,13 @@ function getDateRangeFilter(range) {
          endDate = new Date(now.setHours(23, 59, 59, 999));
          break;
       case 'this_week':
-         const firstDayOfWeek = new Date(
-            now.setDate(now.getDate() - now.getDay()),
-         );
+         const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
          startDate = new Date(firstDayOfWeek.setHours(0, 0, 0, 0));
          endDate = new Date();
          break;
       case 'this_month':
          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-         endDate = new Date(
-            now.getFullYear(),
-            now.getMonth() + 1,
-            0,
-            23,
-            59,
-            59,
-            999,
-         );
+         endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
          break;
       case 'this_year':
          startDate = new Date(now.getFullYear(), 0, 1);
