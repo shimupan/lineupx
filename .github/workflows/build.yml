@@ -37,6 +37,24 @@ jobs:
     
     - name: Run Setup Script
       run: sh ./scripts/setup.sh
+
+    - name: Build API Image
+      run: docker build -t api ./src/api
+
+    - name: Build Web Image
+      run: docker build -t web ./src/web
+
+    - name: Run Docker Compose Up
+      run: docker compose up --detach --wait --wait-timeout 30
+
+    - name: Wait for DB
+      run: |
+        while ! docker compose logs lineupx_api | grep -q "database connected"; do
+          sleep 5
+        done
+
+    - name: Check Docker Compose Logs
+      run: docker compose logs
     
     - name: Set API directory permissions
       run: |
