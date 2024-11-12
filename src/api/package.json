@@ -7,7 +7,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "node server.js",
-    "test": "vitest run --coverage",
+    "test:health": "NODE_ENV=test vitest run init.spec.js --coverage",
+    "test:full": "NODE_ENV=test vitest run --coverage",
     "bench": "vitest bench"
   },
   "author": "",

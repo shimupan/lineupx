@@ -45,5 +45,7 @@ jobs:
       working-directory: ./src/api
       
     - name: Run Tests
-      run: npm run test
+      env:
+        MONGODB_URI: mongodb://admin:admin@lineupx_db:27017/LineupX
+      run: npm run test:health
       working-directory: ./src/api
