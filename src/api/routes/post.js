@@ -7,11 +7,18 @@ import rateLimit from 'express-rate-limit';
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
-   keys: ['postTitle', 'mapName', 'lineupDescription', 'lineupLocationCoords.name', 'grenadeType', 'valorantAgent'],
+   keys: [
+      'postTitle',
+      'mapName',
+      'lineupDescription',
+      'lineupLocationCoords.name',
+      'grenadeType',
+      'valorantAgent',
+   ],
    threshold: 0.3,
    includeScore: true,
-   includeMatches: true,    
-   findAllMatches: true,     
+   includeMatches: true,
+   findAllMatches: true,
 };
 // Function to delete Cloudinary images
 async function deleteCloudinaryImage(public_id) {
@@ -101,7 +108,6 @@ router.get('/posts', async (req, res) => {
    }
 });
 
-
 router.get('/post/:game', async (req, res) => {
    const { game } = req.params;
    const recent = req.query.recent || false;
@@ -126,13 +132,19 @@ router.get('/post/:game', async (req, res) => {
       query.mapName = { $regex: new RegExp(map.split('').join('.*'), 'i') };
    }
    if (grenade && grenade !== 'all') {
-      query.grenadeType = { $regex: new RegExp(grenade.split('').join('.*'), 'i') };
+      query.grenadeType = {
+         $regex: new RegExp(grenade.split('').join('.*'), 'i'),
+      };
    }
    if (location && location !== 'all') {
-      query['lineupLocationCoords.name'] = { $regex: new RegExp(location.split('').join('.*'), 'i') };
+      query['lineupLocationCoords.name'] = {
+         $regex: new RegExp(location.split('').join('.*'), 'i'),
+      };
    }
    if (game === 'Valorant' && agent && agent !== 'all') {
-      query.valorantAgent = { $regex: new RegExp(agent.split('').join('.*'), 'i') };
+      query.valorantAgent = {
+         $regex: new RegExp(agent.split('').join('.*'), 'i'),
+      };
    }
    if (filter && filter !== 'all') {
       const dateFilter = getDateRangeFilter(filter);
@@ -150,7 +162,7 @@ router.get('/post/:game', async (req, res) => {
       // Apply Fuse.js for fuzzy matching if there's a search query
       if (search && search !== 'all') {
          const fuse = new Fuse(data, fuseOptions);
-         data = fuse.search(search).map(result => result.item);
+         data = fuse.search(search).map((result) => result.item);
       }
 
       res.status(200).send(data);
@@ -170,13 +182,23 @@ function getDateRangeFilter(range) {
          endDate = new Date(now.setHours(23, 59, 59, 999));
          break;
       case 'this_week':
-         const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+         const firstDayOfWeek = new Date(
+            now.setDate(now.getDate() - now.getDay()),
+         );
          startDate = new Date(firstDayOfWeek.setHours(0, 0, 0, 0));
          endDate = new Date();
          break;
       case 'this_month':
          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-         endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+         endDate = new Date(
+            now.getFullYear(),
+            now.getMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999,
+         );
          break;
       case 'this_year':
          startDate = new Date(now.getFullYear(), 0, 1);
