@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import grenade from '../../../assets/svg/grenade.svg';
 import molly from '../../../assets/svg/molly.svg';
+import stats from '../../../assets/svg/statistic.svg';
 
 const IconWrapper = ({ children }: { children: React.ReactNode }) => (
    <div className="w-6 h-6 flex items-center justify-center">{children}</div>
@@ -21,7 +22,9 @@ const Menu: React.FC = () => {
                onClick={() => handleClick('/game/CS2/Lineups')}
             >
                <IconWrapper>
-                  <img src={grenade} alt="Lineups" className="w-6 h-6 invert" />
+                  <img  src={grenade} 
+                        alt="Lineups" 
+                        className="w-6 h-6 invert" />
                </IconWrapper>
                <span className="px-4 py-2 text-black text-center">
                   CS2 Lineups
@@ -32,10 +35,25 @@ const Menu: React.FC = () => {
                onClick={() => handleClick('/game/Valorant/Agents')}
             >
                <IconWrapper>
-                  <img src={molly} alt="Lineups" className="w-6 h-6 invert" />
+                  <img  src={molly} 
+                        alt="Lineups" 
+                        className="w-6 h-6 invert" />
                </IconWrapper>
                <span className="px-4 py-2 text-black text-center">
                   Val Lineups
+               </span>
+            </li>
+            <li
+               className="px-4 py-2 flex items-center justify-center"
+               onClick={() => handleClick('/game/Valorant/Stats')}
+            >
+               <IconWrapper>
+                  <img  src={stats} 
+                        alt="stats" 
+                        className="w-6 h-6 invert" />
+               </IconWrapper>
+               <span className="px-4 py-2 text-black text-center">
+                  Val Stats
                </span>
             </li>
          </ul>

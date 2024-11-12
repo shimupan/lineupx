@@ -8,6 +8,7 @@ import { FaTrophy } from 'react-icons/fa';
 import cs2Logo from '../../../assets/svg/csgo.svg';
 import grenade from '../../../assets/svg/grenade.svg';
 import molly from '../../../assets/svg/molly.svg';
+import statistic from '../../../assets/svg/statistic.svg';
 import { SiValorant } from 'react-icons/si';
 import questionMark from '../../../assets/svg/questionmark.svg';
 
@@ -168,7 +169,7 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                      icon={
                         <IconWrapper>
                            <img
-                              src={molly}
+                              src={statistic}
                               alt="Stats"
                               className="w-6 h-6 filter brightness-0 invert"
                            />
