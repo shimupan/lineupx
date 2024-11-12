@@ -63,7 +63,9 @@ const ProfilePage = () => {
    const [followers, setFollowers] = useState<Set<string>>();
    const [posts, setPosts] = useState<PostType[][]>([[]]);
    // Will be modified when filters change
-   const [ValorantGlobalPosts, setValorantGlobalPosts] = useState<PostType[]>([]);
+   const [ValorantGlobalPosts, setValorantGlobalPosts] = useState<PostType[]>(
+      [],
+   );
    const [CSGlobalPosts, setCSGlobalPosts] = useState<PostType[]>([]);
    const [open, setOpen] = useState(false);
    const [selectedTab, setSelectedTab] = useState('Posts');
@@ -235,49 +237,64 @@ const ProfilePage = () => {
    const handleFiltersSubmit = (filters: any) => {
       // Go through all posts, then check each filter for each post
       // As we parse, we only add posts that match the filters to a subset
-      if(selectedGame === "CS2") {
+      if (selectedGame === 'CS2') {
          var csFilteredSubset = [];
-         for(let post_index = 0; post_index < CSGlobalPosts.length; post_index++)
-         {
-            if(filters.teamSide.includes(CSGlobalPosts[post_index].teamSide)) {
+         for (
+            let post_index = 0;
+            post_index < CSGlobalPosts.length;
+            post_index++
+         ) {
+            if (filters.teamSide.includes(CSGlobalPosts[post_index].teamSide)) {
                csFilteredSubset.push(CSGlobalPosts[post_index]);
-            }
-            else if(filters.mapName.includes(CSGlobalPosts[post_index].mapName)) {
+            } else if (
+               filters.mapName.includes(CSGlobalPosts[post_index].mapName)
+            ) {
                csFilteredSubset.push(CSGlobalPosts[post_index]);
-            }
-            else if(filters.grenadeType.includes(CSGlobalPosts[post_index].grenadeType)) {
+            } else if (
+               filters.grenadeType.includes(
+                  CSGlobalPosts[post_index].grenadeType,
+               )
+            ) {
                csFilteredSubset.push(CSGlobalPosts[post_index]);
-            }
-            else if((filters.jumpThrow.includes("YES") && CSGlobalPosts[post_index].jumpThrow) || (filters.jumpThrow.includes("NO") && !CSGlobalPosts[post_index].jumpThrow)) {
+            } else if (
+               (filters.jumpThrow.includes('YES') &&
+                  CSGlobalPosts[post_index].jumpThrow) ||
+               (filters.jumpThrow.includes('NO') &&
+                  !CSGlobalPosts[post_index].jumpThrow)
+            ) {
                csFilteredSubset.push(CSGlobalPosts[post_index]);
             }
             // Update state of posts with filtered subset
-            const updatedPosts = [
-               csFilteredSubset,
-               ValorantGlobalPosts
-            ]
+            const updatedPosts = [csFilteredSubset, ValorantGlobalPosts];
             setPosts(updatedPosts);
          }
-      }
-      else if(selectedGame === "Valorant") {
+      } else if (selectedGame === 'Valorant') {
          var valorantFilteredSubset = [];
-         for(let post_index = 0; post_index < ValorantGlobalPosts.length; post_index++)
-         {
-            if(filters.teamSide.includes(ValorantGlobalPosts[post_index].teamSide)) {
+         for (
+            let post_index = 0;
+            post_index < ValorantGlobalPosts.length;
+            post_index++
+         ) {
+            if (
+               filters.teamSide.includes(
+                  ValorantGlobalPosts[post_index].teamSide,
+               )
+            ) {
                valorantFilteredSubset.push(ValorantGlobalPosts[post_index]);
-            }
-            else if(filters.mapName.includes(ValorantGlobalPosts[post_index].mapName)) {
+            } else if (
+               filters.mapName.includes(ValorantGlobalPosts[post_index].mapName)
+            ) {
                valorantFilteredSubset.push(ValorantGlobalPosts[post_index]);
-            }
-            else if(filters.valorantAgent.includes(ValorantGlobalPosts[post_index].valorantAgent)) {
+            } else if (
+               filters.valorantAgent.includes(
+                  ValorantGlobalPosts[post_index].valorantAgent,
+               )
+            ) {
                valorantFilteredSubset.push(ValorantGlobalPosts[post_index]);
             }
          }
          // Update state of posts with filtered subset
-         const updatedPosts = [
-            CSGlobalPosts,
-            valorantFilteredSubset
-         ]
+         const updatedPosts = [CSGlobalPosts, valorantFilteredSubset];
          setPosts(updatedPosts);
       }
    };
@@ -484,9 +501,17 @@ const ProfilePage = () => {
                               }}
                               className="flex text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
                            >
-                           <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                           <path d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z"/>
-                           </svg>
+                              <svg
+                                 className="w-6 h-6"
+                                 aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 fill="currentColor"
+                                 viewBox="0 0 24 24"
+                              >
+                                 <path d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z" />
+                              </svg>
                               Filters
                            </button>
                         </div>
@@ -526,7 +551,8 @@ const ProfilePage = () => {
                                                    <div className="text-center">
                                                       <MdOutlineVideogameAsset className="text-6xl mx-auto mb-4" />
                                                       <h2 className="text-2xl font-semibold mb-4">
-                                                         No Valorant Posts Available
+                                                         No Valorant Posts
+                                                         Available
                                                       </h2>
                                                       <p className="text-gray-500">
                                                          You currently have zero
