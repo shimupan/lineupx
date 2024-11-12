@@ -12,7 +12,6 @@ import cloudinary from '../config/cloudinary.js';
 import { Formidable } from 'formidable';
 import fs from 'fs';
 
-
 const router = express.Router();
 const cloudinaryObject = cloudinary();
 // single user login
