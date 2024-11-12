@@ -111,13 +111,17 @@ router.get('/post/:game', async (req, res) => {
    const grenade = req.query.grenade || 'all';
    const location = req.query.location || 'all';
    const postname = req.query.postname || 'all';
-   const agent = req.query.agent || 'all'; // for Valorant-specific agent filtering
+   const agent = req.query.agent || 'all';
 
    const PostData = gameModels[game];
    let query = { approved: true };
    let sortOption = { views: -1, date: -1 };
 
-   // Apply filters to the query
+   // Apply postname filter on the postTitle directly if provided
+   if (postname && postname !== 'all') {
+      query.postTitle = { $regex: new RegExp(postname, 'i') };
+   }
+
    if (map && map !== 'all') {
       query.mapName = { $regex: new RegExp(map.split('').join('.*'), 'i') };
    }
@@ -127,16 +131,9 @@ router.get('/post/:game', async (req, res) => {
    if (location && location !== 'all') {
       query['lineupLocationCoords.name'] = { $regex: new RegExp(location.split('').join('.*'), 'i') };
    }
-if (postname && postname !== 'all') {
-   query.postTitle = { $regex: new RegExp(postname, 'i') };
-}
-
-   // Add agent filter specifically for Valorant
    if (game === 'Valorant' && agent && agent !== 'all') {
       query.valorantAgent = { $regex: new RegExp(agent.split('').join('.*'), 'i') };
    }
-
-   // Filter by date range if needed
    if (filter && filter !== 'all') {
       const dateFilter = getDateRangeFilter(filter);
       if (dateFilter) {
@@ -144,130 +141,24 @@ if (postname && postname !== 'all') {
       }
    }
 
-   // Set sorting by recent if requested
-   if (recent && recent !== 'all' && recent === 'true') {
+   if (recent && recent === 'true') {
       sortOption = { date: -1 };
    }
-
    try {
-      // Perform a MongoDB query with all specified filters
+      // Fetch data from MongoDB based on the filters
       let data = await PostData.find(query).sort(sortOption).lean();
-
-      // Apply Fuse.js fuzzy search if there's a search query
+      // Apply Fuse.js for fuzzy matching if there's a search query
       if (search && search !== 'all') {
-         const escapedSearch = search.replace(
-            /[-[\]{}()*+?.,\\^$|#\s]/g,
-            '\\$&',
-         );
-         const fuzzySearchPattern = escapedSearch
-            .split('')
-            .map((char) => `${char}`)
-            .join('.*');
-         const regex = new RegExp(fuzzySearchPattern, 'i');
-
-         conditions.push({
-            $or: [
-               { postTitle: { $regex: regex } },
-               { mapName: { $regex: regex } },
-               { lineupDescription: { $regex: regex } },
-               { 'lineupLocationCoords.name': { $regex: regex } },
-               { grenadeType: { $regex: regex } },
-            ],
-         });
-      }
-
-      // Map filtering with fuzzy matching
-      if (map && map !== 'all') {
-         const escapedMap = map.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-         const fuzzyMapPattern = escapedMap
-            .split('')
-            .map((char) => `${char}`)
-            .join('.*');
-         const regex = new RegExp(fuzzyMapPattern, 'i');
-
-         conditions.push({
-            $or: [
-               { mapName: { $regex: regex } },
-               { postTitle: { $regex: regex } },
-            ],
-         });
-      }
-
-      // Grenade filtering with fuzzy matching
-      if (grenade && grenade !== 'all') {
-         const escapedGrenade = grenade.replace(
-            /[-[\]{}()*+?.,\\^$|#\s]/g,
-            '\\$&',
-         );
-         const grenadeRegex = new RegExp(escapedGrenade, 'i');
-         conditions.push({ grenadeType: { $regex: grenadeRegex } });
-      }
-
-      // Location filtering with fuzzy matching
-      if (location && location !== 'all') {
-         conditions.push({
-            'lineupLocationCoords.name': { $regex: location, $options: 'i' },
-         });
-         const escapedLocation = location.replace(
-            /[-[\]{}()*+?.,\\^$|#\s]/g,
-            '\\$&',
-         );
-         const locationRegex = new RegExp(escapedLocation, 'i');
-         conditions.push({
-            'lineupLocationCoords.name': { $regex: locationRegex },
-         });
-      }
-
-      // Postname filtering with fuzzy matching
-      if (postname && postname !== 'all') {
-         const escapedPostname = postname.replace(
-            /[-[\]{}()*+?.,\\^$|#\s]/g,
-            '\\$&',
-         );
-         const postnameRegex = new RegExp(escapedPostname, 'i');
-         conditions.push({ postTitle: { $regex: postnameRegex } });
-      }
-
-      // Date range filtering
-      if (
-         filter &&
-         filter !== 'all' &&
-         ['today', 'this_week', 'this_month', 'this_year'].includes(filter)
-      ) {
-         const dateFilter = getDateRangeFilter(filter);
-         if (dateFilter) {
-            conditions.push({ date: dateFilter });
-         }
-      }
-
-      // Recent sorting if no text search
-      if (recent && recent !== 'all' && recent === 'true' && !search) {
-         sortOption = { date: -1 };
-      }
-
-      // Additional sorting based on sortBy parameter
-      if (req.query.sortBy && req.query.sortBy !== 'all') {
-         const additionalSort = getSortOption(req.query.sortBy);
-         sortOption = { ...sortOption, ...additionalSort };
-      }
-
-      // Combine all conditions with $and
-      if (conditions.length > 0) {
-         query = { $and: conditions };
-      } else {
-         query = { approved: true };
+         const fuse = new Fuse(data, fuseOptions);
+         data = fuse.search(search).map(result => result.item);
       }
 
       res.status(200).send(data);
-         const fuse = new Fuse(data, fuseOptions);
-         data = fuse.search(search).map(result => result.item);
-      res.status(200).json(data);
    } catch (err) {
       console.error('Error in /post/:game route:', err);
       res.status(500).json({ error: 'Internal Server Error' });
    }
 });
-
 // Helper function for date range filtering
 function getDateRangeFilter(range) {
    const now = new Date();
