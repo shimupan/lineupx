@@ -6,7 +6,10 @@ import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 import { Coordinate, ValorantMaps, ValorantAgent } from '../../../global.types';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { useValorant } from '../../../hooks/index';
-import { isValidValorantAgent, isValidValorantMap } from '../../../util/validation';
+import {
+   isValidValorantAgent,
+   isValidValorantMap,
+} from '../../../util/validation';
 import Modal from 'react-modal';
 import axios from 'axios';
 
@@ -67,9 +70,11 @@ const ValorantLineups: React.FC = () => {
    };
 
    // checks if valid agent and map
-   if (!agentName || !isValidValorantAgent(agentName)) return <Navigate to="/*" replace />;
-   if (!mapName || !isValidValorantMap(mapName)) return <Navigate to="/*" replace />;
-   
+   if (!agentName || !isValidValorantAgent(agentName))
+      return <Navigate to="/*" replace />;
+   if (!mapName || !isValidValorantMap(mapName))
+      return <Navigate to="/*" replace />;
+
    const { allAgents, setAgentDetails, allMaps } = useValorant();
    const navigate = useNavigate();
    const handleClick = (mapName: string) => {
@@ -84,7 +89,7 @@ const ValorantLineups: React.FC = () => {
          navigate('/*');
       }
    };
-   
+
    const [modalIsOpen, setModalIsOpen] = useState(false);
    useEffect(() => {
       const handleResize = () => {

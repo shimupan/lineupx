@@ -37,7 +37,7 @@ export const allowedValorantMaps = [
    'Lotus',
    'Sunset',
    'Pearl',
-   'Abyss'
+   'Abyss',
 ];
 
 export const allowedCS2Maps = [
