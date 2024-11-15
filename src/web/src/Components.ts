@@ -23,6 +23,8 @@ export { default as AdminPosts } from './Pages/admin/AdminPosts';
 export { default as AdminCheck } from './Pages/admin/AdminCheck';
 export { default as AdminModifyUser } from './Pages/admin/AdminModifyUser';
 export { default as AdminModifyPost } from './Pages/admin/AdminModifyPost';
+export { default as DeveloperPosts } from './Pages/developer/DeveloperPosts';
+export { default as DeveloperPostsInfo } from './Pages/developer/DeveloperPostsInfo';
 export { default as PageNotFound } from './Pages/auth/PageNotFound';
 export { default as SearchResults } from './Pages/SearchResults/SearchResults';
 export { default as GuestPage } from './Pages/user/GuestProfilePage';
@@ -83,4 +85,5 @@ export { default as PostPageSkeleton } from './Components/post/PostPageSkeleton'
 export { default as LeaderboardPosition } from './Components/profile/LeaderboardPosition';
 export { default as VerificationMessage } from './Components/profile/VerificationMessage';
 export { default as FiltersPopup } from './Components/auth/FiltersPopup';
-export { default as ProfileSearch } from './Pages/user/ProfileSearch';
+export { default as ProfileSearch } from './Pages/user/ProfileSearch';export { default as MobileComments } from './Components/post/MobileComments';
+export { default as ZoomableImage } from './Components/post/ZoomableImage';

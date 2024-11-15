@@ -7,6 +7,7 @@ import { AuthContext } from '../../../App';
 import { UserType, PostType } from '../../../global.types';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import SearchBar from './SearchPost';
 import {
    FaEye,
    FaTrash,
@@ -45,6 +46,7 @@ const ManagePosts = () => {
    const [loading, setLoading] = useState(true);
    const [posts, setPosts] = useState<PostType[]>([]);
    const [open, setOpen] = useState(false);
+   const [postname, setPostName] = useState('');
    const [deletePopup, setDeletePopup] = useState({
       isOpen: false,
       postId: '',
@@ -59,7 +61,7 @@ const ManagePosts = () => {
 
    useEffect(() => {
       // Fetch Users
-      getUserByUsername(id!)
+      getUserByUsername(id!, Auth!.username)
          .then((response) => {
             setUser(response);
             // Fetch User Posts
@@ -80,6 +82,10 @@ const ManagePosts = () => {
             setLoading(false);
          });
    }, [id]);
+
+   const filteredPosts = posts.filter((post) =>
+      post.postTitle.toLowerCase().includes(postname.toLowerCase()),
+   );
 
    const handleDeleteClick = (postId: string, game: string) => {
       setDeletePopup({ isOpen: true, postId, game });
@@ -129,6 +135,16 @@ const ManagePosts = () => {
                <div className="min-h-screen pb-40 text-white">
                   <div className="w-full px-4 pt-20 md:pl-32">
                      <h1 className="text-2xl font-bold mb-6">Manage Posts</h1>
+                     <SearchBar
+                        onSearch={(query) => console.log(query)}
+                        game="someGame"
+                        placeholder="Search posts..."
+                        className=""
+                        onChange={(e) => setPostName(e.target.value)}
+                        suggestions={[]}
+                        post={posts}
+                        searchTerm={postname}
+                     />
                      <div className="bg-gray-800 rounded-lg overflow-hidden shadow-md">
                         <div className="p-4 border-b border-gray-700 flex flex-wrap items-center text-gray-400 font-medium">
                            <div className="w-full sm:w-2/5">Post</div>
@@ -145,7 +161,7 @@ const ManagePosts = () => {
                               Actions
                            </div>
                         </div>
-                        {posts.map((post) => {
+                        {filteredPosts.map((post) => {
                            const likePercentage = calculateLikePercentage(
                               post.likes?.length || 0,
                               post.dislikes?.length || 0,
@@ -163,7 +179,7 @@ const ManagePosts = () => {
                                        className="w-20 h-12 object-cover rounded mr-4"
                                     />
                                     <div>
-                                       <h3 className="font-medium">
+                                       <h3 className="text-lg font-bold m-0 no-underline w-full sm:w-[25rem] line-clamp-2">
                                           {post.postTitle}
                                        </h3>
                                        <p className="text-sm text-gray-400">

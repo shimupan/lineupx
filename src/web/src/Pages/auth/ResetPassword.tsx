@@ -7,25 +7,27 @@ import { ToastContainer, toast } from 'react-toastify';
 const ResetPassword: React.FC = () => {
    const [password, setPassword] = useState<string>('');
    const [confirmPassword, setConfirmPassword] = useState<string>('');
+   const [resetError, setResetError] = useState<string>('');
    const navigate = useNavigate();
    const location = useLocation();
    const query = new URLSearchParams(location.search);
    const token = query.get('token');
+
    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      setResetError('');
 
       if (password !== confirmPassword) {
-         alert('Passwords do not match');
+         setResetError('Passwords do not match');
          return;
       }
 
       const id = toast.loading('Resetting Password...');
 
       try {
-         const response = await axios.post(`/resetpassword/${token}`, {
+         await axios.post(`/resetpassword/${token}`, {
             password,
          });
-         console.log(response.data);
 
          toast.update(id, {
             render: 'Password reset successful!',
@@ -38,23 +40,23 @@ const ResetPassword: React.FC = () => {
          navigate('/login');
       } catch (error) {
          if (axios.isAxiosError(error)) {
-            console.error('Reset password error:', error.response?.data);
-
+            const errorMessage =
+               error.response?.data.message || 'Reset password failed';
+            setResetError(errorMessage);
             toast.update(id, {
-               render: 'Reset password failed. Please try again.',
+               render: errorMessage,
                type: 'error',
                isLoading: false,
-               autoClose: 1000,
+               autoClose: 2000,
                hideProgressBar: false,
             });
          } else {
-            console.error('Unexpected error:', error);
-
+            setResetError('An unexpected error occurred');
             toast.update(id, {
-               render: 'Unexpected error occurred',
+               render: 'An unexpected error occurred',
                type: 'error',
                isLoading: false,
-               autoClose: 1000,
+               autoClose: 2000,
                hideProgressBar: false,
             });
          }
@@ -62,75 +64,78 @@ const ResetPassword: React.FC = () => {
    };
 
    return (
-      <>
-         <Layout>
-            <div className="h-screen md:h-full md:w-1/2 lg:w-1/2 container flex flex-col mx-auto bg-white rounded-lg md:pt-12 md:my-5">
-               <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
-                  <div className="flex items-center justify-center w-full lg:p-12">
-                     <div className="flex items-center xl:p-10">
-                        <form
-                           className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl"
-                           onSubmit={handleSubmit}
-                        >
-                           <h3 className="mb-3 text-4xl font-extrabold text-blue-900">
-                              Reset Password
-                           </h3>
-                           <p className="mb-4 text-gray-500">
-                              Enter your new password
-                           </p>
-                           <label
-                              htmlFor="password"
-                              className="mb-2 text-sm text-start text-gray-900"
-                           >
-                              Password*
-                           </label>
-                           <input
-                              id="password"
-                              type="password"
-                              placeholder="Enter new password"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                              className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                           />
-                           <label
-                              htmlFor="confirmPassword"
-                              className="mb-2 text-sm text-start text-gray-900"
-                           >
-                              Confirm Password*
-                           </label>
-                           <input
-                              id="confirmPassword"
-                              type="password"
-                              placeholder="Confirm new password"
-                              value={confirmPassword}
-                              onChange={(e) =>
-                                 setConfirmPassword(e.target.value)
-                              }
-                              className="flex text-black items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-                           />
-                           <button
-                              type="submit"
-                              className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-blue-900"
-                           >
-                              Submit
-                           </button>
-                           <p className="text-sm leading-relaxed text-gray-900">
-                              Remember your password?{' '}
-                              <Link
-                                 to={'../login'}
-                                 className="font-bold text-blue-900"
-                              >
-                                 Log In
-                              </Link>
-                           </p>
-                        </form>
+      <Layout>
+         <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-md w-full space-y-8 backdrop-blur-lg bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-8 rounded-xl shadow-2xl">
+               <div>
+                  <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+                     Reset your password
+                  </h2>
+                  <p className="mt-2 text-center text-sm text-gray-300">
+                     Enter your new password below
+                  </p>
+               </div>
+               <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                  {resetError && (
+                     <div className="text-red-300 text-center bg-red-900/50 py-2 rounded-lg">
+                        {resetError}
+                     </div>
+                  )}
+                  <div className="rounded-md shadow-sm -space-y-px">
+                     <div>
+                        <label htmlFor="password" className="sr-only">
+                           New Password
+                        </label>
+                        <input
+                           id="password"
+                           type="password"
+                           required
+                           className="appearance-none rounded-t-lg relative block w-full px-3 py-4 border border-gray-700 placeholder-gray-400 text-white bg-gray-900/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent sm:text-sm"
+                           placeholder="New password"
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}
+                        />
+                     </div>
+                     <div>
+                        <label htmlFor="confirmPassword" className="sr-only">
+                           Confirm Password
+                        </label>
+                        <input
+                           id="confirmPassword"
+                           type="password"
+                           required
+                           className="appearance-none rounded-b-lg relative block w-full px-3 py-4 border border-gray-700 placeholder-gray-400 text-white bg-gray-900/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent sm:text-sm"
+                           placeholder="Confirm new password"
+                           value={confirmPassword}
+                           onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
                      </div>
                   </div>
-               </div>
+
+                  <div>
+                     <button
+                        type="submit"
+                        className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 ease-in-out"
+                     >
+                        Reset Password
+                     </button>
+                  </div>
+                  <div className="text-center">
+                     <p className="text-sm text-gray-300">
+                        Remember your password?{' '}
+                        <Link
+                           to="/login"
+                           className="font-medium text-purple-300 hover:text-purple-200"
+                        >
+                           Sign in
+                        </Link>
+                     </p>
+                  </div>
+               </form>
             </div>
-         </Layout>
+         </div>
          <ToastContainer position="top-center" />
-      </>
+      </Layout>
    );
 };
 

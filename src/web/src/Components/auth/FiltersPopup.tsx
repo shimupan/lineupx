@@ -10,14 +10,19 @@ interface Filters {
    [key: string]: string[];
 }
 
-type FilterCategories = 'mapName' | 'teamSide' | 'grenadeType' | 'jumpThrow' | 'valorantAgent';
+type FilterCategories =
+   | 'mapName'
+   | 'teamSide'
+   | 'grenadeType'
+   | 'jumpThrow'
+   | 'valorantAgent';
 
 const initialFilters: Filters = {
    teamSide: [],
    mapName: [],
    grenadeType: [],
    jumpThrow: [],
-   valorantAgent: []
+   valorantAgent: [],
 };
 
 const FiltersPopup: React.FC<FiltersPopupProps> = ({
@@ -46,11 +51,18 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
    };
 
    // Format each checkbox - e.g. hover effects
-   const renderCheckboxes = (title: string, category: FilterCategories, options: string[]) => (
+   const renderCheckboxes = (
+      title: string,
+      category: FilterCategories,
+      options: string[],
+   ) => (
       <div>
          <h3 className="text-base/loose font-semibold">{title}</h3>
          {options.map((option) => (
-            <label key={option} className="flex items-center mb-2 cursor-pointer">
+            <label
+               key={option}
+               className="flex items-center mb-2 cursor-pointer"
+            >
                <input
                   type="checkbox"
                   checked={filters[category].includes(option)}
@@ -96,17 +108,77 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
             <div className="max-h-96 overflow-y-auto p-4">
                {selectedGame === 'Valorant' && (
                   <>
-                     {renderCheckboxes("Side", "teamSide", ["Attacker", "Defender"])}
-                     {renderCheckboxes("Map", "mapName", ["abyss", "ascent", "bind", "breeze", "fracture", "haven", "icebox", "lotus", "pearl", "split", "sunset"])}
-                     {renderCheckboxes("Agent", "valorantAgent", ["Brimstone", "Phoenix", "Sage", "Sova", "Viper", "Cypher", "Reyna", "Killjoy", "Breach", "Omen", "Jett", "Raze", "Skye", "Yoru", "Astra", "KAY/O", "Chamber", "Neon", "Fade", "Harbor", "Gekko", "Deadlock", "Iso", "Clove", "Vyse"])}
+                     {renderCheckboxes('Side', 'teamSide', [
+                        'Attacker',
+                        'Defender',
+                     ])}
+                     {renderCheckboxes('Map', 'mapName', [
+                        'abyss',
+                        'ascent',
+                        'bind',
+                        'breeze',
+                        'fracture',
+                        'haven',
+                        'icebox',
+                        'lotus',
+                        'pearl',
+                        'split',
+                        'sunset',
+                     ])}
+                     {renderCheckboxes('Agent', 'valorantAgent', [
+                        'Brimstone',
+                        'Phoenix',
+                        'Sage',
+                        'Sova',
+                        'Viper',
+                        'Cypher',
+                        'Reyna',
+                        'Killjoy',
+                        'Breach',
+                        'Omen',
+                        'Jett',
+                        'Raze',
+                        'Skye',
+                        'Yoru',
+                        'Astra',
+                        'KAY/O',
+                        'Chamber',
+                        'Neon',
+                        'Fade',
+                        'Harbor',
+                        'Gekko',
+                        'Deadlock',
+                        'Iso',
+                        'Clove',
+                        'Vyse',
+                     ])}
                   </>
                )}
                {selectedGame === 'CS2' && (
                   <>
-                     {renderCheckboxes("Side", "teamSide", ["T", "CT"])}
-                     {renderCheckboxes("Map", "mapName", ["mirage", "inferno", "nuke", "overpass", "vertigo", "ancient", "anubis", "dust2"])}
-                     {renderCheckboxes("Grenade", "grenadeType", ["he", "smoke", "flashbangs", "decoy", "molotov", "incendiary"])}
-                     {renderCheckboxes("Jumpthrow?", "jumpThrow", ["YES", "NO"])}
+                     {renderCheckboxes('Side', 'teamSide', ['T', 'CT'])}
+                     {renderCheckboxes('Map', 'mapName', [
+                        'mirage',
+                        'inferno',
+                        'nuke',
+                        'overpass',
+                        'vertigo',
+                        'ancient',
+                        'anubis',
+                        'dust2',
+                     ])}
+                     {renderCheckboxes('Grenade', 'grenadeType', [
+                        'he',
+                        'smoke',
+                        'flashbangs',
+                        'decoy',
+                        'molotov',
+                        'incendiary',
+                     ])}
+                     {renderCheckboxes('Jumpthrow?', 'jumpThrow', [
+                        'YES',
+                        'NO',
+                     ])}
                   </>
                )}
             </div>
