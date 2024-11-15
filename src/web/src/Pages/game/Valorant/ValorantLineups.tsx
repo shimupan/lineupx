@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, MapSelectionSkeleton } from '../../../Components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import useValorant from '../../../hooks/useValorant';
+import { isValidValorantAgent } from '../../../util/validation';
 
 const MINIMUM_SKELETON_TIME = 300;
 
@@ -10,6 +11,10 @@ const ValorantLineups: React.FC = () => {
    const navigate = useNavigate();
    const { agentName } = useParams<{ agentName: string }>();
    const [showContent, setShowContent] = useState<boolean>(false);
+
+   if (!isValidValorantAgent(agentName)) {
+      return <Navigate to="/*" replace />;
+   }
 
    useEffect(() => {
       if (!isLoading) {

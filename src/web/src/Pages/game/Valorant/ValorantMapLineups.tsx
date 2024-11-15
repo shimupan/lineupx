@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Layout, Dot } from '../../../Components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { getPostByCoordinate, getPostByGrenade } from '../../../util/getPost';
 import { Coordinate, ValorantMaps, ValorantAgent } from '../../../global.types';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { useValorant } from '../../../hooks/index';
+import { isValidValorantAgent, isValidValorantMap } from '../../../util/validation';
 import Modal from 'react-modal';
 import axios from 'axios';
 
@@ -64,16 +65,26 @@ const ValorantLineups: React.FC = () => {
          setSelectedAbility(ability);
       }
    };
+
+   // checks if valid agent and map
+   if (!agentName || !isValidValorantAgent(agentName)) return <Navigate to="/*" replace />;
+   if (!mapName || !isValidValorantMap(mapName)) return <Navigate to="/*" replace />;
+   
    const { allAgents, setAgentDetails, allMaps } = useValorant();
    const navigate = useNavigate();
    const handleClick = (mapName: string) => {
       setSelectedDot('');
       setSelectedAbility(null);
-      const formattedAgentName = agentName === 'KAY/O' ? 'KAYO' : agentName;
-      navigate(
-         `/game/Valorant/agents/${formattedAgentName}/lineups/${mapName}`,
-      );
+      if (isValidValorantMap(mapName)) {
+         const formattedAgentName = agentName === 'KAY/O' ? 'KAYO' : agentName;
+         navigate(
+            `/game/valorant/agents/${formattedAgentName}/lineups/${mapName}`,
+         );
+      } else {
+         navigate('/*');
+      }
    };
+   
    const [modalIsOpen, setModalIsOpen] = useState(false);
    useEffect(() => {
       const handleResize = () => {
