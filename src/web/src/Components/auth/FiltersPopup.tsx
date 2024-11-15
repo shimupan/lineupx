@@ -48,7 +48,7 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
    // Format each checkbox - e.g. hover effects
    const renderCheckboxes = (title: string, category: FilterCategories, options: string[]) => (
       <div>
-         <h3 className="font-semibold">{title}</h3>
+         <h3 className="text-base/loose font-semibold">{title}</h3>
          {options.map((option) => (
             <label key={option} className="flex items-center mb-2 cursor-pointer">
                <input
@@ -57,7 +57,7 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
                   onChange={() => toggleCheckbox(category, option)}
                   className="appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-blue-500 checked:border-transparent focus:outline-none mr-2 cursor-pointer hover:border-blue-500"
                />
-               <span className="text-gray-700">{option}</span>
+               <span className="text-white">{option}</span>
             </label>
          ))}
       </div>
@@ -70,9 +70,9 @@ const FiltersPopup: React.FC<FiltersPopupProps> = ({
 
    return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 rounded-xl">
-         <div className="relative w-full max-w-sm mx-auto bg-white rounded-xl shadow-lg text-gray-800 overflow-hidden">
+         <div className="bg-gray-900 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 divide-y divide-gray-800 text-white w-full md:w-96">
             <div className="flex items-center justify-between p-4 border-b">
-               <h2 className="text-lg font-semibold">Filters</h2>
+               <h2 className="text-lg font-medium">Filters</h2>
                <button
                   className="p-2 rounded-full hover:bg-gray-200"
                   onClick={onClose}

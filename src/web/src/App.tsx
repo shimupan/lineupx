@@ -34,6 +34,7 @@ import {
    ScrollToTop,
    GuestPage,
    PrivatePolicy,
+   ProfileSearch,
    TOS,
    ManagePosts,
    EditPosts,
@@ -212,6 +213,7 @@ function App() {
                ></Route>
                <Route path="/resetpassword" element={<ResetPassword />}></Route>
                <Route path="/privatepolicy" element={<PrivatePolicy />}></Route>
+               <Route path="/profilesearch" element={<ProfileSearch />}></Route>
                {role === 'admin' && Verified && (
                   <Route element={<RequireAuth allowedRoles={['admin']} />}>
                      <Route path="/admin" element={<AdminHome />}></Route>
