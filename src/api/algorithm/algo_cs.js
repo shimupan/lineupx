@@ -6,10 +6,11 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Scoring weights (total = 100%)
+// Adjusted scoring weights (total = 100%)
 const WEIGHTS = {
-   agent: 0.48, // 48% for agent
-   map: 0.3, // 30% for map
+   grenade: 0.35, // 35% for grenade type
+   map: 0.25, // 25% for map
+   teamSide: 0.18, // 18% for team side (CT/T)
    ratio: 0.05, // 5% for like/dislike ratio
    views: 0.05, // 5% for views
    comments: 0.05, // 5% for comments
@@ -21,7 +22,7 @@ const POINTS_MAP = { 0: 5, 1: 4, 2: 3, 3: 2, 4: 1 };
 
 const getData = () => {
    try {
-      const filePath = path.join(__dirname, '..', 'data', 'Valorant.json');
+      const filePath = path.join(__dirname, '..', 'data', 'CS2.json');
       return JSON.parse(fs.readFileSync(filePath));
    } catch (error) {
       console.error('Error reading file:', error);
@@ -29,7 +30,7 @@ const getData = () => {
    }
 };
 
-// Safe number check - returns 0 if NaN or undefined
+// Safe number check
 const safeNumber = (value) => {
    return isNaN(value) || value === undefined || value === null ? 0 : value;
 };
@@ -50,13 +51,13 @@ const calculateRankings = (data, key) => {
       .map(([item]) => item);
 };
 
-// Calculate normalized score (0-1 range) with NaN protection
+// Calculate normalized score (0-1 range)
 const normalizeValue = (value, max) => {
    const normalized = max === 0 ? 0 : value / max;
    return safeNumber(normalized);
 };
 
-// Calculate time-based score with NaN protection
+// Calculate time-based score
 const calculateTimeScore = (date, newestDate) => {
    if (!date || !newestDate) return 0;
 
@@ -67,68 +68,90 @@ const calculateTimeScore = (date, newestDate) => {
    return safeNumber(score);
 };
 
-const analyzeValorantData = () => {
+// Calculate grenade type importance score
+const getGrenadeTypeScore = (type) => {
+   const scores = {
+      'smoke': 1.0,     // Most Important for site takes/defense
+      'flash': 0.95,      // Important for entry
+      'molotov': 0.9,    // Highest value due to timing importance
+      'grenade': 0.85,   // Damage utility
+   };
+   return scores[type?.toLowerCase()] || 0;
+};
+
+// Calculate team side score
+const getTeamSideScore = (side) => {
+   const scores = {
+      'CT': 1.0,  // CT-side utility tends to be more valuable
+      'T': 0.9    // T-side utility still important but slightly less
+   };
+   return scores[side?.toUpperCase()] || 0;
+};
+
+const analyzeCS2Data = () => {
    const data = getData();
    if (!data) return;
 
    const limitedData = data.slice(0, 100);
    const trainingData = limitedData.slice(0, 23);
 
-   // Calculate rankings once
+   // Calculate rankings
    const rankedMaps = calculateRankings(trainingData, 'mapName');
-   const rankedAgents = calculateRankings(trainingData, 'valorantAgent');
+   const rankedGrenades = calculateRankings(trainingData, 'grenadeType');
 
-   // Create lookup maps for faster access
+   // Create lookup maps
    const mapScores = new Map(rankedMaps.map((map, i) => [map, POINTS_MAP[i]]));
-   const agentScores = new Map(
-      rankedAgents.map((agent, i) => [agent, POINTS_MAP[i]]),
+   const grenadeScores = new Map(
+      rankedGrenades.map((grenade, i) => [grenade, POINTS_MAP[i]])
    );
 
-   // Find maximum values for normalization with NaN protection
+   // Find maximum values for normalization
    const maxValues = limitedData.reduce(
       (acc, post) => ({
          views: Math.max(acc.views, safeNumber(post.views) || 0),
-         comments: Math.max(acc.comments, safeNumber(post.comments) || 0),
+         comments: Math.max(acc.comments, safeNumber(post.comments?.length) || 0),
          ratio: Math.max(
             acc.ratio,
-            safeNumber((post.likes || 0) / (post.dislikes || 1)),
+            safeNumber((post.likes?.length || 0) / (post.dislikes?.length || 1))
          ),
          timestamp: Math.max(
             acc.timestamp,
-            safeNumber(new Date(post.timestamp).getTime()),
+            safeNumber(new Date(post.date?.$date).getTime())
          ),
       }),
-      { views: 0, comments: 0, ratio: 0, timestamp: 0 },
+      { views: 0, comments: 0, ratio: 0, timestamp: 0 }
    );
 
-   // Score posts with NaN protection
+   // Score posts
    const scoredPosts = limitedData.map((post) => {
       const mapName = post.mapName?.toLowerCase();
       const mapPoints = safeNumber((mapScores.get(mapName) || 0) / 5);
-      const agentPoints = safeNumber(
-         (agentScores.get(post.valorantAgent) || 0) / 5,
-      );
+      const grenadePoints = safeNumber((grenadeScores.get(post.grenadeType) || 0) / 5);
 
-      // Calculate normalized engagement scores
+      // Additional scoring factors
+      const grenadeTypeScore = getGrenadeTypeScore(post.grenadeType);
+      const teamSideScore = getTeamSideScore(post.teamSide);
 
+      // Calculate engagement scores
       const likeRatio = safeNumber(
-         (post.likes || 0) / Math.max(1, post.dislikes || 1),
+         (post.likes?.length || 0) / Math.max(1, post.dislikes?.length || 1)
       );
       const ratioScore = normalizeValue(likeRatio, maxValues.ratio);
       const viewScore = normalizeValue(safeNumber(post.views), maxValues.views);
       const commentScore = normalizeValue(
-         safeNumber(post.comments),
-         maxValues.comments,
+         safeNumber(post.comments?.length),
+         maxValues.comments
       );
 
       // Calculate time score
       const postDate = new Date(post.date?.$date).getTime();
-      const timeScore = calculateTimeScore(postDate, maxValues.date);
+      const timeScore = calculateTimeScore(postDate, maxValues.timestamp);
 
-      // Calculate weighted total score with NaN protection for each component
+      // Calculate weighted scores
       const scores = {
-         agent: safeNumber(agentPoints * WEIGHTS.agent),
+         grenade: safeNumber(grenadePoints * grenadeTypeScore * WEIGHTS.grenade),
          map: safeNumber(mapPoints * WEIGHTS.map),
+         teamSide: safeNumber(teamSideScore * WEIGHTS.teamSide),
          ratio: safeNumber(ratioScore * WEIGHTS.ratio),
          views: safeNumber(viewScore * WEIGHTS.views),
          comments: safeNumber(commentScore * WEIGHTS.comments),
@@ -136,16 +159,17 @@ const analyzeValorantData = () => {
       };
 
       const totalScore = safeNumber(
-         Object.values(scores).reduce((sum, score) => sum + score, 0),
+         Object.values(scores).reduce((sum, score) => sum + score, 0)
       );
 
       return {
          id: post._id.$oid,
          mapName: post.mapName || 'Unknown',
-         valorantAgent: post.valorantAgent || 'Unknown',
+         grenadeType: post.grenadeType || 'Unknown',
+         teamSide: post.teamSide || 'Unknown',
          date: post.date?.$date,
-         likes: likeCount,
-         dislikes: dislikeCount,
+         likes: post.likes?.length || 0,
+         dislikes: post.dislikes?.length || 0,
          views: safeNumber(post.views),
          comments: safeNumber(post.comments?.length),
          scores,
@@ -153,72 +177,47 @@ const analyzeValorantData = () => {
       };
    });
 
-   // Sort posts with tiebreaker and NaN protection
+   // Sort posts with tiebreaker
    const topPosts = scoredPosts
       .sort((a, b) => {
-         if (
-            Math.abs(safeNumber(b.totalScore) - safeNumber(a.totalScore)) <
-            0.001
-         ) {
-            return safeNumber(b.scores.agent) - safeNumber(a.scores.agent);
+         if (Math.abs(safeNumber(b.totalScore) - safeNumber(a.totalScore)) < 0.001) {
+            // Tiebreaker: grenade type > map
+            return safeNumber(b.scores.grenade) - safeNumber(a.scores.grenade);
          }
          return safeNumber(b.totalScore) - safeNumber(a.totalScore);
       })
       .slice(0, 3);
 
    return {
-      rankings: { maps: rankedMaps, agents: rankedAgents },
+      rankings: { maps: rankedMaps, grenades: rankedGrenades },
       topPosts,
    };
 };
 
-// Display results with NaN protection
-const results = analyzeValorantData();
+// Display results
+const results = analyzeCS2Data();
 if (results) {
    console.log('Map Rankings:');
    results.rankings.maps.forEach((map, index) => {
       console.log(`${index + 1}. ${map || 'Unknown'}`);
    });
 
-   console.log('\nAgent Rankings:');
-   results.rankings.agents.forEach((agent, index) => {
-      console.log(`${index + 1}. ${agent || 'Unknown'}`);
+   console.log('\nGrenade Type Rankings:');
+   results.rankings.grenades.forEach((grenade, index) => {
+      console.log(`${index + 1}. ${grenade || 'Unknown'}`);
    });
 
    console.log('\nTop 3 Posts:');
    results.topPosts.forEach((post, index) => {
-      const postDate = new Date(post.date);
       console.log(`\n${index + 1}. Post ID: ${post.id}`);
-
-      console.log(
-         `   Agent: ${post.valorantAgent} (Score: ${post.scores.agent.toFixed(3)})`,
-      );
-      console.log(
-         `   Map: ${post.mapName} (Score: ${post.scores.map.toFixed(3)})`,
-      );
+      console.log(`   Grenade: ${post.grenadeType} (Score: ${post.scores.grenade.toFixed(3)})`);
+      console.log(`   Map: ${post.mapName} (Score: ${post.scores.map.toFixed(3)})`);
+      console.log(`   Team Side: ${post.teamSide} (Score: ${post.scores.teamSide.toFixed(3)})`);
       console.log(`   Engagement Metrics:`);
-      console.log(
-         `     - Like Ratio: ${(post.likes / Math.max(1, post.dislikes)).toFixed(2)} (Score: ${post.scores.ratio.toFixed(3)})`,
-      );
-      console.log(
-         `     - Views: ${post.views} (Score: ${post.scores.views.toFixed(3)})`,
-      );
-      console.log(
-         `     - Comments: ${post.comments} (Score: ${post.scores.comments.toFixed(3)})`,
-      );
-
+      console.log(`     - Like Ratio: ${(post.likes / Math.max(1, post.dislikes)).toFixed(2)} (Score: ${post.scores.ratio.toFixed(3)})`);
+      console.log(`     - Views: ${post.views} (Score: ${post.scores.views.toFixed(3)})`);
+      console.log(`     - Comments: ${post.comments} (Score: ${post.scores.comments.toFixed(3)})`);
       console.log(`     - Time Score: ${post.scores.time.toFixed(3)}`);
       console.log(`   Total Score: ${post.totalScore.toFixed(3)}`);
    });
 }
-
-// Include like/dislike ratio + timestamps into scoring, make ratioed so old post with more likes can go above new posts
-// Tie breakers: agents > maps
-
-// agent, map, like/dislike ration, time stamp, views, comments
-// 78% = agent + map
-// 5% = like/dislike
-// 5% = views
-// 5% = comments
-// 7% = timestamp (3 month interval = 1%)
-
