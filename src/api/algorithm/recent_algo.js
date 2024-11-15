@@ -221,4 +221,3 @@ if (results) {
 // 5% = views
 // 5% = comments
 // 7% = timestamp (3 month interval = 1%)
-

@@ -71,10 +71,10 @@ const calculateTimeScore = (date, newestDate) => {
 // Calculate grenade type importance score
 const getGrenadeTypeScore = (type) => {
    const scores = {
-      'smoke': 1.0,     // Most Important for site takes/defense
-      'flash': 0.95,      // Important for entry
-      'molotov': 0.9,    // Highest value due to timing importance
-      'grenade': 0.85,   // Damage utility
+      smoke: 1.0, // Most Important for site takes/defense
+      flash: 0.95, // Important for entry
+      molotov: 0.9, // Highest value due to timing importance
+      grenade: 0.85, // Damage utility
    };
    return scores[type?.toLowerCase()] || 0;
 };
@@ -82,8 +82,8 @@ const getGrenadeTypeScore = (type) => {
 // Calculate team side score
 const getTeamSideScore = (side) => {
    const scores = {
-      'CT': 1.0,  // CT-side utility tends to be more valuable
-      'T': 0.9    // T-side utility still important but slightly less
+      CT: 1.0, // CT-side utility tends to be more valuable
+      T: 0.9, // T-side utility still important but slightly less
    };
    return scores[side?.toUpperCase()] || 0;
 };
@@ -102,31 +102,38 @@ const analyzeCS2Data = () => {
    // Create lookup maps
    const mapScores = new Map(rankedMaps.map((map, i) => [map, POINTS_MAP[i]]));
    const grenadeScores = new Map(
-      rankedGrenades.map((grenade, i) => [grenade, POINTS_MAP[i]])
+      rankedGrenades.map((grenade, i) => [grenade, POINTS_MAP[i]]),
    );
 
    // Find maximum values for normalization
    const maxValues = limitedData.reduce(
       (acc, post) => ({
          views: Math.max(acc.views, safeNumber(post.views) || 0),
-         comments: Math.max(acc.comments, safeNumber(post.comments?.length) || 0),
+         comments: Math.max(
+            acc.comments,
+            safeNumber(post.comments?.length) || 0,
+         ),
          ratio: Math.max(
             acc.ratio,
-            safeNumber((post.likes?.length || 0) / (post.dislikes?.length || 1))
+            safeNumber(
+               (post.likes?.length || 0) / (post.dislikes?.length || 1),
+            ),
          ),
          timestamp: Math.max(
             acc.timestamp,
-            safeNumber(new Date(post.date?.$date).getTime())
+            safeNumber(new Date(post.date?.$date).getTime()),
          ),
       }),
-      { views: 0, comments: 0, ratio: 0, timestamp: 0 }
+      { views: 0, comments: 0, ratio: 0, timestamp: 0 },
    );
 
    // Score posts
    const scoredPosts = limitedData.map((post) => {
       const mapName = post.mapName?.toLowerCase();
       const mapPoints = safeNumber((mapScores.get(mapName) || 0) / 5);
-      const grenadePoints = safeNumber((grenadeScores.get(post.grenadeType) || 0) / 5);
+      const grenadePoints = safeNumber(
+         (grenadeScores.get(post.grenadeType) || 0) / 5,
+      );
 
       // Additional scoring factors
       const grenadeTypeScore = getGrenadeTypeScore(post.grenadeType);
@@ -134,13 +141,13 @@ const analyzeCS2Data = () => {
 
       // Calculate engagement scores
       const likeRatio = safeNumber(
-         (post.likes?.length || 0) / Math.max(1, post.dislikes?.length || 1)
+         (post.likes?.length || 0) / Math.max(1, post.dislikes?.length || 1),
       );
       const ratioScore = normalizeValue(likeRatio, maxValues.ratio);
       const viewScore = normalizeValue(safeNumber(post.views), maxValues.views);
       const commentScore = normalizeValue(
          safeNumber(post.comments?.length),
-         maxValues.comments
+         maxValues.comments,
       );
 
       // Calculate time score
@@ -149,7 +156,9 @@ const analyzeCS2Data = () => {
 
       // Calculate weighted scores
       const scores = {
-         grenade: safeNumber(grenadePoints * grenadeTypeScore * WEIGHTS.grenade),
+         grenade: safeNumber(
+            grenadePoints * grenadeTypeScore * WEIGHTS.grenade,
+         ),
          map: safeNumber(mapPoints * WEIGHTS.map),
          teamSide: safeNumber(teamSideScore * WEIGHTS.teamSide),
          ratio: safeNumber(ratioScore * WEIGHTS.ratio),
@@ -159,7 +168,7 @@ const analyzeCS2Data = () => {
       };
 
       const totalScore = safeNumber(
-         Object.values(scores).reduce((sum, score) => sum + score, 0)
+         Object.values(scores).reduce((sum, score) => sum + score, 0),
       );
 
       return {
@@ -180,7 +189,10 @@ const analyzeCS2Data = () => {
    // Sort posts with tiebreaker
    const topPosts = scoredPosts
       .sort((a, b) => {
-         if (Math.abs(safeNumber(b.totalScore) - safeNumber(a.totalScore)) < 0.001) {
+         if (
+            Math.abs(safeNumber(b.totalScore) - safeNumber(a.totalScore)) <
+            0.001
+         ) {
             // Tiebreaker: grenade type > map
             return safeNumber(b.scores.grenade) - safeNumber(a.scores.grenade);
          }
@@ -210,13 +222,25 @@ if (results) {
    console.log('\nTop 3 Posts:');
    results.topPosts.forEach((post, index) => {
       console.log(`\n${index + 1}. Post ID: ${post.id}`);
-      console.log(`   Grenade: ${post.grenadeType} (Score: ${post.scores.grenade.toFixed(3)})`);
-      console.log(`   Map: ${post.mapName} (Score: ${post.scores.map.toFixed(3)})`);
-      console.log(`   Team Side: ${post.teamSide} (Score: ${post.scores.teamSide.toFixed(3)})`);
+      console.log(
+         `   Grenade: ${post.grenadeType} (Score: ${post.scores.grenade.toFixed(3)})`,
+      );
+      console.log(
+         `   Map: ${post.mapName} (Score: ${post.scores.map.toFixed(3)})`,
+      );
+      console.log(
+         `   Team Side: ${post.teamSide} (Score: ${post.scores.teamSide.toFixed(3)})`,
+      );
       console.log(`   Engagement Metrics:`);
-      console.log(`     - Like Ratio: ${(post.likes / Math.max(1, post.dislikes)).toFixed(2)} (Score: ${post.scores.ratio.toFixed(3)})`);
-      console.log(`     - Views: ${post.views} (Score: ${post.scores.views.toFixed(3)})`);
-      console.log(`     - Comments: ${post.comments} (Score: ${post.scores.comments.toFixed(3)})`);
+      console.log(
+         `     - Like Ratio: ${(post.likes / Math.max(1, post.dislikes)).toFixed(2)} (Score: ${post.scores.ratio.toFixed(3)})`,
+      );
+      console.log(
+         `     - Views: ${post.views} (Score: ${post.scores.views.toFixed(3)})`,
+      );
+      console.log(
+         `     - Comments: ${post.comments} (Score: ${post.scores.comments.toFixed(3)})`,
+      );
       console.log(`     - Time Score: ${post.scores.time.toFixed(3)}`);
       console.log(`   Total Score: ${post.totalScore.toFixed(3)}`);
    });
