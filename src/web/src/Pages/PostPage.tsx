@@ -272,7 +272,7 @@ const PostPage = () => {
    const incrementViewCount = async () => {
       try {
          await axios.post(`/post/${id}/increment-view-count`, {
-            game: game 
+            game: game,
          });
          console.log('Successfully incremented view count');
       } catch (error) {
@@ -322,14 +322,13 @@ const PostPage = () => {
       }
    }, [postData, currPostData]);
 
-
    useEffect(() => {
       // only increment view once when component mounts
       if (game && id) {
          incrementViewCount();
       }
-   }, []); 
-   
+   }, []);
+
    useEffect(() => {
       const fetchPostData = async () => {
          setIsLoading(true);
@@ -388,7 +387,6 @@ const PostPage = () => {
 
       fetchRelatedData();
    }, [postData, currPostData, userCache, fetchUsers]);
-
 
    useEffect(() => {
       socket.on('viewUpdate', (data) => {
