@@ -93,7 +93,9 @@ export const joinNotificationRoom = (userId: string) => {
 };
 
 // Notification listeners
-export const onNotification = (callback: (notification: Notification) => void) => {
+export const onNotification = (
+   callback: (notification: Notification) => void,
+) => {
    socket.on('newNotification', callback);
 };
 
@@ -102,7 +104,9 @@ export const offNotification = () => {
 };
 
 // New socket event listeners for real-time updates
-export const onCommentUpdate = (callback: (data: { postId: string; comments: any[] }) => void) => {
+export const onCommentUpdate = (
+   callback: (data: { postId: string; comments: any[] }) => void,
+) => {
    socket.on('commentUpdate', callback);
 };
 
@@ -110,16 +114,18 @@ export const offCommentUpdate = () => {
    socket.off('commentUpdate');
 };
 
-export const onFollowUpdate = (callback: (data: { 
-   userId: string;
-   followedUserId: string;
-   isFollowing: boolean;
-   updatedUser: {
-      id: string;
-      username: string;
-      ProfilePicture?: string;
-   }
-}) => void) => {
+export const onFollowUpdate = (
+   callback: (data: {
+      userId: string;
+      followedUserId: string;
+      isFollowing: boolean;
+      updatedUser: {
+         id: string;
+         username: string;
+         ProfilePicture?: string;
+      };
+   }) => void,
+) => {
    socket.on('followingUpdate', callback);
 };
 

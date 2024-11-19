@@ -355,11 +355,14 @@ router.post('/user/:id/follow', async (req, res) => {
             recipientId: id,
             senderId: userIdToFollow,
             type: 'follow',
-            message: `started following you`
+            message: `started following you`,
          });
 
          if (notification) {
-            req.app.get('io').to(`notification_${id}`).emit('newNotification', notification);
+            req.app
+               .get('io')
+               .to(`notification_${id}`)
+               .emit('newNotification', notification);
          }
       }
 

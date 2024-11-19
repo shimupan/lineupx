@@ -533,9 +533,9 @@ router.post('/post/:id/comment', async (req, res) => {
       post.comments.push(comment);
       await post.save();
 
-      req.app.get('io').emit('commentUpdate', { 
-         postId: id, 
-         comments: post.comments 
+      req.app.get('io').emit('commentUpdate', {
+         postId: id,
+         comments: post.comments,
       });
 
       // Create notification only for post owner
@@ -545,11 +545,14 @@ router.post('/post/:id/comment', async (req, res) => {
             senderId: userId,
             type: 'comment',
             postId: post._id,
-            message: `commented on your post "${post.postTitle}"`
+            message: `commented on your post "${post.postTitle}"`,
          });
 
          if (notification) {
-            req.app.get('io').to(`notification_${post.UserID}`).emit('newNotification', notification);
+            req.app
+               .get('io')
+               .to(`notification_${post.UserID}`)
+               .emit('newNotification', notification);
          }
       }
 
