@@ -76,6 +76,17 @@ type AuthContextType = {
    setSaved: React.Dispatch<React.SetStateAction<string[]>>;
    following: FollowingType[];
    setFollowing: React.Dispatch<React.SetStateAction<FollowingType[]>>;
+
+  puuid: string;
+  setPuuid: React.Dispatch<React.SetStateAction<string>>;
+  gameName: string;
+  setGameName: React.Dispatch<React.SetStateAction<string>>;
+  tagLine: string;
+  setTagLine: React.Dispatch<React.SetStateAction<string>>;
+  RSOAccessToken: string;
+  setRSOAccessToken: React.Dispatch<React.SetStateAction<string>>;
+  RSORefreshToken: string;
+  setRSORefreshToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -99,7 +110,15 @@ function App() {
    const [following, setFollowing] = useState<FollowingType[]>([]);
    const location = useLocation();
 
-   // Login users
+   const [RSOAccessTokenC] = useCookies('RSOAccessToken', '');
+   const [RSORefreshTokenC] = useCookies('RSORefreshToken', '');
+   const [puuid, setPuuid] = useState('');
+   const [gameName, setGameName] = useState('');
+   const [tagLine, setTagLine] = useState('');
+   const [RSOAccessToken, setRSOAccessToken] = useState('');
+   const [RSORefreshToken, setRSORefreshToken] = useState('');
+
+  // Login users
    useEffect(() => {
       if (accessTokenC && !accessToken) {
          setAccessToken(accessTokenC);
@@ -127,9 +146,25 @@ function App() {
                return error;
             });
       }
-   }, [accessToken, refreshToken]);
 
-   useEffect(() => {
+      if (RSOAccessTokenC && !RSOAccessToken) { // if cookie exists, set auth's rso access token to this cookie
+        setRSOAccessToken(RSOAccessTokenC);
+      }
+      if (RSORefreshTokenC && !RSORefreshToken) {
+        setRSORefreshToken(RSORefreshTokenC);
+      }
+      if (RSOAccessToken && RSORefreshToken) {
+        axios.get(`/rso/getUserInfo/${RSOAccessToken}`).then((res) => {
+          console.log("res:", res);
+          setPuuid(res.data.puuid);
+          setGameName(res.data.gameName);
+          setTagLine(res.data.tagLine);
+        }).catch((error) => { return error; }) // .get.then.catch avoids async and await
+      }
+   }, [accessToken, refreshToken, RSOAccessToken, RSORefreshToken]);
+
+
+  useEffect(() => {
       NProgress.start();
 
       // Simulate a data fetching delay or perform actual data fetching
@@ -164,6 +199,16 @@ function App() {
                saved,
                setSaved,
                setFollowing,
+              puuid,
+              gameName,
+              tagLine,
+              RSOAccessToken,
+              RSORefreshToken,
+              setPuuid,
+              setGameName,
+              setTagLine,
+              setRSOAccessToken,
+              setRSORefreshToken,
             }}
          >
             <ScrollToTop />
