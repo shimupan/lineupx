@@ -48,3 +48,121 @@ export const removeDislike = async (
 ) => {
    socket.emit('removeDislike', { postId, userId: user_Id, game });
 };
+
+// New notification types
+export interface Notification {
+   _id: string;
+   recipient: string;
+   sender: {
+      _id: string;
+      username: string;
+      ProfilePicture?: string;
+   };
+   type: 'comment' | 'follow';
+   post?: {
+      _id: string;
+      postTitle: string;
+   };
+   message: string;
+   read: boolean;
+   createdAt: Date;
+}
+
+// New socket functions for notifications
+export const addComment = async (
+   postId: string,
+   userId: string,
+   username: string,
+   text: string,
+   game: string,
+) => {
+   socket.emit('addComment', { postId, userId, username, text, game });
+};
+
+export const followUser = async (
+   followerId: string,
+   followedId: string,
+   username: string,
+) => {
+   socket.emit('follow', { followerId, followedId, username });
+};
+
+// Notification room management
+export const joinNotificationRoom = (userId: string) => {
+   socket.emit('joinNotificationRoom', userId);
+};
+
+// Notification listeners
+export const onNotification = (callback: (notification: Notification) => void) => {
+   socket.on('newNotification', callback);
+};
+
+export const offNotification = () => {
+   socket.off('newNotification');
+};
+
+// New socket event listeners for real-time updates
+export const onCommentUpdate = (callback: (data: { postId: string; comments: any[] }) => void) => {
+   socket.on('commentUpdate', callback);
+};
+
+export const offCommentUpdate = () => {
+   socket.off('commentUpdate');
+};
+
+export const onFollowUpdate = (callback: (data: { 
+   userId: string;
+   followedUserId: string;
+   isFollowing: boolean;
+   updatedUser: {
+      id: string;
+      username: string;
+      ProfilePicture?: string;
+   }
+}) => void) => {
+   socket.on('followingUpdate', callback);
+};
+
+export const offFollowUpdate = () => {
+   socket.off('followingUpdate');
+};
+
+// Example usage in a component:
+/*
+import { useEffect } from 'react';
+import {
+   joinNotificationRoom,
+   onNotification,
+   offNotification,
+   onCommentUpdate,
+   offCommentUpdate,
+   type Notification
+} from './helper';
+
+function YourComponent() {
+   useEffect(() => {
+      // Join notification room
+      joinNotificationRoom(currentUserId);
+
+      // Set up notification listener
+      onNotification((notification: Notification) => {
+         // Handle notification (show toast, update UI, etc.)
+         console.log('New notification:', notification);
+      });
+
+      // Set up comment update listener
+      onCommentUpdate((data) => {
+         // Update comments in UI
+         console.log('Comment update:', data);
+      });
+
+      // Cleanup
+      return () => {
+         offNotification();
+         offCommentUpdate();
+      };
+   }, []);
+
+   // Rest of your component...
+}
+*/

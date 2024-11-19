@@ -533,10 +533,25 @@ router.post('/post/:id/comment', async (req, res) => {
       post.comments.push(comment);
       await post.save();
 
-      // Emit the updated comments
-      req.app
-         .get('io')
-         .emit('commentUpdate', { postId: id, comments: post.comments });
+      req.app.get('io').emit('commentUpdate', { 
+         postId: id, 
+         comments: post.comments 
+      });
+
+      // Create notification only for post owner
+      if (post.UserID.toString() !== userId) {
+         const notification = await createNotification({
+            recipientId: post.UserID,
+            senderId: userId,
+            type: 'comment',
+            postId: post._id,
+            message: `commented on your post "${post.postTitle}"`
+         });
+
+         if (notification) {
+            req.app.get('io').to(`notification_${post.UserID}`).emit('newNotification', notification);
+         }
+      }
 
       res.status(200).send(post);
    } catch (error) {

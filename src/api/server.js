@@ -11,6 +11,7 @@ import {
    health,
    leaderboard,
    test,
+   notifications,
 } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
@@ -58,6 +59,7 @@ app.use(replies);
 app.use(health);
 app.use(leaderboard);
 app.use(test);
+app.use(notifications);
 app.use(passport.initialize());
 app.use(passport.session());
 

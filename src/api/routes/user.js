@@ -349,6 +349,18 @@ router.post('/user/:id/follow', async (req, res) => {
          // follow the user
          user.following.push(id);
          userToFollow.followers.push(userIdToFollow);
+
+         // Create notification for the followed user
+         const notification = await createNotification({
+            recipientId: id,
+            senderId: userIdToFollow,
+            type: 'follow',
+            message: `started following you`
+         });
+
+         if (notification) {
+            req.app.get('io').to(`notification_${id}`).emit('newNotification', notification);
+         }
       }
 
       await user.save();
@@ -364,7 +376,6 @@ router.post('/user/:id/follow', async (req, res) => {
             ProfilePicture: userToFollow.ProfilePicture,
          },
       });
-
       res.status(200).send(user);
    } catch (error) {
       console.error('Failed to follow/unfollow user:', error);

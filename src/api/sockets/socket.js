@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import PostDataSchema from '../model/postData.js';
+import { createNotification } from '../routes/notifications.js';
 
 let io;
 
@@ -17,6 +18,13 @@ const setupSocket = (server) => {
 
       socket.on('disconnect', () => {
          console.log('User disconnected');
+      });
+
+      socket.on('joinNotificationRoom', (userId) => {
+         if (userId) {
+            socket.join(`notification_${userId}`);
+            console.log(`User ${userId} joined their notification room`);
+         }
       });
 
       socket.on('incrementViewCount', async ({ postId, game }) => {
@@ -106,6 +114,64 @@ const setupSocket = (server) => {
             console.error('Error removing dislike:', error);
          }
       });
+
+      socket.on('addComment', async ({ postId, userId, username, text, game }) => {
+         try {
+            const PostData = mongoose.model('PostData', PostDataSchema, game);
+            const post = await PostData.findById(postId);
+            if (!post) {
+               console.error('Post not found');
+               return;
+            }
+
+            const comment = {
+               username,
+               user: userId,
+               text,
+               createdAt: new Date()
+            };
+
+            post.comments.push(comment);
+            await post.save();
+
+            io.emit('commentUpdate', { postId, comments: post.comments });
+
+            if (post.UserID.toString() !== userId) {
+               const notification = await createNotification({
+                  recipientId: post.UserID,
+                  senderId: userId,
+                  type: 'comment',
+                  postId: post._id,
+                  message: `commented on your post "${post.postTitle}"`
+               });
+
+               if (notification) {
+                  io.to(`notification_${post.UserID}`).emit('newNotification', notification);
+               }
+            }
+         } catch (error) {
+            console.error('Error adding comment:', error);
+         }
+      });
+
+      // Follow with notification
+      socket.on('follow', async ({ followerId, followedId, username }) => {
+         try {
+            const notification = await createNotification({
+               recipientId: followedId,
+               senderId: followerId,
+               type: 'follow',
+               message: `${username} started following you`
+            });
+
+            if (notification) {
+               io.to(`notification_${followedId}`).emit('newNotification', notification);
+            }
+         } catch (error) {
+            console.error('Error creating follow notification:', error);
+         }
+      });
+
    });
 
    return io;
