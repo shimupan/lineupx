@@ -10,6 +10,7 @@ import {
    replies,
    health,
    leaderboard,
+   test,
 } from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
@@ -56,6 +57,7 @@ app.use(comment);
 app.use(replies);
 app.use(health);
 app.use(leaderboard);
+app.use(test);
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../App';
 import { useCookies } from '../../hooks';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -6,6 +6,7 @@ import axios from 'axios';
 import logo from '../../assets/lineupx_compact.webp';
 import { FaUserCircle, FaSignOutAlt, FaUpload, FaEdit } from 'react-icons/fa';
 import { MdAdminPanelSettings } from 'react-icons/md';
+import valorantLogo from '../../assets/svg/valorant.svg';
 
 const Header: React.FC = () => {
    const Auth = useContext(AuthContext);
@@ -13,7 +14,34 @@ const Header: React.FC = () => {
    const location = useLocation();
    const [, , deleteAccessCookie] = useCookies('accessToken', '');
    const [, , deleteRefreshCookie] = useCookies('refreshToken', '');
+   const [RSOAccessToken, ,] = useCookies('RSOAccessToken', '');
+   const [RSORefreshToken, ,] = useCookies('RSORefreshToken', '');
    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+   const [puuid, setPuuid] = useState('');
+   const [gameName, setGameName] = useState('');
+   const [tagLine, setTagLine] = useState('');
+
+   const handleRSOSignIn = () => {
+      window.location.href = axios.defaults.baseURL + 'rso/signin';
+   };
+
+   const checkRSOSignedIn = async () => {
+      if (!RSOAccessToken && !RSORefreshToken) return; // if these cookies are empty or don't exist, return
+      console.log('Cookies:', RSORefreshToken, RSOAccessToken);
+      try {
+         const res = await axios.get(`/rso/getUserInfo/${RSOAccessToken}`);
+         const resData = res.data;
+         console.log(resData);
+         setPuuid(resData.puuid);
+         setGameName(resData.gameName);
+         setTagLine(resData.tagLine);
+         RSOAccessToken
+            ? console.log('Access token cookie detected')
+            : console.log('No cookie');
+      } catch (error) {
+         console.log('Error fetching', error);
+      }
+   };
 
    const logout = async () => {
       try {
@@ -44,6 +72,11 @@ const Header: React.FC = () => {
       setIsDropdownOpen(!isDropdownOpen);
    };
 
+   useEffect(() => {
+      console.log('this is data:', puuid, tagLine, gameName);
+      checkRSOSignedIn();
+   }, [puuid]);
+
    return (
       <>
          <nav
@@ -71,6 +104,16 @@ const Header: React.FC = () => {
                            >
                               <MdAdminPanelSettings className="mr-2 text-xl" />
                               Admin Panel
+                           </button>
+                        )}
+
+                        {Auth?.role === 'developer' && (
+                           <button
+                              onClick={() => navigate('/developer/posts')}
+                              className="bg-indigo-800 text-white p-2 rounded hover:bg-blue-500 hover:text-white text-sm whitespace-nowrap flex items-center"
+                           >
+                              <MdAdminPanelSettings className="mr-2 text-xl" />
+                              Developer Panel
                            </button>
                         )}
 
@@ -118,21 +161,21 @@ const Header: React.FC = () => {
                                  </div>
                                  <Link
                                     to={`/user/${Auth.username}`}
-                                    className="block px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaUserCircle className="mr-2 text-xl" />
                                     View Profile
                                  </Link>
                                  <Link
                                     to={`/manage-posts/${Auth.username}`}
-                                    className="block px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaEdit className="mr-2 text-xl" />
                                     Post Studio
                                  </Link>
                                  <button
                                     onClick={logout}
-                                    className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
+                                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center"
                                  >
                                     <FaSignOutAlt className="mr-2 text-xl" />
                                     Logout
@@ -141,6 +184,10 @@ const Header: React.FC = () => {
                            )}
                         </div>
                      </>
+                  ) : RSOAccessToken ? (
+                     <div className="rounded-lg px-4 py-2 flex items-center space-x-4 font-bold bg-red-600">
+                        {`${gameName}#${tagLine}`}
+                     </div>
                   ) : (
                      <div
                         className="flex items-center space-x-2"
@@ -158,6 +205,22 @@ const Header: React.FC = () => {
                         >
                            Sign up
                         </Link>
+                        <button
+                           type={'button'}
+                           onClick={handleRSOSignIn}
+                           className={
+                              'bg-red-600 text-white p-2 rounded hover:bg-red-500 text-sm whitespace-nowrap'
+                           }
+                        >
+                           <div className={'flex flex-row gap-2'}>
+                              <img
+                                 src={valorantLogo}
+                                 alt={'Riot Games'}
+                                 className={'w-6 h-6'}
+                              />
+                              <p>{'Sign in'}</p>
+                           </div>
+                        </button>
                      </div>
                   )}
                </div>

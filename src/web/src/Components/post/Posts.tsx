@@ -244,60 +244,49 @@ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
                   />
                </Link>
                <div className="flex flex-col flex-grow">
-                  <div className="flex justify-between">
+                  <div className="flex items-start space-x-2">
                      <Link
-                        className="text-lg font-bold m-0 no-underline"
-                        to={`/game/${postData.game}/${encodeURIComponent(
-                           postData._id,
-                        )}`}
+                        className="text-lg font-bold m-0 no-underline w-full sm:w-[12rem] line-clamp-2"
+                        to={`/game/${postData.game}/${encodeURIComponent(postData._id)}`}
                      >
-                        {postData.postTitle.length > 23
-                           ? `${postData.postTitle.substring(0, 23)}...`
-                           : postData.postTitle}
+                        {postData.postTitle}
                      </Link>
-                     <div className="flex items-center space-x-2">
-                        <div className="flex items-center space-x-2">
-                           <BsThreeDotsVertical
-                              className="cursor-pointer"
-                              onClick={(
-                                 event: React.MouseEvent<SVGElement>,
-                              ) => {
-                                 const rect =
-                                    event.currentTarget.getBoundingClientRect();
-                                 const top = rect.top + window.scrollY;
-                                 const left = rect.left + window.scrollX;
-                                 const PostOptionBarWidth = 200;
-                                 const PostOptionBarHeight = 100;
-                                 const windowWidth = window.innerWidth;
-                                 const windowHeight = window.innerHeight;
+                     <BsThreeDotsVertical
+                        className="cursor-pointer ml-4"
+                        onClick={(event: React.MouseEvent<SVGElement>) => {
+                           const rect =
+                              event.currentTarget.getBoundingClientRect();
+                           const top = rect.top + window.scrollY;
+                           const left = rect.left + window.scrollX;
+                           const PostOptionBarWidth = 200;
+                           const PostOptionBarHeight = 100;
+                           const windowWidth = window.innerWidth;
+                           const windowHeight = window.innerHeight;
 
-                                 let adjustedLeft = left;
-                                 let adjustedTop = top + rect.height;
+                           let adjustedLeft = left;
+                           let adjustedTop = top + rect.height;
 
-                                 if (left + PostOptionBarWidth > windowWidth) {
-                                    adjustedLeft =
-                                       windowWidth - PostOptionBarWidth;
-                                 } else {
-                                    adjustedLeft += 25;
-                                 }
+                           if (left + PostOptionBarWidth > windowWidth) {
+                              adjustedLeft = windowWidth - PostOptionBarWidth;
+                           } else {
+                              adjustedLeft += 25;
+                           }
 
-                                 if (
-                                    top + rect.height + PostOptionBarHeight >
-                                    windowHeight
-                                 ) {
-                                    adjustedTop = top - PostOptionBarHeight;
-                                 }
+                           if (
+                              top + rect.height + PostOptionBarHeight >
+                              windowHeight
+                           ) {
+                              adjustedTop = top - PostOptionBarHeight;
+                           }
 
-                                 setOptionsBarPosition({
-                                    top: adjustedTop + 85,
-                                    left: adjustedLeft,
-                                 });
-                                 setShowOptions(true);
-                              }}
-                              size="24"
-                           />
-                        </div>
-                     </div>
+                           setOptionsBarPosition({
+                              top: adjustedTop + 85,
+                              left: adjustedLeft + 20,
+                           });
+                           setShowOptions(true);
+                        }}
+                        size="24"
+                     />
                   </div>
                   <div className="flex flex-row">
                      <Tooltip text={postData.Username}>
