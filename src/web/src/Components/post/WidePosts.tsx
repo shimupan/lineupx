@@ -8,7 +8,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { AuthContext } from '../../App';
 import { abbreviateNumber } from '../../util/updatePost';
-import axios from 'axios';
 
 type WidePostsProps = {
    post: PostType;
@@ -49,22 +48,8 @@ const WidePosts: React.FC<WidePostsProps> = ({
       closePostOptionBar();
    };
 
-   const incrementViewCount = async () => {
-      axios
-         .post(`/post/${post._id}/increment-view-count`, {
-            game: post.game,
-         })
-         .then((response) => {
-            console.log('Successfully incremented view count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment view count:', error);
-         });
-   };
-
    const handlePostClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
       event.preventDefault();
-      incrementViewCount();
       window.location.href = `/game/${post.game}/${post._id}`;
    };
 

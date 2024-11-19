@@ -270,19 +270,14 @@ const PostPage = () => {
    };
 
    const incrementViewCount = async () => {
-      axios
-         .post(
-            `/post/${postData._id || currPostData?._id}/increment-view-count`,
-            {
-               game: postData.game || currPostData?.game,
-            },
-         )
-         .then((response) => {
-            console.log('Successfully incremented view count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment view count:', error);
+      try {
+         await axios.post(`/post/${id}/increment-view-count`, {
+            game: game 
          });
+         console.log('Successfully incremented view count');
+      } catch (error) {
+         console.error('Failed to increment view count:', error);
+      }
    };
 
    const handleLikeDislike = async (action: 'like' | 'dislike') => {
@@ -327,6 +322,14 @@ const PostPage = () => {
       }
    }, [postData, currPostData]);
 
+
+   useEffect(() => {
+      // only increment view once when component mounts
+      if (game && id) {
+         incrementViewCount();
+      }
+   }, []); 
+   
    useEffect(() => {
       const fetchPostData = async () => {
          setIsLoading(true);
@@ -345,7 +348,6 @@ const PostPage = () => {
                ),
             );
             await fetchComments();
-            await incrementViewCount();
          } catch (error) {
             console.error('Failed to fetch post data:', error);
          } finally {
@@ -361,34 +363,32 @@ const PostPage = () => {
    }, [id, user_Id]);
 
    useEffect(() => {
-      if (postData) {
-         getUserByID(postData.UserID).then((user) => {
+      const fetchRelatedData = async () => {
+         const userId = postData?.UserID || currPostData?.UserID;
+         if (userId) {
+            const user = userCache[userId] || (await getUserByID(userId));
             setUser(user);
             setFollowers(new Set(user.followers));
             setFollowerCount(user.followers.length);
-         });
-         getPostByMap(postData.game, postData.mapName).then((posts) => {
-            // Limit the number of related posts to 20
+         }
+
+         const game = postData?.game || currPostData?.game;
+         const mapName = postData?.mapName || currPostData?.mapName;
+         if (game && mapName) {
+            const posts = await getPostByMap(game, mapName);
             let filter: PostType[] = posts
                .slice(0, 20)
                .map((post) => post.post!);
             setRelatedPosts(filter);
-         });
-      } else {
-         getUserByID(currPostData?.UserID ?? '').then((user) => {
-            setUser(user);
-         });
-         getPostByMap(
-            currPostData?.game ?? '',
-            currPostData?.mapName ?? '',
-         ).then((posts) => {
-            let filter: PostType[] = posts
-               .slice(0, 20)
-               .map((post) => post.post!);
-            setRelatedPosts(filter);
-         });
-      }
-   }, [postData?.UserID || currPostData?.UserID]);
+
+            const userIds = filter.map((post) => post.UserID);
+            fetchUsers(userIds);
+         }
+      };
+
+      fetchRelatedData();
+   }, [postData, currPostData, userCache, fetchUsers]);
+
 
    useEffect(() => {
       socket.on('viewUpdate', (data) => {
