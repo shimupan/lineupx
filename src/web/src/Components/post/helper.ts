@@ -1,6 +1,12 @@
 import socket from '../../services/socket';
 
-export function timeAgo(date: Date) {
+export function timeAgo(dateString: string | Date) {
+   const date = dateString instanceof Date ? dateString : new Date(dateString);
+   
+   if (!date || isNaN(date.getTime())) {
+      return 'Invalid date';
+   }
+
    const now = new Date();
    const secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
    const minutesAgo = Math.floor(secondsAgo / 60);
@@ -16,6 +22,7 @@ export function timeAgo(date: Date) {
    if (monthsAgo < 12) return `${monthsAgo} months ago`;
    return `${yearsAgo} years ago`;
 }
+
 
 export const incrementLikeCount = async (
    postId: string,
@@ -87,12 +94,38 @@ export const followUser = async (
    socket.emit('follow', { followerId, followedId, username });
 };
 
-// Notification room management
+export const offCommentUpdate = () => {
+   socket.off('commentUpdate');
+};
+
+export const offFollowUpdate = () => {
+   socket.off('followingUpdate');
+};
+
+// Socket functions for notifications
+export const handleFollow = async (
+   followerId: string,
+   followedId: string,
+   username: string,
+) => {
+   socket.emit('follow', { followerId, followedId, username });
+};
+
+export const handleComment = async (
+   postId: string,
+   userId: string,
+   username: string,
+   text: string,
+   game: string,
+) => {
+   socket.emit('addComment', { postId, userId, username, text, game });
+};
+
+// Update these in ProfilePage.tsx and PostPage.tsx
 export const joinNotificationRoom = (userId: string) => {
    socket.emit('joinNotificationRoom', userId);
 };
 
-// Notification listeners
 export const onNotification = (
    callback: (notification: Notification) => void,
 ) => {
@@ -103,15 +136,11 @@ export const offNotification = () => {
    socket.off('newNotification');
 };
 
-// New socket event listeners for real-time updates
+// Socket event listeners for real-time updates
 export const onCommentUpdate = (
    callback: (data: { postId: string; comments: any[] }) => void,
 ) => {
    socket.on('commentUpdate', callback);
-};
-
-export const offCommentUpdate = () => {
-   socket.off('commentUpdate');
 };
 
 export const onFollowUpdate = (
@@ -128,47 +157,3 @@ export const onFollowUpdate = (
 ) => {
    socket.on('followingUpdate', callback);
 };
-
-export const offFollowUpdate = () => {
-   socket.off('followingUpdate');
-};
-
-// Example usage in a component:
-/*
-import { useEffect } from 'react';
-import {
-   joinNotificationRoom,
-   onNotification,
-   offNotification,
-   onCommentUpdate,
-   offCommentUpdate,
-   type Notification
-} from './helper';
-
-function YourComponent() {
-   useEffect(() => {
-      // Join notification room
-      joinNotificationRoom(currentUserId);
-
-      // Set up notification listener
-      onNotification((notification: Notification) => {
-         // Handle notification (show toast, update UI, etc.)
-         console.log('New notification:', notification);
-      });
-
-      // Set up comment update listener
-      onCommentUpdate((data) => {
-         // Update comments in UI
-         console.log('Comment update:', data);
-      });
-
-      // Cleanup
-      return () => {
-         offNotification();
-         offCommentUpdate();
-      };
-   }, []);
-
-   // Rest of your component...
-}
-*/

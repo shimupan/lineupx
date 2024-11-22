@@ -87,3 +87,4 @@ export { default as VerificationMessage } from './Components/profile/Verificatio
 export { default as FlippingViewCount } from './Components/post/FlippingViewCount';
 export { default as MobileComments } from './Components/post/MobileComments';
 export { default as ZoomableImage } from './Components/post/ZoomableImage';
+export { default as NotificationBell } from './Components/global/NotificationBell';

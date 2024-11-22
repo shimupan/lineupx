@@ -29,6 +29,8 @@ import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import useUserCache from '../hooks/useUserCache';
 import socket from '../services/socket';
+import { joinNotificationRoom, offNotification, offCommentUpdate, offFollowUpdate } from '../Components/post/helper';
+
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -143,6 +145,18 @@ const PostPage = () => {
    }, [isFullScreen]);
 
    useEffect(() => {
+      if (Auth?._id) {
+         joinNotificationRoom(Auth._id);
+      }
+   
+      return () => {
+         offNotification();
+         offCommentUpdate();
+         offFollowUpdate();
+      };
+   }, [Auth?._id]);
+
+   useEffect(() => {
       const handleFullscreenChange = () => {
          if (!document.fullscreenElement) {
             setIsFullScreen(false);
@@ -253,6 +267,14 @@ const PostPage = () => {
                username: Auth?.username,
                text: newComment,
             };
+
+            socket.emit('addComment', {
+               postId: postData?._id || currPostData?._id,
+               userId: user_Id,
+               username: Auth?.username,
+               text: newComment,
+               game: postData?.game || currPostData?.game
+            });
 
             setComments([newCommentWithDate, ...comments]);
             setUserComments([userResponse.data, ...userComments]);

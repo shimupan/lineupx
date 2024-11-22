@@ -140,8 +140,13 @@ const setupSocket = (server) => {
                post.comments.push(comment);
                await post.save();
 
-               io.emit('commentUpdate', { postId, comments: post.comments });
+               // Emit comment update to all clients
+               io.emit('commentUpdate', {
+                  postId,
+                  comments: post.comments,
+               });
 
+               // Create notification for post owner
                if (post.UserID.toString() !== userId) {
                   const notification = await createNotification({
                      recipientId: post.UserID,
@@ -149,6 +154,7 @@ const setupSocket = (server) => {
                      type: 'comment',
                      postId: post._id,
                      message: `commented on your post "${post.postTitle}"`,
+                     game: game, 
                   });
 
                   if (notification) {
@@ -167,19 +173,26 @@ const setupSocket = (server) => {
       // Follow with notification
       socket.on('follow', async ({ followerId, followedId, username }) => {
          try {
+            // Create notification for followed user
             const notification = await createNotification({
                recipientId: followedId,
                senderId: followerId,
                type: 'follow',
-               message: `${username} started following you`,
+               message: `${username} started following you`
             });
 
             if (notification) {
-               io.to(`notification_${followedId}`).emit(
-                  'newNotification',
-                  notification,
-               );
+               // Emit to specific user's notification room
+               io.to(`notification_${followedId}`).emit('newNotification', notification);
             }
+
+            // Emit follow update for real-time UI updates
+            io.emit('followingUpdate', {
+               userId: followerId,
+               followedUserId: followedId,
+               isFollowing: true,
+               updatedUser: notification?.sender
+            });
          } catch (error) {
             console.error('Error creating follow notification:', error);
          }
