@@ -122,180 +122,185 @@ describe('GET /user/:id', () => {
 });
 
 describe('User Routes', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+   afterEach(() => {
+      jest.clearAllMocks();
+   });
 
-  describe('POST /users', () => {
-    test('should return 401 if accessToken or refreshToken is missing', async () => {
-      const response = await request(app).post('/users').send({ accessToken: '' });
-      expect(response.status).toBe(401);
-      expect(response.text).toBe('Access Denied');
-    });
-
-    test('should return 404 if user is not found', async () => {
-      const mockDecoded = { aud: '12345' };
-      jest.spyOn(jwt, 'decode').mockReturnValue(mockDecoded);
-      User.findOne.mockResolvedValue(null);
-
-      const response = await request(app).post('/users').send({
-        accessToken: 'validToken',
-        refreshToken: 'validRefresh',
+   describe('POST /users', () => {
+      test('should return 401 if accessToken or refreshToken is missing', async () => {
+         const response = await request(app)
+            .post('/users')
+            .send({ accessToken: '' });
+         expect(response.status).toBe(401);
+         expect(response.text).toBe('Access Denied');
       });
 
-      expect(response.status).toBe(404);
-      expect(response.text).toBe('User not found');
-    });
+      test('should return 404 if user is not found', async () => {
+         const mockDecoded = { aud: '12345' };
+         jest.spyOn(jwt, 'decode').mockReturnValue(mockDecoded);
+         User.findOne.mockResolvedValue(null);
 
-    test('should return user data if valid accessToken and user exists', async () => {
-      const mockDecoded = { aud: '12345' };
-      jest.spyOn(jwt, 'decode').mockReturnValue(mockDecoded);
-      const mockUser = { _id: '12345', username: 'testuser' };
-      User.findOne.mockResolvedValue(mockUser);
+         const response = await request(app).post('/users').send({
+            accessToken: 'validToken',
+            refreshToken: 'validRefresh',
+         });
 
-      const response = await request(app).post('/users').send({
-        accessToken: 'validToken',
-        refreshToken: 'validRefresh',
+         expect(response.status).toBe(404);
+         expect(response.text).toBe('User not found');
       });
 
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual(mockUser);
-    });
-  });
+      test('should return user data if valid accessToken and user exists', async () => {
+         const mockDecoded = { aud: '12345' };
+         jest.spyOn(jwt, 'decode').mockReturnValue(mockDecoded);
+         const mockUser = { _id: '12345', username: 'testuser' };
+         User.findOne.mockResolvedValue(mockUser);
 
-  describe('GET /user/id/:id', () => {
-    test('should return 404 if user is not found', async () => {
-      User.findOne.mockResolvedValue(null);
+         const response = await request(app).post('/users').send({
+            accessToken: 'validToken',
+            refreshToken: 'validRefresh',
+         });
 
-      const response = await request(app).get('/user/id/12345');
+         expect(response.status).toBe(200);
+         expect(response.body).toEqual(mockUser);
+      });
+   });
 
-      expect(response.status).toBe(404);
-      expect(response.text).toBe('User not found');
-    });
+   describe('GET /user/id/:id', () => {
+      test('should return 404 if user is not found', async () => {
+         User.findOne.mockResolvedValue(null);
 
-    test('should return user if user exists', async () => {
-      const mockUser = { _id: '12345', username: 'testuser' };
-      User.findOne.mockResolvedValue(mockUser);
+         const response = await request(app).get('/user/id/12345');
 
-      const response = await request(app).get('/user/id/12345');
-
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual(mockUser);
-    });
-  });
-
-  describe('GET /users/ids', () => {
-    test('should return 404 if no users are found', async () => {
-      User.find.mockResolvedValue([]);
-
-      const response = await request(app).get('/users/ids').query({
-        ids: '123,456',
+         expect(response.status).toBe(404);
+         expect(response.text).toBe('User not found');
       });
 
-      expect(response.status).toBe(404);
-      expect(response.text).toBe('No users found');
-    });
+      test('should return user if user exists', async () => {
+         const mockUser = { _id: '12345', username: 'testuser' };
+         User.findOne.mockResolvedValue(mockUser);
 
-    test('should return 500 for server error', async () => {
-      User.find.mockRejectedValue(new Error('Database error'));
+         const response = await request(app).get('/user/id/12345');
 
-      const response = await request(app).get('/users/ids').query({
-        ids: '123,456',
+         expect(response.status).toBe(200);
+         expect(response.body).toEqual(mockUser);
+      });
+   });
+
+   describe('GET /users/ids', () => {
+      test('should return 404 if no users are found', async () => {
+         User.find.mockResolvedValue([]);
+
+         const response = await request(app).get('/users/ids').query({
+            ids: '123,456',
+         });
+
+         expect(response.status).toBe(404);
+         expect(response.text).toBe('No users found');
       });
 
-      expect(response.status).toBe(500);
-      expect(response.text).toBe('Server error');
-    });
+      test('should return 500 for server error', async () => {
+         User.find.mockRejectedValue(new Error('Database error'));
 
-    test('should return users if they exist', async () => {
-      const mockUsers = [
-        { _id: '123', username: 'user1' },
-        { _id: '456', username: 'user2' },
-      ];
-      User.find.mockResolvedValue(mockUsers);
+         const response = await request(app).get('/users/ids').query({
+            ids: '123,456',
+         });
 
-      const response = await request(app).get('/users/ids').query({
-        ids: '123,456',
+         expect(response.status).toBe(500);
+         expect(response.text).toBe('Server error');
       });
 
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual(mockUsers);
-    });
-  });
+      test('should return users if they exist', async () => {
+         const mockUsers = [
+            { _id: '123', username: 'user1' },
+            { _id: '456', username: 'user2' },
+         ];
+         User.find.mockResolvedValue(mockUsers);
 
-  describe('PATCH /user/:id', () => {
-    test('should return 404 if user is not found', async () => {
-      User.findById.mockResolvedValue(null);
+         const response = await request(app).get('/users/ids').query({
+            ids: '123,456',
+         });
 
-      const response = await request(app).patch('/user/12345').send({
-        username: 'updatedUser',
+         expect(response.status).toBe(200);
+         expect(response.body).toEqual(mockUsers);
+      });
+   });
+
+   describe('PATCH /user/:id', () => {
+      test('should return 404 if user is not found', async () => {
+         User.findById.mockResolvedValue(null);
+
+         const response = await request(app).patch('/user/12345').send({
+            username: 'updatedUser',
+         });
+
+         expect(response.status).toBe(404);
+         expect(response.body).toEqual({ message: 'User not found' });
       });
 
-      expect(response.status).toBe(404);
-      expect(response.body).toEqual({ message: 'User not found' });
-    });
+      test('should update user fields if user exists', async () => {
+         const mockUser = {
+            _id: '12345',
+            username: 'testuser',
+            save: jest.fn(),
+         };
+         User.findById.mockResolvedValue(mockUser);
 
-    test('should update user fields if user exists', async () => {
-      const mockUser = { _id: '12345', username: 'testuser', save: jest.fn() };
-      User.findById.mockResolvedValue(mockUser);
+         const response = await request(app).patch('/user/12345').send({
+            username: 'updatedUser',
+         });
 
-      const response = await request(app).patch('/user/12345').send({
-        username: 'updatedUser',
+         expect(response.status).toBe(200);
+         expect(response.body.message).toBe('User updated successfully');
+         expect(response.body.user.username).toBe('updatedUser');
+         expect(mockUser.username).toBe('updatedUser');
       });
 
-      expect(response.status).toBe(200);
-      expect(response.body.message).toBe('User updated successfully');
-      expect(response.body.user.username).toBe('updatedUser');
-      expect(mockUser.username).toBe('updatedUser');
-    });
+      test('should handle server errors gracefully', async () => {
+         User.findById.mockRejectedValue(new Error('Database error'));
 
-    test('should handle server errors gracefully', async () => {
-      User.findById.mockRejectedValue(new Error('Database error'));
+         const response = await request(app).patch('/user/12345').send({
+            username: 'updatedUser',
+         });
 
-      const response = await request(app).patch('/user/12345').send({
-        username: 'updatedUser',
+         expect(response.status).toBe(500);
+         expect(response.body).toEqual({ message: 'Server error' });
+      });
+   });
+
+   describe('POST /user', () => {
+      test('should return 401 if role is not admin', async () => {
+         const response = await request(app).post('/user').send({
+            role: 'user',
+         });
+
+         expect(response.status).toBe(401);
+         expect(response.text).toBe('Unauthorized');
       });
 
-      expect(response.status).toBe(500);
-      expect(response.body).toEqual({ message: 'Server error' });
-    });
-  });
+      test('should return 404 if no users are found', async () => {
+         User.find.mockResolvedValue([]);
 
-  describe('POST /user', () => {
-    test('should return 401 if role is not admin', async () => {
-      const response = await request(app).post('/user').send({
-        role: 'user',
+         const response = await request(app).post('/user').send({
+            role: 'admin',
+         });
+
+         expect(response.status).toBe(404);
+         expect(response.text).toBe('Users not found');
       });
 
-      expect(response.status).toBe(401);
-      expect(response.text).toBe('Unauthorized');
-    });
+      test('should return all users if role is admin', async () => {
+         const mockUsers = [
+            { _id: '123', username: 'user1' },
+            { _id: '456', username: 'user2' },
+         ];
+         User.find.mockResolvedValue(mockUsers);
 
-    test('should return 404 if no users are found', async () => {
-      User.find.mockResolvedValue([]);
+         const response = await request(app).post('/user').send({
+            role: 'admin',
+         });
 
-      const response = await request(app).post('/user').send({
-        role: 'admin',
+         expect(response.status).toBe(200);
+         expect(response.body).toEqual(mockUsers);
       });
-
-      expect(response.status).toBe(404);
-      expect(response.text).toBe('Users not found');
-    });
-
-    test('should return all users if role is admin', async () => {
-      const mockUsers = [
-        { _id: '123', username: 'user1' },
-        { _id: '456', username: 'user2' },
-      ];
-      User.find.mockResolvedValue(mockUsers);
-
-      const response = await request(app).post('/user').send({
-        role: 'admin',
-      });
-
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual(mockUsers);
-    });
-  });
+   });
 });
-
