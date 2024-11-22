@@ -37,6 +37,7 @@ import {
    GuestPage,
    PrivatePolicy,
    TOS,
+   ChatBot,
    ManagePosts,
    EditPosts,
    ServerStatus,
@@ -200,6 +201,7 @@ function App() {
                   path="/search/:game/:query"
                   element={<SearchResults />}
                ></Route>
+               <Route path="/chat" element={<ChatBot />}></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
                <Route path="/user/guest" element={<GuestPage />} />
                <Route path="/game/:game/:id" element={<PostPage />}></Route>
