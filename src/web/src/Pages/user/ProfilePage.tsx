@@ -24,7 +24,12 @@ import { MdOutlineVideogameAsset } from 'react-icons/md';
 import { ValorantAgentProvider } from '../../contexts/ValorantAgentContext';
 import { UserProvider } from '../../contexts/UserContext';
 import useUserCache from '../../hooks/useUserCache';
-import { joinNotificationRoom, offNotification, offCommentUpdate, offFollowUpdate } from '../../Components/post/helper';
+import {
+   joinNotificationRoom,
+   offNotification,
+   offCommentUpdate,
+   offFollowUpdate,
+} from '../../Components/post/helper';
 
 const ProfilePage = () => {
    const { userCache, fetchUsers } = useUserCache();
@@ -86,7 +91,7 @@ const ProfilePage = () => {
       if (Auth?._id) {
          joinNotificationRoom(Auth._id);
       }
-   
+
       return () => {
          offNotification();
          offCommentUpdate();

@@ -29,8 +29,12 @@ import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import useUserCache from '../hooks/useUserCache';
 import socket from '../services/socket';
-import { joinNotificationRoom, offNotification, offCommentUpdate, offFollowUpdate } from '../Components/post/helper';
-
+import {
+   joinNotificationRoom,
+   offNotification,
+   offCommentUpdate,
+   offFollowUpdate,
+} from '../Components/post/helper';
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -148,7 +152,7 @@ const PostPage = () => {
       if (Auth?._id) {
          joinNotificationRoom(Auth._id);
       }
-   
+
       return () => {
          offNotification();
          offCommentUpdate();
@@ -273,7 +277,7 @@ const PostPage = () => {
                userId: user_Id,
                username: Auth?.username,
                text: newComment,
-               game: postData?.game || currPostData?.game
+               game: postData?.game || currPostData?.game,
             });
 
             setComments([newCommentWithDate, ...comments]);

@@ -2,7 +2,7 @@ import socket from '../../services/socket';
 
 export function timeAgo(dateString: string | Date) {
    const date = dateString instanceof Date ? dateString : new Date(dateString);
-   
+
    if (!date || isNaN(date.getTime())) {
       return 'Invalid date';
    }
@@ -22,7 +22,6 @@ export function timeAgo(dateString: string | Date) {
    if (monthsAgo < 12) return `${monthsAgo} months ago`;
    return `${yearsAgo} years ago`;
 }
-
 
 export const incrementLikeCount = async (
    postId: string,
