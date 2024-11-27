@@ -171,7 +171,7 @@ const SideNavWrapper: React.FC<SideNavWrapperProps> = ({ className }) => {
                            <img
                               src={statistic}
                               alt="Stats"
-                              className="w-6 h-6 filter brightness-0 invert"
+                              className="w-10 h-8 filter brightness-0 invert"
                            />
                         </IconWrapper>
                      }

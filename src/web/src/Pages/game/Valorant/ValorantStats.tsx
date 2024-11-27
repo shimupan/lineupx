@@ -43,14 +43,6 @@ const ValorantStats: React.FC = () => {
         setSearchTerm(e.target.value);
     };
 
-    interface StatCardProps {
-        topText: string;
-        middleText: string;
-        bottomText: string;
-        altText: string;
-        src: string;
-    }
-
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<PostType[]>([]);
     const [open, setOpen] = useState(false);
@@ -203,6 +195,14 @@ const ValorantStats: React.FC = () => {
         }])
     }, []);
 
+    interface StatCardProps {
+        topText: string;
+        middleText: string;
+        bottomText: string;
+        altText: string;
+        src: string;
+    }
+
     const StatCard: React.FC<StatCardProps> = ({ topText, middleText, bottomText, altText, src }) => (
         <div className="w-52 h-64 bg-white flex flex-col items-center rounded-lg">
             <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mt-4">
@@ -217,40 +217,74 @@ const ValorantStats: React.FC = () => {
         </div>
     );
 
+    interface AgentCardProps {
+        agentRole: string;
+        agentName: string;
+        pickRate: string;
+        winRate: string;
+        killDeathRatio: string;
+        altText: string;
+        src: string;
+    }
+
+    const AgentCard: React.FC<AgentCardProps> = ({ agentRole, agentName, pickRate, winRate, killDeathRatio, altText, src }) => (
+        <div className="flex flex-row mt-4">
+            <img
+                src={src}
+                alt={altText}
+                className="w-auto h-16 rounded-lg"
+            />
+            <div className="ml-4">
+                <div className="grid grid-cols-4 gap-4">
+                    <div className="text-gray-500 font-bold">{agentRole}</div>
+                    <div className="text-gray-500 font-bold text-center">Pick Rate</div>
+                    <div className="text-gray-500 font-bold text-center">Win Rate</div>
+                    <div className="text-gray-500 font-bold text-center">K/D Ratio</div>
+                </div>
+                <div className="grid grid-cols-4 gap-4 mt-2 text-lg">
+                    <div className="text-black font-bold">{agentName}</div>
+                    <div className="text-black font-bold text-center">{pickRate}</div>
+                    <div className="text-black font-bold text-center">{winRate}</div>
+                    <div className="text-black font-bold text-center">{killDeathRatio}</div>
+                </div>
+            </div>
+        </div>
+    );
     return (    
         <Layout>
-            <div className="hidden md:flex flex-col items-center justify-center mt-32">
-                <h1 className="text-4xl mb-16 font-bold text-white">Valorant Stats</h1>
+            <div className="hidden md:flex flex-col items-center justify-center mt-16">
                 <div
                     className="flex flex-col items-center h-96 relative bg-center bg-no-repeat bg-cover w-9/12"
                     style={{
-                        backgroundImage: `url(${VALORANT_BANNER})`,
-                        backgroundSize: '100%',
-                        backgroundPosition: '90% 10%',
-                        opacity: 0.5,
+                    backgroundImage: `url(${VALORANT_BANNER})`,
+                    backgroundSize: '100%',
+                    backgroundPosition: '90% 10%'
                     }}
-                ></div>
+                >
+                    <div className="w-full h-full bg-black opacity-50 absolute inset-0"></div>
+                    <h1 className="text-4xl mb-16 z-10 font-bold mt-20 text-white">Valorant Stats</h1>
                     <div className="w-full px-4 z-10 flex justify-center items-center absolute inset-0">
-                        <input
-                            type="text"
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            placeholder="Search..."
-                            className="w-8/12 p-4 rounded text-black text-center" 
-                        />
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Search..."
+                        className="w-8/12 p-4 rounded text-black text-center shadow-lg bg-white"
+                    />
                     </div>
-            </div>
-            <div className="md:hidden flex flex-col items-center justify-center mt-32">
-                <h1 className="text-4xl mb-16 font-bold text-white">Valorant Stats</h1>
-                <div
-                    className="flex flex-col items-center h-96 relative bg-center bg-no-repeat bg-cover w-full"
+                </div>
+                </div>
+
+            <div className="md:hidden flex flex-col items-center justify-center mt-16">
+                <div className="flex flex-col items-center h-96 relative bg-center bg-no-repeat bg-cover w-full"
                     style={{
                         backgroundImage: `url(${VALORANT_BANNER})`,
-                        backgroundSize: '100%',
-                        backgroundPosition: '90% 10%',
-                        opacity: 0.5,
+                        backgroundSize: '120%',
+                        backgroundPosition: '90% 10%'
                     }}
-                ></div>
+                >
+                    <div className="w-full h-full bg-black opacity-50 absolute inset-0"></div>
+                    <h1 className="text-4xl z-10 mt-20 font-bold text-white">Valorant Stats</h1>
                     <div className="w-full px-4 z-10 flex justify-center items-center absolute inset-0">
                         <input
                             type="text"
@@ -260,21 +294,22 @@ const ValorantStats: React.FC = () => {
                             className="w-8/12 p-4 rounded text-black text-center" 
                         />
                     </div>
+                    </div>
             </div>
-            <div className="hidden md:flex flex-row justify-center mt-8 space-x-24">
-                <div className="w-60 h-auto bg-white flex flex-col rounded-lg p-4">
+            <div className="hidden md:flex flex-row justify-center mt-8 space-x-12">
+                <div className="w-[430px] h-80 bg-white flex flex-col rounded-lg p-4">
                     <span className="text-black mt-4 text-xl text-center">Lineups</span>
                   {posts.slice(0, 3).map((post) => (
-                    <div key={post._id} className="flex flex-row mt-4">
+                    <div key={post._id} className="flex flex-row items-center mt-2">
                       <img
                         src={`${CDN_URL}/${post.landingPosition.public_id}.png`}
                         alt="Post Image"
-                        className="w-16 h-16 rounded-lg flex-grow"
+                        className="w-auto h-16 rounded-lg"
                       />
                       <div className="ml-4">
                         <div className="text-black font-bold">{post.postTitle}</div>
-                        <div className="text-black">{`${post.views} views`}</div>
-                        <div className="text-black">{new Date(post.date).toLocaleDateString()}</div>
+                        <div className="text-black"> by {post.Username}</div>
+                        <div className="text-black">{`${post.views} views • ${Math.floor((new Date().getTime() - new Date(post.date).getTime()) / (1000 * 60 * 60 * 24))} days ago`}</div>
                       </div>
                     </div>
                   ))}
@@ -300,33 +335,111 @@ const ValorantStats: React.FC = () => {
                     altText="CS2 Logo" 
                     src={cs2Logo} 
                 />
-                <div className="w-60 h-72 bg-white flex flex-col items-center rounded-lg">
-                    <span className="text-black mt-4 text-xl">Agent Data</span> 
+                <div className="w-430px h-80 bg-white flex flex-col rounded-lg p-4">
+                    <span className="text-black mt-4 text-xl text-center">Agents</span>
+                    <AgentCard
+                        agentRole="Duelist"
+                        agentName="Jett"
+                        pickRate="64%"
+                        winRate="50.8%"
+                        killDeathRatio="1.1"
+                        altText="Jett Logo"
+                        src={`https://media.valorant-api.com/agents/add6443a-41bd-e414-f6ad-e58d267f4e95/displayicon.png`}
+                    />
+                    <AgentCard
+                        agentRole="Duelist"
+                        agentName="Reyna"
+                        pickRate="60%"
+                        winRate="51.4%"
+                        killDeathRatio="1.0"
+                        altText="Reyna Logo"
+                        src={`https://media.valorant-api.com/agents/a3bfb853-43b2-7238-a4f1-ad90e9e46bcc/displayicon.png`}
+                    />
+                    <AgentCard
+                        agentRole="Sentinel"
+                        agentName="Breach"
+                        pickRate="10%"
+                        winRate="55%"
+                        killDeathRatio="1.2"
+                        altText="Breach Logo"
+                        src={`https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png`}
+                    />
                 </div>
             </div>
 
-            <div className="flex md:hidden items-center mt-8 space-x-2">
-                <StatCard 
-                    topText="Top Text 1" 
-                    middleText="Middle Text 1" 
-                    bottomText="Bottom Text 1" 
-                    altText="CS2 Logo" 
-                    src={cs2Logo} 
-                />
-                <StatCard 
-                    topText="Top Text 2" 
-                    middleText="Middle Text 2" 
-                    bottomText="Bottom Text 2" 
-                    altText="CS2 Logo" 
-                    src={cs2Logo} 
-                />
-                <StatCard 
-                    topText="Top Text 3" 
-                    middleText="Middle Text 3" 
-                    bottomText="Bottom Text 3" 
-                    altText="CS2 Logo" 
-                    src={cs2Logo} 
-                />
+            <div className="flex flex-col md:hidden items-center mt-8 space-x-2">
+                <div className="flex flex-row">
+                    <StatCard 
+                        topText="Top Text 1" 
+                        middleText="Middle Text 1" 
+                        bottomText="Bottom Text 1" 
+                        altText="CS2 Logo" 
+                        src={cs2Logo} 
+                    />
+                    <StatCard 
+                        topText="Top Text 2" 
+                        middleText="Middle Text 2" 
+                        bottomText="Bottom Text 2" 
+                        altText="CS2 Logo" 
+                        src={cs2Logo} 
+                    />
+                    <StatCard 
+                        topText="Top Text 3" 
+                        middleText="Middle Text 3" 
+                        bottomText="Bottom Text 3" 
+                        altText="CS2 Logo" 
+                        src={cs2Logo} 
+                    />
+                </div>
+                <div className="flex mt-16">
+                    <div className="w-[430px] h-80 bg-white flex flex-col rounded-lg p-4">
+                        <span className="text-black mt-4 text-xl text-center">Lineups</span>
+                    {posts.slice(0, 3).map((post) => (
+                        <div key={post._id} className="flex flex-row items-center mt-2">
+                        <img
+                            src={`${CDN_URL}/${post.landingPosition.public_id}.png`}
+                            alt="Post Image"
+                            className="w-auto h-16 rounded-lg"
+                        />
+                        <div className="ml-4">
+                            <div className="text-black font-bold">{post.postTitle}</div>
+                            <div className="text-black"> by {post.Username}</div>
+                            <div className="text-black">{`${post.views} views • ${Math.floor((new Date().getTime() - new Date(post.date).getTime()) / (1000 * 60 * 60 * 24))} days ago`}</div>
+                        </div>
+                        </div>
+                    ))}
+                    </div>
+                    <div className="w-430px h-80 bg-white flex flex-col rounded-lg p-4">
+                        <span className="text-black mt-4 text-xl text-center">Agents</span>
+                        <AgentCard
+                            agentRole="Duelist"
+                            agentName="Jett"
+                            pickRate="64%"
+                            winRate="50.8%"
+                            killDeathRatio="1.1"
+                            altText="Jett Logo"
+                            src={`https://media.valorant-api.com/agents/add6443a-41bd-e414-f6ad-e58d267f4e95/displayicon.png`}
+                        />
+                        <AgentCard
+                            agentRole="Duelist"
+                            agentName="Reyna"
+                            pickRate="60%"
+                            winRate="51.4%"
+                            killDeathRatio="1.0"
+                            altText="Reyna Logo"
+                            src={`https://media.valorant-api.com/agents/a3bfb853-43b2-7238-a4f1-ad90e9e46bcc/displayicon.png`}
+                        />
+                        <AgentCard
+                            agentRole="Sentinel"
+                            agentName="Breach"
+                            pickRate="10%"
+                            winRate="55%"
+                            killDeathRatio="1.2"
+                            altText="Breach Logo"
+                            src={`https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png`}
+                        />
+                    </div>
+                </div>
             </div>
         </Layout>
     );
