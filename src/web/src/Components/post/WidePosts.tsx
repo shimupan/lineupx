@@ -7,7 +7,7 @@ import { CDN_URL } from '../../Constants';
 import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { AuthContext } from '../../App';
-import axios from 'axios';
+import { abbreviateNumber } from '../../util/updatePost';
 
 type WidePostsProps = {
    post: PostType;
@@ -48,22 +48,8 @@ const WidePosts: React.FC<WidePostsProps> = ({
       closePostOptionBar();
    };
 
-   const incrementViewCount = async () => {
-      axios
-         .post(`/post/${post._id}/increment-view-count`, {
-            game: post.game,
-         })
-         .then((response) => {
-            console.log('Successfully incremented view count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment view count:', error);
-         });
-   };
-
    const handlePostClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
       event.preventDefault();
-      incrementViewCount();
       window.location.href = `/game/${post.game}/${post._id}`;
    };
 
@@ -152,7 +138,9 @@ const WidePosts: React.FC<WidePostsProps> = ({
                )}
             </div>
             <div>
-               <span className="text-gray-300">{post.views} views</span>
+               <span className="text-gray-300">
+                  {abbreviateNumber(post.views)} views
+               </span>
                <span className="ml-1 mr-1 text-gray-300">•</span>
                <span className="text-gray-300">
                   {timeAgo(new Date(post.date))}

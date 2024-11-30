@@ -353,7 +353,6 @@ router.post('/user/:id/follow', async (req, res) => {
 
       await user.save();
       await userToFollow.save();
-
       res.status(200).send(user);
    } catch (error) {
       console.error('Failed to follow/unfollow user:', error);
