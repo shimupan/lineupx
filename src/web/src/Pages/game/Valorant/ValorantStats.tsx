@@ -203,20 +203,6 @@ const ValorantStats: React.FC = () => {
         src: string;
     }
 
-    const StatCard: React.FC<StatCardProps> = ({ topText, middleText, bottomText, altText, src }) => (
-        <div className="w-52 h-64 bg-white flex flex-col items-center rounded-lg">
-            <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mt-4">
-                <img 
-                    src={src} 
-                    alt={altText} 
-                    className="w-8 h-8" />
-            </div>
-            <span className="text-black flex-grow flex items-center justify-center mt-4">{topText}</span>
-            <span className="text-black flex-grow flex items-end justify-center">{middleText}</span>
-            <span className="text-black mt-10">{bottomText}</span>
-        </div>
-    );
-
     interface AgentCardProps {
         agentRole: string;
         agentName: string;
@@ -226,6 +212,34 @@ const ValorantStats: React.FC = () => {
         altText: string;
         src: string;
     }
+
+    const StatCard: React.FC<StatCardProps> = ({ topText, middleText, bottomText, altText, src }) => (
+        <div className="w-52 h-64 bg-white flex flex-col items-center rounded-lg">
+            <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mt-4 overflow-hidden">
+                <img 
+                    src={src} 
+                    alt={altText} 
+                    className="w-full h-full object-cover" />
+            </div>
+            <span className="text-black flex-grow flex items-end justify-center">{topText}</span>
+            <span className="text-black flex-grow flex items-center justify-center font-bold text-2xl">{middleText}</span>
+            <span className="text-gray-500 mb-10 font-bold text-2xl">{bottomText}</span>
+        </div>
+    );
+
+    const StatCardMobile: React.FC<StatCardProps> = ({ topText, middleText, bottomText, altText, src }) => (
+        <div className="w-52 h-64 bg-white flex flex-col items-center rounded-lg mt-4">
+            <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mt-4">
+                <img 
+                    src={src} 
+                    alt={altText} 
+                    className="w-8 h-8" />
+            </div>
+            <span className="text-black flex-grow flex items-end justify-center">{topText}</span>
+            <span className="text-black flex-grow flex items-center justify-center font-bold text-2xl">{middleText}</span>
+            <span className="text-gray-500 mb-10 font-bold text-2xl">{bottomText}</span>
+        </div>
+    );
 
     const AgentCard: React.FC<AgentCardProps> = ({ agentRole, agentName, pickRate, winRate, killDeathRatio, altText, src }) => (
         <div className="flex flex-row mt-4">
@@ -250,6 +264,7 @@ const ValorantStats: React.FC = () => {
             </div>
         </div>
     );
+    
     return (    
         <Layout>
             <div className="hidden md:flex flex-col items-center justify-center mt-16">
@@ -297,8 +312,31 @@ const ValorantStats: React.FC = () => {
                     </div>
             </div>
             <div className="hidden md:flex flex-row justify-center mt-8 space-x-12">
-                <div className="w-[430px] h-80 bg-white flex flex-col rounded-lg p-4">
-                    <span className="text-black mt-4 text-xl text-center">Lineups</span>
+                <StatCard 
+                    topText="Top NA Player" 
+                    middleText="DJ Alex" 
+                    bottomText="1028 Rating" 
+                    altText="Player 1 Logo" 
+                    src="https://imgsvc.trackercdn.com/url/size(128),fit(cover)/https%3A%2F%2Ftitles.trackercdn.com%2Fvalorant-api%2Fplayercards%2F1c9c0ecf-487f-0c7b-6a06-d8bb37118db7%2Fdisplayicon.png/image.jpg"
+                />
+                <StatCard 
+                    topText="Top EU Player" 
+                    middleText="Slovenski" 
+                    bottomText="1038 Rating" 
+                    altText="Player 2 Logo" 
+                    src="https://imgsvc.trackercdn.com/url/size(128),fit(cover)/https%3A%2F%2Ftitles.trackercdn.com%2Fvalorant-api%2Fplayercards%2Fe6027fd8-49e9-5e91-40fd-00abd1077878%2Fdisplayicon.png/image.jpg"
+                />
+                <StatCard 
+                    topText="Top SEA Player" 
+                    middleText="DLC 3" 
+                    bottomText="1024 Rating" 
+                    altText="Player 3 Logo" 
+                    src="https://imgsvc.trackercdn.com/url/size(128),fit(cover)/https%3A%2F%2Ftitles.trackercdn.com%2Fvalorant-api%2Fplayercards%2Fdee6814e-42f5-50c2-9f5d-da88301ba56b%2Fdisplayicon.png/image.jpg"
+                />
+            </div>
+            <div className="hidden md:flex flex-row justify-center mt-8 space-x-12">
+            <div className="w-[430px] h-80 bg-white flex flex-col rounded-lg p-4">
+                    <span className="text-black mt-4 text-xl font-bold text-center">Lineups</span>
                   {posts.slice(0, 3).map((post) => (
                     <div key={post._id} className="flex flex-row items-center mt-2">
                       <img
@@ -314,86 +352,64 @@ const ValorantStats: React.FC = () => {
                     </div>
                   ))}
                 </div>
-                <StatCard 
-                    topText="Top Text 1" 
-                    middleText="Middle Text 1" 
-                    bottomText="Bottom Text 1" 
-                    altText="CS2 Logo" 
-                    src={cs2Logo} 
+            <div className="w-430px h-80 bg-white flex flex-col rounded-lg p-4">
+                <span className="text-black mt-4 text-xl font-bold text-center">Agents</span>
+                <AgentCard
+                    agentRole="Duelist"
+                    agentName="Jett"
+                    pickRate="64%"
+                    winRate="50.8%"
+                    killDeathRatio="1.1"
+                    altText="Jett Logo"
+                    src={`https://media.valorant-api.com/agents/add6443a-41bd-e414-f6ad-e58d267f4e95/displayicon.png`}
                 />
-                <StatCard 
-                    topText="Top Text 2" 
-                    middleText="Middle Text 2" 
-                    bottomText="Bottom Text 2" 
-                    altText="CS2 Logo" 
-                    src={cs2Logo} 
+                <AgentCard
+                    agentRole="Duelist"
+                    agentName="Reyna"
+                    pickRate="60%"
+                    winRate="51.4%"
+                    killDeathRatio="1.0"
+                    altText="Reyna Logo"
+                    src={`https://media.valorant-api.com/agents/a3bfb853-43b2-7238-a4f1-ad90e9e46bcc/displayicon.png`}
                 />
-                <StatCard 
-                    topText="Top Text 3" 
-                    middleText="Middle Text 3" 
-                    bottomText="Bottom Text 3" 
-                    altText="CS2 Logo" 
-                    src={cs2Logo} 
+                <AgentCard
+                    agentRole="Sentinel"
+                    agentName="Breach"
+                    pickRate="10%"
+                    winRate="55%"
+                    killDeathRatio="1.2"
+                    altText="Breach Logo"
+                    src={`https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png`}
                 />
-                <div className="w-430px h-80 bg-white flex flex-col rounded-lg p-4">
-                    <span className="text-black mt-4 text-xl text-center">Agents</span>
-                    <AgentCard
-                        agentRole="Duelist"
-                        agentName="Jett"
-                        pickRate="64%"
-                        winRate="50.8%"
-                        killDeathRatio="1.1"
-                        altText="Jett Logo"
-                        src={`https://media.valorant-api.com/agents/add6443a-41bd-e414-f6ad-e58d267f4e95/displayicon.png`}
-                    />
-                    <AgentCard
-                        agentRole="Duelist"
-                        agentName="Reyna"
-                        pickRate="60%"
-                        winRate="51.4%"
-                        killDeathRatio="1.0"
-                        altText="Reyna Logo"
-                        src={`https://media.valorant-api.com/agents/a3bfb853-43b2-7238-a4f1-ad90e9e46bcc/displayicon.png`}
-                    />
-                    <AgentCard
-                        agentRole="Sentinel"
-                        agentName="Breach"
-                        pickRate="10%"
-                        winRate="55%"
-                        killDeathRatio="1.2"
-                        altText="Breach Logo"
-                        src={`https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png`}
-                    />
-                </div>
+            </div>
             </div>
 
-            <div className="flex flex-col md:hidden items-center mt-8 space-x-2">
-                <div className="flex flex-row">
-                    <StatCard 
-                        topText="Top Text 1" 
-                        middleText="Middle Text 1" 
-                        bottomText="Bottom Text 1" 
-                        altText="CS2 Logo" 
-                        src={cs2Logo} 
-                    />
-                    <StatCard 
-                        topText="Top Text 2" 
-                        middleText="Middle Text 2" 
-                        bottomText="Bottom Text 2" 
-                        altText="CS2 Logo" 
-                        src={cs2Logo} 
-                    />
-                    <StatCard 
-                        topText="Top Text 3" 
-                        middleText="Middle Text 3" 
-                        bottomText="Bottom Text 3" 
-                        altText="CS2 Logo" 
-                        src={cs2Logo} 
-                    />
+            <div className="flex flex-col md:hidden items-center mt-8">
+                <StatCardMobile
+                    topText="Top NA Player" 
+                    middleText="DJ Alex" 
+                    bottomText="1028 Rating" 
+                    altText="Player 1 Logo" 
+                    src="https://imgsvc.trackercdn.com/url/size(128),fit(cover)/https%3A%2F%2Ftitles.trackercdn.com%2Fvalorant-api%2Fplayercards%2F1c9c0ecf-487f-0c7b-6a06-d8bb37118db7%2Fdisplayicon.png/image.jpg"
+                />
+                <StatCardMobile
+                    topText="Top EU Player" 
+                    middleText="Slovenski" 
+                    bottomText="1038 Rating" 
+                    altText="Player 2 Logo" 
+                    src="https://imgsvc.trackercdn.com/url/size(128),fit(cover)/https%3A%2F%2Ftitles.trackercdn.com%2Fvalorant-api%2Fplayercards%2Fe6027fd8-49e9-5e91-40fd-00abd1077878%2Fdisplayicon.png/image.jpg"
+                />
+                <StatCardMobile
+                    topText="Top SEA Player" 
+                    middleText="DLC 3" 
+                    bottomText="1024 Rating" 
+                    altText="Player 3 Logo" 
+                    src="https://imgsvc.trackercdn.com/url/size(128),fit(cover)/https%3A%2F%2Ftitles.trackercdn.com%2Fvalorant-api%2Fplayercards%2Fdee6814e-42f5-50c2-9f5d-da88301ba56b%2Fdisplayicon.png/image.jpg"
+                />
                 </div>
-                <div className="flex mt-16">
-                    <div className="w-[430px] h-80 bg-white flex flex-col rounded-lg p-4">
-                        <span className="text-black mt-4 text-xl text-center">Lineups</span>
+                <div className="flex flex-col md:hidden items-center mt-8 space-x-2">
+                    <div className="w-[430px] h-auto bg-white flex flex-col rounded-lg p-4">
+                        <span className="text-black mt-4 text-xl text-center font-bold">Lineups</span>
                     {posts.slice(0, 3).map((post) => (
                         <div key={post._id} className="flex flex-row items-center mt-2">
                         <img
@@ -409,8 +425,8 @@ const ValorantStats: React.FC = () => {
                         </div>
                     ))}
                     </div>
-                    <div className="w-430px h-80 bg-white flex flex-col rounded-lg p-4">
-                        <span className="text-black mt-4 text-xl text-center">Agents</span>
+                    <div className="w-[430px] h-auto bg-white flex flex-col rounded-lg p-4 mt-4">
+                        <span className="text-black mt-4 text-xl text-center font-bold">Agents</span>
                         <AgentCard
                             agentRole="Duelist"
                             agentName="Jett"
@@ -440,7 +456,6 @@ const ValorantStats: React.FC = () => {
                         />
                     </div>
                 </div>
-            </div>
         </Layout>
     );
 };
