@@ -363,14 +363,14 @@ router.get('/rso/signin', function (req, res) {
 });
 
 router.get('/rso/oauth', async (req, res) => {
-   const appCallbackUrl=  "https://www.lineupx.net/game/Valorant";
+   const appCallbackUrl = 'https://www.lineupx.net/game/Valorant';
 
    const accessCode = req.query.code;
 
    const params = new URLSearchParams({
-      'grant_type': 'authorization_code',
-      'code': accessCode,
-      'redirect_uri': appCallbackUrl,
+      grant_type: 'authorization_code',
+      code: accessCode,
+      redirect_uri: appCallbackUrl,
    });
 
    try {
@@ -378,20 +378,23 @@ router.get('/rso/oauth', async (req, res) => {
          method: 'POST',
          headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic ' + btoa(`${process.env.RSO_CLIENT_ID}:${process.env.RSO_CLIENT_SECRET}`)
+            Authorization:
+               'Basic ' +
+               btoa(
+                  `${process.env.RSO_CLIENT_ID}:${process.env.RSO_CLIENT_SECRET}`,
+               ),
          },
          body: params,
-      })
-      if (! response.ok ){ res.status(400).send("/token request failed!"); }
-      else {
+      });
+      if (!response.ok) {
+         res.status(400).send('/token request failed!');
+      } else {
          const responseJson = await response.json();
          res.send(responseJson);
       }
+   } catch (error) {
+      console.log('error', error);
    }
-   catch (error) {
-      console.log("error", error);
-   }
-
 });
 
 router.get('/rso/getUserInfo/:token', async (req, res) => {
@@ -400,52 +403,58 @@ router.get('/rso/getUserInfo/:token', async (req, res) => {
    // and also is different from the one given when obtaining player info via americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gamename}/{tagline}
    const accessToken = req.params.token;
    try {
-      const response = await fetch('https://americas.api.riotgames.com/riot/account/v1/accounts/me', {
-         method: 'GET',
-         headers: {
-            'Authorization': 'Bearer ' + accessToken
+      const response = await fetch(
+         'https://americas.api.riotgames.com/riot/account/v1/accounts/me',
+         {
+            method: 'GET',
+            headers: {
+               Authorization: 'Bearer ' + accessToken,
+            },
          },
-      });
-      if (! response.ok ){ res.status(400).send("could not get user info"); }
-      else {
+      );
+      if (!response.ok) {
+         res.status(400).send('could not get user info');
+      } else {
          // Set Access Control Allow Origin response header (fix CORS error on live)
          let resHeader = new Headers();
-         resHeader.append('Access-Control-Allow-Origin', 'https://www.lineupx.net');
+         resHeader.append(
+            'Access-Control-Allow-Origin',
+            'https://www.lineupx.net',
+         );
          const responseJson = await response.json();
          res.send(responseJson);
       }
-   }
-   catch (error){
-      console.log("error", error);
+   } catch (error) {
+      console.log('error', error);
    }
 });
 
 router.post('/rso/getPuuid', async (req, res) => {
    // Given gameName and tagLine, return riot puuid
    const { gameName, tagLine } = req.body;
-   console.log("getPuuid called!");
-   console.log("Here is gameName: ", gameName);
-   console.log("Here is tagLine:", tagLine);
+   console.log('getPuuid called!');
+   console.log('Here is gameName: ', gameName);
+   console.log('Here is tagLine:', tagLine);
    try {
       // Assuming player's region is americas, otherwise put region into {region}.api.riotgames.com
-      const response = await fetch(`https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`, {
-         method: 'GET',
-         headers: {
-            'X-Riot-Token': process.env.RIOT_DEVELOPER_API_KEY
-         }
-      });
+      const response = await fetch(
+         `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
+         {
+            method: 'GET',
+            headers: {
+               'X-Riot-Token': process.env.RIOT_DEVELOPER_API_KEY,
+            },
+         },
+      );
       if (!response.ok) {
-         res.status(400).send("could not get puuid");
-      }
-      else {
+         res.status(400).send('could not get puuid');
+      } else {
          const responseJson = await response.json();
          res.send(responseJson);
       }
-   }
-   catch (error) {
+   } catch (error) {
       console.log(error);
    }
-
 });
 /////////////////////////////////////////////////////////////////////////////
 /*

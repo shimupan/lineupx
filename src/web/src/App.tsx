@@ -78,16 +78,16 @@ type AuthContextType = {
    following: FollowingType[];
    setFollowing: React.Dispatch<React.SetStateAction<FollowingType[]>>;
 
-  puuid: string;
-  setPuuid: React.Dispatch<React.SetStateAction<string>>;
-  gameName: string;
-  setGameName: React.Dispatch<React.SetStateAction<string>>;
-  tagLine: string;
-  setTagLine: React.Dispatch<React.SetStateAction<string>>;
-  RSOAccessToken: string;
-  setRSOAccessToken: React.Dispatch<React.SetStateAction<string>>;
-  RSORefreshToken: string;
-  setRSORefreshToken: React.Dispatch<React.SetStateAction<string>>;
+   puuid: string;
+   setPuuid: React.Dispatch<React.SetStateAction<string>>;
+   gameName: string;
+   setGameName: React.Dispatch<React.SetStateAction<string>>;
+   tagLine: string;
+   setTagLine: React.Dispatch<React.SetStateAction<string>>;
+   RSOAccessToken: string;
+   setRSOAccessToken: React.Dispatch<React.SetStateAction<string>>;
+   RSORefreshToken: string;
+   setRSORefreshToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -119,7 +119,7 @@ function App() {
    const [RSOAccessToken, setRSOAccessToken] = useState('');
    const [RSORefreshToken, setRSORefreshToken] = useState('');
 
-  // Login users
+   // Login users
    useEffect(() => {
       if (accessTokenC && !accessToken) {
          setAccessToken(accessTokenC);
@@ -147,26 +147,40 @@ function App() {
                return error;
             });
       }
-      if (RSOAccessTokenC && !RSOAccessToken) { // if cookie exists, set auth's rso access token to this cookie
-        setRSOAccessToken(RSOAccessTokenC);
+      if (RSOAccessTokenC && !RSOAccessToken) {
+         // if cookie exists, set auth's rso access token to this cookie
+         setRSOAccessToken(RSOAccessTokenC);
       }
       if (RSORefreshTokenC && !RSORefreshToken) {
-        setRSORefreshToken(RSORefreshTokenC);
+         setRSORefreshToken(RSORefreshTokenC);
       }
       if (RSOAccessToken && RSORefreshToken) {
-        axios.get(`/rso/getUserInfo/${RSOAccessToken}`).then((res) => {
-          setGameName(res.data.gameName);
-          setTagLine(res.data.tagLine);
-          // Making this postBody object instead of directly passing into axios.post as second arg works
-          const postBody = {gameName: res.data.gameName, tagLine: res.data.tagLine};
-          axios.post('/rso/getPuuid', postBody).then((resp) => {
-            setPuuid(resp.data.puuid);
-          }).catch((error) => {return error; })
-        }).catch((error) => { return error; }) // .get.then.catch avoids async and await
+         axios
+            .get(`/rso/getUserInfo/${RSOAccessToken}`)
+            .then((res) => {
+               setGameName(res.data.gameName);
+               setTagLine(res.data.tagLine);
+               // Making this postBody object instead of directly passing into axios.post as second arg works
+               const postBody = {
+                  gameName: res.data.gameName,
+                  tagLine: res.data.tagLine,
+               };
+               axios
+                  .post('/rso/getPuuid', postBody)
+                  .then((resp) => {
+                     setPuuid(resp.data.puuid);
+                  })
+                  .catch((error) => {
+                     return error;
+                  });
+            })
+            .catch((error) => {
+               return error;
+            }); // .get.then.catch avoids async and await
       }
    }, [accessToken, refreshToken, RSOAccessToken, RSORefreshToken]);
 
-  useEffect(() => {
+   useEffect(() => {
       NProgress.start();
 
       // Simulate a data fetching delay or perform actual data fetching
@@ -201,16 +215,16 @@ function App() {
                saved,
                setSaved,
                setFollowing,
-              puuid,
-              gameName,
-              tagLine,
-              RSOAccessToken,
-              RSORefreshToken,
-              setPuuid,
-              setGameName,
-              setTagLine,
-              setRSOAccessToken,
-              setRSORefreshToken,
+               puuid,
+               gameName,
+               tagLine,
+               RSOAccessToken,
+               RSORefreshToken,
+               setPuuid,
+               setGameName,
+               setTagLine,
+               setRSOAccessToken,
+               setRSORefreshToken,
             }}
          >
             <ScrollToTop />
@@ -248,7 +262,10 @@ function App() {
                   element={<SearchResults />}
                ></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
-              <Route path="/user/riotprofile" element={<RiotProfile />}></Route>
+               <Route
+                  path="/user/riotprofile"
+                  element={<RiotProfile />}
+               ></Route>
                <Route path="/user/guest" element={<GuestPage />} />
                <Route path="/game/:game/:id" element={<PostPage />}></Route>
                <Route path="/post/:game/:id" element={<PostPage />}></Route>
