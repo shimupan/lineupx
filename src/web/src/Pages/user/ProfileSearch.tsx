@@ -4,6 +4,7 @@ const ProfileSearch: React.FC = () => {
   return (
     <div className="font-sans">
 
+      { /* Profile banner */ }
       <div className="relative w-full h-48 mb-8">
         <img 
           src="https://assets.xboxservices.com/assets/4e/bc/4ebcb533-e184-42f3-833b-9aa47a81f39e.jpg?n=153142244433_Poster-Image-1084_1920x720.jpg"
@@ -12,6 +13,22 @@ const ProfileSearch: React.FC = () => {
         />
       </div>
 
+      { /* Nav bar */ }
+      <div className="bg-gray-800 text-white py-4 mb-8">
+        <div className="flex justify-center space-x-8">
+          <span className="hover:text-gray-400 cursor-pointer">Overview</span>
+          <span className="hover:text-gray-400 cursor-pointer">Matches</span>
+          <span className="hover:text-gray-400 cursor-pointer">Performance</span>
+          <span className="hover:text-gray-400 cursor-pointer">Agents</span>
+          <span className="hover:text-gray-400 cursor-pointer">Maps</span>
+          <span className="hover:text-gray-400 cursor-pointer">Weapons</span>
+          <span className="hover:text-gray-400 cursor-pointer">Customs</span>
+          <span className="hover:text-gray-400 cursor-pointer">Crosshairs</span>
+          <span className="hover:text-gray-400 cursor-pointer">Lineups</span>
+        </div>
+      </div>
+
+      { /* PFP and username */ }
       <div className="flex items-center mb-8">
         <img src="https://pbs.twimg.com/media/FgsO2EkaYAEivnn.jpg" alt="Player" className="rounded-full w-20 h-20 mr-6" />
         <div className="text-white">
@@ -19,6 +36,7 @@ const ProfileSearch: React.FC = () => {
         </div>
       </div>
 
+      { /* Profile body */ }
       <div className="flex gap-8 mb-8">
         <div className="bg-gray-900 p-6 rounded-lg shadow-md flex-1">
           <p className="text-sm">Current Rating</p>
