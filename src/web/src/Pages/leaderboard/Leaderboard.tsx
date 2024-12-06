@@ -36,7 +36,7 @@ const Leaderboard: React.FC = () => {
       children,
    }) => (
       <Link
-         to={`/user/${user.username}`}
+         to={`/user/${user?.username}`}
          className="hover:text-blue-400 transition-colors duration-200"
       >
          {children}
