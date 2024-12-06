@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css';
 import {
    Page,
    ProfilePage,
+   RiotProfile,
    Valorant,
    CS2,
    Register,
@@ -146,7 +147,6 @@ function App() {
                return error;
             });
       }
-
       if (RSOAccessTokenC && !RSOAccessToken) { // if cookie exists, set auth's rso access token to this cookie
         setRSOAccessToken(RSOAccessTokenC);
       }
@@ -155,14 +155,12 @@ function App() {
       }
       if (RSOAccessToken && RSORefreshToken) {
         axios.get(`/rso/getUserInfo/${RSOAccessToken}`).then((res) => {
-          console.log("res:", res);
           setPuuid(res.data.puuid);
           setGameName(res.data.gameName);
           setTagLine(res.data.tagLine);
         }).catch((error) => { return error; }) // .get.then.catch avoids async and await
       }
    }, [accessToken, refreshToken, RSOAccessToken, RSORefreshToken]);
-
 
   useEffect(() => {
       NProgress.start();
@@ -246,6 +244,7 @@ function App() {
                   element={<SearchResults />}
                ></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
+              <Route path="/user/riotprofile" element={<RiotProfile />}></Route>
                <Route path="/user/guest" element={<GuestPage />} />
                <Route path="/game/:game/:id" element={<PostPage />}></Route>
                <Route path="/post/:game/:id" element={<PostPage />}></Route>

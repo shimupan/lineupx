@@ -21,7 +21,6 @@ const Header: React.FC = () => {
    // const [gameName, setGameName] = useState('');
    // const [tagLine, setTagLine] = useState('');
 
-   console.log("Reloading header...");
    const handleRSOSignIn = () => {
      window.location.href = axios.defaults.baseURL + 'rso/signin';
    }
@@ -182,11 +181,6 @@ const Header: React.FC = () => {
                            )}
                         </div>
                      </>
-                  ) : RSOAccessToken ? (
-                     <div className="rounded-lg px-4 py-2 flex items-center space-x-4 font-bold bg-red-600">
-                        {/*{`${gameName}#${tagLine}`}*/}
-                       {`${Auth?.gameName}#${Auth?.tagLine}`}
-                     </div>
                   ) : (
                      <div
                         className="flex items-center space-x-2"
@@ -204,22 +198,26 @@ const Header: React.FC = () => {
                         >
                            Sign up
                         </Link>
-                        <button
-                           type={'button'}
-                           onClick={handleRSOSignIn}
-                           className={
-                              'bg-red-600 text-white p-2 rounded hover:bg-red-500 text-sm whitespace-nowrap'
-                           }
-                        >
-                           <div className={'flex flex-row gap-2'}>
-                              <img
-                                 src={valorantLogo}
-                                 alt={'Riot Games'}
-                                 className={'w-6 h-6'}
-                              />
-                              <p>{'Sign in'}</p>
-                           </div>
-                        </button>
+                       {RSOAccessToken ? (
+                         <div className="rounded-lg px-4 py-2 flex items-center space-x-4 font-bold bg-red-600">
+                           {`${Auth?.gameName}#${Auth?.tagLine}`}
+                         </div>) : (<button
+                         type={'button'}
+                         onClick={handleRSOSignIn}
+                         className={
+                           'bg-red-600 text-white p-2 rounded hover:bg-red-500 text-sm whitespace-nowrap'
+                         }
+                       >
+                         <div className={'flex flex-row gap-2'}>
+                           <img
+                             src={valorantLogo}
+                             alt={'Riot Games'}
+                             className={'w-6 h-6'}
+                           />
+                           <p>{'Sign in'}</p>
+                         </div>
+                       </button>)
+                       }
                      </div>
                   )}
                </div>

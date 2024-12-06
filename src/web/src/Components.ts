@@ -1,5 +1,6 @@
 // Pages
 export { default as ProfilePage } from './Pages/user/ProfilePage';
+export { default as RiotProfile } from './Pages/user/RiotProfile';
 export { default as Page } from './Pages/Page';
 export { default as Valorant } from './Pages/game/Valorant/Valorant';
 export { default as About } from './Pages/About';
