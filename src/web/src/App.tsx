@@ -155,10 +155,18 @@ function App() {
       }
       if (RSOAccessToken && RSORefreshToken) {
         axios.get(`/rso/getUserInfo/${RSOAccessToken}`).then((res) => {
-          setPuuid(res.data.puuid);
           setGameName(res.data.gameName);
           setTagLine(res.data.tagLine);
+          console.log("App.tsx ran getUserInfo correctly");
+          console.log("We set gameName to: ", gameName);
+          console.log("We set tagLine to: ", tagLine);
         }).catch((error) => { return error; }) // .get.then.catch avoids async and await
+
+        // 400 bad request by below code, but endpoint def works on postman? 
+        // Since the puuid from above isn't decryptable
+        axios.post('/rso/getPuuid', {gameName: gameName, tagline: tagLine}).then((res) => {
+          setPuuid(res.data.puuid);
+        }).catch((error) => {return error; })
       }
    }, [accessToken, refreshToken, RSOAccessToken, RSORefreshToken]);
 

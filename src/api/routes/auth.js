@@ -395,6 +395,9 @@ router.get('/rso/oauth', async (req, res) => {
 });
 
 router.get('/rso/getUserInfo/:token', async (req, res) => {
+   // Given access token, return player's username, tagline, puuid
+   // For some reason the puuid returned here can't be decrypted and used for Riot APIs that use puuid as url param
+   // and also is different from the one given when obtaining player info via americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gamename}/{tagline}
    const accessToken = req.params.token;
    try {
       const response = await fetch('https://americas.api.riotgames.com/riot/account/v1/accounts/me', {
@@ -405,6 +408,9 @@ router.get('/rso/getUserInfo/:token', async (req, res) => {
       });
       if (! response.ok ){ res.status(400).send("could not get user info"); }
       else {
+         // Set Access Control Allow Origin response header (fix CORS error on live)
+         let resHeader = new Headers();
+         resHeader.append('Access-Control-Allow-Origin', 'https://www.lineupx.net');
          const responseJson = await response.json();
          res.send(responseJson);
       }
@@ -414,6 +420,33 @@ router.get('/rso/getUserInfo/:token', async (req, res) => {
    }
 });
 
+router.post('/rso/getPuuid', async (req, res) => {
+   // Given gameName and tagLine, return riot puuid
+   const { gameName, tagLine } = req.body;
+   console.log("getPuuid called!");
+   console.log("Here is gameName: ", gameName);
+   console.log("Here is tagLine:", tagLine);
+   try {
+      // Assuming player's region is americas, otherwise put region into {region}.api.riotgames.com
+      const response = await fetch(`https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`, {
+         method: 'GET',
+         headers: {
+            'X-Riot-Token': process.env.RIOT_DEVELOPER_API_KEY
+         }
+      });
+      if (!response.ok) {
+         res.status(400).send("could not get puuid");
+      }
+      else {
+         const responseJson = await response.json();
+         res.send(responseJson);
+      }
+   }
+   catch (error) {
+      console.log(error);
+   }
+
+});
 /////////////////////////////////////////////////////////////////////////////
 /*
 
