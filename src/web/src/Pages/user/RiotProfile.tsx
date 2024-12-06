@@ -5,6 +5,22 @@ import { Layout } from '../../Components'
 const RiotProfile = () => {
   const Auth = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [matchIds, setMatchIds] = useState<string[]>([]);
+
+  const fetchData = async () => {
+    const region = "na";
+    const res = await fetch(`https://${region}.api.riotgames.com/val/match/v1/matchlists/by-puuid/${Auth?.puuid}`, {
+      method: 'GET',
+      headers: {
+        // Use an API key that actually allows fetching to this endpoint
+        'X-Riot-Token': process.env.RIOT_DEVELOPER_API_KEY || ""
+      }
+    });
+    const resJson = await res.json();
+    const newArray = resJson.data.map((matchObj:any) => matchObj.matchId);
+    setMatchIds([...matchIds, ...newArray ])
+    // use /val/match/v1/matches/{matchId} to get more in depth details of each match
+  }
 
   useEffect(() => {
     // Check if signed in via RSO
@@ -14,6 +30,7 @@ const RiotProfile = () => {
     }
 
     setLoading(false);
+    fetchData();
   }, [Auth])
 
   if (loading)
@@ -27,8 +44,8 @@ const RiotProfile = () => {
         <div className={'flex flex-row m-2 space-x-4'}>
           <img className={'rounded-full w-16 h-16'}
                src={`https://ui-avatars.com/api/?background=random&color=fff&name=${Auth?.gameName}`}/>
-          <div>{'overview'}</div>
-          <div>{'matches'}</div>
+          <div>{'Overview'}</div>
+          <div>{'Recent matches'}</div>
           <div>{`info: ${Auth?.gameName}#${Auth?.tagLine} ${Auth?.puuid}`}</div>
         </div>
         <div className={'animate-pulse'}>
