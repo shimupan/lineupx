@@ -1,19 +1,17 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Layout } from '../../../Components';
 import VALORANT_BANNER from '../../../assets/valorantbanner.webp';
-import cs2Logo from '../../../assets/svg/csgo.svg';
 import { getUserByUsername } from '../../../util/getUser';
 import { UserType, PostType } from '../../../global.types';
 import { AuthContext } from '../../../App';
 import { GAMES, CDN_URL } from '../../../Constants';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const ValorantStats: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
-    const [user, setUser] = useState<UserType>({
+    const [, setUser] = useState<UserType>({
         role: '',
         _id: '',
         username: '',
@@ -43,15 +41,8 @@ const ValorantStats: React.FC = () => {
         setSearchTerm(e.target.value);
     };
 
-    const [loading, setLoading] = useState(true);
+    const [_, setLoading] = useState(true);
     const [posts, setPosts] = useState<PostType[]>([]);
-    const [open, setOpen] = useState(false);
-    const [postname, setPostName] = useState('');
-    const [deletePopup, setDeletePopup] = useState({
-        isOpen: false,
-        postId: '',
-        game: '',
-    });
     const Auth = useContext(AuthContext);
 
     useEffect(() => {
@@ -77,122 +68,7 @@ const ValorantStats: React.FC = () => {
         })
         .finally(() => {
             setLoading(false);
-        });
-        setPosts([{
-          "_id": "65c6c44f2e0dc09b91ed0c07",
-          "Username": "kagiriez",
-          "UserID": "65a70095dc44d590069824e2",
-          "postTitle": "B Camera",
-          "mapName": "bind",
-          "lineupLocation": "B Site",
-          "lineupDescription": "1. Jump on the elevator then on the two superimposed crates, then stand where it is indicated.\n2. Aim the camera as shown (as high as possible).\n3. Jump and throw the camera as high as possible.",
-          "teamSide": "Defender",
-          "likes": [],
-          "dislikes": [],
-          "views": 26,
-          "standingPosition": {
-            "public_id": "Valorant/za9lk5vplpgqdj9bgxde",
-            "asset_id": "a8e34c27e0de9bb207fdc55b9e3d8c59"
-          },
-          "aimingPosition": {
-            "public_id": "Valorant/izvpcy5w10bm7oj1ct7w",
-            "asset_id": "0e560ff2c9867b203c2e1e3202dabde3"
-          },
-          "landingPosition": {
-            "public_id": "Valorant/ean3buk6wgmsdy1ywyvy",
-            "asset_id": "af7dd0064e155add8c4aef425b9b4534"
-          },
-          "grenadeType": "",
-          "jumpThrow": false,
-          "game": "Valorant",
-          "approved": true,
-          "valorantAgent": "Cypher",
-          "ability": "Spycam",
-          "lineupLocationCoords": {
-            "x": 592.896,
-            "y": 581.6320000000001,
-            "name": "Tube"
-          },
-          "lineupPositionCoords": { "x": 593.1825647504737, "y": 729.6727732154137 },
-          "comments": [],
-          "date": "2024-02-10T00:33:19.373Z" ,
-          "__v": 2,
-          "reports": []
-        },
-        {
-          "_id": "65fde52f674cd62852a54d56" ,
-          "Username": "kagiriez",
-          "UserID": "65a70095dc44d590069824e2" ,
-          "postTitle": "Sova A Site Recon ",
-          "mapName": "ascent",
-          "lineupLocation": "Ascent A Main",
-          "lineupDescription": "1. Stand against the barrels outside of the ice cream shop.\n2. Look just above the flag pole, where the edge of the building is.\n3. Fire a 2 Bar 0 Bounce Recon Bolt, it should land on the top of A Site (image 3).",
-          "teamSide": "Attacker",
-          "likes": [],
-          "dislikes": [],
-          "views": 15,
-          "standingPosition": {
-            "public_id": "Valorant/eqr9y5uysgidcuwu8ziu",
-            "asset_id": "14492df44a028d4119f14ab4fca2025f"
-          },
-          "aimingPosition": {
-            "public_id": "Valorant/rnsajtbsaxj46bgiua3w",
-            "asset_id": "24c5fc0fa791d4101a9acbe3a2a230ed"
-          },
-          "landingPosition": {
-            "public_id": "Valorant/tlvx82dcxaqocd5qka63",
-            "asset_id": "407441dcbfc98620ae2fbde058f42a3e"
-          },
-          "grenadeType": "",
-          "jumpThrow": false,
-          "game": "Valorant",
-          "approved": true,
-          "valorantAgent": "Sova",
-          "ability": "Recon Bolt",
-          "lineupLocationCoords": { "x": 735.936, "y": 303.104, "name": "A Site" },
-          "lineupPositionCoords": { "x": 1414.7456816051797, "y": 493.214117850166 },
-          "comments": [],
-          "date": "2024-03-22T20:08:15.408Z" ,
-          "__v": 2,
-          "reports": []
-        },
-        {
-          "_id": "65fde629674cd62852a5793c" ,
-          "Username": "kagiriez",
-          "UserID": "65a70095dc44d590069824e2" ,
-          "postTitle": "Oneway for A Stairs ",
-          "mapName": "ascent",
-          "lineupLocation": "Ascent B Site",
-          "lineupDescription": "Use this smoke to see the toes of people behind B Stairs",
-          "teamSide": "Attacker",
-          "likes": [],
-          "dislikes": [],
-          "views": 4,
-          "standingPosition": {
-            "public_id": "Valorant/nzrtcvo3rqx9oyz76x6p",
-            "asset_id": "0cde1501be5682903ec64e61b5270143"
-          },
-          "aimingPosition": {
-            "public_id": "Valorant/hg8hviwmzvnffxjeztkx",
-            "asset_id": "f2962d0ee8bf0a70a9e861283265f46a"
-          },
-          "landingPosition": {
-            "public_id": "Valorant/lhjs975yj5om7xk3is9w",
-            "asset_id": "ed5330b6d77ea06465d5338bcfe31a3a"
-          },
-          "grenadeType": "",
-          "jumpThrow": false,
-          "game": "Valorant",
-          "approved": true,
-          "valorantAgent": "Omen",
-          "ability": "Dark Cover",
-          "lineupLocationCoords": { "x": 391.872, "y": 1359.872, "name": "B CT" },
-          "lineupPositionCoords": { "x": 472.03726686704306, "y": 1560.933860635248 },
-          "comments": [],
-          "date": "2024-03-22T20:12:25.145Z" ,
-          "__v": 0,
-          "reports": []
-        }])
+        })
     }, []);
 
     interface StatCardProps {
