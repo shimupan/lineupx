@@ -89,10 +89,36 @@ const ProfileSearch: React.FC = () => {
                   </div>
                </div>
                <div className="bg-gray-900 p-6 rounded-lg shadow-md flex-[4]">
-                  <p className="text-xl">Overview</p>
-                  <h3 className="text-gray-500 text-sm font-semibold mt-2">
-                     Wins
-                  </h3>
+                  <p className="text-xl">E9: A3 Competitive Overview</p>
+                  <div className="flex items-start gap-40 mt-2">
+
+                     <div className="border-l-4 border-gray-500 pl-2">
+                        <h3 className="text-gray-500 text-base font-semibold">Wins</h3>
+                        <h3 className="text-white text-xl font-semibold">111</h3>
+                     </div>
+
+                     <div className="border-l-4 border-gray-500 pl-2">
+                        <h3 className="text-gray-500 text-base font-semibold">KAST</h3>
+                        <h3 className="text-white text-xl font-semibold">75.4%</h3>
+                     </div>
+
+                     <div className="border-l-4 border-gray-500 pl-2">
+                        <h3 className="text-gray-500 text-base font-semibold">DDΔ/Round</h3>
+                        <h3 className="text-white text-xl font-semibold">29</h3>
+                     </div>
+
+                     <div className="border-l-4 border-gray-500 pl-2">
+                        <h3 className="text-gray-500 text-base font-semibold">Kills</h3>
+                        <h3 className="text-white text-xl font-semibold">2,836</h3>
+                     </div>
+
+                     <div className="border-gray-500 pl-2">
+                        <h3 className="text-gray-500 text-base font-semibold">Deaths</h3>
+                        <h3 className="text-white text-xl font-semibold">2,271</h3>
+                     </div>
+
+                  </div>
+
                </div>
             </div>
 
