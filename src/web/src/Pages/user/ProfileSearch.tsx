@@ -58,11 +58,31 @@ const ProfileSearch: React.FC = () => {
 
             {/* Profile body */}
             <div className="flex gap-8 mb-8">
-               <div className="bg-gray-900 p-6 rounded-lg shadow-md flex-1">
-                  <p className="text-xl">Current Rating</p>
-                  <h3 className="text-gray-500 text-sm font-semibold mt-2">
-                     Radiant
-                  </h3>
+               <div className="bg-gray-900 p-1 rounded-lg shadow-md flex-1">
+                  <div className="pt-4 pl-4 pr-4">
+                     <p className="text-xl">Current Rating</p>
+                     <div className="flex items-center gap-4 mt-2">
+                        <img 
+                           src="https://cdn3.emoji.gg/emojis/9768_Radiant_Valorant.png"
+                           alt="Radiant Icon"
+                           className="w-8 h-8"
+                        />
+                        <h3 className="text-gray-500 text-sm font-semibold">
+                           Radiant
+                        </h3>
+                     </div>
+                  </div>
+                  <div className="bg-gray-800 p-4 mt-4 rounded-lg">
+                     <h3 className="text-sm text-gray-400 font-semibold">Peak Rating</h3>
+                     <div className="flex items-center gap-4 mt-2">
+                        <img 
+                           src="https://cdn3.emoji.gg/emojis/9768_Radiant_Valorant.png"
+                           alt="Radiant Icon"
+                           className="w-8 h-8"
+                        />
+                        <h3 className="text-lg text-white font-semibold">Radiant</h3>
+                     </div>
+                  </div>
                </div>
                <div className="bg-gray-900 p-6 rounded-lg shadow-md flex-[4]">
                   <p className="text-xl">Overview</p>
