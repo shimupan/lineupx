@@ -181,6 +181,28 @@ const ProfileSearch: React.FC = () => {
                         </h3>
                      </div>
                   </div>
+
+                  <div className="flex items-start gap-40 mt-5">
+
+                     <div className="border-gray-500 pl-2">
+                        <h3 className="text-gray-500 text-base font-semibold">
+                           Flawless Rounds
+                        </h3>
+                        <h3 className="text-white text-xl font-semibold">
+                           168
+                        </h3>
+                     </div>
+
+                     <div className="border-gray-500 pl-2">
+                        <h3 className="text-gray-500 text-base font-semibold">
+                           Aces
+                        </h3>
+                        <h3 className="text-white text-xl font-semibold">
+                           5
+                        </h3>
+                     </div>
+
+                  </div>
                </div>
             </div>
 
