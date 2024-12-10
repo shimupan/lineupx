@@ -116,6 +116,73 @@ func contains(slice []string, item string) bool {
 	return false
 }
 
+//Added jwtValidation backend reworked function in go
+func jwtMiddleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        tokenString := r.Header.Get("Authorization")
+        if tokenString == "" {
+            http.Error(w, "Authorization token missing", http.StatusUnauthorized)
+            return
+        }
+
+        token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+            // Validate signing method and return secret key
+            if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+                return nil, fmt.Errorf("unexpected signing method")
+            }
+            return []byte("your-secret-key"), nil
+        })
+
+        if err != nil || !token.Valid {
+            http.Error(w, "Invalid token", http.StatusUnauthorized)
+            return
+        }
+
+        next.ServeHTTP(w, r)
+    })
+}
+
+func uploadProfilePictureHandler(w http.ResponseWriter, r *http.Request) {
+    // Parse the form data
+    r.ParseMultipartForm(10 << 20) // Max 10MB
+    file, handler, err := r.FormFile("image")
+    if err != nil {
+        http.Error(w, "Error processing file", http.StatusBadRequest)
+        return
+    }
+    defer file.Close()
+
+    // Upload to Cloudinary (use a library or HTTP request)
+    tempFile, err := os.CreateTemp("uploads", "profile-*"+filepath.Ext(handler.Filename))
+    if err != nil {
+        http.Error(w, "Error creating temp file", http.StatusInternalServerError)
+        return
+    }
+    defer os.Remove(tempFile.Name())
+
+    io.Copy(tempFile, file)
+    // Need to add cloudinary unpload here
+
+    fmt.Fprintf(w, "File uploaded successfully: %s\n", tempFile.Name())
+}
+
+//Converted followUser api call to go
+func followUserHandler(w http.ResponseWriter, r *http.Request) {
+    userID := mux.Vars(r)["id"]
+    followerID := r.URL.Query().Get("follower")
+
+    collection := client.Database("testdb").Collection("users")
+    _, err := collection.UpdateOne(context.TODO(),
+        bson.M{"_id": userID},
+        bson.M{"$addToSet": bson.M{"followers": followerID}})
+    if err != nil {
+        http.Error(w, "Failed to follow user", http.StatusInternalServerError)
+        return
+    }
+
+    w.WriteHeader(http.StatusOK)
+}
+
 func main(){
 
     // Get Client, Context, CancelFunc and 
