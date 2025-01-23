@@ -7,6 +7,7 @@ import logo from '../../assets/lineupx_compact.webp';
 import { FaUserCircle, FaSignOutAlt, FaUpload, FaEdit } from 'react-icons/fa';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import valorantLogo from '../../assets/svg/valorant.svg';
+import { NotificationBell } from '../../Components';
 
 const Header: React.FC = () => {
    const Auth = useContext(AuthContext);
@@ -26,7 +27,7 @@ const Header: React.FC = () => {
    };
 
    const checkRSOSignedIn = async () => {
-      if (!RSOAccessToken && !RSORefreshToken) return; // if these cookies are empty or don't exist, return
+      if (!RSOAccessToken && !RSORefreshToken) return;
       console.log('Cookies:', RSORefreshToken, RSOAccessToken);
       try {
          const res = await axios.get(`/rso/getUserInfo/${RSOAccessToken}`);
@@ -129,6 +130,9 @@ const Header: React.FC = () => {
                               </button>
                            </Link>
                         )}
+
+                        {/* Add NotificationBell component */}
+                        {Auth?._id && <NotificationBell userId={Auth._id} />}
 
                         <div className="relative">
                            <img

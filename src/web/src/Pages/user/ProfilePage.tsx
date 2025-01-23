@@ -24,6 +24,12 @@ import { MdOutlineVideogameAsset } from 'react-icons/md';
 import { ValorantAgentProvider } from '../../contexts/ValorantAgentContext';
 import { UserProvider } from '../../contexts/UserContext';
 import useUserCache from '../../hooks/useUserCache';
+import {
+   joinNotificationRoom,
+   offNotification,
+   offCommentUpdate,
+   offFollowUpdate,
+} from '../../Components/post/helper';
 
 const ProfilePage = () => {
    const { userCache, fetchUsers } = useUserCache();
@@ -80,6 +86,19 @@ const ProfilePage = () => {
    // Gets called twice during dev mode
    // So there should be 2 error messages
    // If you search for an non exisitant user
+
+   useEffect(() => {
+      if (Auth?._id) {
+         joinNotificationRoom(Auth._id);
+      }
+
+      return () => {
+         offNotification();
+         offCommentUpdate();
+         offFollowUpdate();
+      };
+   }, [Auth?._id]);
+
    useEffect(() => {
       // Fetch Users
       if (!Auth && !id) {

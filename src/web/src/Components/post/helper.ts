@@ -1,6 +1,12 @@
-import axios from 'axios';
+import socket from '../../services/socket';
 
-export function timeAgo(date: Date) {
+export function timeAgo(dateString: string | Date) {
+   const date = dateString instanceof Date ? dateString : new Date(dateString);
+
+   if (!date || isNaN(date.getTime())) {
+      return 'Invalid date';
+   }
+
    const now = new Date();
    const secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
    const minutesAgo = Math.floor(secondsAgo / 60);
@@ -22,17 +28,7 @@ export const incrementLikeCount = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/increment-like`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully incremented like count:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to increment like count:', error);
-      });
+   socket.emit('incrementLike', { postId, userId: user_Id, game });
 };
 
 export const incrementDislikeCount = async (
@@ -40,17 +36,7 @@ export const incrementDislikeCount = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/increment-dislike`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully incremented dislike count:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to increment dislike count:', error);
-      });
+   socket.emit('incrementDislike', { postId, userId: user_Id, game });
 };
 
 export const removeLike = async (
@@ -58,17 +44,7 @@ export const removeLike = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/remove-like`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully removed like:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to remove like:', error);
-      });
+   socket.emit('removeLike', { postId, userId: user_Id, game });
 };
 
 export const removeDislike = async (
@@ -76,15 +52,107 @@ export const removeDislike = async (
    user_Id: string,
    game: string,
 ) => {
-   axios
-      .post(`/post/${postId}/remove-dislike`, {
-         userId: user_Id,
-         game: game,
-      })
-      .then((response) => {
-         console.log('Successfully removed dislike:', response);
-      })
-      .catch((error) => {
-         console.error('Failed to remove dislike:', error);
-      });
+   socket.emit('removeDislike', { postId, userId: user_Id, game });
+};
+
+// New notification types
+export interface Notification {
+   _id: string;
+   recipient: string;
+   sender: {
+      _id: string;
+      username: string;
+      ProfilePicture?: string;
+   };
+   type: 'comment' | 'follow';
+   post?: {
+      _id: string;
+      postTitle: string;
+   };
+   message: string;
+   read: boolean;
+   createdAt: Date;
+}
+
+// New socket functions for notifications
+export const addComment = async (
+   postId: string,
+   userId: string,
+   username: string,
+   text: string,
+   game: string,
+) => {
+   socket.emit('addComment', { postId, userId, username, text, game });
+};
+
+export const followUser = async (
+   followerId: string,
+   followedId: string,
+   username: string,
+) => {
+   socket.emit('follow', { followerId, followedId, username });
+};
+
+export const offCommentUpdate = () => {
+   socket.off('commentUpdate');
+};
+
+export const offFollowUpdate = () => {
+   socket.off('followingUpdate');
+};
+
+// Socket functions for notifications
+export const handleFollow = async (
+   followerId: string,
+   followedId: string,
+   username: string,
+) => {
+   socket.emit('follow', { followerId, followedId, username });
+};
+
+export const handleComment = async (
+   postId: string,
+   userId: string,
+   username: string,
+   text: string,
+   game: string,
+) => {
+   socket.emit('addComment', { postId, userId, username, text, game });
+};
+
+// Update these in ProfilePage.tsx and PostPage.tsx
+export const joinNotificationRoom = (userId: string) => {
+   socket.emit('joinNotificationRoom', userId);
+};
+
+export const onNotification = (
+   callback: (notification: Notification) => void,
+) => {
+   socket.on('newNotification', callback);
+};
+
+export const offNotification = () => {
+   socket.off('newNotification');
+};
+
+// Socket event listeners for real-time updates
+export const onCommentUpdate = (
+   callback: (data: { postId: string; comments: any[] }) => void,
+) => {
+   socket.on('commentUpdate', callback);
+};
+
+export const onFollowUpdate = (
+   callback: (data: {
+      userId: string;
+      followedUserId: string;
+      isFollowing: boolean;
+      updatedUser: {
+         id: string;
+         username: string;
+         ProfilePicture?: string;
+      };
+   }) => void,
+) => {
+   socket.on('followingUpdate', callback);
 };

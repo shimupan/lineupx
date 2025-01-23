@@ -6,13 +6,13 @@ import {
    Comments,
    SharePopup,
    PostPageSkeleton,
+   FlippingViewCount,
    MobileComments,
    ZoomableImage,
 } from '../Components';
 import { CDN_URL } from '../Constants';
 import { PostType, UserType } from '../global.types';
 import { AuthContext } from '../App';
-import useUserCache from '../hooks/useUserCache';
 import {
    incrementLikeCount,
    incrementDislikeCount,
@@ -27,6 +27,14 @@ import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { FaShare } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
+import useUserCache from '../hooks/useUserCache';
+import socket from '../services/socket';
+import {
+   joinNotificationRoom,
+   offNotification,
+   offCommentUpdate,
+   offFollowUpdate,
+} from '../Components/post/helper';
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -65,11 +73,6 @@ const PostPage = () => {
    const [currentImageIndex, setCurrentImageIndex] = useState(0);
    const [followerCount, setFollowerCount] = useState(0);
    const [followers, setFollowers] = useState<Set<string>>();
-   /*
-   const [viewMode, setViewMode] = useState('carousel');
-   const [isPopupVisible, setPopupVisible] = useState(false);
-   const popupRef = useRef<HTMLDivElement>(null);
-   */
    const [comments, setComments] = useState<Comment[]>([]);
    const [userComments, setUserComments] = useState<Comment[]>([]);
    const [newComment, setNewComment] = useState('');
@@ -79,6 +82,10 @@ const PostPage = () => {
    const [relatedPosts, setRelatedPosts] = useState<PostType[]>([]);
    const [isSaved, setIsSaved] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
+   const [views, setViews] = useState(0);
+   const [likes, setLikes] = useState<any[]>([]);
+   const [dislikes, setDislikes] = useState<any[]>([]);
+
    const [isFullScreen, setIsFullScreen] = useState(false);
    /*
    const handleGearClick = () => {
@@ -108,11 +115,6 @@ const PostPage = () => {
             `${CDN_URL}/${imagePositions[newIndex]}`;
       }
    };
-   /*
-   const handleViewModeChange = () => {
-      setViewMode(viewMode === 'carousel' ? 'all' : 'carousel');
-   };
-   */
 
    const handleFullScreenToggle = useCallback(() => {
       setIsFullScreen((prev) => !prev);
@@ -147,6 +149,18 @@ const PostPage = () => {
    }, [isFullScreen]);
 
    useEffect(() => {
+      if (Auth?._id) {
+         joinNotificationRoom(Auth._id);
+      }
+
+      return () => {
+         offNotification();
+         offCommentUpdate();
+         offFollowUpdate();
+      };
+   }, [Auth?._id]);
+
+   useEffect(() => {
       const handleFullscreenChange = () => {
          if (!document.fullscreenElement) {
             setIsFullScreen(false);
@@ -168,6 +182,10 @@ const PostPage = () => {
       };
    }, []);
    const savePost = async () => {
+      if (!user_Id) {
+         alert('You must be logged in to save posts.');
+         return;
+      }
       try {
          await axios.post(`/user/${user_Id}/save-post`, {
             postId: postData?._id || currPostData?._id,
@@ -178,10 +196,10 @@ const PostPage = () => {
          console.error('Error saving post:', error);
       }
    };
+
    const fetchComments = async () => {
       try {
-         const postId = location.pathname.split('/')[2];
-         const commentsUrl = `/post/${postId}`;
+         const commentsUrl = `/post/${postData?.game || currPostData?.game}`;
 
          const response = await axios.get(commentsUrl);
 
@@ -229,7 +247,6 @@ const PostPage = () => {
       });
    };
 
-   // Handle the submission of a new comment
    const handleCommentSubmit = async () => {
       if (newComment.trim() && verified) {
          try {
@@ -255,6 +272,14 @@ const PostPage = () => {
                text: newComment,
             };
 
+            socket.emit('addComment', {
+               postId: postData?._id || currPostData?._id,
+               userId: user_Id,
+               username: Auth?.username,
+               text: newComment,
+               game: postData?.game || currPostData?.game,
+            });
+
             setComments([newCommentWithDate, ...comments]);
             setUserComments([userResponse.data, ...userComments]);
             setNewComment('');
@@ -271,23 +296,49 @@ const PostPage = () => {
    };
 
    const incrementViewCount = async () => {
-      axios
-         .post(`/post/${postData._id}/increment-view-count`, {
-            game: postData.game || currPostData?.game,
-         })
-
-         .then((response) => {
-            console.log('Successfully incremented view count:', response);
-         })
-         .catch((error) => {
-            console.error('Failed to increment view count:', error);
+      try {
+         await axios.post(`/post/${id}/increment-view-count`, {
+            game: game,
          });
+         console.log('Successfully incremented view count');
+      } catch (error) {
+         console.error('Failed to increment view count:', error);
+      }
    };
 
-   useEffect(() => {
-      fetchComments();
-      incrementViewCount();
-   }, []);
+   const handleLikeDislike = async (action: 'like' | 'dislike') => {
+      if (!user_Id) {
+         alert('You must be logged in to like or dislike posts.');
+         return;
+      }
+
+      const postId = postData?._id || currPostData?._id;
+      const game = postData?.game || currPostData?.game;
+
+      try {
+         if (action === 'like') {
+            if (isDisliked) {
+               await removeDislike(postId, user_Id, game);
+            }
+            if (isLiked) {
+               await removeLike(postId, user_Id, game);
+            } else {
+               await incrementLikeCount(postId, user_Id, game);
+            }
+         } else if (action === 'dislike') {
+            if (isLiked) {
+               await removeLike(postId, user_Id, game);
+            }
+            if (isDisliked) {
+               await removeDislike(postId, user_Id, game);
+            } else {
+               await incrementDislikeCount(postId, user_Id, game);
+            }
+         }
+      } catch (error) {
+         console.error('Error updating like/dislike:', error);
+      }
+   };
 
    useEffect(() => {
       if (!currPostData && postData) {
@@ -297,41 +348,44 @@ const PostPage = () => {
       }
    }, [postData, currPostData]);
 
-   const fetchPostData = useCallback(async () => {
-      setIsLoading(true);
-      try {
-         const response = await axios.get(`/post/detail/${game}/${id}`);
-         setcurrPostData(response.data);
-         console.log(response.data.likes);
-         setIsLiked(
-            response.data.likes.some((like: any) => like.userId === user_Id),
-         );
-         setIsDisliked(
-            response.data.dislikes.some(
-               (dislike: any) => dislike.userId === user_Id,
-            ),
-         );
-
-         // Fetch user data for the post author
-         fetchUsers([response.data.UserID]);
-      } catch (error) {
-         console.error('Failed to fetch post data:', error);
-      } finally {
-         setIsLoading(false);
+   useEffect(() => {
+      // only increment view once when component mounts
+      if (game && id) {
+         incrementViewCount();
       }
-   }, [id, user_Id, game, fetchUsers]);
+   }, []);
 
    useEffect(() => {
-      if (id) {
-         fetchPostData();
-      }
-   }, [id, fetchPostData]);
-
-   useEffect(() => {
+      const fetchPostData = async () => {
+         setIsLoading(true);
+         try {
+            const response = await axios.get(`/post/detail/${game}/${id}`);
+            setcurrPostData(response.data);
+            setViews(response.data.views);
+            setLikes(response.data.likes);
+            setDislikes(response.data.dislikes);
+            setIsLiked(
+               response.data.likes.some((like: any) => like.userId === user_Id),
+            );
+            setIsDisliked(
+               response.data.dislikes.some(
+                  (dislike: any) => dislike.userId === user_Id,
+               ),
+            );
+            await fetchComments();
+         } catch (error) {
+            console.error('Failed to fetch post data:', error);
+         } finally {
+            setIsLoading(false);
+         }
+      };
       if (Auth?.saved.includes(postData?._id || currPostData?._id)) {
          setIsSaved(true);
       }
-   }, [Auth?.saved, postData?._id, currPostData?._id]);
+      if (id) {
+         fetchPostData();
+      }
+   }, [id, user_Id]);
 
    useEffect(() => {
       const fetchRelatedData = async () => {
@@ -352,7 +406,6 @@ const PostPage = () => {
                .map((post) => post.post!);
             setRelatedPosts(filter);
 
-            // Fetch user data for related posts
             const userIds = filter.map((post) => post.UserID);
             fetchUsers(userIds);
          }
@@ -360,6 +413,55 @@ const PostPage = () => {
 
       fetchRelatedData();
    }, [postData, currPostData, userCache, fetchUsers]);
+
+   useEffect(() => {
+      socket.on('viewUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setViews(data.views);
+         }
+      });
+
+      socket.on('likeUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setLikes(data.likes);
+            setIsLiked(data.likes.some((like: any) => like.userId === user_Id));
+            if (
+               isDisliked &&
+               data.likes.some((like: any) => like.userId === user_Id)
+            ) {
+               setIsDisliked(false);
+            }
+         }
+      });
+
+      socket.on('dislikeUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setDislikes(data.dislikes);
+            setIsDisliked(
+               data.dislikes.some((dislike: any) => dislike.userId === user_Id),
+            );
+            if (
+               isLiked &&
+               data.dislikes.some((dislike: any) => dislike.userId === user_Id)
+            ) {
+               setIsLiked(false);
+            }
+         }
+      });
+
+      socket.on('commentUpdate', (data) => {
+         if (data.postId === (postData?._id || currPostData?._id)) {
+            setComments(data.comments);
+         }
+      });
+
+      return () => {
+         socket.off('viewUpdate');
+         socket.off('likeUpdate');
+         socket.off('dislikeUpdate');
+         socket.off('commentUpdate');
+      };
+   }, [postData?._id, currPostData?._id, user_Id, isLiked, isDisliked]);
 
    if (isLoading) {
       return (
@@ -483,26 +585,7 @@ const PostPage = () => {
                               >
                                  <span
                                     className="flex items-center cursor-pointer"
-                                    onClick={() => {
-                                       if (isLiked) {
-                                          removeLike(
-                                             postData?._id || currPostData?._id,
-                                             user_Id!,
-                                             postData?.game ||
-                                                currPostData?.game,
-                                          );
-                                          setIsLiked(false);
-                                       } else {
-                                          incrementLikeCount(
-                                             postData?._id || currPostData?._id,
-                                             user_Id!,
-                                             postData?.game ||
-                                                currPostData?.game,
-                                          );
-                                          setIsLiked(true);
-                                          setIsDisliked(false);
-                                       }
-                                    }}
+                                    onClick={() => handleLikeDislike('like')}
                                  >
                                     <AiOutlineLike
                                        className={`text-white h-5 w-5 ${
@@ -512,33 +595,13 @@ const PostPage = () => {
                                        }`}
                                     />
                                     <p className="ml-1 text-white">
-                                       {(postData?.likes?.length ?? 0) ||
-                                          (currPostData?.likes?.length ?? 0)}
+                                       {likes.length}
                                     </p>
                                  </span>
                                  <span className="mx-2 text-white">|</span>
                                  <span
                                     className="flex items-center cursor-pointer"
-                                    onClick={() => {
-                                       if (isDisliked) {
-                                          removeDislike(
-                                             postData?._id || currPostData?._id,
-                                             user_Id!,
-                                             postData?.game ||
-                                                currPostData?.game,
-                                          );
-                                          setIsDisliked(false);
-                                       } else {
-                                          incrementDislikeCount(
-                                             postData?._id || currPostData?._id,
-                                             user_Id!,
-                                             postData?.game ||
-                                                currPostData?.game,
-                                          );
-                                          setIsDisliked(true);
-                                          setIsLiked(false);
-                                       }
-                                    }}
+                                    onClick={() => handleLikeDislike('dislike')}
                                  >
                                     <AiOutlineDislike
                                        className={`text-white h-5 w-5 ${
@@ -548,8 +611,7 @@ const PostPage = () => {
                                        }`}
                                     />
                                     <p className="ml-1 text-white">
-                                       {(postData?.dislikes?.length ?? 0) ||
-                                          (currPostData?.dislikes?.length ?? 0)}
+                                       {dislikes.length}
                                     </p>
                                  </span>
                               </div>
@@ -581,7 +643,7 @@ const PostPage = () => {
                                  (e.currentTarget.style.backgroundColor =
                                     '#212121')
                               }
-                              onClick={() => savePost()}
+                              onClick={savePost}
                            >
                               <AiOutlineStar
                                  className={`text-xl mr-1 ${
@@ -600,8 +662,8 @@ const PostPage = () => {
                      </div>
                   </div>
                   <div className="mt-4 mb-4 bg-gray-500 rounded-xl p-4 ml-2 mr-2">
-                     <div className="flex flex-row space-x-2 font-bold">
-                        <p>{postData?.views || currPostData?.views} views</p>
+                     <div className="flex flex-row space-x-2 font-bold items-center">
+                        <FlippingViewCount number={views} />
                         <p>
                            {new Date(
                               postData?.date || currPostData?.date,
