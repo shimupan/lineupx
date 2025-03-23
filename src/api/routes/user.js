@@ -393,6 +393,32 @@ router.post('/user/:userId/save-post', async (req, res) => {
    }
 });
 
+router.post('/user/:userId/recent-post', async (req, res) => {
+   const { userId } = req.params;
+   const { postId } = req.body;
+
+   try {
+      const user = await User.findById(userId);
+
+      if (!user) {
+         return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (user.recent.length < 100) {
+         user.recent.unshift(postId);
+      } else {
+         user.recent.pop(0);
+         user.recent.unshift(postId);
+      }
+
+      await user.save();
+      return res.status(200).json({ message: 'Post removed from saved' });
+   } catch (error) {
+      console.error('Failed to save or remove post:', error);
+      res.status(500).json({ message: 'Server error' });
+   }
+});
+
 router.post('/user/update', async (req, res) => {
    const { user, newUsername, newEmail } = req.body;
 

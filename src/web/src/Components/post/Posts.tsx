@@ -21,6 +21,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { CiDesktopMouse2 } from 'react-icons/ci';
 import { useValorantAgents } from '../../contexts/ValorantAgentContext';
+import axios from 'axios';
 
 interface PostsProps {
    postData: PostType;
@@ -36,6 +37,7 @@ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
    const [showOptions, setShowOptions] = useState(false);
    const [showReportPopup, setShowReportPopup] = useState(false);
    const [showSharePopup, setShowSharePopup] = useState(false);
+   const [currPostData] = useState<PostType | null>(null);
    const onReport = () => {
       setShowReportPopup(true);
       setShowOptions(false);
@@ -68,6 +70,16 @@ const Posts: React.FC<PostsProps> = ({ postData, userCache, fetchUsers }) => {
          fetchUsers([postData.UserID]);
       }
    }, [postData.UserID, userCache, fetchUsers]);
+
+   useEffect(() => {
+      axios
+         .post(`/user/${user_Id}/save-post`, {
+            postId: postData?._id || currPostData?._id,
+         })
+         .then(() => {
+            console.log('Post saved successfully');
+         });
+   }, []);
 
    useEffect(() => {
       if (userCache[postData.UserID]) {

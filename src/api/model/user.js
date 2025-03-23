@@ -57,6 +57,13 @@ const UserSchema = new mongoose.Schema({
          required: false,
       },
    ],
+   recent: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'PostData',
+         required: false,
+      },
+   ],
    comments: [
       {
          text: { type: String, required: true },
