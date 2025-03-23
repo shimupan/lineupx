@@ -21,6 +21,7 @@
     "express-rate-limit": "^7.1.5",
     "express-session": "^1.17.3",
     "formidable": "^3.5.1",
+    "fuse.js": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "natural": "^8.0.1",

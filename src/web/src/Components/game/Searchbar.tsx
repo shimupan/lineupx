@@ -25,9 +25,15 @@ const SearchBar = ({
    const navigate = useNavigate();
    const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
-      onSearch(searchTerm);
-      const sanitizedSearchTerm = searchTerm.replace(/\//g, '');
-      navigate(`/search/${game}/${sanitizedSearchTerm}`);
+
+      // Sanitize search term - remove special characters and limit length
+      const sanitizedSearch = searchTerm
+         .trim()
+         .replace(/[^\w\s]/gi, '')
+         .slice(0, 100);
+
+      onSearch(sanitizedSearch);
+      navigate(`/search/${game}/${sanitizedSearch || 'all'}`);
    };
    const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 

@@ -33,16 +33,23 @@ const CS2: React.FC = () => {
       setIsLoading(true);
       setNewPostsReady(false);
       const startTime = Date.now();
+
       try {
-         const response = await axios.get(
-            `/post/CS2?page=${pageNum}&limit=${POSTS_PER_PAGE}&recent=true`,
-         );
+         const url = `/post/CS2?page=${pageNum}&limit=${POSTS_PER_PAGE}`;
+         console.log('Fetching URL:', url); // Debug log
+
+         const response = await axios.get(url);
+         console.log('Response data:', response.data); // Debug log
+
          const loadTime = Date.now() - startTime;
          const delay = Math.max(0, MINIMUM_SKELETON_TIME - loadTime);
 
          return new Promise<PostType[]>((resolve) => {
             setTimeout(() => {
-               resolve(response.data.reverse());
+               // Make sure we're handling the response data correctly
+               const posts = response.data;
+               console.log('Processed posts:', posts); // Debug log
+               resolve(Array.isArray(posts) ? posts.reverse() : []);
             }, delay);
          });
       } catch (err) {
@@ -50,7 +57,6 @@ const CS2: React.FC = () => {
          return [];
       }
    }, []);
-
    const fetchInitialData = useCallback(async () => {
       const initialPosts = await fetchPosts(1);
       setPosts(initialPosts);
