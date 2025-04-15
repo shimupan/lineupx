@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css';
 import {
    Page,
    ProfilePage,
+   RiotProfile,
    Valorant,
    CS2,
    Register,
@@ -76,6 +77,17 @@ type AuthContextType = {
    setSaved: React.Dispatch<React.SetStateAction<string[]>>;
    following: FollowingType[];
    setFollowing: React.Dispatch<React.SetStateAction<FollowingType[]>>;
+
+   puuid: string;
+   setPuuid: React.Dispatch<React.SetStateAction<string>>;
+   gameName: string;
+   setGameName: React.Dispatch<React.SetStateAction<string>>;
+   tagLine: string;
+   setTagLine: React.Dispatch<React.SetStateAction<string>>;
+   RSOAccessToken: string;
+   setRSOAccessToken: React.Dispatch<React.SetStateAction<string>>;
+   RSORefreshToken: string;
+   setRSORefreshToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -98,6 +110,14 @@ function App() {
    const [refreshTokenC] = useCookies('refreshToken', '');
    const [following, setFollowing] = useState<FollowingType[]>([]);
    const location = useLocation();
+
+   const [RSOAccessTokenC] = useCookies('RSOAccessToken', '');
+   const [RSORefreshTokenC] = useCookies('RSORefreshToken', '');
+   const [puuid, setPuuid] = useState('');
+   const [gameName, setGameName] = useState('');
+   const [tagLine, setTagLine] = useState('');
+   const [RSOAccessToken, setRSOAccessToken] = useState('');
+   const [RSORefreshToken, setRSORefreshToken] = useState('');
 
    // Login users
    useEffect(() => {
@@ -127,7 +147,38 @@ function App() {
                return error;
             });
       }
-   }, [accessToken, refreshToken]);
+      if (RSOAccessTokenC && !RSOAccessToken) {
+         // if cookie exists, set auth's rso access token to this cookie
+         setRSOAccessToken(RSOAccessTokenC);
+      }
+      if (RSORefreshTokenC && !RSORefreshToken) {
+         setRSORefreshToken(RSORefreshTokenC);
+      }
+      if (RSOAccessToken && RSORefreshToken) {
+         axios
+            .get(`/rso/getUserInfo/${RSOAccessToken}`)
+            .then((res) => {
+               setGameName(res.data.gameName);
+               setTagLine(res.data.tagLine);
+               // Making this postBody object instead of directly passing into axios.post as second arg works
+               const postBody = {
+                  gameName: res.data.gameName,
+                  tagLine: res.data.tagLine,
+               };
+               axios
+                  .post('/rso/getPuuid', postBody)
+                  .then((resp) => {
+                     setPuuid(resp.data.puuid);
+                  })
+                  .catch((error) => {
+                     return error;
+                  });
+            })
+            .catch((error) => {
+               return error;
+            }); // .get.then.catch avoids async and await
+      }
+   }, [accessToken, refreshToken, RSOAccessToken, RSORefreshToken]);
 
    useEffect(() => {
       NProgress.start();
@@ -164,6 +215,16 @@ function App() {
                saved,
                setSaved,
                setFollowing,
+               puuid,
+               gameName,
+               tagLine,
+               RSOAccessToken,
+               RSORefreshToken,
+               setPuuid,
+               setGameName,
+               setTagLine,
+               setRSOAccessToken,
+               setRSORefreshToken,
             }}
          >
             <ScrollToTop />
@@ -201,6 +262,10 @@ function App() {
                   element={<SearchResults />}
                ></Route>
                <Route path="/user/:id" element={<ProfilePage />}></Route>
+               <Route
+                  path="/user/riotprofile"
+                  element={<RiotProfile />}
+               ></Route>
                <Route path="/user/guest" element={<GuestPage />} />
                <Route path="/game/:game/:id" element={<PostPage />}></Route>
                <Route path="/post/:game/:id" element={<PostPage />}></Route>

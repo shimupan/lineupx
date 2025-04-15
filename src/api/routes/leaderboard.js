@@ -69,7 +69,7 @@ router.get('/leaderboard', async (req, res) => {
          _id: user._id,
          username: user.username,
          ProfilePicture: user.ProfilePicture,
-         ...(userPostCounts[user._id.toString()] || {
+         ...(userPostCounts[user._id?.toString()] || {
             totalPosts: 0,
             monthlyPosts: 0,
             weeklyPosts: 0,
