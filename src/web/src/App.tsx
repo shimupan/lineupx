@@ -76,6 +76,8 @@ type AuthContextType = {
    setSaved: React.Dispatch<React.SetStateAction<string[]>>;
    following: FollowingType[];
    setFollowing: React.Dispatch<React.SetStateAction<FollowingType[]>>;
+   followers: FollowingType[];
+   setFollowers: React.Dispatch<React.SetStateAction<FollowingType[]>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -97,6 +99,7 @@ function App() {
    const [accessTokenC] = useCookies('accessToken', '');
    const [refreshTokenC] = useCookies('refreshToken', '');
    const [following, setFollowing] = useState<FollowingType[]>([]);
+   const [followers, setFollowers] = useState<FollowingType[]>([]);
    const location = useLocation();
 
    // Login users
@@ -122,6 +125,7 @@ function App() {
                setProfilePicture(response.data.ProfilePicture);
                setSaved(response.data.saved);
                setFollowing(response.data.following);
+               setFollowers(response.data.followers);
             })
             .catch((error) => {
                return error;
@@ -154,6 +158,7 @@ function App() {
                ProfilePicture,
                Verified,
                following,
+               followers,
                setAccessToken,
                setRefreshToken,
                setEmail,
@@ -164,6 +169,7 @@ function App() {
                saved,
                setSaved,
                setFollowing,
+               setFollowers,
             }}
          >
             <ScrollToTop />
