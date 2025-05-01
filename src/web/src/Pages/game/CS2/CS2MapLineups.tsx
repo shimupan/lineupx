@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Layout, GrenadeSelection, CS2Radar } from '../../../Components';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../App';
 import { Coordinate } from '../../../global.types';
+import { isValidCS2Map } from '../../../util/validation';
 
 import Decoy from '../../../assets/svg/decoy.svg';
 import Smoke from '../../../assets/svg/smoke.svg';
@@ -72,6 +73,11 @@ const CS2Lineups: React.FC = () => {
    const navigate = useNavigate();
    const { mapName } = useParams<{ mapName: string }>();
    const [mapImage, setMapImage] = useState('');
+
+   // Add validation check
+   if (!mapName || !isValidCS2Map(mapName)) {
+      return <Navigate to="/*" replace />;
+   }
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
    // TOGGLE BUTTONS
    const [activeButton, setActiveButton] = useState<string | null>(null);

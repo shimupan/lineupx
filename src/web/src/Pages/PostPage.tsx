@@ -27,6 +27,7 @@ import { AiOutlineLike, AiOutlineDislike, AiOutlineStar } from 'react-icons/ai';
 import { FaShare } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { RiUserUnfollowFill } from 'react-icons/ri';
+import { useNotFound } from '../hooks/useNotFound';
 
 //import gear from '../assets/svg/gear.svg';
 
@@ -360,6 +361,8 @@ const PostPage = () => {
 
       fetchRelatedData();
    }, [postData, currPostData, userCache, fetchUsers]);
+
+   useNotFound(postData || currPostData);
 
    if (isLoading) {
       return (
