@@ -22,7 +22,7 @@
     "framer-motion": "^11.11.11",
     "fuse.js": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.8.1",
+    "mongoose": "^8.9.5",
     "nprogress": "^0.2.0",
     "open-graph-scraper": "^6.8.2",
     "passport": "^0.7.0",
