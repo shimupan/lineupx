@@ -84,5 +84,7 @@ export { default as FollowingSideNav } from './Components/global/sidebar/Followi
 export { default as PostPageSkeleton } from './Components/post/PostPageSkeleton';
 export { default as LeaderboardPosition } from './Components/profile/LeaderboardPosition';
 export { default as VerificationMessage } from './Components/profile/VerificationMessage';
+export { default as FiltersPopup } from './Components/auth/FiltersPopup';
+export { default as ProfileSearch } from './Pages/user/ProfileSearch';
 export { default as MobileComments } from './Components/post/MobileComments';
 export { default as ZoomableImage } from './Components/post/ZoomableImage';
