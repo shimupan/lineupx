@@ -56,6 +56,7 @@ export { default as CookiesPopup } from './Components/auth/CookiesPopup';
 export { default as ValorantMode } from './Components/upload/ValorantMode';
 export { default as CS2Mode } from './Components/upload/CS2Mode';
 export { default as Dot } from './Components/upload/Dot';
+export { default as EnhancedDot } from './Components/upload/EnhancedDot';
 export { default as GrenadeSelection } from './Components/game/cs2/GrenadeSelection';
 export { default as WidePosts } from './Components/post/WidePosts';
 export { default as Tooltip } from './Components/post/Tooltip';
@@ -86,3 +87,8 @@ export { default as LeaderboardPosition } from './Components/profile/Leaderboard
 export { default as VerificationMessage } from './Components/profile/VerificationMessage';
 export { default as MobileComments } from './Components/post/MobileComments';
 export { default as ZoomableImage } from './Components/post/ZoomableImage';
+export { default as ValorantRadar } from './Components/game/valorant/ValorantRadar';
+export { default as AbilitySelector } from './Components/game/valorant/AbilitySelector';
+export { default as ValorantMapGrid } from './Components/game/valorant/ValorantMapGrid';
+export { default as CS2MapGrid } from './Components/game/cs2/CS2MapGrid';
+export { default as AgentSelect } from './Components/upload/AgentSelect';
